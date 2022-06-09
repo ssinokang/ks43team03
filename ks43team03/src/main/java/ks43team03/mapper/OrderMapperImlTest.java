@@ -15,7 +15,7 @@ public class OrderMapperImlTest implements OrderMapper {
 	
 	@Override
 	public Order addOrder(Order order) {
-		order.setOrderCd("ocode" + cnt++);
+		order.setOrderCd("ocode" + ++cnt);
 		orderMap.put(order.getOrderCd(), order);
 		return order;
 	}

@@ -19,7 +19,7 @@
 		<result column="user_reg_date"	property="userRegDate"/>
 	</resultMap>
 	
-	<select id="getUserList" resultMap="userRsultMap" resultType="User">
+	<select id="getUserList" resultMap="userRsultMap">
 		SELECT
 			 user_id
 			,user_level

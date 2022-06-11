@@ -20,6 +20,9 @@ public class UserService {
 	
 	private final UserMapper userMapper;
 	
+	public UserService(UserMapper userMapper) {
+		this.userMapper = userMapper;
+	}
 	public List<User> getUserList(){
 		
 		List<User> userList = userMapper.getUserList();

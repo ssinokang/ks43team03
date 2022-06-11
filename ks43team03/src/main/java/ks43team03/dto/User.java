@@ -1,8 +1,13 @@
 package ks43team03.dto;
 
-import lombok.Data;
+import groovy.transform.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@ToString
+
 public class User {
 	private String userId;
 	private String userLevel;

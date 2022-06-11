@@ -7,7 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @ToString
-
 public class User {
 	private String userId;
 	private String userLevel;

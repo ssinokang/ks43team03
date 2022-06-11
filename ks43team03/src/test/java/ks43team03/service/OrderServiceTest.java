@@ -24,6 +24,7 @@ public class OrderServiceTest {
 	}
 	
 	@Test
+	@DisplayName("주문하기")
 	void createOrder() {
 		User u = createUser();
 		String ctgCode = "lesson";

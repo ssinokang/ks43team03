@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import ks43team03.dto.Order;
 
@@ -35,7 +36,7 @@ public class OrderMapperImlTest implements OrderMapper {
 		
 		return orderMap.values().stream()
 					.filter(o -> o.getUserId().equals(userId))
-					.toList();
+					.collect(Collectors.toList());
 	}
 	
 	public void clear() {

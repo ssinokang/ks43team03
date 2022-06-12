@@ -11,22 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ks43team03.dto.User;
 import ks43team03.service.UserService;
-import lombok.RequiredArgsConstructor;
 
 
 @Controller
 @RequestMapping("/user")
-//@RequiredArgsConstructor
 public class UserController {
 	
 	
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
 	private final UserService userService; 
-	/*
-	 * 생성자 주입을 한다면 
-	 * @RequiredArgsConstructor를 쓸필요 없음
-	 */
+
 	public UserController(UserService userService) {
 		this.userService = userService;
 	}

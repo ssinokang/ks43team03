@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ks43team03.dto.User;
 import ks43team03.mapper.UserMapper;
-import lombok.RequiredArgsConstructor;
 
 /**
  * @author ksmart
@@ -15,7 +14,6 @@ import lombok.RequiredArgsConstructor;
  */
 @Service
 @Transactional
-//@RequiredArgsConstructor
 public class UserService {
 	
 	private final UserMapper userMapper;

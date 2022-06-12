@@ -37,4 +37,28 @@
 		FROM
 			user
 	</select>
+	
+		<!-- resultMap 태그 아이디 값을 찾아서 알아서 프로퍼티명으로 변경해줌 -->
+	<select id="getUserInfoById" parameterType="String" resultMap="userResultMap">
+		/* 아이디로 회원 정보 조회 */
+		SELECT 
+			 u.user_id
+			,u.user_level
+			,u.user_password
+			,u.user_nm
+			,u.user_address
+			,u.user_birth
+			,u.user_email
+			,u.user_tell
+			,u.user_gender
+			,u.user_drop
+			,u.reg_path
+			,u.user_terms
+			,u.user_reg_date
+		FROM 
+			user AS u 		
+		WHERE 
+			u.user_id = #{userId};
+	</select>
+	
 </mapper>

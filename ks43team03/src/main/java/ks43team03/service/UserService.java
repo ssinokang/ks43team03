@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
  */
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class UserService {
 	
 	private final UserMapper userMapper;

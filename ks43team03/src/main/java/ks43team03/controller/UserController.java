@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequestMapping("/user")
-@RequiredArgsConstructor
 public class UserController {
 	
 	

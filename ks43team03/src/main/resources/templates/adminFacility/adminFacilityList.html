@@ -37,10 +37,10 @@
 					<td th:text ="${l.businessNum}"></td>
 					<td th:text ="${l.facilityRegDate}"></td>
 					<td>
-						<a href="#">수정</a>
+						<a th:href="@{/adminFacility/modifyFacility(facilityCd=${l.facilityCd})}">수정</a>
 					</td>
 					<td>
-						<a href="#">삭제</a>
+						<a th:href="@{/adminFacility/removeFacility(facilityCd=${l.facilityCd})}">삭제</a>
 					</td>
 				</tr>
 				<tr th:unless="${not #lists.isEmpty(adminFacilityList)}">

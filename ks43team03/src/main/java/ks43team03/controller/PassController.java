@@ -23,15 +23,5 @@ public class PassController {
 		return "pass/addAdminPass";
 	}
 	
-	@PostMapping("/api/pass")
-	@ResponseBody
-	public FacilityGoods resiterGoods(@RequestBody FacilityGoods facilityGoods) {
-		log.info("화면에서 넘어온 데이터 : {}", facilityGoods);
-		log.info("화면에서 넘어온 데이터 : {}", facilityGoods.getGoodsCtgCd());
-		log.info("화면에서 넘어온 데이터 : {}", facilityGoods.getUserId());
-		log.info("화면에서 넘어온 데이터 : {}", facilityGoods.getSportsCd());
-		log.info("화면에서 넘어온 데이터 : {}", facilityGoods.getGoodsCtgCd());
-		facilityGoods.setFacilityGoodsCd("goodscodel111111");
-		return facilityGoods;
-	}
+
 }

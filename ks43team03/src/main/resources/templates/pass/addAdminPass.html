@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/adminDefault.html}">
-	<th:block layout:fragment="customJs">
-		<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
-	</th:block>
+<th:block layout:fragment="customJs">
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+</th:block>
 <!-- 사용자 정의 contents -->
 <th:block layout:fragment="customContents">
 
@@ -42,12 +42,16 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
-	<div class="row">
+
+
+
+
+	<div class="row" id="goods-re">
 		<div class="col-md-12 col-sm-12 ">
 			<div class="x_panel">
 				<div class="x_title">
 					<h2>상품등록 <small>different form elements</small></h2>
-					
+
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
@@ -58,7 +62,8 @@
 							<label for="facilityCd" class="col-form-label col-md-3 col-sm-3 label-align">시설대표코드<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" id="facilityCd" data-parsley-id="5" name="facilityCd">
+								<input type="text" class="form-control" id="facilityCd" data-parsley-id="5"
+									name="facilityCd">
 							</div>
 						</div>
 						<div class="item form-group">
@@ -95,9 +100,9 @@
 								<input type="text" class="form-control" data-parsley-id="5" id="user-id" name="userId">
 							</div>
 						</div>
-						
+
 						<div class="ln_solid"></div>
-						
+
 					</form>
 					<div class="item form-group">
 						<div class="col-md-6 col-sm-6 offset-md-3">
@@ -115,18 +120,12 @@
 
 
 
-
-
-
-
-
-
-	<!-- 이용권 등록 폼-->
-	<div class="row" id="pass">
+	<!-- 대관 등록 폼-->
+	<div class="row col-row" id="stadium">
 		<div class="col-md-12 col-sm-12 ">
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>이용권등록 <small>different form elements</small></h2>
+					<h2>대관 <small>different form elements</small></h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 						</li>
@@ -150,10 +149,10 @@
 					<form data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
 						<br>
 						<div class="item form-group">
-							<label for="gscode" class="col-form-label col-md-3 col-sm-3 label-align">상품코드<span
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">상품코드<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" data-parsley-id="5" id="gscode">
+								<input type="text" class="form-control goods-cd" data-parsley-id="5">
 							</div>
 						</div>
 						<div class="item form-group">
@@ -219,171 +218,264 @@
 		</div>
 	</div>
 
-		<!-- 레슨 등록 폼-->
-		<div class="row" id="lesson">
-			<div class="col-md-12 col-sm-12 ">
-				<div class="x_panel">
-					<div class="x_title">
-						<h2>레슨권 <small>different form elements</small></h2>
-						<ul class="nav navbar-right panel_toolbox">
-							<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-							</li>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-									aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-								<ul class="dropdown-menu" role="menu">
-									<li><a class="dropdown-item" href="#">Settings 1</a>
-									</li>
-									<li><a class="dropdown-item" href="#">Settings 2</a>
-									</li>
-								</ul>
-							</li>
-							<li><a class="close-link"><i class="fa fa-close"></i></a>
-							</li>
-						</ul>
-						<div class="clearfix"></div>
-					</div>
-					<div class="x_content">
+
+
+
+
+
+	<!-- 이용권 등록 폼-->
+	<div class="row" id="pass">
+		<div class="col-md-12 col-sm-12 ">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>이용권등록 <small>different form elements</small></h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+								aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a class="dropdown-item" href="#">Settings 1</a>
+								</li>
+								<li><a class="dropdown-item" href="#">Settings 2</a>
+								</li>
+							</ul>
+						</li>
+						<li><a class="close-link"><i class="fa fa-close"></i></a>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<br>
+					<form data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
 						<br>
-						<form data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
-							<br>
-							<div class="item form-group">
-								<label for="" class="col-form-label col-md-3 col-sm-3 label-align">상품코드<span
-										class="required">*</span></label>
-								<div class="col-md-6 col-sm-6">
-									<input type="text" class="form-control" data-parsley-id="5">
-								</div>
+						<div class="item form-group">
+							<label for="gscode" class="col-form-label col-md-3 col-sm-3 label-align">상품코드<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control goods-cd" data-parsley-id="5" id="gscode">
 							</div>
-							<div class="item form-group">
-								<label for="" class="col-form-label col-md-3 col-sm-3 label-align">시설코드<span
-										class="required">*</span></label>
-								<div class="col-md-6 col-sm-6">
-									<input type="text" class="form-control" data-parsley-id="5">
-								</div>
+						</div>
+						<div class="item form-group">
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">시설코드<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control" data-parsley-id="5">
 							</div>
-							<div class="item form-group">
-								<label for="" class="col-form-label col-md-3 col-sm-3 label-align">카테고리<span
-										class="required">*</span></label>
-								<div class="col-md-6 col-sm-6">
-									<input type="text" class="form-control" data-parsley-id="5">
-								</div>
+						</div>
+						<div class="item form-group">
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">카테고리<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control" data-parsley-id="5">
 							</div>
-							<div class="item form-group">
-								<label for="" class="col-form-label col-md-3 col-sm-3 label-align">아이디<span
-										class="required">*</span></label>
-								<div class="col-md-6 col-sm-6">
-									<input type="text" class="form-control" data-parsley-id="5">
-								</div>
+						</div>
+						<div class="item form-group">
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">아이디<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control" data-parsley-id="5">
 							</div>
-							<div class="item form-group">
-								<label for="" class="col-form-label col-md-3 col-sm-3 label-align">이용권명<span
-										class="required">*</span></label>
-								<div class="col-md-6 col-sm-6">
-									<input type="text" class="form-control" data-parsley-id="5">
-								</div>
+						</div>
+						<div class="item form-group">
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">이용권명<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control" data-parsley-id="5">
 							</div>
-							<div class="item form-group">
-								<label for="" class="col-form-label col-md-3 col-sm-3 label-align">단위<span
-										class="required">*</span></label>
-								<div class="col-md-6 col-sm-6">
-									<input type="text" class="form-control" data-parsley-id="5">
-								</div>
+						</div>
+						<div class="item form-group">
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">단위<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control" data-parsley-id="5">
 							</div>
-							<div class="item form-group">
-								<label for="" class="col-form-label col-md-3 col-sm-3 label-align">이용권단가<span
-										class="required">*</span></label>
-								<div class="col-md-6 col-sm-6">
-									<input type="text" class="form-control" data-parsley-id="5">
-								</div>
+						</div>
+						<div class="item form-group">
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">이용권단가<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control" data-parsley-id="5">
 							</div>
-							<div class="item form-group">
-								<label for="" class="col-form-label col-md-3 col-sm-3 label-align">유효일수<span
-										class="required">*</span></label>
-								<div class="col-md-6 col-sm-6">
-									<input type="text" class="form-control" data-parsley-id="5">
-								</div>
+						</div>
+						<div class="item form-group">
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">유효일수<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control" data-parsley-id="5">
 							</div>
-							<div class="ln_solid"></div>
-							<div class="item form-group">
-								<div class="col-md-6 col-sm-6 offset-md-3">
-									<button class="btn btn-success" type="button">등록</button>
-									<button class="btn btn-primary" type="reset">Reset</button>
-									<button type="button" class="btn btn-primary">Submit</button>
-								</div>
+						</div>
+						<div class="ln_solid"></div>
+						<div class="item form-group">
+							<div class="col-md-6 col-sm-6 offset-md-3">
+								<button class="btn btn-success" type="button">등록</button>
+								<button class="btn btn-primary" type="reset">Reset</button>
+								<button type="button" class="btn btn-primary">Submit</button>
 							</div>
-						</form>
-					</div>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<!-- 레슨 등록 폼-->
+	<div class="row" id="lesson">
+		<div class="col-md-12 col-sm-12 ">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>레슨권 <small>different form elements</small></h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+								aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a class="dropdown-item" href="#">Settings 1</a>
+								</li>
+								<li><a class="dropdown-item" href="#">Settings 2</a>
+								</li>
+							</ul>
+						</li>
+						<li><a class="close-link"><i class="fa fa-close"></i></a>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<br>
+					<form data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+						<br>
+						<div class="item form-group">
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">상품코드<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control goods-cd" data-parsley-id="5">
+							</div>
+						</div>
+						<div class="item form-group">
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">시설코드<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control" data-parsley-id="5">
+							</div>
+						</div>
+						<div class="item form-group">
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">카테고리<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control" data-parsley-id="5">
+							</div>
+						</div>
+						<div class="item form-group">
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">아이디<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control" data-parsley-id="5">
+							</div>
+						</div>
+						<div class="item form-group">
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">이용권명<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control" data-parsley-id="5">
+							</div>
+						</div>
+						<div class="item form-group">
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">단위<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control" data-parsley-id="5">
+							</div>
+						</div>
+						<div class="item form-group">
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">이용권단가<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control" data-parsley-id="5">
+							</div>
+						</div>
+						<div class="item form-group">
+							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">유효일수<span
+									class="required">*</span></label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" class="form-control" data-parsley-id="5">
+							</div>
+						</div>
+						<div class="ln_solid"></div>
+						<div class="item form-group">
+							<div class="col-md-6 col-sm-6 offset-md-3">
+								<button class="btn btn-success" type="button">등록</button>
+								<button class="btn btn-primary" type="reset">Reset</button>
+								<button type="button" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 
 
 	<script>
-	
-		
-		const main = {
-		
-				
-			init : function(){
-				var _this = this;
-				$('#register-goods').on('click',function(){
-					_this.save();
-				})
-			},
+		var sportCtg = document.querySelector('#sportCtg');
+		var goodsCtg = document.querySelector('#goodsCtg');
+		var userId = document.querySelector('#user-id');
+		var registerGoods = document.querySelector('#register-goods');
+		var facilityCd = document.querySelector('#facilityCd');
+		var categoryArr = ['lesson','pass','stadium'];
+		var test = document.querySelectorAll('.goods-cd');
 
-			save : function(){
-				const data = {
-					facilityCd : $('#facilityCd').val(),
-					userId : $('#user-id').val(),
-					goodsCtgCd : $('#goodsCtg').val(),
-					sportsCd : $('#sportCtg').val()
-				};
-				
-				if(data.facilityCd == null){
-					alert('입력하지않은 폼이 있습니다.');
-					return false;
-				}else{
-					 $.ajax({
-			                type: 'POST',
-			                url: '/api/pass',
-			                dataType: 'JSON',
-			                contentType: 'application/json; charset=utf-8',
-			                data: JSON.stringify(data)
-			            }).done(function (data) {
-			            	console.log(data.facilityCd);
-			            	console.log(data.goodsCtgCd);
-			            	console.log(data.sportsCd);
-			            	console.log(data.userId);
-			            	console.log(data.facilityGoodsCd);
-			            
-							var $lesson = $('#lesson');
-							var $pass = $('#pass');
-							var $stadium = $('#stadium');
-							$lesson.css('display','none');
-							$pass.css('display','none');
-							$stadium.css('display','none');
-							$('#gscode').val(data.facilityGoodsCd);
-			            	if(data.goodsCtgCd == 'pass'){
-			            		$pass.css('display','block');
-			            	}else if(data.goodsCtg == 'lesson')
-								$lesson.css('display','block');
-							else if(data.goodsCtg == 'stadium'){
-								$stadium.css('display','block');
-							}
-			               
-			               
-			            }).fail(function (error) {
-			                alert(JSON.stringify(error));
-			            });
-				}
-				console.log(data);
+
+		registerGoods.addEventListener('click',function(e){
 			
+			
+
+			var url = 'http://localhost:80/api/pass';
+			var data = {
+				userId : userId.value,
+				sportsCd : sportCtg.value,
+				goodsCtgCd : goodsCtg.value,
+				facilityCd : facilityCd.value
 			}
-		}
-		
-		main.init();
+
+			var result = fetch(url, {
+				  method: "POST",
+				  headers: {
+				    "Content-Type": "application/json",
+				  },
+				  body: JSON.stringify(data),
+			});
+
+			result.then(response => response.json())
+	          	  .then(data => createGoods(data));
+
+			console.log(result);
+			
+		});
+		function createGoods(data){
+			console.log(data.facilityGoodsCd);
+			
+			for(var i = 0; i < categoryArr.length; i++){
+				test[i].value=data.facilityGoodsCd;
+				if(goodsCtg.value == categoryArr[i]){
+					var tempId = '#'+ goodsCtg.value;
+					document.querySelector(tempId).style.display = 'block';
+				}else{
+					var tempId2 = '#'+categoryArr[i];
+					document.querySelector(tempId2).style.display='none';
+					console.log(tempId2);
+				}
+			}
+			document.querySelector('#goods-re').remove();
+		}	
+	
+
 	</script>
 </th:block>
 

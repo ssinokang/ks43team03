@@ -24,7 +24,7 @@
 									<option th:value="${l.mainCtgCd}" th:selected="${facility.mainCtgCd eq l.mainCtgCd}">[[${l.mainCtgNm}]]</option>
 								</th:block>
 								<th:block th:unless="${not #lists.isEmpty(mainCtgList)}">
-									<option th:value="">시설카데고리가없습니다.</option>
+									<option th:value="">시설카테고리가없습니다.</option>
 								</th:block>
 							</select>
 						</td>

@@ -38,14 +38,15 @@
 		<update id="modifyFacility" parameterType="Facility" >
 			UPDATE facility
 			SET
-				town_cd = #{townCd},
-				facility_use_cd = #{facilityUseCd},
-				user_id = #{userId},
-				facility_nm = #{facilityNm},
-				facility_address = #{facilityAddr},
-				facility_tell=#{facilityTell},
-				facility_photo = #{facilityPhoto},
-				business_number = #{businessNum}
+				facility_cd = 		 #{facilityCd},
+				town_cd = 			 #{townCd},
+				facility_use_cd = 	 #{facilityUseCd},
+				user_id = 			 #{userId},
+				facility_nm =		 #{facilityNm},
+				facility_address =	 #{facilityAddr},
+				facility_tell=		 #{facilityTell},
+				facility_photo = 	 #{facilityPhoto},
+				business_number =    #{businessNum}
 			WHERE 
 				facility_cd = #{facilityCd};
 		</update>
@@ -95,7 +96,7 @@
 					,#{facilityTell}
 					,#{facilityPhoto}
 					,#{businessNum}
-					,CURDATE()))
+					,CURDATE())
 		</insert>
 		
 

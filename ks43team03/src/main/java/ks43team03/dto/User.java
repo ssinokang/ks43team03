@@ -1,8 +1,8 @@
 package ks43team03.dto;
 
-import groovy.transform.ToString;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -21,4 +21,6 @@ public class User {
 	private String userRegPath;
 	private String userTerms;
 	private String userRegDate;
+	
+	private UserLevel levelInfo;
 }

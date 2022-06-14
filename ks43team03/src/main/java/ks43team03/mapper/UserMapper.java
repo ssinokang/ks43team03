@@ -6,9 +6,19 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import ks43team03.dto.User;
+import ks43team03.dto.UserLevel;
 
 @Mapper
 public interface UserMapper {
+	
+	//회원 등급 조회
+	public List<UserLevel> getUserLevelList();
+		
+	//회원 정보 수정
+	public int modifyUser(User user);
+	
+	//회원 아이디 중복 체크
+	public boolean isIdCheck(String userId);
 	
 	// 회원 목록 조회
 	public List<User> getUserList();

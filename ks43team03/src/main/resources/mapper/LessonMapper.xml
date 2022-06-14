@@ -3,8 +3,55 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper>
-	<select id="getLessonList" resultType="Lesson">
-		
+<mapper namespace="ks43team03.mapper.LessonMapper">
+	<resultMap type="Lesson" id="lessonResultMap">
+		<id 	column="lessson_cd" 			property="lessonCd"/>
+		<result column="lessson_division" 		property="lessonDivision"/>
+		<result column="lessson_goods" 			property="lessonGoods"/>
+		<result column="facility_cd" 			property="facilityCd"/>
+		<result column="goods_ctg_cd" 			property="goodsCtgCd"/>
+		<result column="sports_cd" 				property="sportsCd"/>
+		<result column="user_id" 				property="userId"/>
+		<result column="lesson_nm" 				property="lessonNm"/>
+		<result column="lesson_picture" 		property="lessonPicture"/>
+		<result column="lesson_detail" 			property="lessonDetail"/>		
+		<result column="lesson_total_member" 	property="lessonTotalMember"/>		
+<!-- 		<result column="lesson_member" 			property="lessonMember"/>		 -->
+		<result column="lesson_start_date" 		property="lessonStartDate"/>		
+		<result column="lesson_end_date" 		property="lessonEndDate"/>		
+		<result column="lesson_price" 			property="lessonPrice"/>		
+		<result column="lesson_reg_date" 		property="lessonRegDate"/>		
+		<result column="lesson_state" 			property="lessonState"/>		
+		<association property="sports" javaType="Sports">
+			<id 	column="sports_cd"	property="sportsCd"/>
+			<result column="sports_nm" 	property="sportsNm"/>
+		</association> 
+	</resultMap>
+	<select id="getLessonList" fetchSize="100" parameterType="String" resultMap="lessonResultMap">
+		SELECT
+			l.lesson_cd,
+			l.lesson_division,
+			l.facility_goods_cd,
+			l.facility_cd,
+			l.goods_ctg_cd,
+			l.sports_cd,
+			l.user_id,
+			s.sports_nm,
+			l.lesson_nm,
+			l.lesson_picture,
+			l.lesson_detail,
+			l.lesson_total_member,
+			l.lesson_member,
+			l.lesson_start_date,
+			l.lesson_end_date,
+			l.lesson_state
+		FROM
+			lesson AS l
+			INNER JOIN
+			sports AS s
+			on
+			l.sports_cd = s.sports_cd
+		WHERE
+			l.facility_cd = #{facilityCd}
 	</select>
 </mapper>

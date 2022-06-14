@@ -1,7 +1,5 @@
 package ks43team03.dto;
 
-import java.io.File;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,7 +17,6 @@ public class Lesson {
 	private String userId;
 	private String sportsNm;
 	private String lessonNm;
-	private File lessonPicture;
 	private String lessonDetail;
 	private String lessonTotalMember;
 	private String lessonMember;
@@ -28,6 +25,7 @@ public class Lesson {
 	private String lessonPrice;
 	private String lessonRegDate;
 	private String lessonState;
+	private String lessonPicture;
 	
 	private Sports sports;
 }

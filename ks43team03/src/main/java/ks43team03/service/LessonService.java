@@ -18,8 +18,9 @@ public class LessonService {
 	}
 	
 	// 레슨 리트트 가져오기
-	public List<Lesson> getLessonList() {
-		List<Lesson> lessonList = lessonMapper.getLessonList();
+	public List<Lesson> getLessonList(String facilityCd) {
+		List<Lesson> lessonList = lessonMapper.getLessonList(facilityCd);
+		System.out.println(lessonList + "!!");
 		return lessonList;
 	}
 }

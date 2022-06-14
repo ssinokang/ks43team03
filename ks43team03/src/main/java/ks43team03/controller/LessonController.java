@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import ks43team03.dto.Lesson;
 import ks43team03.service.LessonService;
@@ -23,18 +24,23 @@ public class LessonController {
 		this.lessonService = lessonService;
 	}
 	
-	@GetMapping("/lessonList")
+	@GetMapping("/LessonList")
 	public String lessonList(Model model) {
 		
-		List<Lesson> lessonList = lessonService.getLessonList();
+		String facilityCd = (String) model.getAttribute("facilityCd");
+		System.out.println(facilityCd + "fac@@@@@@@");
+		List<Lesson> lessonList = lessonService.getLessonList(facilityCd);
 		model.addAttribute("lessonList", lessonList);
+		log.info("lessonList = {}", lessonList);
 		return "lesson/lessonList";
 	}
+	
 	@PostMapping("/addLesson")
 	public String addLesson(Lesson lesson) {
-		log.info("lesson : {}", lesson);
-		System.out.println(lesson);
-		return "redirect:/lesson/LessonList";
+		log.info("!!!lesson : {}", lesson);
+		System.out.println("!!!!!!!!!!!"+lesson);
+		
+		return "/lesson/LessonList";
 		
 	}
 	@GetMapping("/addLesson")

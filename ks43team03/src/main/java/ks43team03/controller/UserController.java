@@ -7,7 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ks43team03.dto.User;
 import ks43team03.service.UserService;
@@ -26,6 +29,134 @@ public class UserController {
 		this.userService = userService;
 	}
 	
+	//회원 삭제 변경
+	@PostMapping("/removeUser")
+	public String removeUser(Model model
+							,@RequestParam(name="userId", required = false) String userId
+							,@RequestParam(name="userPw") String userPw) {
+		
+		log.info("회원아이디 : {}", userId);
+		log.info("회원비밀번호 : {}", userPw);
+		
+		User user = userService.getUserInfoById(userId);
+		
+		log.info("DB회원 : {}", user);
+		
+		if(userPw.equals(user.getUserPw())) {
+			user.setUserDrop("Y");
+			userService.modifyUser(user);
+			return "redirect:/";
+			
+		}else {
+			model.addAttribute("user", user);
+			model.addAttribute("userId", userId);
+			model.addAttribute("result", "비밀번호가 일치하지 않습니다.");
+			
+			return "user/userDetail";
+		}
+		
+	}
+	
+	//회원 비밀번호 변경
+	@PostMapping("/modifyUserPw")
+	public String modifyUserPw(User user
+							  ,Model model
+							  ,@RequestParam(name="nowUserPwCheck") String nowUserPwCheck) {
+		
+		log.info("비밀번호 변경 회원정보:{}", user);
+		
+		User userCheck = userService.getUserInfoById(user.getUserId());
+		
+		if(nowUserPwCheck.equals(userCheck.getUserPw())) {
+			userService.modifyUser(user);
+			return "redirect:/user/userDetail";
+			
+		}else {
+			model.addAttribute("userId", user.getUserId());
+			model.addAttribute("result", "비밀번호가 일치하지 않습니다.");
+			
+			return "user/modifyUserPw";
+		}
+		
+	}
+	
+	//회원 비밀번호 변경 페이지 이동
+	@GetMapping("/modifyUserPw")
+	public String modifyUserPw(Model model
+							  ,@RequestParam(name="userId",required = false) String userId) {
+		
+		User user = userService.getUserInfoById(userId);
+		
+		log.info("회원 비밀번호 변경 아이디 : {}", userId);
+		
+		model.addAttribute("title", "비밀번호 변경");
+		model.addAttribute("user", user);
+		
+		return "user/modifyUserPw";
+	}
+	
+	//회원 정보 수정
+	@PostMapping("/modifyUser")
+	public String modifyUser(User user
+							,Model model) {
+		
+		log.info("회원수정정보:{}", user);
+		
+		userService.modifyUser(user);
+		
+		return "redirect:/user/userDetail";
+	}
+	
+	//회원 정보 조회
+	@GetMapping("/userDetail")
+	public String getUserDetail(Model model
+							   ,@RequestParam(name="userId", required = false) String userId) {
+		userId = "id001";
+		User user = userService.getUserInfoById(userId);
+		
+		log.info("회원정보조회 아이디 : {}", userId);
+		
+		model.addAttribute("title", "회원정보");
+		model.addAttribute("user", user);
+		
+		return "user/userDetail";
+	}
+	
+	//회원 등록
+	@PostMapping("/addUser")
+	public String addMember(User user) {
+		
+		log.info("회원가입폼 시작");
+		
+		log.info("회원가입폼에서 입력받은 데이터:{}", user);
+		
+		return "redirect:/user/addUser";
+	}
+	
+	//회원 등록 페이지 이동
+	@GetMapping("/addUser")
+	public String addUser(Model model) {
+		
+		model.addAttribute("title", "회원가입");
+		
+		return "user/addUser";
+	}
+	
+	// 아이디 중복체크 여부
+	@PostMapping("/idCheck")
+	@ResponseBody
+	public boolean isIdCheck(@RequestParam(value = "userId") String userId) {
+		boolean idCheck = false;
+		log.info("아이디중복체크 클릭시 요청받은 userId의 값: {}", userId);
+		
+		boolean result = userService.isIdCheck(userId);
+		if(result) idCheck = true;
+		
+		log.info("아이디중복체크 여부 : {}", result);
+		return idCheck;
+	}
+	
+	//회원 목록 조회
 	@GetMapping("/userList")
 	public String getUserList(Model model) {
 		

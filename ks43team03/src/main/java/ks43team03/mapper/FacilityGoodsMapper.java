@@ -8,5 +8,5 @@ import ks43team03.dto.FacilityGoods;
 @Mapper
 public interface FacilityGoodsMapper {
 	
-	public FacilityGoods addFaciliryGoods(FacilityGoods facilityGoods);
+	public void addFaciliryGoods(FacilityGoods facilityGoods);
 }

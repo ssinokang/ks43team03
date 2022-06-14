@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ks43team03.mapper.FacilityGoodsMapper">
+	<resultMap type="FacilityGoods" id="facilityGoodsResultMap">
+		<id 	column="facility_goods_cd" 			property="facilityGoodsCd"/>
+		<result column="facility_cd"				property="facilityCd"/>
+		<result column="goods_ctg_cd"  				property="goodsCtgCd"/>
+		<result column="sports_cd" 					property="sportsCd"/>
+		<result column="user_id" 					property="userId"/>
+		<result column="facility_goods_reg_date" 	property="facilityRegDate"/>
+		<result column="facility_goods_state" 		property="faclityGoodsState"/>
+	</resultMap>
+	
+	<insert id="addFaciliryGoods" parameterType="FacilityGoods">
+		INSERT INTO facility_goods(
+			facility_goods_cd, 
+			facility_cd, 
+			goods_ctg_cd, 
+			sports_cd, 
+			user_id, 
+			facility_goods_reg_date, 
+			facility_goods_state
+		)VALUES (
+			sf_new_goods_code(), 
+			#{facilityCd}, 
+			#{goodsCdCtgCd}, 
+			#{sportsCd}, 
+			#{userId}, 
+			NOW(), 
+			'Y'
+		)
+		<selectKey resultType="String" keyProperty="facilityGoodsCd" order="AFTER" >
+			SELECT 
+				g.facility_goods_cd AS 'facilityGoodsCd'
+			FROM
+				facility_goods AS g
+			WHERE 
+				g.facility_cd = #{facilityCd}
+				and
+				g.user_id = #{userId}
+			ORDER BY
+				g.facility_goods_reg_date DESC LIMIT 1;
+		</selectKey>
+	</insert>
+</mapper>

@@ -3,7 +3,10 @@ package ks43team03.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import ks43team03.dto.Area;
+import ks43team03.dto.AreaCity;
 import ks43team03.dto.AreaCityTown;
 import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityUse;
@@ -12,6 +15,7 @@ import ks43team03.mapper.AdminFacilityMapper;
 
 
 @Service
+@Transactional
 public class AdminFacilityService {
 
 	private final AdminFacilityMapper adminFacilityMapper;
@@ -41,6 +45,18 @@ public class AdminFacilityService {
 		return facility;
 	}
 	
+	/*시도조회*/
+	public List<Area> getAreaList(){
+		List<Area> areaList = adminFacilityMapper.getAreaList();
+		
+		return areaList;
+	}
+	/*시군구 조회*/
+	public List<AreaCity> getAreaCityList(){
+		List<AreaCity> areaCityList = adminFacilityMapper.getAreaCityList();
+		
+		return areaCityList;
+	}
 	/*읍면동 조회*/
 	public List<AreaCityTown> getAreaCityTownList(){
 		List<AreaCityTown> areaCityTownList = adminFacilityMapper.getAreaCityTownList();

@@ -3,101 +3,127 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/adminDefault}">
 
+
 <!-- 사용자 정의Contents -->
-	<th:block layout:fragment="customContents">
-		<form id="modifyFacilityForm" th:action="@{/adminFacility/modifyFacility}" method="post">
-			<table border="1">
-				<tbody>
-					<tr>
-						<td>시설 대표 코드</td>
-						<td>
-							<input type="text" name="facilityCd" th:value="${facility.facilityCd}" readonly="readonly">
-						</td>
-					</tr>
-					<tr>
-						<td>시설 카테고리</td>
-						<td colspan="5">
-							<select name="mainCtg"  style="width: 100%">
-								<th:block th:if="${not #lists.isEmpty(mainCtgList)}" th:each="l:${mainCtgList}">
-									<option th:value="${l.mainCtgCd}" th:selected="${facility.mainCtgCd eq l.mainCtgCd}">[[${l.mainCtgNm}]]</option>
-								</th:block>
-								<th:block th:unless="${not #lists.isEmpty(mainCtgList)}">
-									<option th:value="">시설카테고리가없습니다.</option>
-								</th:block>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>읍면동 행정지역명</td>
-						<td colspan="5">
-							<select name="areaCityTown" style="width: 100%">
-								<th:block th:if="${not #lists.isEmpty(areaCityTownList)}" th:each="l:${areaCityTownList}">
-									<option th:value="${l.townCd}" th:selected="${facility.townCd eq l.townCd}">[[${l.townNm}]]</option>
-								</th:block>
-								<th:block th:unless="${not #lists.isEmpty(areaCityTownList)}">
-									<option th:value="">등록된 읍면동 행정지역명이 없습니다.</option>
-								</th:block>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>시설용도</td>
-						<td colspan="5">
-							<select name="facilityUse" style="width: 100%">
-								<th:block th:if="${not #lists.isEmpty(facilityUseList)}" th:each="l:${facilityUseList}">
-									<option th:value="${l.facilityUseCd}" th:selected="${facility.facilityUseCd eq l.facilityUseCd}">[[${l.facilityUseNm}]]</option>
-								</th:block>
-								<th:block th:unless="${not #lists.isEmpty(facilityUseList)}">
-									<option th:value="">등록된 시설용도가 없습니다.</option>
-								</th:block>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>시설주 아이디</td>
-						<td colspan="5">
-							<input type="text" name="userId" th:value="${facility.userId}"style="width: 98%" readonly="readonly">
-						</td>
-					</tr>
-					<tr>
-						<td>시설명</td>
-						<td colspan="5">
-							<input type="text" name="facilityNm" th:value="${facility.facilityNm}"style="width: 98%" >
-						</td>
-					</tr>
-					<tr>
-						<td>시설 상세주소</td>
-						<td colspan="5">
-							<input type="text" name="facilityAddr" th:value="${facility.facilityAddr}"style="width: 98%" >					
-						</td>
-					</tr>
-					<tr>
-						<td>시설전화번호</td>
-						<td colspan="5">
-							<input type="text" name="facilityCall" th:value="${facility.facilityTell}" style="width: 98%" >
-						</td>
-					</tr>
-					<tr>
-						<td>시설사진</td>
-						<td colspan="5">
-							<input type="text" name="facilityPhoto" th:value="${facility.facilityPhoto}"style="width: 98%" >
-						</td>
-					</tr>
-					<tr>
-						<td>사업자등록번호</td>
-						<td colspan="5">
-							<input type="text" name="businessNum" th:value="${facility.businessNum}" style="width: 98%" >
-						</td>
-					</tr>
-					<tr>
-						<td colspan="5" >
-							<button type="submit" style="width: 100%" >시설정보수정</button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
-	</th:block>
+<th:block layout:fragment="customContents">
 
+	<div class="title_left">
+		<h3>시설정보수정</h3>
+	</div>
+	<div class="clearfix"></div>
+	<div class="row">
+		<div class="col-md-12 col-sm-12">
+			<div class="x_panel">
+			<div class="x_title">
+				<h2>시설정보수정 </h2>
+				<ul class="nav navbar-right panel_toolbox">
+					<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+			<form id="modifyFacilityForm" th:action="@{/adminFacility/modifyFacility}" method="post" novalidate>
+				<span class="section">시설 정보 수정</span>
+				<div class="field item form-group">
+					<label class="col-form-label col-md-3 col-sm-3  label-align">시설대표코드 <span class="required">*</span></label>
+					<div class="col-md-6 col-sm-6">
+					<input class="form-control" type="text" name="facilityCd" th:value="${facility.facilityCd}" readonly="readonly" data-validate-minmax="10,100" required='required'></div>
+				</div>
+				<div class="field item form-group">
+					<label class="col-form-label col-md-3 col-sm-3  label-align">시설카테고리<span class="required">*</span></label>
+					<div class="col-md-6 col-sm-6">
+					<select class="form-control" name="mainCtg" data-validate-length-range="6" data-validate-words="2" required="required">
+						<option value=""> ::  시 설 카 테 고 리  선 택   ::</option>
+						<th:block th:if="${not #lists.isEmpty(mainCtgList)}" th:each="l:${mainCtgList}">
+							<option th:value="${l.mainCtgCd}" th:selected="${facility.mainCtgCd eq l.mainCtgCd}">[[${l.mainCtgNm}]]</option>
+						</th:block>
+					</select>
+					</div>
+				</div>
+				<div class="field item form-group">
+					<label class="col-form-label col-md-3 col-sm-3  label-align">지역<span class="required">*</span></label>
+					<div class="col-md-2 col-sm-2">
+					<select  class="form-control" name="areaCd" id="areaCd" data-validate-length-range="5,15" data-validate-words="2" required="required">
+						<option value=""> ::  지 역(시 도) 선 택   ::</option>
+						<th:block th:if="${not #lists.isEmpty(areaCityTownList)}" th:each="l:${areaCityTownList}">
+							<option th:value="${l.townCd}" th:selected="${facility.townCd eq l.townCd}">[[${l.townNm}]]</option>
+						</th:block>
+					</select>
+					</div>
+					<div class="col-md-2 col-sm-2">
+					<select class="form-control" name="areaCityCd" id="areaCityCd" data-validate-length-range="5,15">
+						<option value=""> ::  지 역(시 군 구) 선 택   ::</option>
+						<th:block th:if="${not #lists.isEmpty(areaCityTownList)}" th:each="l:${areaCityTownList}">
+							<option th:value="${l.townCd}" th:selected="${facility.townCd eq l.townCd}">[[${l.townNm}]]</option>
+						</th:block>
+					</select>
+					</div>
+					<div class="col-md-2 col-sm-2">
+					<select class="form-control" name="areaCityTownCd"  id="areaCityTownCd" data-validate-length-range="5,15" >
+						<option value=""> ::  지 역(읍 면 동) 선 택   ::</option>
+							<th:block th:if="${not #lists.isEmpty(areaCityTownList)}" th:each="l:${areaCityTownList}">
+								<option th:value="${l.townCd}" th:selected="${facility.townCd eq l.townCd}">[[${l.townNm}]]</option>
+							</th:block>
+					</select>
+					</div>
+				</div>
+				<div class="field item form-group">
+					<label class="col-form-label col-md-3 col-sm-3  label-align">시설용도<span class="required">*</span></label>
+					<div class="col-md-6 col-sm-6">
+					<select class="form-control" name="facilityUse" data-validate-length-range="5,15" >
+						<option value=""> ::  시 설 용 도 선 택   ::</option>
+						<th:block th:if="${not #lists.isEmpty(facilityUseList)}" th:each="l:${facilityUseList}">
+								<option th:value="${l.facilityUseCd}" th:selected="${facility.facilityUseCd eq l.facilityUseCd}">[[${l.facilityUseNm}]]</option>
+						</th:block>					
+					</select>
+					</div>
+				</div>
+				<div class="field item form-group">
+					<label class="col-form-label col-md-3 col-sm-3  label-align">시설주 아이디<span class="required">*</span></label>
+					<div class="col-md-6 col-sm-6">
+					<input class="form-control" type="text" name="facilityUserId" th:value="${facility.userId}"  data-validate-minmax="10,100" required='required' /></div>
+				</div>
+				<div class="field item form-group">
+					<label class="col-form-label col-md-3 col-sm-3  label-align">시설명 <span class="required">*</span></label>
+					<div class="col-md-6 col-sm-6">
+					<input class="form-control" type="text" name="facilityName" th:value="${facility.facilityNm}" data-validate-minmax="10,100" required='required'></div>
+				</div>
+				<div class="field item form-group">
+					<label class="col-form-label col-md-3 col-sm-3  label-align">시설 상세주소<span class="required">*</span></label>
+					<div class="col-md-6 col-sm-6">
+					<input class="form-control" type="text" name="facilityAddr" th:value="${facility.facilityAddr}" data-validate-length="6,8" required='required' /></div>
+				</div>
+				<div class="field item form-group">
+					<label class="col-form-label col-md-3 col-sm-3  label-align">시설전화번호<span class="required">*</span></label>
+					<div class="col-md-6 col-sm-6">
+					<input class="form-control" type="text" name="facilityCall" th:value="${facility.facilityTell}" data-validate-linked='password' required='required' /></div>
+				</div>
+				<div class="field item form-group">
+					<label class="col-form-label col-md-3 col-sm-3  label-align">시설사진<span class="required">*</span></label>
+					<div class="col-md-6 col-sm-6">
+					<input class="form-control" type="tel" name="facilityPostNum" th:value="${facility.facilityPostNum}" required='required' data-validate-length-range="8,20" /></div>
+				</div>
+				<div class="field item form-group">
+					<label class="col-form-label col-md-3 col-sm-3  label-align">사업자등록번호<span class="required">*</span></label>
+					<div class="col-md-6 col-sm-6">
+					<input class="form-control" type="text" name="businessNumber" th:value="${facility.businessNum}" required='required' data-validate-length-range="8,20" /></div>
+				</div>
+				<div class="ln_solid">
+					<div class="form-group">
+						<div class="col-md-6 offset-md-3">
+							<button type='submit' class="btn btn-primary">수 정</button>
+							<button type='reset' class="btn btn-success">취 소</button>
+						</div>
+					</div>
+				</div>
+			</form>
+			</div>
+			</div>
+		</div>
+	</div>
+</th:block>
 
+	  
+	  
 </html>

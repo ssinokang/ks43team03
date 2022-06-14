@@ -2,7 +2,6 @@ package ks43team03.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ks43team03.dto.Area;
+import ks43team03.dto.AreaCity;
 import ks43team03.dto.AreaCityTown;
 import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityUse;
@@ -66,23 +67,28 @@ public class AdminFacilityController {
 	}
 	
 	/*시설등록 처리*/
-	@PostMapping("/addFacility")
-	public String addFacility(Facility facility
-							,@RequestParam(name="facilityCd", required = false) String facilityCd
-							,HttpServletRequest request) {
-		log.info("시설등록화면에서 입력한 data : {}", facility);
-		
-		adminFacilityService.addFacility(facility);
-		return "redirect:/adminFacility/adminFacilityList";
-	}
+	/*
+	 * @PostMapping("/addFacility") public String addFacility(Facility facility
+	 * ,@RequestParam(name="facilityCd", required = false) String facilityCd
+	 * ,HttpServletRequest request) { log.info("시설등록화면에서 입력한 data : {}", facility);
+	 * 
+	 * adminFacilityService.addFacility(facility); return
+	 * "redirect:/adminFacility/adminFacilityList"; }
+	 */
 	
 	/*시설등록화면*/
 	@GetMapping("/addFacility")
 	public String addFacility(Model model) {
+		
 		List<MainCtg> mainCtgList = adminFacilityService.getMainCtgList();
+		List<Area> areaList = adminFacilityService.getAreaList();
+		List<AreaCity> areaCityList = adminFacilityService.getAreaCityList();
 		List<AreaCityTown> areaCityTownList = adminFacilityService.getAreaCityTownList();
 		List<FacilityUse> facilityUseList = adminFacilityService.getFacilityUseList();
+		
 		model.addAttribute("mainCtgList", mainCtgList);
+		model.addAttribute("areaList", areaList);
+		model.addAttribute("areaCityList", areaCityList);
 		model.addAttribute("areaCityTownList", areaCityTownList);
 		model.addAttribute("facilityUseList", facilityUseList);
 		

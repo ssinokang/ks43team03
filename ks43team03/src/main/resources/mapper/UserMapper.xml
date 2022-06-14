@@ -56,28 +56,6 @@
 			user_id = #{userId};
 	</update>
 	
-	<select id="getUserInfoById" parameterType="String" resultMap="userResultMap">
-		/* 아이디로 회원 정보 조회 */
-		SELECT 
-			 u.user_id
-			,u.user_level
-			,u.user_password
-			,u.user_nm
-			,u.user_address
-			,u.user_birth
-			,u.user_email
-			,u.user_tell
-			,u.user_gender
-			,u.user_drop
-			,u.reg_path
-			,u.user_terms
-			,u.user_reg_date
-		FROM 
-			user as u
-		WHERE 
-			user_id = #{userId};
-	</select>
-	
 	<select id="isIdCheck" parameterType="String" resultType="boolean">
 		/* 회원 아이디 중복 체크 */
 		SELECT

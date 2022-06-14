@@ -19,6 +19,7 @@
 		<result column="user_reg_date"	property="userRegDate"/>
 	</resultMap>
 	
+
 	<select id="getUserList" resultMap="userResultMap">
 		SELECT
 			 user_id

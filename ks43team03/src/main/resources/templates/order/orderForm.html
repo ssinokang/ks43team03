@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default.html}">
+	
+	<!-- 사용자 정의 contents -->
+	<th:block layout:fragment="customContents">
+	<!-- 이런식으로 넣으면 되겠죠? -->
+		<style>
+			.ordTitle{
+				height: 70px;
+				overflow: hidden;
+				border-bottom: 3px solid #777;
+			}		
+			
+			.title{
+				float: left;
+				margin-top: 20px;
+				padding-left: 0;
+				
+			}
+			.ordTitle .steps{
+				float: right;
+				margin-top: 20px;
+				
+			}
+			.submit-btn{
+				margin: auto;
+				text-align: center;	
+			}
+		</style>
+		<div class="container">
+			<!-- <div class="ordTitle">
+				<h3 class="title">주문/결제</h3>
+				<span class="staps">주문결제 > 주문완료</span>
+			</div> -->
+			
+			<div class="row ordTitle">
+				<div class="col-sm-3 title">
+					<h3>주문/결제</h3>
+				</div>
+				<div class="offset-7 col-sm-2 steps">
+					<span>주문결제 > 주문완료</span>
+				</div>
+			</div>
+			<form id="orderForm">
+				<div class="row">
+					<div class="col-sm-12 title">
+						<h3>구매자 정보</h3>
+					</div>
+					<input type="hidden" value="hello"> 
+					<input type="hidden" value="id001"> 
+					<input type="hidden" value="010-0000-0000"> 
+					<div class="col-sm-12">
+						<table class="table">
+							<tr>
+								<td>이름</td>
+								<td>######</td>
+							</tr>
+							<tr>
+								<td>아이디</td>
+								<td>######</td>
+							</tr>
+							<tr>
+								<td>연락쳐</td>
+								<td>######</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12 title">
+						<h3>포인트</h3>
+					</div>
+					<input type="hidden" value="hello"> 
+					<input type="hidden" value="id001"> 
+					<input type="hidden" value="010-0000-0000"> 
+					<div class="col-sm-12">
+						<table class="table">
+							<tr>
+								<td>사용 가능포인트</td>
+								<td>######</td>
+							</tr>
+							<tr>
+								<td>포인트전환</td>
+								<td><input type="text" value=""><button type="button" class="btn btn-light">포인트 사용하기</button></td>
+							</tr>
+							<tr>
+								<td>연락쳐</td>
+								<td>######</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12 title">
+						<h3>결제수단</h3>
+					</div>
+					<input type="hidden" value="hello"> 
+					<input type="hidden" value="id001"> 
+					<input type="hidden" value="010-0000-0000"> 
+					<div class="col-sm-12">
+						<table class="table">
+							<tr>
+								<td>사용 가능포인트</td>
+								<td>######</td>
+							</tr>
+							<tr>
+								<td>포인트전환</td>
+								<td><input type="text" value=""><button type="button" class="btn btn-light" id="point-btn">포인트 사용하기</button></td>
+							</tr>
+							<tr>
+								<td>총금액</td>
+								<td>1000000</td>
+							</tr>
+						</table>
+					</div>
+				</div>	
+				<div class="row">
+					<div class="col-sm-12 title">
+						<h3>결제상세</h3>
+					</div>
+					<input type="hidden" value="hello"> 
+					<input type="hidden" value="id001"> 
+					<input type="hidden" value="010-0000-0000"> 
+					<div class="col-sm-12">
+						<table class="table">
+							<tr>
+								<td>사용 가능포인트</td>
+								<td>######</td>
+							</tr>
+							<tr>
+								<td>포인트전환</td>
+								<td><input type="text" value=""><button type="button" class="btn btn-light" id="point-btn">포인트 사용하기</button></td>
+							</tr>
+							<tr>
+								<td>총금액</td>
+								<td>1000000</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+					
+			</form>
+			<div class="submit-btn"><button type="button" id="order-btn">결제하기</button></div>
+			
+		</div>
+		
+	</th:block>
+
+</html>

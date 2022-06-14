@@ -32,9 +32,6 @@
 		</association>	
 	</resultMap>
 	
-		
-
-
 		<update id="modifyFacility" parameterType="Facility" >
 			UPDATE facility
 			SET
@@ -74,7 +71,7 @@
 
 		<insert id="addFacility" parameterType="Facility" >
 			INSERT INTO facility
-			(	facility_cd
+				(facility_cd
 				, main_ctg_cd
 				, town_cd
 				, facility_use_cd
@@ -128,7 +125,7 @@
 		
 		</select>
 	
-		<select id="getFacilityUserList" resultType="FacilityUse">
+		<select id="getFacilityUseList" resultType="FacilityUse">
 			SELECT 
 				facility_use_cd 	AS facilityUseCd
 				,facility_use_nm	AS facilityUseNm
@@ -136,8 +133,16 @@
 				facility_use;
 		
 		</select>
-	
-	
+		
+		<select id="getAreaCityTownList" resultType="AreaCityTown">
+			SELECT 
+				town_cd 	AS townCd
+				,city_cd	AS cityCd
+				,city_cd	AS cityCd
+				,town_nm	AS townNm
+			FROM
+				area_city_town
+		</select>
 </mapper> 
   
   

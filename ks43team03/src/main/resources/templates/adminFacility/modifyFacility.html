@@ -5,16 +5,14 @@
 
 <!-- 사용자 정의Contents -->
 	<th:block layout:fragment="customContents">
-		
 		<form id="modifyFacilityForm" th:action="@{/adminFacility/modifyFacility}" method="post">
 			<table border="1">
 				<tbody>
 					<tr>
 						<td>시설 대표 코드</td>
 						<td>
-							<input type="text" name="facilityCd" th:value="${facility.facilityCd}"  readonly="readonly">
+							<input type="text" name="facilityCd" th:value="${facility.facilityCd}" readonly="readonly">
 						</td>
-				
 					</tr>
 					<tr>
 						<td>시설 카테고리</td>
@@ -30,9 +28,16 @@
 						</td>
 					</tr>
 					<tr>
-						<td>읍면동 행정지역</td>
+						<td>읍면동 행정지역명</td>
 						<td colspan="5">
-							<input type="text" name="areaCityTown" style="width: 98%">
+							<select name="areaCityTown" style="width: 100%">
+								<th:block th:if="${not #lists.isEmpty(areaCityTownList)}" th:each="l:${areaCityTownList}">
+									<option th:value="${l.townCd}" th:selected="${facility.townCd eq l.townCd}">[[${l.townNm}]]</option>
+								</th:block>
+								<th:block th:unless="${not #lists.isEmpty(areaCityTownList)}">
+									<option th:value="">등록된 읍면동 행정지역명이 없습니다.</option>
+								</th:block>
+							</select>
 						</td>
 					</tr>
 					<tr>
@@ -51,13 +56,13 @@
 					<tr>
 						<td>시설주 아이디</td>
 						<td colspan="5">
-							<input type="text" name="userId" th:value="${facility.userId}"style="width: 98%">
+							<input type="text" name="userId" th:value="${facility.userId}"style="width: 98%" readonly="readonly">
 						</td>
 					</tr>
 					<tr>
 						<td>시설명</td>
 						<td colspan="5">
-							<input type="text" name="facilityNm" th:value="${facility.facilityName}"style="width: 98%" >
+							<input type="text" name="facilityNm" th:value="${facility.facilityNm}"style="width: 98%" >
 						</td>
 					</tr>
 					<tr>

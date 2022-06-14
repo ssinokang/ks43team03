@@ -47,13 +47,16 @@
 								<tbody>
 									<tr th:if="${not #lists.isEmpty(LessonList)}" th:each="l : ${lessonList}">
 										<td></td>
-										<td>${l.lessonNm}</td>
-										<td>${l.sports.sportsNm}</td>
-										<td>${l.lessonPrice}</td>
-										<td>${l.lessonStartDate}</td>
-										<td>${l.lessonEndDate}</td>
-										<td>${l.userId}</td>
-										<td>${l.lessonRegDate}</td>
+										<td th:text="${l.lessonNm}"></td>
+										<td th:text="${l.sports.sportsNm}"></td>
+										<td th:text="${l.lessonPrice}"></td>
+										<td th:text="${l.lessonStartDate}"></td>
+										<td th:text="${l.lessonEndDate}"></td>
+										<td th:text="${l.userId}"></td>
+										<td th:text="${l.lessonRegDate}"></td>
+									</tr>
+									<tr th:unless="${not #lists.isEmpty(LessonList)}">
+										<td colspan="7">레슨 내용이 없습니다.</td>
 									</tr>
 								</tbody>
 							</table>

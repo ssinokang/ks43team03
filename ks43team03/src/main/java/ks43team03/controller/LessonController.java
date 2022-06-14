@@ -25,9 +25,10 @@ public class LessonController {
 	}
 	
 	@GetMapping("/LessonList")
-	public String lessonList(Model model) {
+	public String lessonList(@RequestParam(name="facilityCd") String facilityCd
+							 ,Model model) {
 		
-		String facilityCd = (String) model.getAttribute("facilityCd");
+		
 		System.out.println(facilityCd + "fac@@@@@@@");
 		List<Lesson> lessonList = lessonService.getLessonList(facilityCd);
 		model.addAttribute("lessonList", lessonList);
@@ -40,7 +41,7 @@ public class LessonController {
 		log.info("!!!lesson : {}", lesson);
 		System.out.println("!!!!!!!!!!!"+lesson);
 		
-		return "/lesson/LessonList";
+		return "redirect:/lesson/LessonList?" + "facilityCd="+ lesson.getFacilityCd();
 		
 	}
 	@GetMapping("/addLesson")

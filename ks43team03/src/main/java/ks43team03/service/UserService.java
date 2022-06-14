@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks43team03.dto.User;
+import ks43team03.dto.UserLevel;
 import ks43team03.mapper.UserMapper;
-import lombok.RequiredArgsConstructor;
 
 /**
  * @author ksmart
@@ -17,15 +17,78 @@ import lombok.RequiredArgsConstructor;
  */
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class UserService {
 
 	private final UserMapper userMapper;
-
-	public List<User> getUserList() {
-
+	
+	public UserService(UserMapper userMapper) {
+		this.userMapper = userMapper;
+	}
+	
+	
+	/**
+	 * 회원정보 변경
+	 * @param user
+	 * @return
+	 */
+	public int modifyUser(User user) {
+		
+		int result = userMapper.modifyUser(user);
+		
+		return result;
+	}
+	
+	/**
+	 * 아이디 중복 체크
+	 * @param userId
+	 * @return
+	 */
+	public boolean isIdCheck(String userId) {
+		
+		boolean result = userMapper.isIdCheck(userId);
+		
+		return result;
+	}
+	
+	/**
+	 * 회원 권한 목록
+	 * @return
+	 */
+	public List<UserLevel> getMemberLevelList(){
+		
+		List<UserLevel> userLevelList = userMapper.getUserLevelList();
+		
+		return userLevelList;
+	}
+	
+	/**
+	 * 회원 목록
+	 * @return
+	 */
+	public List<User> getUserList(){
+		
 		List<User> userList = userMapper.getUserList();
-
+		
+		if(userList != null) {
+			for(User user : userList) {
+				String userLevel = user.getUserLevel();
+				//equals 는 String에서 쓸 수 있으므로 null 인지 확인
+				if(userLevel != null) {
+					if("1".equals(userLevel)) {
+						user.setUserLevel("관리자");
+					}else if("2".equals(userLevel)) {
+						user.setUserLevel("공공및사설시설운영자");
+					}else if("3".equals(userLevel)) {
+						user.setUserLevel("시설 운영자 대리인");
+					}else if("4".equals(userLevel)) {
+						user.setUserLevel("트레이너");
+					}else {
+						user.setUserLevel("일반회원");
+					}
+				}
+			}
+		}
+		
 		return userList;
 	}
 

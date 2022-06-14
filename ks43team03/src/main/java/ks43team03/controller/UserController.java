@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ks43team03.dto.User;
 import ks43team03.service.UserService;
-import lombok.RequiredArgsConstructor;
+
 
 @Controller
 @RequestMapping("/user")
@@ -21,7 +21,7 @@ public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
 	private final UserService userService; 
-	
+
 	public UserController(UserService userService) {
 		this.userService = userService;
 	}

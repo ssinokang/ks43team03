@@ -32,7 +32,7 @@
 			</div>
 			<div class="x_content">
 				<br />
-				<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" th:action="@{/lesson/addLesson}"> <!--  enctype="multipart/form-data" name="mulP --> 
+				<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" th:action="@{/lesson/addLesson}" enctype="multipart/form-data" name="multiPart"> <!--  enctype="multipart/form-data" name="mulP" --> 
 
 					<div class="item form-group">
 						<div class="col-md-6 col-sm-6 ">
@@ -59,10 +59,10 @@
 						</div>
 					</div>
 					<div class="item form-group">
-						<label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonPicture">레슨 사진 
+						<label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonImgFile">레슨 사진 
 						</label>
 						<div class="col-md-6 col-sm-6 ">
-							<input type="text" id="lessonPicture"  name="lessonPicture" required="required" class="form-control">
+							<input type="file" id="lessonImgFile"  name="lessonImgFile" class="form-control" multiple="multiple">
 						</div>
 					</div>
 					<div class="item form-group">

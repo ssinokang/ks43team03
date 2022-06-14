@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ks43team03.mapper.AdminFacilityMapper">
+	<resultMap type="Facility" 				id="facilityResultMap">
+		<id 	column="facility_cd" 		property="facilityCd"/>
+		<result column="main_ctg_cd"		property="mainCtgCd"/>
+		<result column="town_cd"  			property="townCd"/>
+		<result column="facility_use_cd" 	property="facilityUseCd"/>
+		<result column="user_id" 			property="userId"/>
+		<result column="facility_nm" 		property="facilityNm"/>
+		<result column="facility_address" 	property="facilityAddr"/>
+		<result column="facility_tell" 		property="facilityTell"/>
+		<result column="facility_photo" 	property="facilityPhoto"/>
+		<result column="business_number" 	property="businessNum"/>
+		<result column="facility_reg_date"	property="facilityRegDate"/>
+		<association property="mainCtg" javaType="MainCtg">
+			<id column="main_ctg_cd" property="mainCtgCd"/>
+			<result column="main_ctg_nm" property="mainCtgNm"/>
+		</association>
+		<association property="facilityUse" 	javaType="FacilityUse">
+			<id 	 column="facility_use_cd" 	property="facilityUseCd"/>
+			<result  column="facility_use_nm" 	property="facilityUseNm"/>
+		</association>
+		<association property="areaCityTown" 	javaType="AreaCityTown">
+			<id 	 column="town_cd" 	property="townCd"/>
+			<result  column="city_cd" 	property="cityCd"/>
+			<result  column="area_cd" 	property="areaCd"/>
+			<result  column="town_nm" 	property="townNm"/>
+		</association>	
+	</resultMap>
+	
+		
+
+
+		<update id="modifyFacility" parameterType="Facility" >
+			UPDATE facility
+			SET
+				facility_cd = 		 #{facilityCd},
+				town_cd = 			 #{townCd},
+				facility_use_cd = 	 #{facilityUseCd},
+				user_id = 			 #{userId},
+				facility_nm =		 #{facilityNm},
+				facility_address =	 #{facilityAddr},
+				facility_tell=		 #{facilityTell},
+				facility_photo = 	 #{facilityPhoto},
+				business_number =    #{businessNum}
+			WHERE 
+				facility_cd = #{facilityCd};
+		</update>
+		
+		<select id="getAdminFacilityInfoByCd" parameterType="String" resultMap="facilityResultMap">
+			SELECT 
+				facility_cd 		
+				,main_ctg_cd		
+				,town_cd			
+				,facility_use_cd	
+				,user_id			
+				,facility_nm		
+				,facility_address
+				,facility_tell		
+				,facility_photo		
+				,business_number	
+				,facility_reg_date
+			FROM 
+				facility 
+			WHERE
+				facility_cd = #{facilityCd};
+		</select>
+
+
+
+		<insert id="addFacility" parameterType="Facility" >
+			INSERT INTO facility
+			(	facility_cd
+				, main_ctg_cd
+				, town_cd
+				, facility_use_cd
+				, user_id
+				, facility_nm
+				, facility_address
+				, facility_tell
+				, facility_photo
+				, business_number
+				, facility_reg_date
+				)VALUES (
+					 #{facilityCd}
+					,#{mainCtgCd}
+					,#{townCd}
+					,#{facilityUseCd}
+					,#{userId}
+					,#{facilityNm}
+					,#{facilityAddr}
+					,#{facilityTell}
+					,#{facilityPhoto}
+					,#{businessNum}
+					,CURDATE())
+		</insert>
+		
+
+
+		<select id="getAdminFacilityList" resultType="Facility" resultMap="facilityResultMap">
+		/*시설조회*/
+			SELECT 
+				facility_cd 		
+				,main_ctg_cd		
+				,town_cd			
+				,facility_use_cd	
+				,user_id			
+				,facility_nm		
+				,facility_address
+				,facility_tell		
+				,facility_photo		
+				,business_number	
+				,facility_reg_date
+			FROM 
+				facility 
+		</select>
+		
+		<select id="getMainCtgList" resultType="MainCtg">
+			SELECT 
+				main_ctg_cd 	AS mainCtgCd
+				,main_ctg_nm	AS mainCtgNm
+			FROM 
+				main_ctg;
+		
+		</select>
+	
+		<select id="getFacilityUserList" resultType="FacilityUse">
+			SELECT 
+				facility_use_cd 	AS facilityUseCd
+				,facility_use_nm	AS facilityUseNm
+			FROM 
+				facility_use;
+		
+		</select>
+	
+	
+</mapper> 
+  
+  

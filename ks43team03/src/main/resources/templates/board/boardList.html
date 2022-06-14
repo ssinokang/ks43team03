@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>boardList</title>
+</head>
+<body>
+	<h1>boardList</h1>
+	
+	<table border="1">
+			<thead>
+				<tr>
+					<th>게시판 코드</th>
+					<th>게시판 카테고리 코드</th>
+					<th>게시글 작성자 아이디</th>
+					<th>게시글 제목</th>
+					<th>게시글 내용</th>
+					<th>게시글 첨부파일</th>
+					<th>게시글 등록일</th>
+					<th>게시글 조회수</th>
+					<th>게시글 댓글 수</th>
+					<th>게시판 게시글 상태</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${not #lists.isEmpty(boardList)}" th:each="l : ${boardList}">
+					<td th:text="${l.boardPostCd}"></td>
+					<td th:text="${l.boardCtgCd}"></td>
+					<td th:text="${l.userId}"></td>
+					<td th:text="${l.boardPostTitle}"></td>
+					<td th:text="${l.boardPostContent}"></td>
+					<td th:text="${l.boardPostFile}"></td>
+					<td th:text="${l.boardPostDate}"></td>
+					<td th:text="${l.boardPostViews}"></td>
+					<td th:text="${l.boardPostNum}"></td>
+					<td th:text="${l.boardPostState}"></td>
+				</tr>
+				<tr th:unless="${not #lists.isEmpty(boardList)}">
+					<td colspan="9">조회된 내용이 없습니다.</td>
+				</tr>
+			</tbody>
+		</table>
+</body>
+</html>

@@ -26,22 +26,24 @@ public class LoginController {
 	 * @param currentPage
 	 * @return
 	 */
-	/*
-	 * @GetMapping("loginHistory") public String logginHistory(@RequestParam(name =
-	 * "currentPage", required = false, defaultValue = "1") int currentPage ,Model
-	 * model) {
-	 * 
-	 * Map<String, Object> resultMap = userService.getLoginHistory(currentPage);
-	 * 
-	 * model.addAttribute("resultMap", resultMap); model.addAttribute("currentPage",
-	 * currentPage); model.addAttribute("loginHistoryList",
-	 * resultMap.get("loginHistoryList")); model.addAttribute("lastPage",
-	 * resultMap.get("lastPage")); model.addAttribute("startPageNum",
-	 * resultMap.get("startPageNum")); model.addAttribute("endPageNum",
-	 * resultMap.get("endPageNum"));
-	 * 
-	 * return "login/loginHistory"; }
-	 */
+	
+	@GetMapping("/loginHistory")
+	public String loginHistory(@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage
+							  ,Model model) {
+		
+		Map<String, Object> resultMap = userService.getLoginHistory(currentPage);
+		resultMap.get("lastPage");
+		
+		model.addAttribute("resultMap", 		resultMap);
+		model.addAttribute("currentPage", 		currentPage);
+		model.addAttribute("loginHistoryList", 	resultMap.get("loginHistoryList"));
+		model.addAttribute("lastPage", 			resultMap.get("lastPage"));
+		model.addAttribute("startPageNum", 		resultMap.get("startPageNum"));
+		model.addAttribute("endPageNum", 		resultMap.get("endPageNum"));
+		System.out.println(model + "model!!!!!!!!!!");
+		return "login/loginHistory";
+	}
+	 
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/adminDefault}">
+
+<!-- 사용자 정의Contents -->
+	<th:block layout:fragment="customContents">
+		
+		<form id="modifyFacilityForm" th:action="@{/adminFacility/modifyFacility}" method="post">
+			<table border="1">
+				<tbody>
+					<tr>
+						<td>시설 대표 코드</td>
+						<td>
+							<input type="text" name="facilityCd" th:value="${facility.facilityCd}"  readonly="readonly">
+						</td>
+				
+					</tr>
+					<tr>
+						<td>시설 카테고리</td>
+						<td colspan="5">
+							<select name="mainCtg"  style="width: 100%">
+								<th:block th:if="${not #lists.isEmpty(mainCtgList)}" th:each="l:${mainCtgList}">
+									<option th:value="${l.mainCtgCd}" th:selected="${facility.mainCtgCd eq l.mainCtgCd}">[[${l.mainCtgNm}]]</option>
+								</th:block>
+								<th:block th:unless="${not #lists.isEmpty(mainCtgList)}">
+									<option th:value="">시설카테고리가없습니다.</option>
+								</th:block>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>읍면동 행정지역</td>
+						<td colspan="5">
+							<input type="text" name="areaCityTown" style="width: 98%">
+						</td>
+					</tr>
+					<tr>
+						<td>시설용도</td>
+						<td colspan="5">
+							<select name="facilityUse" style="width: 100%">
+								<th:block th:if="${not #lists.isEmpty(facilityUseList)}" th:each="l:${facilityUseList}">
+									<option th:value="${l.facilityUseCd}" th:selected="${facility.facilityUseCd eq l.facilityUseCd}">[[${l.facilityUseNm}]]</option>
+								</th:block>
+								<th:block th:unless="${not #lists.isEmpty(facilityUseList)}">
+									<option th:value="">등록된 시설용도가 없습니다.</option>
+								</th:block>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>시설주 아이디</td>
+						<td colspan="5">
+							<input type="text" name="userId" th:value="${facility.userId}"style="width: 98%">
+						</td>
+					</tr>
+					<tr>
+						<td>시설명</td>
+						<td colspan="5">
+							<input type="text" name="facilityNm" th:value="${facility.facilityName}"style="width: 98%" >
+						</td>
+					</tr>
+					<tr>
+						<td>시설 상세주소</td>
+						<td colspan="5">
+							<input type="text" name="facilityAddr" th:value="${facility.facilityAddr}"style="width: 98%" >					
+						</td>
+					</tr>
+					<tr>
+						<td>시설전화번호</td>
+						<td colspan="5">
+							<input type="text" name="facilityCall" th:value="${facility.facilityTell}" style="width: 98%" >
+						</td>
+					</tr>
+					<tr>
+						<td>시설사진</td>
+						<td colspan="5">
+							<input type="text" name="facilityPhoto" th:value="${facility.facilityPhoto}"style="width: 98%" >
+						</td>
+					</tr>
+					<tr>
+						<td>사업자등록번호</td>
+						<td colspan="5">
+							<input type="text" name="businessNum" th:value="${facility.businessNum}" style="width: 98%" >
+						</td>
+					</tr>
+					<tr>
+						<td colspan="5" >
+							<button type="submit" style="width: 100%" >시설정보수정</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</th:block>
+
+
+</html>

@@ -3,33 +3,74 @@
  	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/default.html}"> 
 	  
+	<!-- 사용자 정의 Js 파일 -->
+	<th:block layout:fragment="customJs">
+	<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>	
+	<script>
+		$(function() {
+			function validationCheck(data) {
+				if (typeof data == 'undefined' || data == '' || data == null) {
+					return false;
+				}
+				return true;
+			}	
+			/* 유효성 검사 */
+			$('#loginBtn').click(function(){
+				var isSubmit = true;
+				var inputObj = $('#loginForm').find('input');
+				
+				$.each(inputObj, function(){
+					var inputId 	= $(this).attr('id');
+					var inputData 	= $(this).val();
+					var result 		= validationCheck(inputData);
+					
+					// 사용자가 입력하지 않은 경우
+					if(!result){
+						alert('아이디를 입력해주세요.');
+						$(this).focus();
+						isSubmit = false;
+						return false;
+					}
+				});
+					
+					if(isSubmit) $('#loginForm').submit();
+				});
+			});
+	</script>
+	</th:block>	
+	
 	<!-- 사용자 정의 contents -->
 	<th:block layout:fragment="customContents">
 	
-
-		<form th:action="@{/login}" method="post">
-			<table border="1">
-				<tbody>
-					<tr>
-						<td>아이디</td>
-						<td>
-							<input type="text" name="userId" th:value="${userId}">
-						</td>
-					</tr>
-					<tr>
-						<td>비밀번호</td>
-						<td>
-							<input type="text" name="userPw">
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<button type="submit" style="width: 100%;">로그인</button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+	<div class="container" style="margin-top: 100px;">	
+		<h2>로그인</h2>
+		<form id="loginForm" th:action="@{/login}" method="post">
+		<div class="card panel panel-default offset-lg-3 col-md-5">
+			<div class="card-body">
+			
+				<div class="form-group row">
+					<label class="col-form-label col-sm-3" for="userId">아이디</label> 
+					<div class="col-sm-9">
+						<input class="form-control" type="text" name="userId" id="userId" />
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label class="col-form-label col-sm-3" for="userPw">비밀번호</label> 
+					<div class="col-sm-9">
+						<input class="form-control" type="password" name="userPw" id="userPw" />
+					</div>
+				</div>
+				<button class="btn btn-outline-primary btn-sm" type="submit" id="loginBtn">로그인</button>
+				<span class="text-dark">회원가입을 하시겠습니까?
+					<a th:href="@{/user/addUser}">회원 가입</a>
+				</span>
+			</div>
+		</div>
 		</form>
+	</div>		
+		
+		
 		<!-- <div th:if="${result != null}"> -->
 		<div th:if="${not #strings.isEmpty(result)}">
 			<p th:text="${result}"></p>

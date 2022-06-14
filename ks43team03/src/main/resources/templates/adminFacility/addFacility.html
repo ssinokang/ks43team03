@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/adminDefault}">
+
+<!-- 사용자 정의Contents -->
+	<th:block layout:fragment="customContents">
+		<!-- 사용자 정의 Script-->
+	<th:block layout:fragment="customScript">		
+		
+		
+		<form id="addFacilityForm" th:action="@{/adminFacility/addFacilityList}" method="post">
+			<table border="1">
+				<tbody>
+					<tr>
+						<td>시설 카테고리</td>
+						<td colspan="5">
+							<select name="mainCtg"  style="width: 100%">
+								<th:block th:if="${not #lists.isEmpty(mainCtgList)}" th:each="l:${mainCtgList}">
+									<option th:value="${l.mainCtgCd}">[[${l.mainCtgNm}]]</option>
+								</th:block>
+								<th:block th:unless="${not #lists.isEmpty(mainCtgList)}">
+									<option th:value="">등록된 회원등급이 없습니다.</option>
+								</th:block>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>읍면동 행정지역코드</td>
+						<td colspan="5">
+							<input type="text" name="areaCityTown" style="width: 98%" placeholder="회원의 이메일을 입력해주세요">
+						</td>
+					</tr>
+					<tr>
+						<td>시설용도코드</td>
+						<td colspan="5">
+							<select name="facilityUse" style="width: 100%">
+								<th:block th:if="${not #lists.isEmpty(facilityUseList)}" th:each="l:${facilityUseList}">
+									<option th:value="${l.facilityUseCd}">[[${l.facilityUseNm}]]</option>
+								</th:block>
+								<th:block th:unless="${not #lists.isEmpty(facilityUseList)}">
+									<option th:value="">등록된 회원등급이 없습니다.</option>
+								</th:block>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>시설주 아이디</td>
+						<td colspan="5">
+							<input type="text" name="facilityId" style="width: 98%" >
+						</td>
+					</tr>
+					<tr>
+						<td>시설명</td>
+						<td colspan="5">
+							<input type="text" name="facilityName" style="width: 98%"  >
+						</td>
+					</tr>
+					<tr>
+						<td>시설 상세주소</td>
+						<td colspan="5">
+							<input type="text" name="facilityAddr" style="width: 98%"  >		
+						</td>
+					</tr>
+					<tr>
+						<td>시설전화번호</td>
+						<td colspan="5">
+							<input type="text" name="facilityCall" style="width: 98%" >
+						</td>
+					</tr>
+					<tr>
+						<td>시설사진</td>
+						<td colspan="5">
+							<input type="text" name="facilityPhoto" style="width: 98%" >
+						</td>
+					</tr>
+					<tr>
+						<td>사업자등록번호</td>
+						<td colspan="5">
+							<input type="text" name="businessNumber" style="width: 98%" >
+						</td>
+					</tr>
+					<tr>
+						<td colspan="5" >
+							<button type="submit" style="width: 100%" >시설등록</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</th:block>
+
+
+</html>

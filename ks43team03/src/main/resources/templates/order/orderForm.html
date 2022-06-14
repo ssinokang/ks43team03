@@ -6,146 +6,136 @@
 	<!-- 사용자 정의 contents -->
 	<th:block layout:fragment="customContents">
 	<!-- 이런식으로 넣으면 되겠죠? -->
-		<style>
-			.ordTitle{
-				height: 70px;
-				overflow: hidden;
-				border-bottom: 3px solid #777;
-			}		
-			
-			.title{
-				float: left;
-				margin-top: 20px;
-				padding-left: 0;
-				
-			}
-			.ordTitle .steps{
-				float: right;
-				margin-top: 20px;
-				
-			}
-			.submit-btn{
-				margin: auto;
-				text-align: center;	
-			}
-		</style>
-		<div class="container">
-			<!-- <div class="ordTitle">
-				<h3 class="title">주문/결제</h3>
-				<span class="staps">주문결제 > 주문완료</span>
-			</div> -->
-			
-			<div class="row ordTitle">
-				<div class="col-sm-3 title">
-					<h3>주문/결제</h3>
-				</div>
-				<div class="offset-7 col-sm-2 steps">
-					<span>주문결제 > 주문완료</span>
+		<div class="breadcrumb-option">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3">
+						<h2>주문/결제</h2>
+					</div>
+					<div class="col-lg-2 offset-7">
+						<div class="breadcrum__links">
+							<span> <i class="bi bi-cart-check"></i> 주문하기 > </span>
+							<span>주문정보</span>
+						</div>
+					</div>
 				</div>
 			</div>
-			<form id="orderForm">
-				<div class="row">
-					<div class="col-sm-12 title">
-						<h3>구매자 정보</h3>
-					</div>
-					<input type="hidden" value="hello"> 
-					<input type="hidden" value="id001"> 
-					<input type="hidden" value="010-0000-0000"> 
-					<div class="col-sm-12">
-						<table class="table">
-							<tr>
-								<td>이름</td>
-								<td>######</td>
-							</tr>
-							<tr>
-								<td>아이디</td>
-								<td>######</td>
-							</tr>
-							<tr>
-								<td>연락쳐</td>
-								<td>######</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-12 title">
-						<h3>포인트</h3>
-					</div>
-					<input type="hidden" value="hello"> 
-					<input type="hidden" value="id001"> 
-					<input type="hidden" value="010-0000-0000"> 
-					<div class="col-sm-12">
-						<table class="table">
-							<tr>
-								<td>사용 가능포인트</td>
-								<td>######</td>
-							</tr>
-							<tr>
-								<td>포인트전환</td>
-								<td><input type="text" value=""><button type="button" class="btn btn-light">포인트 사용하기</button></td>
-							</tr>
-							<tr>
-								<td>연락쳐</td>
-								<td>######</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-12 title">
-						<h3>결제수단</h3>
-					</div>
-					<input type="hidden" value="hello"> 
-					<input type="hidden" value="id001"> 
-					<input type="hidden" value="010-0000-0000"> 
-					<div class="col-sm-12">
-						<table class="table">
-							<tr>
-								<td>사용 가능포인트</td>
-								<td>######</td>
-							</tr>
-							<tr>
-								<td>포인트전환</td>
-								<td><input type="text" value=""><button type="button" class="btn btn-light" id="point-btn">포인트 사용하기</button></td>
-							</tr>
-							<tr>
-								<td>총금액</td>
-								<td>1000000</td>
-							</tr>
-						</table>
-					</div>
-				</div>	
-				<div class="row">
-					<div class="col-sm-12 title">
-						<h3>결제상세</h3>
-					</div>
-					<input type="hidden" value="hello"> 
-					<input type="hidden" value="id001"> 
-					<input type="hidden" value="010-0000-0000"> 
-					<div class="col-sm-12">
-						<table class="table">
-							<tr>
-								<td>사용 가능포인트</td>
-								<td>######</td>
-							</tr>
-							<tr>
-								<td>포인트전환</td>
-								<td><input type="text" value=""><button type="button" class="btn btn-light" id="point-btn">포인트 사용하기</button></td>
-							</tr>
-							<tr>
-								<td>총금액</td>
-								<td>1000000</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-					
-			</form>
-			<div class="submit-btn"><button type="button" id="order-btn">결제하기</button></div>
-			
 		</div>
 		
+		<div class="container">
+			<form id="orderForm">
+				<div class="row">
+					<div class="col-sm-12">
+						hello world
+					</div>
+				</div>
+	
+				<div class="card row">
+					<div class="card-header col-sm-12">
+						구매자정보		
+					</div>
+				</div>
+				<div class="row">
+					<table class="table table-bordered">
+						<tr>
+							<td style="width: 16.66%">아이디</td>
+							<td style="width: 83.33%">id001</td>
+						</tr>
+						<tr>
+							<td>연락처</td>
+							<td>010-9999-1111</td>
+						</tr>
+					</table>
+				</div>
+	
+				<div class="card row">
+					<div class="card-header col-sm-12">
+						상품정보		
+					</div>
+				</div>
+				<input type="hidden" name="facilityGoodsCd" value="ss_35011740_01_lesson_01">
+				<input type="hidden" name="goodsCtgCd" value="lesson">
+			
+				<div class="row">
+					<table class="table table-bordered">
+						<tr>
+							<td style="width: 16.66%">상품코드</td>
+							<td style="width: 83.33%">ss_35011740_01_lesson_01</td>
+						</tr>
+						<tr>
+							<td>시설명</td>
+							<td>어디어디체육관</td>
+						</tr>
+						<tr>
+							<td>주소</td>
+							<td>ㅁㅁㅁㅁ</td>
+						</tr>
+						<tr>
+							<td>카테고리</td>
+							<td>레슨</td>
+						</tr>
+						<tr>
+							<td>종목</td>
+							<td>축구</td>
+						</tr>
+					</table>
+				</div>
+	
+	
+				<input type="hidden" name="orderPrice" value="500000">
+				<div class="card row">
+					<div class="card-header col-sm-12">
+						결제정보		
+					</div>
+				</div>
+				<div class="row">
+					<table class="table table-bordered">
+						<tr>
+							<td style="width: 16.66%">가격</td>
+							<td style="width: 83.33%">500000</td>
+						</tr>
+						<tr>
+							<td>총 포인트</td>
+							<td><input type="text" disabled></td>
+						</tr>
+						<tr>
+							<td>사용 가능 포인트</td>
+							<td><input type="text" disabled></td>
+						</tr>
+						<tr>
+							<td>포인트 사용</td>
+							<td><input type="text"><button type="button" class="btn btn-primary">사용하기</button></td>
+						</tr>
+						<tr>
+							<td>총 결제 금액</td>
+							<td><input type="text" disabled></td>
+						</tr>
+					</table>
+	
+	
+	
+				</div>
+	
+				<div class="card row">
+					<div class="card-header col-sm-12">
+						결제수단		
+					</div>
+				</div>
+				<div class="row">
+	
+				</div>
+	
+	
+				<br/>
+				<br/>
+				<div class="row">
+					<div class="col-sm-4 offset-5"><button class="btn btn-primary">결제하기</button></div>
+				</div>
+	
+	
+			
+			</form>
+		</div>
 	</th:block>
 
 </html>

@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks43team03.mapper.UserMapper">
-	<resultMap type="User" id="userRsultMap">
+	<resultMap type="User" id="userResultMap">
 		<id column="user_id"			property="userId"/>
 		<result column="user_level"		property="userLevel"/>
 		<result column="user_password"	property="userPw"/>
@@ -19,7 +19,7 @@
 		<result column="user_reg_date"	property="userRegDate"/>
 	</resultMap>
 	
-	<select id="getUserList" resultMap="userRsultMap">
+	<select id="getUserList" resultMap="userResultMap">
 		SELECT
 			 user_id
 			,user_level
@@ -37,4 +37,50 @@
 		FROM
 			user
 	</select>
+	
+		<!-- resultMap 태그 아이디 값을 찾아서 알아서 프로퍼티명으로 변경해줌 -->
+	<select id="getUserInfoById" parameterType="String" resultMap="userResultMap">
+		/* 아이디로 회원 정보 조회 */
+		SELECT 
+			 u.user_id
+			,u.user_level
+			,u.user_password
+			,u.user_nm
+			,u.user_address
+			,u.user_birth
+			,u.user_email
+			,u.user_tell
+			,u.user_gender
+			,u.user_drop
+			,u.reg_path
+			,u.user_terms
+			,u.user_reg_date
+		FROM 
+			user as u
+		WHERE 
+			user_id = #{userId};
+	</select>
+	
+	
+	<select id="getLoginHistory" parameterType="map" resultType="map"> <!-- type사용 -> map을 사용하려면 위에서 정의해야함 -->
+		SELECT 
+			 login_number
+			,user_id
+			,login_date
+			,logout_date
+		FROM 
+			user_login
+		ORDER BY CAST(login_number AS SIGNED)	
+		LIMIT #{startRow}, #{rowPerPage};		
+	</select>
+	
+	
+	<select id="getLoginHistoryCount" resultType="int">
+		SELECT 
+			COUNT(login_number)
+		FROM
+			user_login;	
+	</select>	
+	
+	
 </mapper>

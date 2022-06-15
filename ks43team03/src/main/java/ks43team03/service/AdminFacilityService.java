@@ -38,8 +38,16 @@ public class AdminFacilityService {
 		return result;
 	}
 	
+	/*아이디별상세정보조회*/
+	public List<Facility> getAdminFacilityListById() {
+		List<Facility> facility = adminFacilityMapper.getAdminFacilityListById();
+		
+		return facility;
+	}
 	
-	/*시설상세정보조회*/
+	
+	
+	/*시설코드별상세정보조회*/
 	public Facility getAdminFacilityInfoByCd(String facilityCd) {
 		Facility facility = adminFacilityMapper.getAdminFacilityInfoByCd(facilityCd);
 		

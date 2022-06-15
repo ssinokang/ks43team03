@@ -33,7 +33,7 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설카테고리<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<select class="form-control" name="mainCtg" data-validate-length-range="6" data-validate-words="2" required="required">
+					<select class="form-control" name="mainCtgCd" data-validate-length-range="6" data-validate-words="2" required="required">
 						<option value=""> ::  시 설 카 테 고 리  선 택   ::</option>
 						<th:block th:if="${not #lists.isEmpty(mainCtgList)}" th:each="l:${mainCtgList}">
 							<option th:value="${l.mainCtgCd}" th:selected="${facility.mainCtgCd eq l.mainCtgCd}">[[${l.mainCtgNm}]]</option>
@@ -46,21 +46,21 @@
 					<div class="col-md-2 col-sm-2">
 					<select  class="form-control" name="areaCd" id="areaCd" data-validate-length-range="5,15" data-validate-words="2" required="required">
 						<option value=""> ::  지 역(시 도) 선 택   ::</option>
-						<th:block th:if="${not #lists.isEmpty(areaCityTownList)}" th:each="l:${areaCityTownList}">
-							<option th:value="${l.townCd}" th:selected="${facility.townCd eq l.townCd}">[[${l.townNm}]]</option>
+						<th:block th:if="${not #lists.isEmpty(areaList)}" th:each="l:${areaList}">
+							<option th:value="${l.areaCd}" th:selected="${facility.areaCd eq l.areaCd}">[[${l.areaNm}]]</option>
 						</th:block>
 					</select>
 					</div>
 					<div class="col-md-2 col-sm-2">
-					<select class="form-control" name="areaCityCd" id="areaCityCd" data-validate-length-range="5,15">
+					<select class="form-control" name="cityCd" id="cityCd" data-validate-length-range="5,15">
 						<option value=""> ::  지 역(시 군 구) 선 택   ::</option>
-						<th:block th:if="${not #lists.isEmpty(areaCityTownList)}" th:each="l:${areaCityTownList}">
-							<option th:value="${l.townCd}" th:selected="${facility.townCd eq l.townCd}">[[${l.townNm}]]</option>
+						<th:block th:if="${not #lists.isEmpty(areaCityList)}" th:each="l:${areaCityList}">
+							<option th:value="${l.cityCd}" th:selected="${facility.cityCd eq l.cityCd}">[[${l.cityNm}]]</option>
 						</th:block>
 					</select>
 					</div>
 					<div class="col-md-2 col-sm-2">
-					<select class="form-control" name="areaCityTownCd"  id="areaCityTownCd" data-validate-length-range="5,15" >
+					<select class="form-control" name="townCd"  id="townCd" data-validate-length-range="5,15" >
 						<option value=""> ::  지 역(읍 면 동) 선 택   ::</option>
 							<th:block th:if="${not #lists.isEmpty(areaCityTownList)}" th:each="l:${areaCityTownList}">
 								<option th:value="${l.townCd}" th:selected="${facility.townCd eq l.townCd}">[[${l.townNm}]]</option>
@@ -71,7 +71,7 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설용도<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<select class="form-control" name="facilityUse" data-validate-length-range="5,15" >
+					<select class="form-control" name="facilityUseCd" data-validate-length-range="5,15" >
 						<option value=""> ::  시 설 용 도 선 택   ::</option>
 						<th:block th:if="${not #lists.isEmpty(facilityUseList)}" th:each="l:${facilityUseList}">
 								<option th:value="${l.facilityUseCd}" th:selected="${facility.facilityUseCd eq l.facilityUseCd}">[[${l.facilityUseNm}]]</option>
@@ -80,24 +80,29 @@
 					</div>
 				</div>
 				<div class="field item form-group">
-					<label class="col-form-label col-md-3 col-sm-3  label-align">시설주 아이디<span class="required">*</span></label>
+					<label class="col-form-label col-md-3 col-sm-3  label-align">시설주 아이디<span>*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityUserId" th:value="${facility.userId}"  data-validate-minmax="10,100" required='required' /></div>
+					<input class="form-control" type="text" name="userId" th:value="${facility.userId}"  data-validate-minmax="10,100" /></div>
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설명 <span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityName" th:value="${facility.facilityNm}" data-validate-minmax="10,100" required='required'></div>
+					<input class="form-control" type="text" name="facilityNm" th:value="${facility.facilityNm}" data-validate-minmax="10,100" required='required'></div>
 				</div>
 				<div class="field item form-group">
-					<label class="col-form-label col-md-3 col-sm-3  label-align">시설 상세주소<span class="required">*</span></label>
+					<label class="col-form-label col-md-3 col-sm-3  label-align">시설 주소<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
 					<input class="form-control" type="text" name="facilityAddr" th:value="${facility.facilityAddr}" data-validate-length="6,8" required='required' /></div>
 				</div>
 				<div class="field item form-group">
+					<label class="col-form-label col-md-3 col-sm-3  label-align">시설 상세주소<span class="required">*</span></label>
+					<div class="col-md-6 col-sm-6">
+					<input class="form-control" type="text" name="facilityDetailAddr" th:value="${facility.facilityAddr}" data-validate-length="6,8" required='required' /></div>
+				</div>
+				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설전화번호<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityCall" th:value="${facility.facilityTell}" data-validate-linked='password' required='required' /></div>
+					<input class="form-control" type="text" name="facilityTell" th:value="${facility.facilityTell}" data-validate-linked='password' required='required' /></div>
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설사진<span class="required">*</span></label>
@@ -107,7 +112,7 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">사업자등록번호<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="businessNumber" th:value="${facility.businessNum}" required='required' data-validate-length-range="8,20" /></div>
+					<input class="form-control" type="text" name="businessNum" th:value="${facility.businessNum}" required='required' data-validate-length-range="8,20" /></div>
 				</div>
 				<div class="ln_solid">
 					<div class="form-group">

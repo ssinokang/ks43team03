@@ -2,6 +2,7 @@ package ks43team03.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,25 +57,31 @@ public class AdminFacilityController {
 		
 		List<FacilityUse> facilityUseList = adminFacilityService.getFacilityUseList();
 		List<MainCtg> mainCtgList = adminFacilityService.getMainCtgList();
+		List<Area> areaList = adminFacilityService.getAreaList();
+		List<AreaCity> areaCityList = adminFacilityService.getAreaCityList();
 		List<AreaCityTown> areaCityTownList = adminFacilityService.getAreaCityTownList();
 		
 		model.addAttribute("facility", facility);	
 		model.addAttribute("facilityUseList", facilityUseList);	
 		model.addAttribute("mainCtgList", mainCtgList);
+		model.addAttribute("areaList", areaList);
+		model.addAttribute("areaCityList", areaCityList);
 		model.addAttribute("areaCityTownList", areaCityTownList);
 		
 		 return "adminFacility/modifyFacility"; 
 	}
 	
-	/*시설등록 처리*/
-	/*
-	 * @PostMapping("/addFacility") public String addFacility(Facility facility
-	 * ,@RequestParam(name="facilityCd", required = false) String facilityCd
-	 * ,HttpServletRequest request) { log.info("시설등록화면에서 입력한 data : {}", facility);
-	 * 
-	 * adminFacilityService.addFacility(facility); return
-	 * "redirect:/adminFacility/adminFacilityList"; }
-	 */
+		/*시설등록처리*/
+	  @PostMapping("/addFacility") 
+	  public String addFacility(Facility facility
+			  					,@RequestParam(name="facilityCd", required = false) String facilityCd
+			  					,HttpServletRequest request) {
+		  log.info("시설등록화면에서 입력한 data : {}", facility);
+	  
+	  adminFacilityService.addFacility(facility); 
+	  return "redirect:/adminFacility/adminFacilityList"; 
+	  }
+
 	
 	/*시설등록화면*/
 	@GetMapping("/addFacility")
@@ -95,8 +102,14 @@ public class AdminFacilityController {
 		return "adminFacility/addFacility";
 	}
 	
+	//시설관리자가 본인시설조회
+	@GetMapping("/adminFacilityListById")
+	public String getAdminFacilityListById(Model model) {
+		List<Facility> adminFacilityListById = adminFacilityService.getAdminFacilityListById();
+		model.addAttribute("adminFacilityListById", adminFacilityListById);
+		return "adminFacility/adminFacilityListById";
+	}
 	
-
 	//관리자가 시설목록조회
 	@GetMapping("/adminFacilityList")
 	public String getAdminFacilityList(Model model) {

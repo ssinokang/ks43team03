@@ -13,6 +13,6 @@ public interface LessonMapper {
 	public List<Lesson> getFacilityLessonList(String facilityCd);
 	
 	//레슨 등록하기
-	public void addLesson(Lesson lesson);
+	public int addLesson(Lesson lesson);
 	
 }

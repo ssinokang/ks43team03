@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import ks43team03.common.FileUtils;
 import ks43team03.dto.Lesson;
+import ks43team03.mapper.FacilityGoodsMapper;
 import ks43team03.mapper.FileMapper;
 import ks43team03.mapper.LessonMapper;
 
@@ -18,9 +19,12 @@ import ks43team03.mapper.LessonMapper;
 public class LessonService {
 	private final LessonMapper lessonMapper;
 	private final FileMapper   fileMapper;
-	public LessonService(LessonMapper lessonMapper, FileMapper fileMapper) {
+	private final FacilityGoodsMapper facilityGoodsMapper;
+	
+	public LessonService(LessonMapper lessonMapper, FileMapper fileMapper, FacilityGoodsMapper facilityGoodsMapper) {
 		this.lessonMapper = lessonMapper;
 		this.fileMapper	  = fileMapper;
+		this.facilityGoodsMapper = facilityGoodsMapper;
 	}
 	
 	// 레슨 리스트 가져오기
@@ -41,10 +45,18 @@ public class LessonService {
 			System.out.println(dtoFileList + "LessonService/addLesson");
 			fileMapper.uploadFile(dtoFileList);
 			
+			/***
+			 * test code: start
+			 ***/
 			
+			facilityGoodsMapper.getFacilityGoods(lesson.getLessonCd());
+			
+			/***
+			 * test code: end
+			 ***/
 			// 2. lesson 테이블에 삽입
-			//lessonMapper.addLesson(lesson);
-			//System.out.println(lesson + "LessonService/addLesson/lesson");
+			lessonMapper.addLesson(lesson);
+			System.out.println(lesson + "LessonService/addLesson/lesson");
 			
 			// 3. 릴레이션 테이블에 삽입
 			/*

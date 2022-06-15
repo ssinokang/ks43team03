@@ -54,4 +54,40 @@
 		WHERE
 			l.facility_cd = #{facilityCd}
 	</select>
+	<insert id="addLesson" parameterType="Lesson">
+		INSERT INTO lesson
+		(
+			lesson_cd					AS lessonCd
+			,lesson_division			AS lessonDivision
+			,facility_goods_cd			AS facilityGoodsCd
+			,facility_cd				AS facilityCd
+			,goods_ctg_cd				AS goodsCtgCd
+			,sports_cd					AS sportsCd
+			,user_id					AS userId
+			,sports_nm					AS sportsName
+			,lesson_nm					AS lessonName
+			,lesson_detail				AS lessonDetail				
+			,lesson_total_member		AS lessonTatalMember
+			,lesson_start_date			AS lessonStartDate
+			,lesson_end_date			AS lessonEndDate
+			,lesson_price				AS lessonPrice
+			,lesson_reg_date			AS lessonRegDate
+		) VALUES (
+			,#{lessonCd}
+			,#{lessonDivision}
+			,#{lessonFacilityGoodsCd}
+			,#{facilityCd}
+			,#{goodsCtgCd}
+			,#{sportsCd}
+			,#{userId}
+			,#{sportsName}
+			,#{lessonName}
+			,#{lessonDetail}
+			,#{lessonTatalMember}
+			,#{lessonStartDate}
+			,#{lessonEndDate}
+			,#{lessonPrice}
+			,NOW()
+		)
+	</insert>
 </mapper>

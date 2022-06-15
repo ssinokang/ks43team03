@@ -11,6 +11,18 @@ import ks43team03.dto.UserLevel;
 @Mapper
 public interface UserMapper {
 	
+	//시설 내 회원 목록 조회(페이징)
+	public List<Map<String, Object>> getFacilityUserList(Map<String, Object> paramMap);
+	
+	//user블 총 row(튜플) 수
+	public int getFacilityUserCount();
+	
+	//회원 전체 목록 조회(페이징)
+	public List<Map<String, Object>> getUserList(Map<String, Object> paramMap);
+		
+	//user블 총 row(튜플) 수
+	public int getUserCount();
+	
 	//회원 등급 조회
 	public List<UserLevel> getUserLevelList();
 		
@@ -19,9 +31,6 @@ public interface UserMapper {
 	
 	//회원 아이디 중복 체크
 	public boolean isIdCheck(String userId);
-	
-	// 회원 목록 조회
-	public List<User> getUserList();
 	
 	//로그인 이력 조회(페이징)
 	public List<Map<String, Object>> getLoginHistory(Map<String, Object> paramMap);

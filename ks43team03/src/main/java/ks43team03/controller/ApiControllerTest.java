@@ -17,10 +17,8 @@ public class ApiControllerTest {
 	
 	@PostMapping("/api/pass")
 	public FacilityGoods addGoodsCode(@RequestBody FacilityGoods facilityGoods) {
-		log.info("아이디 코드 data : {}",facilityGoods.getUserId());
-		log.info("카테고리 코드 data : {}",facilityGoods.getGoodsCtgCd());
-		log.info("종목코드 코드 data : {}",facilityGoods.getSportsCd());
-		log.info("시설코드 코드 data : {}",facilityGoods.getFacilityCd());
+		
+		
 		facilityGoods.setFacilityGoodsCd("goodsCode--1111");
 		return facilityGoods;
 	}

@@ -13,7 +13,6 @@
 		<result column="sports_cd" 				property="sportsCd"/>
 		<result column="user_id" 				property="userId"/>
 		<result column="lesson_nm" 				property="lessonName"/>
-		<result column="file_cd" 				property="fileCd"/>
 		<result column="lesson_detail" 			property="lessonDetail"/>		
 		<result column="lesson_total_member" 	property="lessonTotalMember"/>		
 <!-- 		<result column="lesson_member" 			property="lessonMember"/>		 -->
@@ -27,7 +26,7 @@
 			<result column="sports_nm" 	property="sportsName"/>
 		</association> 
 	</resultMap>
-	<select id="getLessonList" fetchSize="100" parameterType="String" resultMap="lessonResultMap">
+	<select id="getFacilityLessonList" fetchSize="100" parameterType="String" resultMap="lessonResultMap">
 		SELECT
 			l.lesson_cd,
 			l.lesson_division,
@@ -38,7 +37,6 @@
 			l.user_id,
 			s.sports_nm,
 			l.lesson_nm,
-			l.file_cd,
 			l.lesson_detail,
 			l.lesson_total_member,
 			l.lesson_price,

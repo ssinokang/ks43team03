@@ -1,6 +1,5 @@
 package ks43team03.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ public class FacilityGoodsTest {
 	
 	@Test
 	@DisplayName("코드 생성과 저장을한다.")
-	
 	void save() {
 		Pass pass = new Pass();
 		pass.setFacilityCd("ss_35011740_01");

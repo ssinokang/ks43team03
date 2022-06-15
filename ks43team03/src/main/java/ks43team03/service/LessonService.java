@@ -1,13 +1,11 @@
 package ks43team03.service;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import ks43team03.common.FileUtils;
@@ -26,8 +24,8 @@ public class LessonService {
 	}
 	
 	// 레슨 리스트 가져오기
-	public List<Lesson> getLessonList(String facilityCd) {
-		List<Lesson> lessonList = lessonMapper.getLessonList(facilityCd);
+	public List<Lesson> getfacilityLessonList(String facilityCd) {
+		List<Lesson> lessonList = lessonMapper.getfacilityLessonList(facilityCd);
 		System.out.println(lessonList + "!!");
 		return lessonList;
 	}
@@ -39,12 +37,23 @@ public class LessonService {
 		if (Objects.nonNull(mhsr)) {
 			FileUtils fu = new FileUtils(mhsr, lesson.getUserId());
 			List<Map<String, String>> dtoFileList = fu.parseFileInfo();
-			//t_file 테이블에 삽입
+			// 1. t_file 테이블에 삽입
+			System.out.println(dtoFileList + "LessonService/addLesson");
 			fileMapper.uploadFile(dtoFileList);
 			
-			//릴레이션 테이블에 삽입
 			
+			// 2. lesson 테이블에 삽입
+			//lessonMapper.addLesson(lesson);
+			//System.out.println(lesson + "LessonService/addLesson/lesson");
 			
+			// 3. 릴레이션 테이블에 삽입
+			/*
+			String facilityGoodsCd = "test";
+			for(Map<String, String> m : dtoFileList) {
+				m.put("facilityGoodsCd", facilityGoodsCd);
+				fileMapper.uploadRelationFile(m);
+			}
+			*/
 			
 			
 			/****************
@@ -53,25 +62,6 @@ public class LessonService {
 			 * 				*
 			 ****************/
 			
-			/*
-	        Iterator<String> filenameIterator = mhsr.getFileNames();
-	        String name;
-	        System.out.println(filenameIterator.hasNext());
-	        System.out.println(lesson);
-	        while (filenameIterator.hasNext()) {
-	            name = filenameIterator.next();
-	            System.out.println(name + "name!!!!!!!");
-	            List<MultipartFile> fileList = mhsr.getFiles(name);
-	            for (MultipartFile multipartFile : fileList) {
-	                System.out.println("--- start file ---");
-	                System.out.println("File name : " + multipartFile.getOriginalFilename());
-	                System.out.println("File size : " + multipartFile.getSize());
-	                System.out.println("File content-type : " + multipartFile.getContentType());
-	                System.out.println("--- end file ---");
-	                
-	            }
-	        }
-	        */
 	    }
 	}
 }

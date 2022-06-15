@@ -10,7 +10,7 @@ import ks43team03.dto.Lesson;
 public interface LessonMapper {
 
 	//시설 내 레슨 조회하기
-	public List<Lesson> getfacilityLessonList(String facilityCd);
+	public List<Lesson> getFacilityLessonList(String facilityCd);
 	
 	//레슨 등록하기
 	public void addLesson(Lesson lesson);

@@ -25,7 +25,7 @@ public class LessonService {
 	
 	// 레슨 리스트 가져오기
 	public List<Lesson> getfacilityLessonList(String facilityCd) {
-		List<Lesson> lessonList = lessonMapper.getfacilityLessonList(facilityCd);
+		List<Lesson> lessonList = lessonMapper.getFacilityLessonList(facilityCd);
 		System.out.println(lessonList + "!!");
 		return lessonList;
 	}

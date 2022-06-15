@@ -73,25 +73,12 @@ public class UserService {
 		
 		if(facilityUserList != null) {
 			for(Map<String, Object> userMap : facilityUserList) {
-				String facilityUserLevel = userMap.get("facilityUserLevel").toString();
 				String facilityApproveState = userMap.get("facilityApproveState").toString();
 				
-				//equals 는 String에서 쓸 수 있으므로 null 인지 확인
-				if(facilityUserLevel != null && facilityApproveState != null) {
-					
-					if("3".equals(facilityUserLevel)) {
-						userMap.put("facilityUserLevel", "시설 운영자 대리인");
-					}else if("4".equals(facilityUserLevel)) {
-						userMap.put("facilityUserLevel", "트레이너");
-					}else {
-						userMap.put("facilityUserLevel", "일반회원");
-					}
-					
-					if("Y".equals(facilityApproveState)) {
-						userMap.put("facilityApproveState", "승인");
-					}else {
-						userMap.put("facilityApproveState", "미승인");
-					}
+				if("Y".equals(facilityApproveState)) {
+					userMap.put("facilityApproveState", "승인");
+				}else {
+					userMap.put("facilityApproveState", "미승인");
 				}
 			}
 		}
@@ -120,6 +107,16 @@ public class UserService {
 	}
 	
 	/**
+	 * 회원 가입
+	 */
+	public int addUser(User user) {
+		
+		int result = userMapper.addUser(user);
+		
+		return result;
+	}
+	
+	/**
 	 * 아이디 중복 체크
 	 * @param userId
 	 * @return
@@ -131,16 +128,6 @@ public class UserService {
 		return result;
 	}
 	
-	/**
-	 * 회원 권한 목록
-	 * @return
-	 */
-	public List<UserLevel> getMemberLevelList(){
-		
-		List<UserLevel> userLevelList = userMapper.getUserLevelList();
-		
-		return userLevelList;
-	}
 	
 	/**
 	 * 회원 전체 목록
@@ -184,19 +171,18 @@ public class UserService {
 		
 		if(userList != null) {
 			for(Map<String, Object> userMap : userList) {
+				
 				String userLevel = userMap.get("userLevel").toString();
+				
 				//equals 는 String에서 쓸 수 있으므로 null 인지 확인
 				if(userLevel != null) {
-					if("1".equals(userLevel)) {
-						userMap.put("userLevel", "관리자");
-					}else if("2".equals(userLevel)) {
-						userMap.put("userLevel", "공공및사설시설운영자");
-					}else if("3".equals(userLevel)) {
-						userMap.put("userLevel", "시설 운영자 대리인");
-					}else if("4".equals(userLevel)) {
-						userMap.put("userLevel", "트레이너");
-					}else {
-						userMap.put("userLevel", "일반회원");
+					
+					List<UserLevel> userLevelList = userMapper.getUserLevelList();
+					
+					for(UserLevel level : userLevelList) {
+						if(level.getLevelNum().equals(userLevel)) {
+							userMap.put("userLevel", level.getLevelName());
+						}
 					}
 				}
 			}

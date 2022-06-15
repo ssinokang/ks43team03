@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks43team03.mapper.TrainerMapper">
+	<resultMap type="TrainerProfile" id="trainerResultMap">
+		<id		column="trainer_cd"			property="trainerCd"></id>
+		<result column="user_id"			property="userId"></result>
+		<result column="trainer_nicknm"		property="trainerNickname"></result>
+		<result column="trianer_picture"	property="trainerPicture"></result>
+		<result column="trainer_reg_date"	property="trainerRegDate"></result>
+	</resultMap>
+	
+	<select id="isNicknameCheck" parameterType="String" resultType="boolean">
+		/* 트레이너 닉네임 중복 체크 */
+		SELECT
+			IF(COUNT(1) = 1, 0, 1)
+		FROM 
+		   trainer_profile AS t
+		WHERE 
+		   t.trainer_nicknm = #{trainerNickname};
+	</select>
+</mapper>

@@ -2,8 +2,83 @@
 <html xmlns:th="http://www.thymeleaf.org"
  	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/adminDefault}">
+	
 	<!-- 사용자 정의 contents -->
-	<th:block layout:fragment="customContents"> 
+	<th:block layout:fragment="customContents">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>회원 로그인 내역</h2>
+				<ul class="nav navbar-right panel_toolbox">
+					<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" href="#">Settings 1</a>
+							<a class="dropdown-item" href="#">Settings 2</a>
+						</div>
+					</li>
+					<li><a class="close-link"><i class="fa fa-close"></i></a>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card-box table-responsive">
+							<p class="text-muted font-13 m-b-30">
+								회원의 로그인 내역을 볼 수 있습니다.
+							</p>
+							<table id="datatable" class="table table-striped jambo_table bulk_action table-bordered" style="width:100%">
+								<thead>
+									<tr>
+										<th>번호</th>
+										<th>로그인아이디</th>
+										<th>로그인날짜</th>
+										<th>로그아웃날짜</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:if="${not #lists.isEmpty(loginHistoryList)}" th:each="l:${loginHistoryList}">
+										<td th:text="${l.get('login_number')}"></td>
+										<td th:text="${l.get('user_id')}"></td>
+										<td th:text="${l.get('login_date')}"></td>
+										<td th:text="${l.get('logout_date')}"></td>
+									</tr>
+									<tr th:unless="${not #lists.isEmpty(loginHistoryList)}">
+										<td colspan="4">조회된 내용이 없습니다.</td>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="4" style="text-align: center;">
+											<a th:href="@{/loginHistory}">[맨처음]</a>
+											<a th:if="${currentPage > 1}" th:href="@{/loginHistory(currentPage=${currentPage - 1})}">이전</a>
+											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">
+												<label th:if="${currentPage eq num}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></label>
+												<a th:unless="${currentPage eq num}" th:href="@{/loginHistory(currentPage=${num})}" th:text="${(num < 10) ? '[0' + num + ']' :'[' + num + ']'}"></a>
+											</th:block>
+											<a th:if="${currentPage < lastPage}" th:href="@{/loginHistory(currentPage=${currentPage + 1})}">다음</a>
+											<a th:href="@{/loginHistory(currentPage=${lastPage})}">[마지막]</a>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	
+	
+	
+	
+	
+	
+	
+	
+<!-- 	<th:block layout:fragment="customContents"> 
 
 		<table border ="1">
 			<thead>
@@ -40,7 +115,7 @@
 				</tr>
 			</tfoot>
 		</table>
-	</th:block>
+	</th:block> -->
 
 
 </html>

@@ -4,10 +4,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ks43team03.dto.User;
@@ -16,17 +19,15 @@ import ks43team03.service.UserService;
 @Controller
 public class LoginController {
 	
+
+	
 	private final UserService userService;
 	
 	public LoginController(UserService userService) {
 		this.userService = userService;
 	}
-	/**
-	 * defaultValue = "1" request 데이터 타입 은 string 이니까 int 쓰면 자동으로 래퍼클래스 씌워서 타입 바꿔줌
-	 * @param currentPage
-	 * @return
-	 */
-	
+
+	//로그인 내역
 	@GetMapping("/loginHistory")
 	public String loginHistory(@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage
 							  ,Model model) {
@@ -44,7 +45,7 @@ public class LoginController {
 		return "login/loginHistory";
 	}
 	 
-	
+	//로그 아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		
@@ -53,6 +54,7 @@ public class LoginController {
 		return "redirect:/login";
 	}
 	
+	//로그인
 	@PostMapping("/login")
 	public String login( @RequestParam(name = "userId", required = false) String userId
 						,@RequestParam(name = "userPw", required = false) String userPw

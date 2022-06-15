@@ -2,8 +2,6 @@ package ks43team03.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ks43team03.dto.Area;
+import ks43team03.dto.AreaCity;
+import ks43team03.dto.AreaCityTown;
 import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityUse;
 import ks43team03.dto.MainCtg;
@@ -35,9 +36,8 @@ public class AdminFacilityController {
 	
 	
 
-	
-	 @PostMapping("/modifyFacility") public String modifyFacility(Facility
-	 facility) {
+	/*시설수정처리*/
+	 @PostMapping("/modifyFacility") public String modifyFacility(Facility facility) {
   
 	 log.info("시설 정보 수정 폼 입력값 : {}", facility);
 	 
@@ -45,44 +45,56 @@ public class AdminFacilityController {
 	 
 	 return "redirect:/adminFacility/adminFacilityList";
 	 }
+	 
+	 
 	/*시설수정화면*/
 	@GetMapping("/modifyFacility")
-	public String modifyFacility(@RequestParam(name="facilityCd", required=false) String facilityCd
+	public String modifyFacility(@RequestParam(value="facilityCd", required=false) String facilityCd
 								,Model model) {
-		log.info("화면에서 입력받은 data:{}", facilityCd);
-		Facility facility = adminFacilityService.getAdminFacilityInfoByCd(facilityCd);
-		List<FacilityUse> facilityUseList = adminFacilityService.getFacilityUserList();
-		List<MainCtg> mainCtgList = adminFacilityService.getMainCtgList();
-		model.addAttribute("facilityUseList", facilityUseList);
-		model.addAttribute("mainCtgList", mainCtgList);
 		
+		Facility facility = adminFacilityService.getAdminFacilityInfoByCd(facilityCd);
+		
+		List<FacilityUse> facilityUseList = adminFacilityService.getFacilityUseList();
+		List<MainCtg> mainCtgList = adminFacilityService.getMainCtgList();
+		List<AreaCityTown> areaCityTownList = adminFacilityService.getAreaCityTownList();
+		
+		model.addAttribute("facility", facility);	
+		model.addAttribute("facilityUseList", facilityUseList);	
+		model.addAttribute("mainCtgList", mainCtgList);
+		model.addAttribute("areaCityTownList", areaCityTownList);
 		
 		 return "adminFacility/modifyFacility"; 
 	}
 	
+	/*시설등록 처리*/
+	/*
+	 * @PostMapping("/addFacility") public String addFacility(Facility facility
+	 * ,@RequestParam(name="facilityCd", required = false) String facilityCd
+	 * ,HttpServletRequest request) { log.info("시설등록화면에서 입력한 data : {}", facility);
+	 * 
+	 * adminFacilityService.addFacility(facility); return
+	 * "redirect:/adminFacility/adminFacilityList"; }
+	 */
 	
-	/*시설등록*/
+	/*시설등록화면*/
 	@GetMapping("/addFacility")
 	public String addFacility(Model model) {
-		List<FacilityUse> facilityUseList = adminFacilityService.getFacilityUserList();
+		
 		List<MainCtg> mainCtgList = adminFacilityService.getMainCtgList();
-		model.addAttribute("facilityUseList", facilityUseList);
+		List<Area> areaList = adminFacilityService.getAreaList();
+		List<AreaCity> areaCityList = adminFacilityService.getAreaCityList();
+		List<AreaCityTown> areaCityTownList = adminFacilityService.getAreaCityTownList();
+		List<FacilityUse> facilityUseList = adminFacilityService.getFacilityUseList();
+		
 		model.addAttribute("mainCtgList", mainCtgList);
+		model.addAttribute("areaList", areaList);
+		model.addAttribute("areaCityList", areaCityList);
+		model.addAttribute("areaCityTownList", areaCityTownList);
+		model.addAttribute("facilityUseList", facilityUseList);
 		
 		return "adminFacility/addFacility";
 	}
-	/*시설등록 처리*/
-	@PostMapping("/addFacility")
-	public String addFacility(HttpSession session
-							 , Facility facility
-							 , FacilityUse facilityUse
-							 , MainCtg mainCtg
-							 ,@RequestParam(name="facilityCd", required = false) String facilityCd
-							 ,HttpServletRequest request) {
-		
-		adminFacilityService.addFacility(facility);
-		return "redirect:/adminFacility/adminFacilityList";
-	}
+	
 	
 
 	//관리자가 시설목록조회

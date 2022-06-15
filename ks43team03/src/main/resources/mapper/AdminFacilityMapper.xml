@@ -7,23 +7,35 @@
 	<resultMap type="Facility" 				id="facilityResultMap">
 		<id 	column="facility_cd" 		property="facilityCd"/>
 		<result column="main_ctg_cd"		property="mainCtgCd"/>
+		<result column="area_cd"  			property="areaCd"/>
+		<result column="city_cd"  			property="cityCd"/>
 		<result column="town_cd"  			property="townCd"/>
 		<result column="facility_use_cd" 	property="facilityUseCd"/>
 		<result column="user_id" 			property="userId"/>
 		<result column="facility_nm" 		property="facilityNm"/>
 		<result column="facility_address" 	property="facilityAddr"/>
 		<result column="facility_tell" 		property="facilityTell"/>
-		<result column="facility_photo" 	property="facilityPhoto"/>
+		<result column="facility_post_num" 	property="facilityPostNum"/>
 		<result column="business_number" 	property="businessNum"/>
 		<result column="facility_reg_date"	property="facilityRegDate"/>
 		<association property="mainCtg" javaType="MainCtg">
-			<id column="main_ctg_cd" property="mainCtgCd"/>
+			<id 	column="main_ctg_cd" property="mainCtgCd"/>
 			<result column="main_ctg_nm" property="mainCtgNm"/>
 		</association>
 		<association property="facilityUse" 	javaType="FacilityUse">
 			<id 	 column="facility_use_cd" 	property="facilityUseCd"/>
 			<result  column="facility_use_nm" 	property="facilityUseNm"/>
 		</association>
+		
+		<association property="area" 	javaType="Area">
+			<id 	 column="area_cd" 	property="areaCd"/>
+			<result  column="area_nm" 	property="areaNm"/>
+		</association>	
+		<association property="areaCity" 	javaType="AreaCity">
+			<id 	 column="city_cd" 	property="cityCd"/>
+			<result  column="area_cd" 	property="areaCd"/>
+			<result  column="town_nm" 	property="townNm"/>
+		</association>	
 		<association property="areaCityTown" 	javaType="AreaCityTown">
 			<id 	 column="town_cd" 	property="townCd"/>
 			<result  column="city_cd" 	property="cityCd"/>
@@ -32,20 +44,31 @@
 		</association>	
 	</resultMap>
 	
-		
-
-
+		<delete id="removeFacilityById" parameterType="String">
+			/* 판매자가 등록한 시설 삭제*/
+			DELETE 
+			FROM 
+				facility
+			WHERE 
+				user_id = #{userId};
+		</delete>
+	
+	
+	
+	
 		<update id="modifyFacility" parameterType="Facility" >
 			UPDATE facility
 			SET
 				facility_cd = 		 #{facilityCd},
+				area_cd = 			 #{townCd},
+				city_cd = 			 #{townCd},
 				town_cd = 			 #{townCd},
 				facility_use_cd = 	 #{facilityUseCd},
 				user_id = 			 #{userId},
 				facility_nm =		 #{facilityNm},
 				facility_address =	 #{facilityAddr},
 				facility_tell=		 #{facilityTell},
-				facility_photo = 	 #{facilityPhoto},
+				facility_post_num =  #{facilityPostNum},
 				business_number =    #{businessNum}
 			WHERE 
 				facility_cd = #{facilityCd};
@@ -55,13 +78,15 @@
 			SELECT 
 				facility_cd 		
 				,main_ctg_cd		
+				,area_cd			
+				,city_cd			
 				,town_cd			
 				,facility_use_cd	
 				,user_id			
 				,facility_nm		
 				,facility_address
 				,facility_tell		
-				,facility_photo		
+				,facility_post_num	
 				,business_number	
 				,facility_reg_date
 			FROM 
@@ -74,27 +99,27 @@
 
 		<insert id="addFacility" parameterType="Facility" >
 			INSERT INTO facility
-			(	facility_cd
-				, main_ctg_cd
+				( main_ctg_cd
+				, area_cd
+				, city_cd
 				, town_cd
 				, facility_use_cd
 				, user_id
 				, facility_nm
 				, facility_address
 				, facility_tell
-				, facility_photo
+				, facility_post_num
 				, business_number
 				, facility_reg_date
 				)VALUES (
-					 #{facilityCd}
-					,#{mainCtgCd}
+					#{mainCtgCd}
 					,#{townCd}
 					,#{facilityUseCd}
 					,#{userId}
 					,#{facilityNm}
 					,#{facilityAddr}
 					,#{facilityTell}
-					,#{facilityPhoto}
+					,#{facilityPostNum}
 					,#{businessNum}
 					,CURDATE())
 		</insert>
@@ -106,13 +131,15 @@
 			SELECT 
 				facility_cd 		
 				,main_ctg_cd		
+				,area_cd			
+				,city_cd			
 				,town_cd			
 				,facility_use_cd	
 				,user_id			
 				,facility_nm		
 				,facility_address
 				,facility_tell		
-				,facility_photo		
+				,facility_post_num		
 				,business_number	
 				,facility_reg_date
 			FROM 
@@ -128,7 +155,7 @@
 		
 		</select>
 	
-		<select id="getFacilityUserList" resultType="FacilityUse">
+		<select id="getFacilityUseList" resultType="FacilityUse">
 			SELECT 
 				facility_use_cd 	AS facilityUseCd
 				,facility_use_nm	AS facilityUseNm
@@ -136,8 +163,32 @@
 				facility_use;
 		
 		</select>
-	
-	
+		<select id="getAreaList" resultType="Area">
+			SELECT 
+				area_cd	AS areaCd
+				,area_nm	AS areaNm
+			FROM
+				area;
+		</select>
+
+		<select id="getAreaCityList" resultType="AreaCity">
+			SELECT 
+				city_cd	AS cityCd
+				,area_cd	AS areaCd
+				,city_nm	AS cityNm
+			FROM
+				area_city;
+		</select>
+		
+		<select id="getAreaCityTownList" resultType="AreaCityTown">
+			SELECT 
+				town_cd 	AS townCd
+				,area_cd	AS areaCd
+				,city_cd	AS cityCd
+				,town_nm	AS townNm
+			FROM
+				area_city_town;
+		</select>
 </mapper> 
   
   

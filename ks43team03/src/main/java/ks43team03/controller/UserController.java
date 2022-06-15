@@ -1,6 +1,6 @@
 package ks43team03.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +27,28 @@ public class UserController {
 
 	public UserController(UserService userService) {
 		this.userService = userService;
+	}
+	
+	//시설 내 회원 목록 조회
+	@GetMapping("/facilityUser")
+	public String getFacilityUserList(Model model
+									 ,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
+		
+		String facilityCd = "ss_35011740_01";
+		
+		Map<String, Object> resultMap = userService.getFacilityUserList(currentPage, facilityCd);
+		
+		log.info("resultMap : {}",resultMap);
+		log.info("resultMap.get(\"facilityUserList\") : {}",resultMap.get("facilityUserList"));
+		
+		model.addAttribute("resultMap", 		resultMap);
+		model.addAttribute("currentPage", 		currentPage);
+		model.addAttribute("facilityUserList",	resultMap.get("facilityUserList"));
+		model.addAttribute("lastPage", 			resultMap.get("lastPage"));
+		model.addAttribute("startPageNum", 		resultMap.get("startPageNum"));
+		model.addAttribute("endPageNum", 		resultMap.get("endPageNum"));
+		
+		return "user/facilityUser";
 	}
 	
 	//회원 삭제 변경
@@ -156,14 +178,22 @@ public class UserController {
 		return idCheck;
 	}
 	
-	//회원 목록 조회
+	//회원 전체 목록 조회
 	@GetMapping("/userList")
-	public String getUserList(Model model) {
+	public String getUserList(Model model
+							 ,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
 		
-		List<User> userList = userService.getUserList();
-		log.info("userList : {}", userList);
+		Map<String, Object> resultMap = userService.getUserList(currentPage);
 		
-		model.addAttribute("userList", userList);
+		log.info("resultMap : {}",resultMap);
+		log.info("resultMap.get(\"userList\") : {}",resultMap.get("userList"));
+		
+		model.addAttribute("resultMap", 			resultMap);
+		model.addAttribute("currentPage", 			currentPage);
+		model.addAttribute("userList",		resultMap.get("userList"));
+		model.addAttribute("lastPage", 				resultMap.get("lastPage"));
+		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
+		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
 		
 		return "user/userList";
 	}

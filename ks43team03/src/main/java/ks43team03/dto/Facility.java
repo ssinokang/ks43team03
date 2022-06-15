@@ -11,20 +11,25 @@ import lombok.ToString;
 public class Facility {
 	private String facilityCd;
 	private String mainCtgCd;
+	private String areaCd;
+	private String cityCd;
 	private String townCd;
 	private String facilityUseCd;
 	private String userId;
 	private String facilityNm;
 	private String facilityAddr;
 	private String facilityTell;
-	private String facilityPhoto;
+	private String facilityPostNum;
 	private String businessNum;
 	private String facilityRegDate;
 	
 
-	private FacilityUse facilityUse;
 	private MainCtg mainCtg;
+	private FacilityUse facilityUse;
+	private Area area;
+	private AreaCity areaCity;
 	private AreaCityTown areaCityTown;
+	
 	
 
 }

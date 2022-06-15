@@ -32,11 +32,13 @@
 			</div>
 			<div class="x_content">
 				<br />
-				<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" th:action="@{/lesson/addLesson}"> <!--  enctype="multipart/form-data" name="mulP --> 
+				<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" th:action="@{/lesson/addLesson}" enctype="multipart/form-data" name="multiPart"> <!--  enctype="multipart/form-data" name="mulP" --> 
 
 					<div class="item form-group">
 						<div class="col-md-6 col-sm-6 ">
+						<!-- 후에 세션으로 받든 수정 할 것 -->
 							<input type="hidden" name="facilityCd" value="ss_35011740_01">
+							<input type="hidden" name="userId"	   value="id006">
 						</div>
 					</div>
 					<div class="item form-group">
@@ -53,16 +55,16 @@
 								<option></option>
 								<option value="sp01">축구</option>
 								<option value="sp02">테니스</option>
-								<option value="sp03">배드민턴</option>
+							 	<option value="sp03">배드민턴</option>
 								<option value="sp04">헬스</option>
 							</select>
 						</div>
 					</div>
 					<div class="item form-group">
-						<label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonPicture">레슨 사진 
+						<label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonImgFile">레슨 사진 
 						</label>
 						<div class="col-md-6 col-sm-6 ">
-							<input type="text" id="lessonPicture"  name="lessonPicture" required="required" class="form-control">
+							<input type="file" id="lessonImgFile"  name="lessonImgFile" class="form-control" multiple="multiple">
 						</div>
 					</div>
 					<div class="item form-group">

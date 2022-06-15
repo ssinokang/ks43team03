@@ -8,13 +8,14 @@
 			
 		<div class="x_panel">
 			<div class="x_title">
-				<h2>Default Example <small>Users</small></h2>
+			<!-- 시설 이름이랑 가져와서 넣을 것 -->
+				<h2>시설 이름 내에 레슨 조회 <small>Users</small></h2>
 				<ul class="nav navbar-right panel_toolbox">
 					<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 					</li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<div class="dropdown-menu" aria-labelledby="dropdowNameenuButton">
 							<a class="dropdown-item" href="#">Settings 1</a>
 							<a class="dropdown-item" href="#">Settings 2</a>
 						</div>
@@ -45,22 +46,51 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:if="${not #lists.isEmpty(LessonList)}" th:each="l : ${lessonList}">
-										<td></td>
-										<td th:text="${l.lessonNm}"></td>
-										<td th:text="${l.sports.sportsNm}"></td>
+									<tr th:if="${not #lists.isEmpty(lessonList)}" th:each="l : ${lessonList}">
+										<td th:text="${l.lessonName}"></td>
+										<td th:text="${l.sports.sportsName}"></td>
 										<td th:text="${l.lessonPrice}"></td>
 										<td th:text="${l.lessonStartDate}"></td>
 										<td th:text="${l.lessonEndDate}"></td>
 										<td th:text="${l.userId}"></td>
 										<td th:text="${l.lessonRegDate}"></td>
 									</tr>
-									<tr th:unless="${not #lists.isEmpty(LessonList)}">
-										<td colspan="7">레슨 내용이 없습니다.</td>
+									
+									<tr th:unless="${not #lists.isEmpty(lessonList)}">
+										<td colspan="6">레슨 내용이 없습니다.</td>
 									</tr>
 								</tbody>
 							</table>
+							<div>
+								
+							</div>	
+						<div th:text="${lessonList}"></div>
 						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+			Launch demo modal
+		</button>
+
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalCenterTitle">레슨 삭제</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						정말 삭제하시겠습니까?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Delete</button>
 					</div>
 				</div>
 			</div>

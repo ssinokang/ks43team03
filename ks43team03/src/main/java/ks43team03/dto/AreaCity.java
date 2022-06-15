@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+@ToString
 @Getter
 @Setter
-@ToString
-public class MainCtg {
-	private String mainCtgCd;
-	private String mainCtgNm;	
+public class AreaCity {
+	private String cityCd;
+	private String areaCd;
+	private String cityNm;
+	
 }

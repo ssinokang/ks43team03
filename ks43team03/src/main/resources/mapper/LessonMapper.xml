@@ -12,8 +12,8 @@
 		<result column="goods_ctg_cd" 			property="goodsCtgCd"/>
 		<result column="sports_cd" 				property="sportsCd"/>
 		<result column="user_id" 				property="userId"/>
-		<result column="lesson_nm" 				property="lessonNm"/>
-		<result column="lesson_picture" 		property="lessonPicture"/>
+		<result column="lesson_nm" 				property="lessonName"/>
+		<result column="file_cd" 				property="fileCd"/>
 		<result column="lesson_detail" 			property="lessonDetail"/>		
 		<result column="lesson_total_member" 	property="lessonTotalMember"/>		
 <!-- 		<result column="lesson_member" 			property="lessonMember"/>		 -->
@@ -24,7 +24,7 @@
 		<result column="lesson_state" 			property="lessonState"/>		
 		<association property="sports" javaType="Sports">
 			<id 	column="sports_cd"	property="sportsCd"/>
-			<result column="sports_nm" 	property="sportsNm"/>
+			<result column="sports_nm" 	property="sportsName"/>
 		</association> 
 	</resultMap>
 	<select id="getLessonList" fetchSize="100" parameterType="String" resultMap="lessonResultMap">
@@ -38,13 +38,15 @@
 			l.user_id,
 			s.sports_nm,
 			l.lesson_nm,
-			l.lesson_picture,
+			l.file_cd,
 			l.lesson_detail,
 			l.lesson_total_member,
+			l.lesson_price,
 			l.lesson_member,
 			l.lesson_start_date,
 			l.lesson_end_date,
-			l.lesson_state
+			l.lesson_state,
+			l.lesson_reg_date
 		FROM
 			lesson AS l
 			INNER JOIN

@@ -11,5 +11,5 @@ import lombok.ToString;
 public class Sports {
 
 	private String sportsCd;
-	private String sportsNm;
+	private String sportsName;
 }

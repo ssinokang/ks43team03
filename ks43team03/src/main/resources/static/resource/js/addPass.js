@@ -1,56 +1,52 @@
-var $stadium = $('#stadium');
-var $pass = $('#pass');
-var $lesson = $('#lesson');
-const main = {
+var sportCtg = document.querySelector('#sportCtg');
+		var goodsCtg = document.querySelector('#goodsCtg');
+		var userId = document.querySelector('#user-id');
+		var registerGoods = document.querySelector('#register-goods');
+		var facilityCd = document.querySelector('#facilityCd');
+		var categoryArr = ['lesson','pass','stadium'];
+		var test = document.querySelectorAll('.goods-cd');
 
 
-	init: function () {
-		var _this = this;
-		$('#register-goods').on('click', function () {
-			_this.save();
-		})
-	},
+		registerGoods.addEventListener('click',function(e){
+			
+			
 
-	save: function () {
-		const data = {
-			facilityCd: $('#facilityCd').val(),
-			userId: $('#user-id').val(),
-			goodsCtgCd: $('#goodsCtg').val(),
-			sportsCd: $('#sportCtg').val()
-		};
+			var url = 'http://localhost:80/api/pass';
+			var data = {
+				userId : userId.value,
+				sportsCd : sportCtg.value,
+				goodsCtgCd : goodsCtg.value,
+				facilityCd : facilityCd.value
+			}
 
-		if (data.facilityCd == null) {
-			alert('입력하지않은 폼이 있습니다.');
-			return false;
-		} else {
-			$.ajax({
-				type: 'POST',
-				url: '/api/pass',
-				dataType: 'JSON',
-				contentType: 'application/json; charset=utf-8',
-				data: JSON.stringify(data)
-			}).done(function (data) {
-
-				console.log(data.goodsCtgCd);
-				$('#gscode').val(data.facilityGoodsCd);
-				if (data.goodsCtgCd == 'lesson') {
-					$lesson.css('display', 'block');
-				}
-				if (data.goodsCtg == 'pass') {
-					$pass.css('display', 'block');
-				}
-				if (data.goodsCtg == 'stadium') {
-					$stadium.css('display', 'block');
-				}
-
-
-			}).fail(function (error) {
-				alert(JSON.stringify(error));
+			var result = fetch(url, {
+				  method: "POST",
+				  headers: {
+				    "Content-Type": "application/json",
+				  },
+				  body: JSON.stringify(data),
 			});
-		}
-		console.log(data);
 
-	}
-}
+			result.then(response => response.json())
+	          	  .then(data => createGoods(data));
 
-main.init();
+			console.log(result);
+			
+		});
+		function createGoods(data){
+			console.log(data.facilityGoodsCd);
+			
+			for(var i = 0; i < categoryArr.length; i++){
+				test[i].value=data.facilityGoodsCd;
+				if(goodsCtg.value == categoryArr[i]){
+					var tempId = '#'+ goodsCtg.value;
+					document.querySelector(tempId).style.display = 'block';
+				}else{
+					var tempId2 = '#'+categoryArr[i];
+					document.querySelector(tempId2).style.display='none';
+					console.log(tempId2);
+				}
+			}
+			document.querySelector('#goods-re').remove();
+		}	
+	

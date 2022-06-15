@@ -1,141 +1,190 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default.html}">
-	
-	<!-- 사용자 정의 contents -->
-	<th:block layout:fragment="customContents">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default.html}">
+
+<!-- 사용자 정의 contents -->
+<th:block layout:fragment="customContents">
 	<!-- 이런식으로 넣으면 되겠죠? -->
-		<div class="breadcrumb-option">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-3">
-						<h2>주문/결제</h2>
-					</div>
-					<div class="col-lg-2 offset-7">
-						<div class="breadcrum__links">
-							<span> <i class="bi bi-cart-check"></i> 주문하기 > </span>
-							<span>주문정보</span>
-						</div>
+	<div class="breadcrumb-option">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3">
+					<h2>주문/결제</h2>
+				</div>
+				<div class="col-lg-2 offset-7">
+					<div class="breadcrum__links">
+						<span> <i class="bi bi-cart-check"></i> 주문하기 > </span>
+						<span>주문정보</span>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div class="container">
+		<form id="orderForm" method="post" class="form-group">
+			<div class="row">
+				<div class="col-sm-12">
+					hello world
+				</div>
+			</div>
+
+			<div class="card row">
+				<div class="card-header col-sm-12">
+					구매자정보
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-bordered">
+					<tr>
+						<td style="width: 16.66%">아이디</td>
+						<td style="width: 83.33%">id001</td>
+					</tr>
+					<tr>
+						<td>연락처</td>
+						<td>010-9999-1111</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="card row">
+				<div class="card-header col-sm-12">
+					상품정보
+				</div>
+			</div>
+			<input type="hidden" name="facilityGoodsCd" value="ss_35011740_01_lesson_01">
+			<input type="hidden" name="goodsCtgCd" value="lesson">
+
+			<div class="row">
+				<table class="table table-bordered">
+					<tr>
+						<td style="width: 16.66%">상품코드</td>
+						<td style="width: 83.33%">ss_35011740_01_lesson_01</td>
+					</tr>
+					<tr>
+						<td>시설명</td>
+						<td>어디어디체육관</td>
+					</tr>
+					<tr>
+						<td>주소</td>
+						<td>서울시 여러분</td>
+					</tr>
+					<tr>
+						<td>카테고리</td>
+						<td>레슨</td>
+					</tr>
+					<tr>
+						<td>종목</td>
+						<td>축구</td>
+					</tr>
+				</table>
+			</div>
+
+
+			<input type="hidden" name="orderPrice" value="500000">
+			<div class="card row">
+				<div class="card-header col-sm-12">
+					결제정보
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-bordered">
+					<tr>
+						<td style="width: 16.66%">가격</td>
+						<td style="width: 83.33%">500000</td>
+					</tr>
+					<tr>
+						<td>사용 가능 포인트</td>
+						<td><input type="text" class="form-control col-sm-4" disabled value="50000" id="remPoint"></td>
+					</tr>
+					<tr>
+						<td>남은 포인트</td>
+						<td><input type="text" class="form-control col-sm-4" id="spoint" disabled></td>
+					</tr>
+					<tr>
+						<td>포인트 사용</td>
+						<td>
+							<div class="col-sm-8">
+								<div class="row">
+									<input type="text" class="form-control col-sm-6" id="point">
+									<span class="col-sm-3"><button type="button" class="btn btn-primary" id="point-btn">사용하기</button></span>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>총 결제 금액</td>
+						<td><input type="text" class="form-control col-sm-4" id="sum-pay" disabled></td>
+					</tr>
+				</table>
+
+			</div>
+			<!-- input tag hidden -->
+			<div class="card row">
+				<div class="card-header col-sm-12">
+					결제수단
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label for="order-price">결제금액</label>
+				</div>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" id="order-price">
+				</div>
+
+
+			</div>
+
+			<br />
+			<br />
+			<div class="row">
+				<div class="col-sm-4 offset-5"><button class="btn btn-primary">결제하기</button></div>
+			</div>
+		</form>
+	</div>
+
+	<script>
+		let pattern_num = /[0-9]/;	// 숫자 
+		let pattern_eng = /[a-zA-Z]/;	// 문자 
+		let pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자
+		let pattern_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; // 한글체크
+		let point = document.querySelector('#point');
+		const pointBtn = document.querySelector('#point-btn');
+		//pattern_OOO.test(str) => true면 해당 문자 있음, false면 해당 문자 없음!
+		let remPoint = Number(document.querySelector('#remPoint').value); 
+		let spoint = document.querySelector('#spoint');
+		let sumPay = document.querySelector('#sum-pay');
+		let orderPrice = document.querySelector('input[name="orderPrice"]');
+		var sum = 0;
+
+		pointBtn.addEventListener('click',function(){
+			let pointValue = point.value;
+			if(pattern_num.test(pointValue) && !pattern_eng.test(pointValue) && !pattern_kor.test(pointValue) && !pattern_spc.test(pointValue)){
+				
+				if(pointValidation(Number(pointValue))){
+					console.log('포인트 validation 통과 체크');
+					sum = Number(remPoint - pointValue);
+					spoint.value = sum;
+					sumPay.value = Number(orderPrice.value - pointValue);
+					document.querySelector('#order-price').value = Number(orderPrice.value - pointValue);
+				}
+			}else{
+				console.log('실패');
+			}
+		});
+
+		function pointValidation(data){
+			console.log(data);
+			console.log(remPoint);
+			if(data < 0 || data > remPoint){
+				console.log('입력하는 숫자가 초과 하였습니다.');
+				return false;
+			}
+			return true;
+		}
 		
-		<div class="container">
-			<form id="orderForm">
-				<div class="row">
-					<div class="col-sm-12">
-						hello world
-					</div>
-				</div>
-	
-				<div class="card row">
-					<div class="card-header col-sm-12">
-						구매자정보		
-					</div>
-				</div>
-				<div class="row">
-					<table class="table table-bordered">
-						<tr>
-							<td style="width: 16.66%">아이디</td>
-							<td style="width: 83.33%">id001</td>
-						</tr>
-						<tr>
-							<td>연락처</td>
-							<td>010-9999-1111</td>
-						</tr>
-					</table>
-				</div>
-	
-				<div class="card row">
-					<div class="card-header col-sm-12">
-						상품정보		
-					</div>
-				</div>
-				<input type="hidden" name="facilityGoodsCd" value="ss_35011740_01_lesson_01">
-				<input type="hidden" name="goodsCtgCd" value="lesson">
-			
-				<div class="row">
-					<table class="table table-bordered">
-						<tr>
-							<td style="width: 16.66%">상품코드</td>
-							<td style="width: 83.33%">ss_35011740_01_lesson_01</td>
-						</tr>
-						<tr>
-							<td>시설명</td>
-							<td>어디어디체육관</td>
-						</tr>
-						<tr>
-							<td>주소</td>
-							<td>ㅁㅁㅁㅁ</td>
-						</tr>
-						<tr>
-							<td>카테고리</td>
-							<td>레슨</td>
-						</tr>
-						<tr>
-							<td>종목</td>
-							<td>축구</td>
-						</tr>
-					</table>
-				</div>
-	
-	
-				<input type="hidden" name="orderPrice" value="500000">
-				<div class="card row">
-					<div class="card-header col-sm-12">
-						결제정보		
-					</div>
-				</div>
-				<div class="row">
-					<table class="table table-bordered">
-						<tr>
-							<td style="width: 16.66%">가격</td>
-							<td style="width: 83.33%">500000</td>
-						</tr>
-						<tr>
-							<td>총 포인트</td>
-							<td><input type="text" disabled></td>
-						</tr>
-						<tr>
-							<td>사용 가능 포인트</td>
-							<td><input type="text" disabled></td>
-						</tr>
-						<tr>
-							<td>포인트 사용</td>
-							<td><input type="text"><button type="button" class="btn btn-primary">사용하기</button></td>
-						</tr>
-						<tr>
-							<td>총 결제 금액</td>
-							<td><input type="text" disabled></td>
-						</tr>
-					</table>
-	
-	
-	
-				</div>
-	
-				<div class="card row">
-					<div class="card-header col-sm-12">
-						결제수단		
-					</div>
-				</div>
-				<div class="row">
-	
-				</div>
-	
-	
-				<br/>
-				<br/>
-				<div class="row">
-					<div class="col-sm-4 offset-5"><button class="btn btn-primary">결제하기</button></div>
-				</div>
-	
-	
-			
-			</form>
-		</div>
-	</th:block>
+	</script>
+</th:block>
 
 </html>

@@ -2559,44 +2559,44 @@ ol {
 }
 
 /*---------------------
-    Blog
+    board
 -----------------------*/
 
-.blog {
+.board {
 	padding-top: 70px;
 	padding-bottom: 80px;
 }
 
-.blog__item {
+.board__item {
 	margin-bottom: 35px;
 }
 
-.blog__item__pic {
+.board__item__pic {
 	height: 240px;
 }
 
-.blog__item__pic.large__item {
+.board__item__pic.large__item {
 	height: 540px;
 }
 
-.blog__item__text {
+.board__item__text {
 	padding: 25px 20px 0 0;
 	margin-right: 30px;
 	background: #ffffff;
 	margin-top: -54px;
 }
 
-.blog__item__text h6 {
+.board__item__text h6 {
 	margin-bottom: 6px;
 }
 
-.blog__item__text h6 a {
+.board__item__text h6 a {
 	color: #111111;
 	font-weight: 600;
 	line-height: 21px;
 }
 
-.blog__item__text ul li {
+.board__item__text ul li {
 	font-size: 12px;
 	color: #888888;
 	display: inline-block;
@@ -2605,22 +2605,22 @@ ol {
 	position: relative;
 }
 
-.blog__item__text ul li span {
+.board__item__text ul li span {
 	color: #111111;
 }
 
-.blog__item__text ul li:after {
+.board__item__text ul li:after {
 	position: absolute;
 	right: -17px;
 	top: 0px;
 	content: "|";
 }
 
-.blog__item__text ul li:last-child {
+.board__item__text ul li:last-child {
 	margin-right: 0;
 }
 
-.blog__item__text ul li:last-child:after {
+.board__item__text ul li:last-child:after {
 	display: none;
 }
 
@@ -2632,39 +2632,39 @@ ol {
 }
 
 /*---------------------
-  Blog Sidebar
+  board Sidebar
 -----------------------*/
 
-.blog__sidebar {
+.board__sidebar {
 	padding-left: 40px;
 }
 
-.blog__sidebar__item {
+.board__sidebar__item {
 	margin-bottom: 50px;
 }
 
-.blog__sidebar__item:last-child {
+.board__sidebar__item:last-child {
 	margin-bottom: 0;
 }
 
-.blog__sidebar__item .section-title {
+.board__sidebar__item .section-title {
 	margin-bottom: 40px;
 }
 
-.blog__sidebar__item .section-title h4 {
+.board__sidebar__item .section-title h4 {
 	font-size: 16px;
 }
 
-.blog__sidebar__item .section-title h4:after {
+.board__sidebar__item .section-title h4:after {
 	bottom: -7px;
 }
 
-.blog__sidebar__item ul li {
+.board__sidebar__item ul li {
 	list-style: none;
 	line-height: 30px;
 }
 
-.blog__sidebar__item ul li a {
+.board__sidebar__item ul li a {
 	font-size: 14px;
 	color: #111111;
 	-webkit-transition: all, 0.3s;
@@ -2672,39 +2672,39 @@ ol {
 	transition: all, 0.3s;
 }
 
-.blog__sidebar__item ul li a:hover {
+.board__sidebar__item ul li a:hover {
 	color: #ca1515;
 }
 
-.blog__sidebar__item ul li a:hover span {
+.board__sidebar__item ul li a:hover span {
 	color: #111111;
 }
 
-.blog__sidebar__item ul li a span {
+.board__sidebar__item ul li a span {
 	float: right;
 	color: #888888;
 }
 
-.blog__feature__item {
+.board__feature__item {
 	display: block;
 	overflow: hidden;
 	margin-bottom: 30px;
 }
 
-.blog__feature__item:last-child {
+.board__feature__item:last-child {
 	margin-bottom: 0;
 }
 
-.blog__feature__item__pic {
+.board__feature__item__pic {
 	float: left;
 	margin-right: 25px;
 }
 
-.blog__feature__item__text {
+.board__feature__item__text {
 	overflow: hidden;
 }
 
-.blog__feature__item__text h6 {
+.board__feature__item__text h6 {
 	font-size: 14px;
 	color: #111111;
 	font-weight: 600;
@@ -2712,13 +2712,13 @@ ol {
 	margin-bottom: 5px;
 }
 
-.blog__feature__item__text span {
+.board__feature__item__text span {
 	font-size: 12px;
 	color: #888888;
 	display: block;
 }
 
-.blog__sidebar__tags a {
+.board__sidebar__tags a {
 	display: inline-block;
 	font-size: 13px;
 	color: #666666;
@@ -2731,29 +2731,29 @@ ol {
 	transition: all, 0.3s;
 }
 
-.blog__sidebar__tags a:hover {
+.board__sidebar__tags a:hover {
 	color: #111111;
 }
 
-.blog__sidebar__tags a:last-child {
+.board__sidebar__tags a:last-child {
 	margin-right: 0;
 }
 
 /*---------------------
-  Blog Details
+  board Details
 -----------------------*/
 
-.blog-details {
+.board-details {
 	padding-top: 80px;
 	padding-bottom: 80px;
 }
 
-.blog__details__item {
+.board__details__item {
 	background: #ffffff;
 	margin-bottom: 24px;
 }
 
-.blog__details__item__title {
+.board__details__item__title {
 	background: #ffffff;
 	padding-top: 30px;
 	padding-right: 30px;
@@ -2762,7 +2762,7 @@ ol {
 	margin-right: 50px;
 }
 
-.blog__details__item__title .tip {
+.board__details__item__title .tip {
 	font-size: 12px;
 	color: #ffffff;
 	background: #ca1515;
@@ -2773,7 +2773,7 @@ ol {
 	border-radius: 5px;
 }
 
-.blog__details__item__title h4 {
+.board__details__item__title h4 {
 	color: #111111;
 	font-weight: 600;
 	line-height: 39px;
@@ -2781,7 +2781,7 @@ ol {
 	margin-bottom: 5px;
 }
 
-.blog__details__item__title ul li {
+.board__details__item__title ul li {
 	font-size: 12px;
 	color: #888888;
 	display: inline-block;
@@ -2790,47 +2790,47 @@ ol {
 	position: relative;
 }
 
-.blog__details__item__title ul li span {
+.board__details__item__title ul li span {
 	color: #111111;
 }
 
-.blog__details__item__title ul li:after {
+.board__details__item__title ul li:after {
 	position: absolute;
 	right: -17px;
 	top: 0px;
 	content: "|";
 }
 
-.blog__details__item__title ul li:last-child {
+.board__details__item__title ul li:last-child {
 	margin-right: 0;
 }
 
-.blog__details__item__title ul li:last-child:after {
+.board__details__item__title ul li:last-child:after {
 	display: none;
 }
 
-.blog__details__desc {
+.board__details__desc {
 	margin-bottom: 40px;
 }
 
-.blog__details__desc p {
+.board__details__desc p {
 	font-size: 15px;
 	color: #444444;
 	line-height: 27px;
 }
 
-.blog__details__desc p:last-child {
+.board__details__desc p:last-child {
 	margin-bottom: 0;
 }
 
-.blog__details__quote {
+.board__details__quote {
 	border-top: 2px solid #ca1515;
 	position: relative;
 	padding-top: 22px;
 	margin-bottom: 20px;
 }
 
-.blog__details__quote .icon {
+.board__details__quote .icon {
 	height: 30px;
 	width: 30px;
 	font-size: 18px;
@@ -2841,7 +2841,7 @@ ol {
 	top: -11px;
 }
 
-.blog__details__quote p {
+.board__details__quote p {
 	font-size: 16px;
 	color: #111111;
 	font-weight: 600;
@@ -2850,11 +2850,11 @@ ol {
 	margin-bottom: 0;
 }
 
-.blog__details__tags {
+.board__details__tags {
 	margin-bottom: 50px;
 }
 
-.blog__details__tags a {
+.board__details__tags a {
 	display: inline-block;
 	font-size: 13px;
 	color: #666666;
@@ -2867,37 +2867,37 @@ ol {
 	transition: all, 0.3s;
 }
 
-.blog__details__tags a:hover {
+.board__details__tags a:hover {
 	color: #111111;
 }
 
-.blog__details__tags a:last-child {
+.board__details__tags a:last-child {
 	margin-right: 0;
 }
 
-.blog__details__btns {
+.board__details__btns {
 	background: #f5f5f5;
 	padding: 14px 30px;
 	margin-bottom: 55px;
 }
 
-.blog__details__btn__item.blog__details__btn__item--next {
+.board__details__btn__item.board__details__btn__item--next {
 	text-align: right;
 }
 
-.blog__details__btn__item.blog__details__btn__item--next h6 a i {
+.board__details__btn__item.board__details__btn__item--next h6 a i {
 	margin-right: 0;
 	margin-left: 5px;
 }
 
-.blog__details__btn__item h6 a {
+.board__details__btn__item h6 a {
 	font-size: 15px;
 	font-weight: 600;
 	text-transform: uppercase;
 	color: #111111;
 }
 
-.blog__details__btn__item h6 a i {
+.board__details__btn__item h6 a i {
 	font-size: 15px;
 	font-weight: 600;
 	position: relative;
@@ -2905,18 +2905,18 @@ ol {
 	margin-right: 5px;
 }
 
-.blog__details__comment {
+.board__details__comment {
 	position: relative;
 }
 
-.blog__details__comment h5 {
+.board__details__comment h5 {
 	color: #111111;
 	font-weight: 600;
 	text-transform: uppercase;
 	margin-bottom: 35px;
 }
 
-.blog__details__comment .leave-btn {
+.board__details__comment .leave-btn {
 	font-size: 14px;
 	font-weight: 700;
 	color: #111111;
@@ -2926,7 +2926,7 @@ ol {
 	top: 0;
 }
 
-.blog__details__comment .leave-btn:after {
+.board__details__comment .leave-btn:after {
 	position: absolute;
 	left: 0;
 	bottom: -5px;
@@ -2936,44 +2936,44 @@ ol {
 	content: "";
 }
 
-.blog__comment__item {
+.board__comment__item {
 	margin-bottom: 35px;
 }
 
-.blog__comment__item:last-child {
+.board__comment__item:last-child {
 	margin-bottom: 0;
 }
 
-.blog__comment__item.blog__comment__item--reply {
+.board__comment__item.board__comment__item--reply {
 	padding-left: 115px;
 }
 
-.blog__comment__item__pic {
+.board__comment__item__pic {
 	float: left;
 	margin-right: 25px;
 }
 
-.blog__comment__item__pic img {
+.board__comment__item__pic img {
 	border-radius: 50%;
 }
 
-.blog__comment__item__text {
+.board__comment__item__text {
 	overflow: hidden;
 }
 
-.blog__comment__item__text h6 {
+.board__comment__item__text h6 {
 	color: #111111;
 	font-weight: 600;
 	margin-bottom: 14px;
 }
 
-.blog__comment__item__text p {
+.board__comment__item__text p {
 	font-size: 15px;
 	color: #444444;
 	line-height: 26px;
 }
 
-.blog__comment__item__text ul li {
+.board__comment__item__text ul li {
 	list-style: none;
 	font-size: 12px;
 	color: #888888;
@@ -2981,11 +2981,11 @@ ol {
 	margin-right: 25px;
 }
 
-.blog__comment__item__text ul li:last-child {
+.board__comment__item__text ul li:last-child {
 	margin-right: 0;
 }
 
-.blog__comment__item__text ul li i {
+.board__comment__item__text ul li i {
 	font-size: 14px;
 	color: #ca1515;
 	margin-right: 5px;
@@ -3224,7 +3224,7 @@ ol {
 	.checkout__order {
 		margin-top: 20px;
 	}
-	.blog__sidebar {
+	.board__sidebar {
 		padding-left: 0;
 	}
 	.canvas__open {
@@ -3610,7 +3610,7 @@ ol {
 	.discount__content {
 		margin-bottom: 35px;
 	}
-	.blog__sidebar {
+	.board__sidebar {
 		padding-left: 0;
 		padding-top: 40px;
 	}
@@ -3656,19 +3656,19 @@ ol {
 	.nav-item {
 		margin-right: 20px;
 	}
-	.blog__details__item__title {
+	.board__details__item__title {
 		margin-right: 30px;
 	}
-	.blog__comment__item.blog__comment__item--reply {
+	.board__comment__item.board__comment__item--reply {
 		padding-left: 0;
 	}
-	.blog__comment__item__text ul li {
+	.board__comment__item__text ul li {
 		margin-right: 5px;
 	}
 	.primary-btn.load-btn {
 		padding: 12px 50px 10px;
 	}
-	.blog__comment__item__pic {
+	.board__comment__item__pic {
 		float: none;
 		margin-bottom: 20px;
 	}

@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks43team03.mapper.BoardMapper">
-	<resultMap type="Board" id="boardRsultMap">
+	<resultMap type="Board" 						id="boardResultMap">
 		<id column="board_post_cd"					property="boardPostCd"/>
 		<result column="board_ctg_cd"				property="boardCtgCd"/>
 		<result column="user_id"					property="userId"/>
@@ -11,13 +11,40 @@
 		<result column="board_post_content"			property="boardPostContent"/>
 		<result column="board_post_file"			property="boardPostFile"/>
 		<result column="board_post_date"			property="boardPostDate"/>
+		<result column="board_post_pw"				property="boardPostPw"/>
 		<result column="board_post_views"			property="boardPostViews"/>
-		<result column="board_post_comment_number"	property="boardPostNum"/>
+		<result column="board_post_comment_number"	property="boardPostCommentNum"/>
 		<result column="board_post_state"			property="boardPostState"/>
 	</resultMap>
+	<resultMap type="BoardComment" 					id="boardCommentResultMap">
+		<id column="board_post_comment_cd"			property="boardPostCommentCd"/>
+		<result column="board_post_cd"				property="boardPostCd"/>
+		<result column="board_ctg_cd"				property="boardCtgCd"/>
+		<result column="user_id"					property="userId"/>
+		<result column="board_post_comment_detail"	property="boardPostContentDetail"/>
+		<result column="board_post_comment_date"	property="boardPostCommentDate"/>
+		<result column="board_post_comment_state"	property="boardPostCommentState"/>
+	</resultMap>
 	
-	<!-- 게시판 조회 -->
-	<select id="getBoardList" parameterType="String" resultMap="boardRsultMap">
+	<!-- 게시판 전체 조회 -->
+	<select id="getBoardList" parameterType="String" resultMap="boardResultMap">
+		SELECT
+			b.board_post_cd
+			,b.board_ctg_cd
+			,b.user_id
+			,b.board_post_title
+			,b.board_post_content
+			,b.board_post_file
+			,b.board_post_date
+			,b.board_post_views
+			,b.board_post_comment_number
+			,b.board_post_state
+		FROM
+			board_post AS b;
+	</select>
+	
+	<!-- 게시글 상세보기 -->
+	<select id="getBoardDetail" parameterType="String" resultMap="boardResultMap">
 		SELECT
 			b.board_post_cd
 			,b.board_ctg_cd
@@ -36,9 +63,36 @@
 		ON
 			b.user_id = u.user_id
 		WHERE
-			b.user_id = #{userId};
-		
+			b.board_post_cd = #{boardPostCd};
 	</select>
+	
+	<!-- 게시글 작성 -->
+	<insert id="addBoard" parameterType="Board">
+		INSERT INTO board_post
+			(board_post_cd
+			, board_ctg_cd
+			, user_id
+			, board_post_title
+			, board_post_content
+			, board_post_file
+			, board_post_date
+			, board_post_pw
+			, board_post_views
+			, board_post_comment_number
+			, board_post_state)
+		VALUES 
+			(#{boardPostCd}
+			, #{boardCtgCd}
+			, #{userId}
+			, #{boardPostTitle}
+			, #{boardPostContent}
+			, #{boardPostFile}
+			, NOW()
+			, #{boardPostPw});
+			, #{boardPostViews}
+			, #{boardPostCommentNum}
+			, #{boardPostState});
+	</insert>
 	
 	<delete id="removeBoard" parameterType="String">
 		DELETE
@@ -47,10 +101,6 @@
 		WHERE
 			board_post_cd = #{boardPostCd};
 	</delete>
-	
-	<insert id="addBoard" parameterType="Board">
-		
-	</insert>
 	
 	<!-- 조회수 업데이트 -->
 	<update id="boardViewUpdate" parameterType="String">

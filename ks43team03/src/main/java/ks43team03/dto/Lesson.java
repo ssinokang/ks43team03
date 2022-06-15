@@ -15,17 +15,17 @@ public class Lesson {
 	private String goodsCtgCd;
 	private String sportsCd;
 	private String userId;
-	private String sportsNm;
-	private String lessonNm;
+	private String sportsName;
+	private String lessonName;
 	private String lessonDetail;
 	private String lessonTotalMember;
 	private String lessonMember;
 	private String lessonStartDate;
 	private String lessonEndDate;
-	private String lessonPrice;
+	private int lessonPrice;
 	private String lessonRegDate;
 	private String lessonState;
-	private String lessonPicture;
+	private String fileCd;
 	
 	private Sports sports;
 }

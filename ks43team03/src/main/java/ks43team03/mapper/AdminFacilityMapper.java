@@ -20,13 +20,10 @@ public interface AdminFacilityMapper {
 	public List<Facility> getSearchFacilityList(String searchKey, String searchValue);
 	
 	//아이디별 시설 정보 조회
-	public List<Facility> getAdminFacilityListById();
-	
-	//시설과 연관된 튜플 삭제 
-	public int removeFacilityByGCode(String userId);
+	public List<Facility> getAdminFacilityListById(String userId);
 	
 	//판매자가 등록한 시설삭제
-	public int removeFacilityById(String userId);
+	public int removeFacilityByCd(String facilityCd);
 	
 	//시설 수정
 	public int modifyFacility(Facility facility);
@@ -52,8 +49,10 @@ public interface AdminFacilityMapper {
 	//시설등록
 	public int addFacility(Facility facility);
 	
+	
 	//시설목록조회
 	public List<Facility> getAdminFacilityList();
+
 
 
 

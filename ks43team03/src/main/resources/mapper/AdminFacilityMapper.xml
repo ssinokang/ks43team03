@@ -4,24 +4,24 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ks43team03.mapper.AdminFacilityMapper">
-	<resultMap type="Facility" 				id="facilityResultMap">
-		<id 	column="facility_cd" 		property="facilityCd"/>
-		<result column="main_ctg_cd"		property="mainCtgCd"/>
-		<result column="town_cd"  			property="townCd"/>
-		<result column="facility_use_cd" 	property="facilityUseCd"/>
-		<result column="user_id" 			property="userId"/>
-		<result column="facility_nm" 		property="facilityNm"/>
-		<result column="facility_address" 	property="facilityAddr"/>
-		<result column="facility_tell" 		property="facilityTell"/>
-		<result column="facility_post_num" 	property="facilityPostNum"/>
-		<result column="business_number" 	property="businessNum"/>
-		<result column="facility_reg_date"	property="facilityRegDate"/>
+	<resultMap type="Facility" 					id="facilityResultMap">
+		<id 	column="facility_cd" 			property="facilityCd"/>
+		<result column="main_ctg_cd"			property="mainCtgCd"/>
+		<result column="town_cd"  				property="townCd"/>
+		<result column="facility_use_cd" 		property="facilityUseCd"/>
+		<result column="user_id" 				property="userId"/>
+		<result column="facility_nm" 			property="facilityNm"/>
+		<result column="facility_address" 		property="facilityAddr"/>
+		<result column="facility_tell" 			property="facilityTell"/>
+		<result column="facility_post_num" 		property="facilityPostNum"/>
+		<result column="business_number" 		property="businessNum"/>
+		<result column="facility_reg_date"		property="facilityRegDate"/>
 		<result column="facility_detail_addr" 	property="facilityDetailAddr"/>
-		<result column="area_cd"  			property="areaCd"/>
-		<result column="city_cd"  			property="cityCd"/>
-		<association property="mainCtg" javaType="MainCtg">
-			<id 	column="main_ctg_cd" property="mainCtgCd"/>
-			<result column="main_ctg_nm" property="mainCtgNm"/>
+		<result column="area_cd"  				property="areaCd"/>
+		<result column="city_cd"  				property="cityCd"/>
+		<association property="mainCtg" 		javaType="MainCtg">
+			<id 	column="main_ctg_cd" 		property="mainCtgCd"/>
+			<result column="main_ctg_nm" 		property="mainCtgNm"/>
 		</association>
 		<association property="facilityUse" 	javaType="FacilityUse">
 			<id 	 column="facility_use_cd" 	property="facilityUseCd"/>
@@ -33,17 +33,38 @@
 			<result  column="area_nm" 	property="areaNm"/>
 		</association>	
 		<association property="areaCity" 	javaType="AreaCity">
-			<id 	 column="city_cd" 	property="cityCd"/>
-			<result  column="area_cd" 	property="areaCd"/>
-			<result  column="town_nm" 	property="townNm"/>
+			<id 	 column="city_cd" 		property="cityCd"/>
+			<result  column="area_cd" 		property="areaCd"/>
+			<result  column="town_nm" 		property="townNm"/>
 		</association>	
 		<association property="areaCityTown" 	javaType="AreaCityTown">
-			<id 	 column="town_cd" 	property="townCd"/>
-			<result  column="city_cd" 	property="cityCd"/>
-			<result  column="area_cd" 	property="areaCd"/>
-			<result  column="town_nm" 	property="townNm"/>
+			<id 	 column="town_cd" 			property="townCd"/>
+			<result  column="city_cd" 			property="cityCd"/>
+			<result  column="area_cd" 			property="areaCd"/>
+			<result  column="town_nm" 			property="townNm"/>
 		</association>	
+		<collection property="user" ofType="User">
+			<id column="user_id"				property="userId"/>
+			<result column="user_level"			property="userLevel"/>
+			<result column="user_password"		property="userPw"/>
+			<result column="user_nm"			property="userName"/>
+			<result column="user_address"		property="userAddr"/>
+			<result column="user_birth"			property="userBirth"/>
+			<result column="user_email"			property="userEmail"/>
+			<result column="user_tell"			property="userTell"/>
+			<result column="user_gender"		property="userGender"/>
+			<result column="user_drop"			property="userDrop"/>
+			<result column="reg_path"			property="userRegPath"/>
+			<result column="user_terms"			property="userTerms"/>
+			<result column="user_reg_date"		property="userRegDate"/>
+			<result column="user_post_num"		property="userPostNum"/>
+			<result column="user_detail_addr"	property="userDetailAddr"/>
+		</collection>
+	
 	</resultMap>
+	
+	
+
 	
 		<delete id="removeFacilityById" parameterType="String">
 			/* 판매자가 등록한 시설 삭제*/
@@ -153,6 +174,13 @@
 					,#{cityCd})
 		</insert>
 		
+		<select id="getFacilityCount" resultType="int">
+			/*시설 목록 총 튜플 수*/
+			SELECT
+				COUNT(*)
+			FROM
+				facility;
+		</select>
 
 
 		<select id="getAdminFacilityList" resultType="Facility" resultMap="facilityResultMap">

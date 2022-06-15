@@ -30,6 +30,6 @@ public class Facility {
 	private Area area;
 	private AreaCity areaCity;
 	private AreaCityTown areaCityTown;
-
+	private User user;
 
 }

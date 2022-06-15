@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -35,14 +36,25 @@ public class AdminFacilityController {
 	
 	
 	
+	/*시설삭제화면*/
+	@GetMapping("removeFacility")
+	public String removeMember(Model model
+							   ,@RequestParam(name = "userId", required = false) String userId
+							   ,@RequestParam(name = "result", required = false) String result) {
+
+		model.addAttribute("userId", userId);
+		if(result != null) model.addAttribute("result", result);
+		return "adminFacility/removeFacility";
+		}
 	
 
 	/*시설수정처리*/
-	 @PostMapping("/modifyFacility") public String modifyFacility(Facility facility) {
+	 @PostMapping("/modifyFacility") 
+	 public String modifyFacility(Facility facility) {
   
-	 log.info("시설 정보 수정 폼 입력값 : {}", facility);
-	 
-	 adminFacilityService.modifyFacility(facility);
+		 log.info("시설 정보 수정 폼 입력값 : {}", facility);
+		 
+		 adminFacilityService.modifyFacility(facility);
 	 
 	 return "redirect:/adminFacility/adminFacilityList";
 	 }
@@ -72,14 +84,16 @@ public class AdminFacilityController {
 	}
 	
 		/*시설등록처리*/
+	/* String sessionId = (String) session.getAttribute("SID") */
 	  @PostMapping("/addFacility") 
 	  public String addFacility(Facility facility
 			  					,@RequestParam(name="facilityCd", required = false) String facilityCd
 			  					,HttpServletRequest request) {
 		  log.info("시설등록화면에서 입력한 data : {}", facility);
-	  
-	  adminFacilityService.addFacility(facility); 
-	  return "redirect:/adminFacility/adminFacilityList"; 
+		  
+		  
+		  adminFacilityService.addFacility(facility); 
+		  return "redirect:/adminFacility/adminFacilityList"; 
 	  }
 
 	
@@ -104,11 +118,17 @@ public class AdminFacilityController {
 	
 	//시설관리자가 본인시설조회
 	@GetMapping("/adminFacilityListById")
-	public String getAdminFacilityListById(Model model) {
-		List<Facility> adminFacilityListById = adminFacilityService.getAdminFacilityListById();
+	public String getAdminFacilityListById(Model model
+										 ,@RequestParam(name="userId", required = false) String userId) {
+		userId = "id002";
+		log.info("회원정보조회 아이디 : {}", userId);
+		
+		List<Facility> adminFacilityListById = adminFacilityService.getAdminFacilityListById(userId);
+		
 		model.addAttribute("adminFacilityListById", adminFacilityListById);
 		return "adminFacility/adminFacilityListById";
 	}
+	
 	
 	//관리자가 시설목록조회
 	@GetMapping("/adminFacilityList")
@@ -117,5 +137,5 @@ public class AdminFacilityController {
 		model.addAttribute("adminFacilityList", adminFacilityList);
 		return "adminFacility/adminFacilityList";
 	}
-	
+
 }

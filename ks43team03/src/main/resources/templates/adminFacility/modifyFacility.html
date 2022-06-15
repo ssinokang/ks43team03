@@ -3,6 +3,81 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/adminDefault}">
 
+<!-- 사용자 정의 title -->
+	<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+	</th:block>
+	<!-- 사용자 정의 Css -->
+	<th:block layout:fragment="customCss">
+		<style>
+			.form-group{margin-top:10px;}
+		</style>
+	</th:block>
+	
+	
+	
+	<!-- 사용자 정의 Js 파일-->
+		<th:block layout:fragment="customJs">
+			<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+		<!-- 주소검색 API -->
+		<script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+		
+		<script>
+		/* 회원가입시 유효성 검사 */
+		$('#addFacilityBtn').click(function(){
+			var isSubmit = true;
+			var inputObj = $('#addFacilityForm').find('input');
+			
+			$.each(inputObj, function(){
+				var inputData = $(this).val();
+				var result = validationCheck(inputData);
+				
+				// 사용자가 입력하지 않은 경우
+				if(!result){
+					alert('필수 항목입니다. 입력해주세요');
+					$(this).focus();
+					isSubmit = false;
+					return false;
+				}
+			});
+			
+			console.log('유효여부 폼전송할건지?' + isSubmit )
+			
+			if(isSubmit) $('#addFacilityForm').submit();
+		});
+	});
+			
+		</script>
+	
+		<script>
+		
+				/* 카카오 주소를 활용하여 회원 주소 검색 */
+				function searchAddForm() {
+					new daum.Postcode({
+						oncomplete: function(data) {
+							
+							var addr = '';
+							var extraAddr = ''; // 참고항목 변수
+	
+							//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+							if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+								addr = data.roadAddress;
+							} else { // 사용자가 지번 주소를 선택했을 경우(J)
+								addr = data.jibunAddress;
+							}
+							document.getElementById('facilityPostNum').value = data.zonecode;
+							document.getElementById('facilityAddr').value = addr;
+							// 커서를 상세주소 필드로 이동한다.
+							document.getElementById('facilityDetailAddr').focus();
+	
+						}
+					}).open();
+				}
+			</script>
+	</th:block>
+
+
+
 
 <!-- 사용자 정의Contents -->
 <th:block layout:fragment="customContents">
@@ -82,7 +157,7 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설주 아이디<span>*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="userId" th:value="${facility.userId}"  data-validate-minmax="10,100" /></div>
+					<input class="form-control" type="text" name="userId" th:value="${facility.userId}"  data-validate-minmax="10,100" readonly="readonly"/></div>
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설명 <span class="required">*</span></label>
@@ -91,23 +166,27 @@
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설 주소<span class="required">*</span></label>
-					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityAddr" th:value="${facility.facilityAddr}" data-validate-length="6,8" required='required' /></div>
+					<div class="col-md-4 col-sm-4">
+						<input class="form-control" type="text" name="facilityPostNum" id="facilityPostNum" th:value="${facility.facilityPostNum}"placeholder="우편번호" required='required' readonly="readonly" data-validate-length-range="8,20" />
+					</div>
+					<div class="col-md-2 col-sm-2">
+						<button type="button" class="btn btn-info" id="postNum" onclick="searchAddForm()">우편번호찾기</button>
+					</div>
 				</div>
 				<div class="field item form-group">
-					<label class="col-form-label col-md-3 col-sm-3  label-align">시설 상세주소<span class="required">*</span></label>
+					<label class="col-form-label col-md-3 col-sm-3  label-align"></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityDetailAddr" th:value="${facility.facilityAddr}" data-validate-length="6,8" required='required' /></div>
+					<input class="form-control" type="text" name="facilityAddr" id="facilityAddr" th:value="${facility.facilityAddr}" placeholder="시설주소" data-validate-length="6,8" readonly="readonly" required='required' /></div>
+				</div>
+				<div class="field item form-group">
+					<label class="col-form-label col-md-3 col-sm-3  label-align"></label>
+					<div class="col-md-6 col-sm-6">
+					<input class="form-control" type="text" name="facilityDetailAddr" id="facilityDetailAddr" th:value="${facility.facilityAddr}" placeholder="시설상세주소" data-validate-length="6,8" required='required' /></div>
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설전화번호<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
 					<input class="form-control" type="text" name="facilityTell" th:value="${facility.facilityTell}" data-validate-linked='password' required='required' /></div>
-				</div>
-				<div class="field item form-group">
-					<label class="col-form-label col-md-3 col-sm-3  label-align">시설사진<span class="required">*</span></label>
-					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="tel" name="facilityPostNum" th:value="${facility.facilityPostNum}" required='required' data-validate-length-range="8,20" /></div>
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">사업자등록번호<span class="required">*</span></label>

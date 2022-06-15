@@ -34,53 +34,47 @@
 								<thead>
 									<tr>
 										<th>회원 아이디</th>
-										<th>회원 등급</th>
-										<th>회원 비밀번호</th>
 										<th>회원 이름</th>
-										<th>회원 우편번호</th>
 										<th>회원 주소</th>
-										<th>회원 상세 주소</th>
-										<th>회원 생년월일</th>
-										<th>회원 이메일</th>
-										<th>회원 폰</th>
+										<th>회원 전화번호</th>
 										<th>회원 성별</th>
-										<th>회원 탈퇴여부</th>
-										<th>회원 가입경로</th>
-										<th>회원 등록날짜</th>
+										<th>회원 이메일</th>
+										<th>회원 권한</th>
+										<th>승인 여부</th>
+										<th>승인자 아이디</th>
+										<th>승인 날짜</th>
+										<th>가입 날짜</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:if="${not #lists.isEmpty(userList)}" th:each="l : ${userList}">
+									<tr th:if="${not #lists.isEmpty(facilityUserList)}" th:each="l : ${facilityUserList}">
 										<td th:text="${l.get('userId')}"></td>
-										<td th:text="${l.get('userLevel')}"></td>
-										<td th:text="${l.get('userPw')}"></td>
 										<td th:text="${l.get('userName')}"></td>
-										<td th:text="${l.get('userPostNum')}"></td>
 										<td th:text="${l.get('userAddr')}"></td>
-										<td th:text="${l.get('userDetailAddr')}"></td>
-										<td th:text="${l.get('userBirth')}"></td>
-										<td th:text="${l.get('userEmail')}"></td>
 										<td th:text="${l.get('userTell')}"></td>
 										<td th:text="${l.get('userGender')}"></td>
-										<td th:text="${l.get('userDrop')}"></td>
-										<td th:text="${l.get('userRegPath')}"></td>
-										<td th:text="${l.get('userRegDate')}"></td>
+										<td th:text="${l.get('userEmail')}"></td>
+										<td th:text="${l.get('facilityUserLevel')}"></td>
+										<td th:text="${l.get('facilityApproveState')}"></td>
+										<td th:text="${l.get('facilityApproveId')}"></td>
+										<td th:text="${l.get('facilityApproveDate')}"></td>
+										<td th:text="${l.get('facilityRegDate')}"></td>
 									</tr>
-									<tr th:unless="${not #lists.isEmpty(userList)}">
-										<td colspan="12">조회된 내용이 없습니다.</td>
+									<tr th:unless="${not #lists.isEmpty(facilityUserList)}">
+										<td colspan="11">조회된 내용이 없습니다.</td>
 									</tr>
 								</tbody>
 								<tfoot>
 									<tr>
-										<td colspan="12" style="text-align: center;">
-											<a th:href="@{/user/userList}">[맨처음]</a>
-											<a th:if="${currentPage > 1}" th:href="@{/user/userList(currentPage=${currentPage - 1})}">[이전]</a>
+										<td colspan="11" style="text-align: center;">
+											<a th:href="@{/user/facilityUser}">[맨처음]</a>
+											<a th:if="${currentPage > 1}" th:href="@{/user/facilityUser(currentPage=${currentPage - 1})}">[이전]</a>
 											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">
 												<label th:if="${currentPage eq num}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></label>
-												<a th:unless="${currentPage eq num}" th:href="@{/user/userList(currentPage=${num})}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></a>
+												<a th:unless="${currentPage eq num}" th:href="@{/user/facilityUser(currentPage=${num})}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></a>
 											</th:block>
 											<a th:if="${currentPage < lastPage}" th:href="@{/user/userList(currentPage=${currentPage + 1})}">[다음]</a>
-											<a th:href="@{/user/userList(currentPage=${lastPage})}">[마지막]</a>
+											<a th:href="@{/user/facilityUser(currentPage=${lastPage})}">[마지막]</a>
 										</td>
 									</tr>
 								</tfoot>

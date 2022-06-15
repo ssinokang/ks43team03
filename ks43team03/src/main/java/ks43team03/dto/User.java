@@ -21,6 +21,8 @@ public class User {
 	private String userRegPath;
 	private String userTerms;
 	private String userRegDate;
+	private String userPostNum;
+	private String userDetailAddr;
 	
 	private UserLevel levelInfo;
 }

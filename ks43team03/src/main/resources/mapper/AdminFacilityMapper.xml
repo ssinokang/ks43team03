@@ -99,8 +99,7 @@
 
 		<insert id="addFacility" parameterType="Facility" >
 			INSERT INTO facility
-				(facility_cd
-				, main_ctg_cd
+				( main_ctg_cd
 				, area_cd
 				, city_cd
 				, town_cd
@@ -113,15 +112,14 @@
 				, business_number
 				, facility_reg_date
 				)VALUES (
-					 #{facilityCd}
-					,#{mainCtgCd}
+					#{mainCtgCd}
 					,#{townCd}
 					,#{facilityUseCd}
 					,#{userId}
 					,#{facilityNm}
 					,#{facilityAddr}
 					,#{facilityTell}
-					,#{facility_post_num}
+					,#{facilityPostNum}
 					,#{businessNum}
 					,CURDATE())
 		</insert>

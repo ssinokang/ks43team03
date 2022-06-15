@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import ks43team03.dto.User;
 import ks43team03.dto.UserLevel;
@@ -23,6 +26,84 @@ public class UserService {
 	
 	public UserService(UserMapper userMapper) {
 		this.userMapper = userMapper;
+	}
+
+	private static final Logger log = LoggerFactory.getLogger(UserService.class);
+	
+	/**
+	 * 시설 내 회원 목록
+	 * @return
+	 */
+	public Map<String, Object> getFacilityUserList(int currentPage, String facilityCd){
+		
+		int rowPerPage = 10;
+		
+		double rowCount = userMapper.getFacilityUserCount();
+		
+		int lastPage = (int)Math.ceil(rowCount/rowPerPage);
+		
+		int startRow = (currentPage - 1)*rowPerPage;
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+		paramMap.put("startRow", startRow);
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("facilityCd", facilityCd);
+		
+		int startPageNum = 1;
+		int endPageNum = 10;
+		
+		if(lastPage > 10) {
+			if(currentPage >= 6) {
+				startPageNum = currentPage - 4;
+				endPageNum = currentPage + 5;
+				
+				if(endPageNum >= lastPage) {
+					startPageNum = lastPage - 9;
+					endPageNum = lastPage;
+				}
+			}
+		}else {
+			endPageNum = lastPage;
+		}
+		
+		log.info("paramMap : {}", paramMap);
+		
+		List<Map<String, Object>> facilityUserList = userMapper.getFacilityUserList(paramMap);
+		
+		if(facilityUserList != null) {
+			for(Map<String, Object> userMap : facilityUserList) {
+				String facilityUserLevel = userMap.get("facilityUserLevel").toString();
+				String facilityApproveState = userMap.get("facilityApproveState").toString();
+				
+				//equals 는 String에서 쓸 수 있으므로 null 인지 확인
+				if(facilityUserLevel != null && facilityApproveState != null) {
+					
+					if("3".equals(facilityUserLevel)) {
+						userMap.put("facilityUserLevel", "시설 운영자 대리인");
+					}else if("4".equals(facilityUserLevel)) {
+						userMap.put("facilityUserLevel", "트레이너");
+					}else {
+						userMap.put("facilityUserLevel", "일반회원");
+					}
+					
+					if("Y".equals(facilityApproveState)) {
+						userMap.put("facilityApproveState", "승인");
+					}else {
+						userMap.put("facilityApproveState", "미승인");
+					}
+				}
+			}
+		}
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("lastPage", 			lastPage);
+		resultMap.put("facilityUserList",	facilityUserList);
+		resultMap.put("startPageNum",		startPageNum);
+		resultMap.put("endPageNum",			endPageNum);
+		
+		return resultMap;
+		
 	}
 	
 	
@@ -62,34 +143,73 @@ public class UserService {
 	}
 	
 	/**
-	 * 회원 목록
+	 * 회원 전체 목록
 	 * @return
 	 */
-	public List<User> getUserList(){
+	public Map<String, Object> getUserList(int currentPage){
 		
-		List<User> userList = userMapper.getUserList();
+		int rowPerPage = 10;
+		
+		double rowCount = userMapper.getUserCount();
+		
+		int lastPage = (int)Math.ceil(rowCount/rowPerPage);
+		
+		int startRow = (currentPage - 1)*rowPerPage;
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+		paramMap.put("startRow", startRow);
+		paramMap.put("rowPerPage", rowPerPage);
+		
+		int startPageNum = 1;
+		int endPageNum = 10;
+		
+		if(lastPage > 10) {
+			if(currentPage >= 6) {
+				startPageNum = currentPage - 4;
+				endPageNum = currentPage + 5;
+				
+				if(endPageNum >= lastPage) {
+					startPageNum = lastPage - 9;
+					endPageNum = lastPage;
+				}
+			}
+		}else {
+			endPageNum = lastPage;
+		}
+		
+		log.info("paramMap : {}", paramMap);
+		
+		List<Map<String, Object>> userList = userMapper.getUserList(paramMap);
 		
 		if(userList != null) {
-			for(User user : userList) {
-				String userLevel = user.getUserLevel();
+			for(Map<String, Object> userMap : userList) {
+				String userLevel = userMap.get("userLevel").toString();
 				//equals 는 String에서 쓸 수 있으므로 null 인지 확인
 				if(userLevel != null) {
 					if("1".equals(userLevel)) {
-						user.setUserLevel("관리자");
+						userMap.put("userLevel", "관리자");
 					}else if("2".equals(userLevel)) {
-						user.setUserLevel("공공및사설시설운영자");
+						userMap.put("userLevel", "공공및사설시설운영자");
 					}else if("3".equals(userLevel)) {
-						user.setUserLevel("시설 운영자 대리인");
+						userMap.put("userLevel", "시설 운영자 대리인");
 					}else if("4".equals(userLevel)) {
-						user.setUserLevel("트레이너");
+						userMap.put("userLevel", "트레이너");
 					}else {
-						user.setUserLevel("일반회원");
+						userMap.put("userLevel", "일반회원");
 					}
 				}
 			}
 		}
 		
-		return userList;
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("lastPage", 		lastPage);
+		resultMap.put("userList",		userList);
+		resultMap.put("startPageNum",	startPageNum);
+		resultMap.put("endPageNum",		endPageNum);
+		
+		return resultMap;
+		
 	}
 
 	/**

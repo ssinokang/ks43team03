@@ -7,7 +7,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MainCtg {
-	private String mainCtgCd;
-	private String mainCtgNm;	
+public class Area {
+	private String areaCd;
+	private String areaNm;
+
 }

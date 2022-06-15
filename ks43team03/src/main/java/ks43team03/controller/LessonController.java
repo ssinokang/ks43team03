@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import ks43team03.dto.Lesson;
 import ks43team03.service.LessonService;
@@ -37,9 +38,13 @@ public class LessonController {
 	}
 	
 	@PostMapping("/addLesson")
-	public String addLesson(Lesson lesson) {
+	public String addLesson(Lesson lesson,
+		    MultipartHttpServletRequest multipartHttpServletRequest) {
 		log.info("!!!lesson : {}", lesson);
 		System.out.println("!!!!!!!!!!!"+lesson);
+		System.out.println(multipartHttpServletRequest);
+		
+		lessonService.addLesson(lesson, multipartHttpServletRequest);
 		
 		return "redirect:/lesson/LessonList?" + "facilityCd="+ lesson.getFacilityCd();
 		

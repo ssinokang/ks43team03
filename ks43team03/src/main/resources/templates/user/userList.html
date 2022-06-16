@@ -2,7 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/adminDefault.html}">
-
+	<!-- 사용자 정의 title -->
+	<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+	</th:block>
+	
 	<!-- 사용자 정의 contents -->
 	<th:block layout:fragment="customContents">
 		<div class="x_panel">
@@ -67,12 +71,12 @@
 										<td th:text="${l.get('userRegDate')}"></td>
 									</tr>
 									<tr th:unless="${not #lists.isEmpty(userList)}">
-										<td colspan="12">조회된 내용이 없습니다.</td>
+										<td colspan="14">조회된 내용이 없습니다.</td>
 									</tr>
 								</tbody>
 								<tfoot>
 									<tr>
-										<td colspan="12" style="text-align: center;">
+										<td colspan="14" style="text-align: center;">
 											<a th:href="@{/user/userList}">[맨처음]</a>
 											<a th:if="${currentPage > 1}" th:href="@{/user/userList(currentPage=${currentPage - 1})}">[이전]</a>
 											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">

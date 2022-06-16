@@ -10,8 +10,6 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="icon" href="images/favicon.ico" type="image/ico" />
 	
-	    <title>Gentelella Alela! | </title>
-	
 	    <!-- Bootstrap -->
 	    <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
 	    <!-- Font Awesome -->
@@ -31,6 +29,8 @@
 	    <!-- Custom Theme Style -->
 	    <link th:href="@{/build/css/custom.min.css}" rel="stylesheet">
 	    
+	    <!-- 사용자 정의 title -->
+		<th:block layout:fragment="customTitle"></th:block>
 	    <!-- 사용자 정의 css 선언 -->
 		<th:block layout:fragment="customCss"></th:block>
 		<!-- 사용자 정의 js 선언 -->

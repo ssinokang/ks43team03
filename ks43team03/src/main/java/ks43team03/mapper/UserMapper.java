@@ -11,6 +11,9 @@ import ks43team03.dto.UserLevel;
 @Mapper
 public interface UserMapper {
 	
+	//회원 가입
+	public int addUser(User user);
+	
 	//시설 내 회원 목록 조회(페이징)
 	public List<Map<String, Object>> getFacilityUserList(Map<String, Object> paramMap);
 	

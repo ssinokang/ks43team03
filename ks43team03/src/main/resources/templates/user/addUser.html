@@ -48,13 +48,14 @@
 								// 아이디 중복이 발생 않은 경우(회원가입 O) 입력하는 요소는 활성화
 								if(data){
 									$('#idCheckResult').text('사용 가능한 아이디 입니다.');
+									$('#idCheckResult').css('color','blue');
 									$('#addUserForm input').prop('disabled', false);
 									$('#addUserForm select').prop('disabled', false);
 									$('#addUserForm button').prop('disabled', false);
 								}else{									
 									// 아이디 중복이 발생하는 경우(회원가입 X) 입력하는 요소는 비활성화
 									$('#idCheckResult').text('중복된 아이디가 있습니다.');
-									$('#idCheckResult').attr('color','red');
+									$('#idCheckResult').css('color','red');
 									$('#addUserForm input').not('input[name="userId"]').prop('disabled', true);
 									$('#addUserForm button').not('#idCheck').prop('disabled', true);
 									$('#addUserForm select').prop('disabled', true);
@@ -151,7 +152,7 @@
 					<div class="col-md-3 col-sm-3">
 						<button type="button" class="btn-primary form-control" id="idCheck">중복체크</button>
 					</div>
-					<div class="offset-md-3">
+					<div class="offset-md-3" style="padding-left: 15px;">
 						<span id="idCheckResult"></span>
 					</div>
 				</div>

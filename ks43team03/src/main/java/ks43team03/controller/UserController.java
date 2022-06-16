@@ -50,6 +50,7 @@ public class UserController {
 		model.addAttribute("lastPage", 			resultMap.get("lastPage"));
 		model.addAttribute("startPageNum", 		resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum", 		resultMap.get("endPageNum"));
+		model.addAttribute("title", 			"시설 내 회원 목록");
 		
 		return "user/facilityUser";
 	}
@@ -57,29 +58,45 @@ public class UserController {
 	//회원 삭제 변경
 	@PostMapping("/removeUser")
 	public String removeUser(Model model
-							,@RequestParam(name="userId", required = false) String userId
-							,@RequestParam(name="userPw") String userPw) {
+							,@RequestParam(name="userPw") String userPw
+							,HttpSession session) {
+		String sessionId = (String)session.getAttribute("SID"); 
 		
-		log.info("회원아이디 : {}", userId);
+		log.info("회원아이디 : {}", sessionId);
 		log.info("회원비밀번호 : {}", userPw);
 		
-		User user = userService.getUserInfoById(userId);
+		User user = userService.getUserInfoById(sessionId);
 		
 		log.info("DB회원 : {}", user);
 		
 		if(userPw.equals(user.getUserPw())) {
 			user.setUserDrop("Y");
 			userService.modifyUser(user);
-			return "redirect:/";
+			session.invalidate();
+		}
+		return "redirect:/";
+	}
+	
+	//회원 비밀번호 확인
+	@PostMapping("/pwCheck")
+	@ResponseBody
+	public boolean isPwCheck(@RequestParam(value = "userId") String userId
+							,@RequestParam(value = "userPw") String userPw) {
+		
+		boolean pwCheck = false;
+		
+		log.info("패스워드중복체크 클릭시 요청받은 userId의 값: {}", userId);
+		log.info("패스워드중복체크 클릭시 요청받은 userPw의 값: {}", userPw);
+		
+		User userCheck = userService.getUserInfoById(userId);
+		
+		if(userPw.equals(userCheck.getUserPw())) {
 			
-		}else {
-			model.addAttribute("user", user);
-			model.addAttribute("userId", userId);
-			model.addAttribute("result", "비밀번호가 일치하지 않습니다.");
+			pwCheck = true;
 			
-			return "user/userDetail";
 		}
 		
+		return pwCheck;
 	}
 	
 	//회원 비밀번호 변경
@@ -152,7 +169,7 @@ public class UserController {
 		
 		model.addAttribute("user", user);
 		model.addAttribute("sessionId", sessionId);
-		
+		model.addAttribute("title", "회원 정보");
 		return "user/userDetail";
 	}
 	
@@ -210,7 +227,7 @@ public class UserController {
 		model.addAttribute("lastPage", 				resultMap.get("lastPage"));
 		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
-		
+		model.addAttribute("title", 				"회원 전체 목록");
 		return "user/userList";
 	}
 }

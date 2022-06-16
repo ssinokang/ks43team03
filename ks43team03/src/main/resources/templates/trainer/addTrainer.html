@@ -48,13 +48,14 @@
 								// 아이디 중복이 발생 않은 경우(회원가입 O) 입력하는 요소는 활성화
 								if(data){
 									$('#nicknameCheckResult').text('사용 가능한 닉네임 입니다.');
+									$('#nicknameCheckResult').css('color','blue');
 									$('#addTrainerForm input').prop('disabled', false);
 									$('#addTrainerForm select').prop('disabled', false);
 									$('#addTrainerForm button').prop('disabled', false);
 								}else{									
 									// 아이디 중복이 발생하는 경우(회원가입 X) 입력하는 요소는 비활성화
 									$('#nicknameCheckResult').text('중복된 닉네임이 있습니다.');
-									$('#nicknameCheckResult').attr('color','red');
+									$('#nicknameCheckResult').css('color','red');
 									$('#addTrainerForm input').not('input[name="trainerNickname"]').prop('disabled', true);
 									$('#addTrainerForm button').not('#nicknameCheck').prop('disabled', true);
 									$('#addTrainerForm select').prop('disabled', true);
@@ -129,7 +130,7 @@
 						<button type="button" class="btn-primary form-control" id="nicknameCheck">중복체크</button>
 					</div>
 					<div class="offset-md-3">
-						<span class="required" id="nicknameCheckResult"></span>
+						<span id="nicknameCheckResult" style="padding-left: 15px;"></span>
 					</div>
 				</div>
 				<div class="form-group row">

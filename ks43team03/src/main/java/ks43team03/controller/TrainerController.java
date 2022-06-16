@@ -1,5 +1,7 @@
 package ks43team03.controller;
 
+import java.util.Objects;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ks43team03.dto.User;
 import ks43team03.service.TrainerService;
 
 @Controller
@@ -25,7 +28,31 @@ public class TrainerController {
 	}
 	
 	private static final Logger log = LoggerFactory.getLogger(TrainerController.class);
-
+	
+	//프로필 조회 페이지 이동
+	@GetMapping("/trainerDetail")
+	public String getUserDetail(Model model
+							   ,HttpSession session) {
+		
+		String sessionId = (String)session.getAttribute("SID");
+		
+		log.info("트레이너 정보조회 아이디 : {}", sessionId);
+		
+		model.addAttribute("title", "트레이너 정보");
+		
+		if(Objects.isNull(sessionId)) {
+			
+			return "user/userDetail";
+		}
+		
+		//User user = trainerService.getUserInfoById(sessionId);
+		
+		//model.addAttribute("user", user);
+		//model.addAttribute("sessionId", sessionId);
+		
+		return "user/userDetail";
+	}
+	
 	// 아이디 중복체크 여부
 	@PostMapping("/nicknameCheck")
 	@ResponseBody

@@ -22,6 +22,7 @@
 		
 		<script>
 			function searchPostNum() {
+				/* 카카오 주소를 활용하여 회원 주소 검색 */
 				new daum.Postcode({
 					oncomplete: function(data) {
 		            	
@@ -42,6 +43,50 @@
 				}).open();
 			}
 			
+			
+			$(function(){
+				var $removeForm = $('#removeForm');
+				
+				function validationCheck(data){
+					if(typeof data == 'undefined' || data == '' || data == null){
+						return false;
+					}
+					return true;
+				}
+				
+				$removeForm.on('click','#removeBtn',function(){
+					console.log('test');
+					
+					var userId = $('input[name="userId"]').val();
+					var userPw = $('input[name="userPw"]').val();
+					
+					console.log(userId);
+					console.log(userPw);
+					
+					var vCheck = validationCheck(userPw);
+					
+					if(vCheck){
+						$.ajax({
+							 url: '/user/pwCheck'
+							,type: 'POST'
+							,data: {'userId' : userId, 'userPw' : userPw}
+							,dataType: 'json'
+							,success: function(data){
+								console.log(data);
+								// 화면에서 맨처음 아이디를 제외한 모든 입력하는 요소는 비활성화 (HTML 속성 추가 disabled="disabled") 
+								// 아이디 중복이 발생 않은 경우(회원가입 O) 입력하는 요소는 활성화
+								if(data){
+									$removeForm.attr('action','/user/removeUser').submit();
+								}else{
+									alert("비밀번호가 일치하지 않습니다.");
+								}
+							}
+						});
+					}else{
+						alert("비밀번호를 입력해주세요.");
+					}
+				});
+			});
 		</script>
 	</th:block>
 	
@@ -188,15 +233,12 @@
 						</tr>
 					</tbody>
 				</table>
-				<div th:if="${not #strings.isEmpty(result)}" class="col-md-8 col-sm-8 offset-md-4">
-					<p th:text="${result}" style="color: red;"></p>
-				</div>
 				<div class="form-group">
 					<div class="col-md-8 col-sm-8 offset-md-4">
 						<a th:href="@{/}">
 							<button type="button" class="btn btn-primary" id="cancelButton">취소</button>
 						</a>
-						<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+						<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">
 							삭제
 						</button>
 						<button type="submit" class="btn btn-info">저장</button>
@@ -205,8 +247,8 @@
 			</form>
 			
 			<!-- Modal -->
-			<form th:action="@{/user/removeUser}" method="post">
-				<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<form id="removeForm" method="post">
 					<div class="modal-dialog" role="document">
 				 		<div class="modal-content">
 							<div class="modal-header">
@@ -237,13 +279,14 @@
 							<div class="modal-footer">
 								<div class="form-group">
 									<button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
-									<button type="submit" class="btn btn-danger">삭제</button>
+									<button type="button" class="btn btn-danger" id="removeBtn">삭제</button>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</form>
+				</form>
+			</div>
+			
 		</div>
 	</th:block>
 </html>

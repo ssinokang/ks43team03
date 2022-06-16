@@ -1,7 +1,10 @@
 package ks43team03.service;
 
+
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +21,36 @@ import ks43team03.mapper.AdminFacilityMapper;
 @Transactional
 public class AdminFacilityService {
 
+	private static final Logger log = LoggerFactory.getLogger(UserService.class);
 	private final AdminFacilityMapper adminFacilityMapper;
 	
 	public AdminFacilityService(AdminFacilityMapper adminFacilityMapper) {
 		this.adminFacilityMapper = adminFacilityMapper;
 	}
+	
+	
+	
+	
+	
+	
+	
+	/*시설 검색*/
+	public List<Facility> getSearchFacilityList(String searchKey, String searchValue){
+		List<Facility> searchFacilityList = adminFacilityMapper.getSearchFacilityList(searchKey, searchValue);
+		return searchFacilityList;
+				
+	}
+	
+	/*시설 삭제*/
+	public boolean removeFacility(String FacilityCd) {
+		
+		boolean facilityCheck = false;
+		
+		return facilityCheck;
+		
+	}
+	
+	
 	
 	
 	/*시설 수정 */
@@ -34,12 +62,24 @@ public class AdminFacilityService {
 	
 	/*시설등록*/
 	public int addFacility(Facility facility) {
+		/* facility.setUserId(sessionId); */
+		
 		int result = adminFacilityMapper.addFacility(facility);
 		return result;
 	}
 	
 	
-	/*시설상세정보조회*/
+	
+	/*아이디별상세정보조회*/
+	public List<Facility> getAdminFacilityListById(String userId) {
+		List<Facility> facility = adminFacilityMapper.getAdminFacilityListById(userId);
+		
+		return facility;
+	}
+	
+	
+	
+	/*시설코드별상세정보조회*/
 	public Facility getAdminFacilityInfoByCd(String facilityCd) {
 		Facility facility = adminFacilityMapper.getAdminFacilityInfoByCd(facilityCd);
 		
@@ -100,10 +140,11 @@ public class AdminFacilityService {
 			}
 		}
 		
-		
 		return adminFacilityList;
 		
 	}
+
+	
 	
 	
 	

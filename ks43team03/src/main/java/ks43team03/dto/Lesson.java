@@ -27,4 +27,5 @@ public class Lesson {
 	private Sports sports;
 	private Facility facility;
 	private AreaCityTown areaCityTown;
+	private AreaCity areaCity;
 }

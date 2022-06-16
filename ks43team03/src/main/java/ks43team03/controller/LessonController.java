@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import ks43team03.dto.AreaCity;
+import ks43team03.dto.AreaCityTown;
+import ks43team03.dto.Facility;
 import ks43team03.dto.Lesson;
+import ks43team03.dto.Sports;
 import ks43team03.service.LessonService;
 
 @Controller
@@ -23,6 +27,36 @@ public class LessonController {
 	
 	public LessonController(LessonService lessonService) {
 		this.lessonService = lessonService;
+	}
+	/**
+	 *  회원이 보는 레슨 리스트 
+	 **/
+	@GetMapping("/lessonListForUser")
+	public String lessonListforUser(
+			Lesson 		  lesson
+			,Facility 	  facility
+			,AreaCity 	  areaCity
+			,AreaCityTown areaCityTown
+			,Sports 	  sports
+			,Model 		  model) {
+		
+		log.info("facility : {}", facility);
+		log.info("areaCity : {}", areaCity);
+		log.info("areaCityTown : {}", areaCityTown);
+		log.info("sports : {}", sports);
+		
+		lesson.setAreaCityTown(areaCityTown);
+		lesson.setFacility(facility);
+		lesson.setAreaCity(areaCity);
+		lesson.setSports(sports);
+		
+		log.info("lesson : {}", lesson);
+		
+		List<Lesson> lessonList = lessonService.getLessonListForUser(lesson);
+		model.addAttribute("lessonList", lessonList);
+		
+		log.info("lessonList : {}", lessonList);
+		return "lesson/lessonListforUser";
 	}
 	/**
 	 * 레슨 상세 조회 

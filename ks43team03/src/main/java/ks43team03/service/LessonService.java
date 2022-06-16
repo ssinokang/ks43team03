@@ -82,4 +82,14 @@ public class LessonService {
 		Lesson lesson = lessonMapper.getLessonInfoByCd(lessonCd);
 		return lesson;
 	}
+
+	public List<Lesson> getLessonListForUser(Lesson lesson) {
+		System.out.println("___________________________________________________");
+		System.out.println("_______________start LessonService_________________");
+		List<Lesson> LessonListForUser = lessonMapper.getLessonListForUser(lesson);
+		
+		System.out.println("_______________end   LessonService_________________");
+		System.out.println("___________________________________________________");
+		return LessonListForUser;
+	}
 }

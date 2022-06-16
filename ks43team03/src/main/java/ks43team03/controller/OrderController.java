@@ -36,9 +36,9 @@ public class OrderController {
 	
 	@GetMapping("/order-info")	//@RequestParam(name = "orderCd")String orderCd
 	public String orderInfo() {
-		// 주문완료 후 주문코드 조회 후 상세 주문내역 조회 
+		// 주문완료 후 주문코드 조회 후주문내역 조회 
 		
-		// 대관 레슨의 주문내역폼
+		// 
 		
 		// 이용권 내역 조회
 		
@@ -47,6 +47,7 @@ public class OrderController {
 	
 	
 	//==회원의 주문내역 조회==//
+	
 	
 	
 	

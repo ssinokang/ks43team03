@@ -9,7 +9,38 @@
 		<result column="trainer_nicknm"		property="trainerNickname"></result>
 		<result column="trianer_picture"	property="trainerPicture"></result>
 		<result column="trainer_reg_date"	property="trainerRegDate"></result>
+		<association property="user" javaType="User">
+			<id 	column="user_id"			property="userId"/>
+			<result column="user_level"			property="userLevel"/>
+			<result column="user_password"		property="userPw"/>
+			<result column="user_nm"			property="userName"/>
+			<result column="user_address"		property="userAddr"/>
+			<result column="user_birth"			property="userBirth"/>
+			<result column="user_email"			property="userEmail"/>
+			<result column="user_tell"			property="userTell"/>
+			<result column="user_gender"		property="userGender"/>
+			<result column="user_drop"			property="userDrop"/>
+			<result column="reg_path"			property="userRegPath"/>
+			<result column="user_terms"			property="userTerms"/>
+			<result column="user_reg_date"		property="userRegDate"/>
+			<result column="user_post_num"		property="userPostNum"/>
+			<result column="user_detail_addr"	property="userDetailAddr"/>
+		</association>
 	</resultMap>
+	
+	<select id="getTrainerInfoById" parameterType="String" resultMap="trainerResultMap">
+		/* 아이디로 트레이너 정보 조회 */
+		SELECT
+			 t.trainer_cd
+			,t.user_id
+			,t.trainer_nicknm
+			,t.trianer_picture
+			,t.trainer_reg_date
+		FROM
+			trainer_profile as t
+		WHERE
+			user_id = #{userId};
+	</select>
 	
 	<select id="isNicknameCheck" parameterType="String" resultType="boolean">
 		/* 트레이너 닉네임 중복 체크 */

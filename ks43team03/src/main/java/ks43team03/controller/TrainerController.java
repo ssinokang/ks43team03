@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ks43team03.dto.User;
+import ks43team03.dto.TrainerProfile;
 import ks43team03.service.TrainerService;
 
 @Controller
@@ -42,15 +42,16 @@ public class TrainerController {
 		
 		if(Objects.isNull(sessionId)) {
 			
-			return "user/userDetail";
+			return "trainer/trainerDetail";
 		}
 		
-		//User user = trainerService.getUserInfoById(sessionId);
+		TrainerProfile tainerProfile = trainerService.getTrainerInfoById(sessionId);
 		
-		//model.addAttribute("user", user);
-		//model.addAttribute("sessionId", sessionId);
+		model.addAttribute("tainerProfile", tainerProfile);
+		model.addAttribute("sessionId", sessionId);
+		model.addAttribute("title", "트레이너 정보");
 		
-		return "user/userDetail";
+		return "trainer/trainerDetail";
 	}
 	
 	// 아이디 중복체크 여부
@@ -67,6 +68,31 @@ public class TrainerController {
 		
 		return nicknameCheck;
 	}
+	
+	//경력 등록 페이지 이동
+	@GetMapping("/addLicense")
+	public String addLicense(Model model
+							,HttpSession session) {
+		
+		String sessionId = (String)session.getAttribute("SID");
+		
+		model.addAttribute("sessionId", sessionId);
+		
+		return "trainer/addLicense";
+	}
+	
+	//경력 등록 페이지 이동
+	@GetMapping("/addCareer")
+	public String addCareer(Model model
+							,HttpSession session) {
+		
+		String sessionId = (String)session.getAttribute("SID");
+		
+		model.addAttribute("sessionId", sessionId);
+		
+		return "trainer/addCareer";
+	}
+	
 		
 	//트레이너 등록 페이지 이동
 	@GetMapping("/addTrainer")

@@ -34,6 +34,33 @@ public class AdminFacilityController {
 		this.adminFacilityService = adminFacilityService;
 	}
 	
+	@PostMapping("/adminFacilityList")
+	public String getSearchFacilityList(@RequestParam(name="searchKey")String searchKey
+									 ,@RequestParam(name="searchValue", required = false)String searchValue
+									 ,Model model) {
+		
+		log.info("searchKey : {}", searchKey);
+		log.info("searchValue : {}", searchValue);
+		if("memberId".equals(searchKey)) {
+			searchKey = "m.m_id";
+		}else if("memberLevel".equals(searchKey)) {
+			searchKey = "m.m_level";
+			
+		}else if("memberName".equals(searchKey)) {
+			searchKey = "m.m_name";
+			
+		}else {
+			searchKey = "m.m_email";
+			
+		}
+		List<Facility> searchFacilityList = adminFacilityService.getSearchFacilityList(searchKey, searchValue);
+		
+		if(searchFacilityList != null) model.addAttribute("searchFacilityList", searchFacilityList);
+		
+		return "adminFacility/adminFacilityList";
+	}
+	
+	
 	
 	
 	/*시설삭제화면*/
@@ -134,6 +161,7 @@ public class AdminFacilityController {
 	@GetMapping("/adminFacilityList")
 	public String getAdminFacilityList(Model model) {
 		List<Facility> adminFacilityList = adminFacilityService.getAdminFacilityList();
+
 		model.addAttribute("adminFacilityList", adminFacilityList);
 		return "adminFacility/adminFacilityList";
 	}

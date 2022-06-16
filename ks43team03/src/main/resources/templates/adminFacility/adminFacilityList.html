@@ -6,7 +6,6 @@
 
 <!-- 사용자 정의Contents -->
 <th:block layout:fragment="customContents">
-	
 	<div class="title_left">
 	<h3>시설목록</h3>
 	</div>
@@ -26,6 +25,7 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
+					<div th:include="/adminFacility/adminFaciliySearch :: searchFacilityFragment"></div>	
 					<div class="table-responsive">
 						<table class="table table-striped jambo_table bulk_action">
 							<thead>

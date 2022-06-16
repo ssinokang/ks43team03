@@ -3,7 +3,8 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="ks43team03.mapper.AdminFacilityMapper">
+<mapper namespace="ks43team03.mapper.FacilityMapper">
+
 	<resultMap type="Facility" 					id="facilityResultMap">
 		<id 	column="facility_cd" 			property="facilityCd"/>
 		<result column="main_ctg_cd"			property="mainCtgCd"/>
@@ -60,170 +61,15 @@
 			<result column="user_post_num"		property="userPostNum"/>
 			<result column="user_detail_addr"	property="userDetailAddr"/>
 		</collection>
-	
 	</resultMap>
 	
 	
-		<select id="getSearchFacilityList" fetchSize="10" parameterType="String" resultMap="facilityResultMap">
-			/*시설검색*/
-			SELECT
-				f.facility_cd
-				,fu.facility_use_nm
-				,a.area_nm
-				,ac.city_nm
-				,act.town_nm
-				,f.user_id
-				,f.facility_nm
-				,f.facility_address
-				,f.facility_detail_addr
-				,f.facility_reg_date
-			FROM
-				facility AS f
-				INNER JOIN 
-				area AS a
-				ON 
-				f.area_cd = a.area_cd
-				INNER join
-				area_city AS ac
-				ON 
-				f.city_cd= ac.city_cd
-				INNER join
-				area_city_town AS act
-				on
-				f.town_cd = act.town_cd
-				INNER join
-				facility_use AS fu
-				ON 
-				f.facility_use_cd = fu.facility_use_cd;
-			<trim prefix="WHERE" prefixOverrides="AND |OR ">
-				<if test="searchValue != null and searchValue != ''">
-					${searchKey} LIKE CONCAT('%', #{searchValue}, '%');
-				</if>
-			</trim>
-		
-		</select>
-
-
-
 	
-		<delete id="removeFacilityById" parameterType="String">
-			/* 판매자가 등록한 시설 삭제*/
-			DELETE 
-			FROM 
-				facility
-			WHERE 
-				user_id = #{userId};
-		</delete>
 	
-
 	
-		<update id="modifyFacility" parameterType="Facility" >
-			UPDATE facility
-			SET
-				main_ctg_cd = 			#{mainCtgCd},
-				town_cd = 				#{townCd},
-				facility_use_cd = 		#{facilityUseCd},
-				user_id = 				#{userId},
-				facility_nm =			#{facilityNm},
-				facility_address =		#{facilityAddr},
-				facility_tell = 		#{facilityTell},
-				business_number = 		#{businessNum},
-				facility_post_num = 	#{facilityPostNum},
-				facility_detail_addr = 	#{facilityDetailAddr},
-				area_cd 		=	    #{areaCd},
-				city_cd = 				#{cityCd}
-			WHERE 
-				facility_cd	=			#{facilityCd};
-		</update>
-		
-		
-		<select id="getAdminFacilityListById" parameterType="Facility" resultMap="facilityResultMap">
-			SELECT 
-				facility_cd 		
-				,main_ctg_cd		
-				,area_cd			
-				,city_cd			
-				,town_cd			
-				,facility_use_cd	
-				,user_id			
-				,facility_nm		
-				,facility_address
-				,facility_tell		
-				,facility_post_num	
-				,business_number	
-				,facility_reg_date
-			FROM 
-				facility 
-			WHERE
-				user_id = #{userId};
-		</select>
-		
-		<select id="getAdminFacilityInfoByCd" parameterType="String" resultMap="facilityResultMap">
-			SELECT 
-				facility_cd 		
-				,main_ctg_cd		
-				,area_cd			
-				,city_cd			
-				,town_cd			
-				,facility_use_cd	
-				,user_id			
-				,facility_nm		
-				,facility_address
-				,facility_tell		
-				,facility_post_num	
-				,business_number	
-				,facility_reg_date
-			FROM 
-				facility 
-			WHERE
-				facility_cd = #{facilityCd};
-		</select>
-
-
-
-		<insert id="addFacility" parameterType="Facility" >
-			INSERT INTO facility
-				(facility_cd
-				,main_ctg_cd
-				, town_cd
-				, facility_use_cd
-				, user_id
-				, facility_nm
-				, facility_address
-				, facility_tell
-				, business_number
-				, facility_reg_date
-				, facility_post_num
-				, facility_detail_addr
-				, area_cd
-				, city_cd
-				)VALUES (
-					#{facilityCd}
-					,#{mainCtgCd}
-					,#{townCd}
-					,#{facilityUseCd}
-					,#{userId}
-					,#{facilityNm}
-					,#{facilityAddr}
-					,#{facilityTell}
-					,#{businessNum}
-					,CURDATE()
-					,#{facilityPostNum}
-					,#{facilityDetailAddr}
-					,#{areaCd}
-					,#{cityCd})
-		</insert>
-		
-		<select id="getFacilityCount" resultType="int">
-			/*시설 목록 총 튜플 수*/
-			SELECT
-				COUNT(*)
-			FROM
-				facility;
-		</select>
-
-
-		<select id="getAdminFacilityList" resultType="Facility" resultMap="facilityResultMap">
+	
+	
+	<select id="getFacilityList" resultType="Facility" resultMap="facilityResultMap">
 		/*시설전체조회*/
 			SELECT 
 				facility_cd 		
@@ -242,7 +88,8 @@
 			FROM 
 				facility 
 		</select>
-		
+	
+	
 		<select id="getMainCtgList" resultType="MainCtg">
 			SELECT 
 				main_ctg_cd 	AS mainCtgCd
@@ -286,6 +133,25 @@
 			FROM
 				area_city_town;
 		</select>
-</mapper> 
-  
-  
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+</mapper>

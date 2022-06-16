@@ -28,6 +28,19 @@ public class AdminFacilityService {
 		this.adminFacilityMapper = adminFacilityMapper;
 	}
 	
+	
+	
+	
+	
+	
+	
+	/*시설 검색*/
+	public List<Facility> getSearchFacilityList(String searchKey, String searchValue){
+		List<Facility> searchFacilityList = adminFacilityMapper.getSearchFacilityList(searchKey, searchValue);
+		return searchFacilityList;
+				
+	}
+	
 	/*시설 삭제*/
 	public boolean removeFacility(String FacilityCd) {
 		

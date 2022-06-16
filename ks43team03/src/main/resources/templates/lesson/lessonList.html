@@ -47,7 +47,7 @@
 								</thead>
 								<tbody>
 									<tr th:if="${not #lists.isEmpty(lessonList)}" th:each="l : ${lessonList}">
-										<td><a th:href="@{lesson/detailLesson}" th:text="${l.lessonName}"></a></td>
+										<td><a th:href="@{/lesson/detailLesson(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></td>
 										<td th:text="${l.sports.sportsName}"></td>
 										<td th:text="${l.lessonPrice}"></td>
 										<td th:text="${l.lessonStartDate}"></td>

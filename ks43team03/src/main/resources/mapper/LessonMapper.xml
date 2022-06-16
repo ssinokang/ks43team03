@@ -5,17 +5,16 @@
 
 <mapper namespace="ks43team03.mapper.LessonMapper">
 	<resultMap type="Lesson" id="lessonResultMap">
-		<id 	column="lessson_cd" 			property="lessonCd"/>
-		<result column="lessson_division" 		property="lessonDivision"/>
-		<result column="lessson_goods" 			property="lessonGoods"/>
+		<id 	column="lesson_cd" 				property="lessonCd"/>
+		<result column="lesson_division" 		property="lessonDivision"/>
+		<result column="facility_goods_cd" 		property="facilityGoodsCd"/>
 		<result column="facility_cd" 			property="facilityCd"/>
 		<result column="goods_ctg_cd" 			property="goodsCtgCd"/>
-		<result column="sports_cd" 				property="sportsCd"/>
 		<result column="user_id" 				property="userId"/>
 		<result column="lesson_nm" 				property="lessonName"/>
 		<result column="lesson_detail" 			property="lessonDetail"/>		
 		<result column="lesson_total_member" 	property="lessonTotalMember"/>		
-<!-- 		<result column="lesson_member" 			property="lessonMember"/>		 -->
+ 		<result column="lesson_member" 			property="lessonMember"/>		 
 		<result column="lesson_start_date" 		property="lessonStartDate"/>		
 		<result column="lesson_end_date" 		property="lessonEndDate"/>		
 		<result column="lesson_price" 			property="lessonPrice"/>		
@@ -26,7 +25,8 @@
 			<result column="sports_nm" 	property="sportsName"/>
 		</association> 
 	</resultMap>
-	<select id="getFacilityLessonList" fetchSize="100" parameterType="String" resultMap="lessonResultMap">
+	<!-- 레슨 코드를 사용한 레슨 상세 조회 -->
+	<select id="getLessonInfoByCd" parameterType="String" resultMap="lessonResultMap">
 		SELECT
 			l.lesson_cd,
 			l.lesson_division,
@@ -35,7 +35,6 @@
 			l.goods_ctg_cd,
 			l.sports_cd,
 			l.user_id,
-			s.sports_nm,
 			l.lesson_nm,
 			l.lesson_detail,
 			l.lesson_total_member,
@@ -47,6 +46,32 @@
 			l.lesson_reg_date
 		FROM
 			lesson AS l
+		WHERE
+			l.lesson_cd = #{lessonCd}
+	</select>
+	<!-- 시설 내 레슨 조회 -->
+	<select id="getFacilityLessonList" fetchSize="100" parameterType="String" resultMap="lessonResultMap">
+		SELECT
+			l.lesson_cd
+			,l.lesson_division
+			,l.facility_goods_cd
+			,l.facility_cd
+			,l.goods_ctg_cd
+			,l.sports_cd
+			,l.user_id
+			,l.lesson_nm
+			,l.lesson_detail
+			,l.lesson_total_member
+			,l.lesson_price
+			,l.lesson_member
+			,l.lesson_start_date
+			,l.lesson_end_date
+			,l.lesson_state
+			,l.lesson_reg_date
+			,s.sports_nm
+			,s.sports_cd
+		FROM
+			lesson AS l
 			INNER JOIN
 			sports AS s
 			on
@@ -54,6 +79,7 @@
 		WHERE
 			l.facility_cd = #{facilityCd}
 	</select>
+	<!-- 레슨 등록 -->
 	<insert id="addLesson" parameterType="Lesson">
 		INSERT INTO lesson
 		(
@@ -67,7 +93,7 @@
 			,sports_nm					AS sportsName
 			,lesson_nm					AS lessonName
 			,lesson_detail				AS lessonDetail				
-			,lesson_total_member		AS lessonTatalMember
+			,lesson_total_member		AS lessonTotalMember
 			,lesson_start_date			AS lessonStartDate
 			,lesson_end_date			AS lessonEndDate
 			,lesson_price				AS lessonPrice
@@ -75,7 +101,7 @@
 		) VALUES (
 			,#{lessonCd}
 			,#{lessonDivision}
-			,#{lessonFacilityGoodsCd}
+			,#{facilityGoodsCd}
 			,#{facilityCd}
 			,#{goodsCtgCd}
 			,#{sportsCd}

@@ -24,7 +24,17 @@ public class LessonController {
 	public LessonController(LessonService lessonService) {
 		this.lessonService = lessonService;
 	}
-	
+	/**
+	 * 레슨 상세 조회 
+	 **/
+	@GetMapping("/detailLesson")
+	public String detailLesson(@RequestParam(name="lessonCd") String lessonCd
+								,Model model) {
+		
+		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
+		model.addAttribute(lesson);
+		return "lesson/detailLesson";
+	}
 	/**
 	 * 레슨 수정
 	 **/

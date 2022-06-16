@@ -15,4 +15,7 @@ public interface LessonMapper {
 	//레슨 등록하기
 	public int addLesson(Lesson lesson);
 	
+	//
+	public Lesson getLessonInfoByCd(String lessonCd);
+	
 }

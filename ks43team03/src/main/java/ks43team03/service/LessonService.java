@@ -49,13 +49,13 @@ public class LessonService {
 			 * test code: start
 			 ***/
 			
-			facilityGoodsMapper.getFacilityGoods(lesson.getLessonCd());
+			//facilityGoodsMapper.getFacilityGoods(lesson.getLessonCd());
 			
 			/***
 			 * test code: end
 			 ***/
 			// 2. lesson 테이블에 삽입
-			lessonMapper.addLesson(lesson);
+			//lessonMapper.addLesson(lesson);
 			System.out.println(lesson + "LessonService/addLesson/lesson");
 			
 			// 3. 릴레이션 테이블에 삽입
@@ -75,5 +75,11 @@ public class LessonService {
 			 ****************/
 			
 	    }
+	}
+
+	public Lesson getLessonInfoByCd(String lessonCd) {
+		
+		Lesson lesson = lessonMapper.getLessonInfoByCd(lessonCd);
+		return lesson;
 	}
 }

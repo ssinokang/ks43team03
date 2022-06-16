@@ -34,7 +34,7 @@ public class FileUtils {
 		List<Map<String, String>> dtoFileList = new ArrayList<>();
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
 		ZonedDateTime currentTime = ZonedDateTime.now();
-		String path = "D:\\" + currentTime.format(dateFormat);
+		String path = "C:\\Users\\seonw\\Downloads\\" + currentTime.format(dateFormat);
 		
 		File file = new File(path);
 		

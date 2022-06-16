@@ -23,44 +23,47 @@
 	<section class="shop spad">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12 col-md-12">
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="sidebar__categories">
-								<div class="section-title">
-									<h4>주문/결제정보</h4>
-								</div>
-							</div>
-							<div class="checkout__order">
-								<div class="checkout__order__product">
-									<ul>
-										<li>
-											<span class="top__text">주문내역</span>
-										</li>
-										<li>주문번호
-											<span>order_cd_0216545678</span>
-										</li>
-										<li>금액
-											<span>450000</span>
-										</li>
-									</ul>
-								</div>
-								<div class="checkout__order__product">
-									<div class="shop__sidebar">
-										<div class="sidebar__categories">
-											<div class="categories__accordion">
-												<div class="accordion" id="accordionExample">
-													<div class="card">
-														<div class="card-heading">
-															<a data-toggle="collapse" data-target="#collapseTwo">환불계좌 정보</a>
-														</div>
-														<div id="collapseTwo" class="collapse" data-parent="#accordionExample">
-															<div class="card-body">
-																<ul>
-																	<li>은행 KAKAO</li>
-																	<li>계좌번호 33330000000</li>
-																	<li>계좌이름 무지</li>
-																</ul>
+				<div class="col-sm-12">
+					<div class="sidebar__categories">
+						<div class="section-title">
+							<h4>주문/결제정보</h4>
+						</div>
+					</div>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>주문내역</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<div class="checkout__order">
+										<div class="checkout__order__product">
+											<ul>
+
+												<li>주문번호
+													<span>order_cd_0216545678</span>
+												</li>
+												<li>금액
+													<span>450000</span>
+												</li>
+											</ul>
+										</div>
+										<div class="checkout__order__product">
+											<p>
+												<a class="btn btn-default" data-toggle="collapse"
+													href="#multiCollapseExample1" role="button" aria-expanded="false"
+													aria-controls="multiCollapseExample1">환불정보</a>
+											</p>
+											<div class="row">
+												<div class="col">
+													<div class="collapse multi-collapse" id="multiCollapseExample1">
+														<div class="card card-body bg-light mb-3">
+															<div class="row">
+																<div class="col-sm-12">
+
+																</div>
 															</div>
 														</div>
 													</div>
@@ -68,97 +71,118 @@
 											</div>
 										</div>
 									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-12">
-							<br>
-							<br>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+				<div class="col-sm-12 mt-3">
+
+					<div class="row">
+
+						<table class="table">
+							<thead>
+								<tr>
+									<th class="col-sm-6">주문정보</th>
+									<th class="col-sm-6">결제정보</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<div class="checkout__order">
+											<div class="checkout__order__product" style="height: 170px;">
+												<ul>
+													<li>이름
+														<span>무지</span>
+													</li>
+													<li>지역
+														<span>지구 어딘가</span>
+													</li>
+													<li>연락처
+														<span>ㅋㅋㅋㅋ</span>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="checkout__order">
+											<div class="checkout__order__product">
+												<ul>
+													<li>주문상품가격
+														<span>50000</span>
+													</li>
+													<li>포인트 사용액
+														<span>50000</span>
+													</li>
+												</ul>
+											</div>
+											<div class="checkout__order__total">
+												<ul>
+													<li>Total <span>450000</span></li>
+												</ul>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+				<div class="col-lg-12 text-center">
+					
+					<button type="button" class="primary-btn load-btn" id="indexHome">home</button>
+					<button type="button" class="primary-btn load-btn" id="orderDetail">주문상세</button>
+					
+				</div>
+
+				<div class="col-lg-12 col-sm-12">
+					<section class="services spad">
+						<div class="container">
 							<div class="row">
-
-								<table class="table">
-									<thead>
-										<tr>
-											<th class="col-sm-6">주문정보</th>
-											<th class="col-sm-6">결제정보</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>
-												<div class="checkout__order">
-													<div class="checkout__order__product" style="height: 170px;">
-														<ul>
-															<li>이름
-																<span>무지</span>
-															</li>
-															<li>지역
-																<span>지구 어딘가</span>
-															</li>
-															<li>연락처
-																<span>ㅋㅋㅋㅋ</span>
-															</li>
-														</ul>
-													</div>
-												</div>
-											</td>
-											<td>
-												<div class="checkout__order">
-													<div class="checkout__order__product">
-														<ul>
-															<li>주문상품가격
-																<span>50000</span>
-															</li>
-															<li>포인트 사용액
-																<span>50000</span>
-															</li>
-														</ul>
-													</div>
-													<div class="checkout__order__total">
-														<ul>
-															<li>Total <span>450000</span></li>
-														</ul>
-													</div>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+								<div class="col-lg-3 col-md-4 col-sm-6"></div>
+								<div class="col-lg-3 col-md-4 col-sm-6">
+									<div class="services__item">
+										<button type="button" class="" id="indexHome">home</button>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-4 col-sm-6">
+									<div class="services__item">
+										<button type="button" id="orderDetail">주문상세</button>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-4 col-sm-6"></div>
 							</div>
-
 						</div>
-					</div>
+					</section>
 				</div>
 			</div>
-			
-			<div class="col-sm-12">
-				<div class="row">
-					<div class="col-sm-4" style="margin-left: 420px">
-						<button class="site-btn" id="orderDetail" >주문상세보기</button>
-						<button class="site-btn" id="indexHome">홈화면으로 가기</button>
-					</div>
-				</div>
-			</div>
-				
-			
+
+
+
+
+
 		</div>
 
 
 	</section>
-	
-	
+
+
 	<script>
 		const orderCd = 'order_code_3306162636';
 
 		document.querySelector('#orderDetail')
-			.addEventListener('click', ()=>{
-			location.href='/order/orderDetail';
-		});
+			.addEventListener('click', () => {
+				location.href = '/order/orderDetail';
+			});
 		document.querySelector('#indexHome')
-			.addEventListener('click', ()=>{
-				location.href='/';
-		});
-		
+			.addEventListener('click', () => {
+				location.href = '/';
+			});
+
 	</script>
 </th:block>
 

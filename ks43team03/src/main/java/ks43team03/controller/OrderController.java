@@ -53,6 +53,10 @@ public class OrderController {
 	}
 	
 	
+	@GetMapping("/orders")
+	public String orders() {
+		return "order/회원한명주문리스트";
+	}
 	
 	
 	//==판매자 주문예약/결제 정보 조회==//

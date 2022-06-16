@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default.html}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default.html}">
 
-	<!-- 사용자 정의 contents -->
-	<th:block layout:fragment="customContents">
+<!-- 사용자 정의 contents -->
+<th:block layout:fragment="customContents">
 	<!-- 이런식으로 넣으면 되겠죠? -->
 	<div class="breadcrumb-option">
 		<div class="container">
@@ -37,7 +36,7 @@
 										<div id="collapseOne" class="collapse" data-parent="#mypagelink">
 											<div class="card-body">
 												<ul>
-													<li><a href="#">주문 조회</a></li>
+													<li><a href="#">주문목록/주문조회</a></li>
 													<li><a href="#">CSS</a></li>
 													<li><a href="#">취소/환불내역</a></li>
 												</ul>
@@ -54,7 +53,7 @@
 												<ul>
 													<li><a href="#">나의 대관 예약 정보</a></li>
 													<li><a href="#">나의 레슨 예약정보</a></li>
-		
+
 												</ul>
 											</div>
 										</div>
@@ -101,46 +100,54 @@
 									<h4>주문 상세정보</h4>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-sm-12">
-									<span>주문일자 2022-06-16 </span>
-									<span>주문코드 order_cd_0216545678</span>
-								</div>
-								<div class="col-sm-12">
-									<div class="card">
-										<div class="card-header">
-											<h3>주문정보</h3>
-										</div>
-										<div class="card-body">
-											<div class="row">
-												<div class="col-sm-3">
-													<div class="row">
-														<div class="col-sm-12">아이디</div>
-														<div class="col-sm-12">아이디</div>
-														<div class="col-sm-12">아이디</div>
-														<div class="col-sm-12">아이디</div>
-														<div class="col-sm-12">아이디</div>
-													</div>
-												</div>
-												<div class="col-sm-6">비밀번호</div>
-											</div>
-										</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="product__details__tab">
+								<ul class="nav nav-tabs" role="tablist">
+									
+									<li class="nav-item">
+										<a class="nav-link" data-toggle="tab" href="#tabs-2"
+											role="tab">주문정보</a>
+									</li>
+								
+								</ul>
+								<div class="tab-content">
+									
+									<div class="">
+										<h6>주문정보</h6>
+										<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret
+											fugit, sed
+											quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt
+											loret.
+											Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim
+											ipsam
+											voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia
+											ipsu
+											consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
+											consequat massa quis enim.</p>
+										<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
+											ligula eget
+											dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
+											montes,
+											nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu,
+											pretium
+											quis, sem.</p>
 									</div>
+									
 								</div>
-								
-
-								
 							</div>
 						</div>
+
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</section>
-		
-	
-	
-	
-	</th:block>
+
+
+
+
+</th:block>
 
 </html>

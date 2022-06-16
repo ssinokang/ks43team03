@@ -22,7 +22,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:if="${not #lists.isEmpty(boardList)}" th:each="l : ${boardList}">
+								<tr th:if="${not #lists.isEmpty(boardList)}" th:each="l : ${boardList}" onClick="location.href='http://localhost/board/boardDetail'">
 									<td th:text="${l.boardPostTitle}"></td>
 									<td th:text="${l.boardPostContent}"></td>
 									<td th:text="${l.boardPostFile}"></td>

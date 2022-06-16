@@ -18,12 +18,18 @@ public class FacilityController {
 	private static final Logger log = LoggerFactory.getLogger(FacilityController.class);
 
 	private final FacilityService facilityService;
-	
+
 	public FacilityController(FacilityService facilityService) {
 		this.facilityService = facilityService;
 	}
-	
-	/*사용자 시설 조회*/
+
+	/*
+	 * 시설 상세 조회
+	 * 
+	 * @GetMapping("/facilityDetail") public String get
+	 */
+
+	/* 사용자 시설 조회 */
 	@GetMapping("/facilityList")
 	public String getFacilityList(Model model) {
 		List<Facility> facilityList = facilityService.getFacilityList();
@@ -31,6 +37,5 @@ public class FacilityController {
 		model.addAttribute("facilityList", facilityList);
 		return "facility/facilityList";
 	}
-	
-	
+
 }

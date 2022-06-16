@@ -66,6 +66,47 @@
 	
 	
 	
+	<select id="getFacilityInfoByCd" resultType="Facility" resultMap="facilityResultMap">
+		/*시설전체조회*/
+			SELECT
+				f.facility_cd
+				,f.main_ctg_cd
+				,fu.facility_use_nm
+				,a.area_nm
+				,ac.city_nm
+				,act.town_nm
+				,f.user_id
+				,f.facility_nm
+				,f.facility_address
+				,f.facility_detail_addr
+				,f.facility_tell
+				,f.business_number
+				,f.facility_reg_date
+				
+			FROM
+				facility AS f
+				INNER JOIN 
+				area AS a
+				ON 
+				f.area_cd = a.area_cd
+				INNER join
+				area_city AS ac
+				ON 
+				f.city_cd= ac.city_cd
+				INNER join
+				area_city_town AS act
+				on
+				f.town_cd = act.town_cd
+				INNER join
+				facility_use AS fu
+				ON 
+				f.facility_use_cd = fu.facility_use_cd
+			WHERE
+				f.facility_cd = #{facilityCd};
+	</select>
+	
+	
+	
 	
 	
 	

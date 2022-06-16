@@ -14,6 +14,11 @@ import ks43team03.dto.MainCtg;
 @Mapper
 public interface FacilityMapper {
 
+	
+	
+	//시설 상세 정보
+	public Facility getFacilityInfoByCd(String facilityCd);
+	
 	//사용자가 시설 조회
 	public List<Facility> getFacilityList();
 	

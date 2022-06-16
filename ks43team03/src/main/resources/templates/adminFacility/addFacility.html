@@ -89,7 +89,7 @@
 		<div class="col-md-12 col-sm-12">
 			<div class="x_panel">
 			<div class="x_title">
-				<h2>시설등록 </h2>
+				<h2>시설정보등록 </h2>
 				<ul class="nav navbar-right panel_toolbox">
 					<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 					</li>
@@ -98,7 +98,6 @@
 			</div>
 			<div class="x_content">
 			<form id="addFacilityForm" th:action="@{/adminFacility/addFacility}" method="post" novalidate>
-				<span class="section">시설 정보 입력</span>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설대표코드 <span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
@@ -191,6 +190,13 @@
 					<label class="col-form-label col-md-3 col-sm-3  label-align">사업자등록번호<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
 					<input class="form-control" type="text" name="businessNum" required='required' data-validate-length-range="8,20" /></div>
+				</div>
+				<div class="item form-group">
+					<label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonImgFile">시설 사진 
+					</label>
+					<div class="col-md-6 col-sm-6 ">
+						<input type="file" id="lessonImgFile"  name="facilityImgFile" multiple="multiple">
+					</div>
 				</div>
 				<div class="ln_solid">
 					<div class="form-group">

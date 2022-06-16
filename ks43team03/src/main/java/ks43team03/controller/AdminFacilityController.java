@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import ks43team03.dto.Area;
 import ks43team03.dto.AreaCity;
@@ -34,6 +35,8 @@ public class AdminFacilityController {
 		this.adminFacilityService = adminFacilityService;
 	}
 	
+	
+	/*검색*/
 	@PostMapping("/adminFacilityList")
 	public String getSearchFacilityList(@RequestParam(name="searchKey")String searchKey
 									 ,@RequestParam(name="searchValue", required = false)String searchValue
@@ -114,12 +117,13 @@ public class AdminFacilityController {
 	/* String sessionId = (String) session.getAttribute("SID") */
 	  @PostMapping("/addFacility") 
 	  public String addFacility(Facility facility
+			  					,MultipartHttpServletRequest mhsr
 			  					,@RequestParam(name="facilityCd", required = false) String facilityCd
 			  					,HttpServletRequest request) {
 		  log.info("시설등록화면에서 입력한 data : {}", facility);
 		  
 		  
-		  adminFacilityService.addFacility(facility); 
+		  adminFacilityService.addFacility(facility, mhsr); 
 		  return "redirect:/adminFacility/adminFacilityList"; 
 	  }
 

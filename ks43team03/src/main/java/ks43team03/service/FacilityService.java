@@ -29,6 +29,14 @@ public class FacilityService {
 	}
 
 	
+	public Facility getFacilityInfoByCd(String facilityCd) {
+		Facility facilityInfoByCd = facilityMapper.getFacilityInfoByCd(facilityCd);
+		
+		return facilityInfoByCd;
+	}
+	
+	
+	
 	/*시도조회*/
 	public List<Area> getAreaList(){
 		List<Area> areaList = facilityMapper.getAreaList();
@@ -65,12 +73,12 @@ public class FacilityService {
 	
 	/*시설조회*/
 	public List<Facility> getFacilityList(){
-		List<Facility> adminFacilityList = facilityMapper.getFacilityList();
+		List<Facility> FacilityList = facilityMapper.getFacilityList();
 		
-		if(adminFacilityList != null) {
+		if(FacilityList != null) {
 			
 			//향상된 for문
-			for(Facility facility : adminFacilityList) {
+			for(Facility facility : FacilityList) {
 				String mainCtg = facility.getMainCtgCd();
 				if(mainCtg != null){
 					if("gg".equals(mainCtg)) {
@@ -82,7 +90,7 @@ public class FacilityService {
 			}
 		}
 		
-		return adminFacilityList;
+		return FacilityList;
 		
 	}
 

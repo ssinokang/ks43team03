@@ -24,14 +24,35 @@ public class LessonController {
 	public LessonController(LessonService lessonService) {
 		this.lessonService = lessonService;
 	}
-	
-	@GetMapping("/LessonList")
-	public String lessonList(@RequestParam(name="facilityCd") String facilityCd
+	/**
+	 * 레슨 상세 조회 
+	 **/
+	@GetMapping("/detailLesson")
+	public String detailLesson(@RequestParam(name="lessonCd") String lessonCd
+								,Model model) {
+		
+		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
+		model.addAttribute(lesson);
+		return "lesson/detailLesson";
+	}
+	/**
+	 * 레슨 수정
+	 **/
+	@GetMapping("/modifyLesson")
+	public String modifyLesson(@RequestParam(name="lessonCd") String lessonCd) {
+		
+		return "lesson/modifyLesson";
+	}
+	/**
+	 * 시설 내에 등록된 레슨 리스트
+	 **/
+	@GetMapping("/facilityLessonList")
+	public String facilityLessonList(@RequestParam(name="facilityCd") String facilityCd
 							 ,Model model) {
 		
 		
-		System.out.println(facilityCd + "fac@@@@@@@");
-		List<Lesson> lessonList = lessonService.getLessonList(facilityCd);
+		System.out.println(facilityCd + "lessonController/facilityLesosnLilst");
+		List<Lesson> lessonList = lessonService.getfacilityLessonList(facilityCd);
 		model.addAttribute("lessonList", lessonList);
 		log.info("lessonList = {}", lessonList);
 		return "lesson/lessonList";
@@ -46,7 +67,7 @@ public class LessonController {
 		
 		lessonService.addLesson(lesson, multipartHttpServletRequest);
 		
-		return "redirect:/lesson/LessonList?" + "facilityCd="+ lesson.getFacilityCd();
+		return "redirect:/lesson/facilityLessonList?" + "facilityCd="+ lesson.getFacilityCd();
 		
 	}
 	@GetMapping("/addLesson")

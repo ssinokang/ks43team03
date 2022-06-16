@@ -4,25 +4,25 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ks43team03.mapper.FileMapper">
-	<insert id="uploadFile" parameterType="List">
-		/*파일 업로드*/
-	INSERT INTO t_file (
-		file_cd				
-		,original_file_nm	
-		,stored_file_path	
-		,file_size			
-		,uploader_id		
-		,upload_date		
-	) VALUES
-		<foreach collection="list" item="item" separator=",">
-		(
-			#{item.fileCd}
-			,#{item.originalFileName}
-			,#{item.storedFilePath}
-			,#{item.fileSize}
-			,#{item.userId}
-			,NOW()
-		)
-		</foreach>
-	</insert>
+   <insert id="uploadFile" parameterType="List">
+      /*파일 업로드*/
+   INSERT INTO t_file (
+      file_cd            
+      ,original_file_nm   
+      ,stored_file_path   
+      ,file_size         
+      ,uploader_id      
+      ,upload_date      
+   ) VALUES
+      <foreach collection="list" item="item" separator=",">
+      (
+         #{item.fileCd}
+         ,#{item.originalFileName}
+         ,#{item.storedFilePath}
+         ,#{item.fileSize}
+         ,#{item.userId}
+         ,NOW()
+      )
+      </foreach>
+   </insert>
 </mapper>

@@ -9,5 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface FileMapper {
 
 	public void uploadFile(List<Map<String, String>> dtoFileList);
+
+	public void uploadRelationFile(Map<String, String> m);
 	
 }

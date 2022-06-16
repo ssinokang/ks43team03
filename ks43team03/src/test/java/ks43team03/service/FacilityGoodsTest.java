@@ -15,7 +15,6 @@ public class FacilityGoodsTest {
 	
 	@Test
 	@DisplayName("코드 생성과 저장을한다.")
-	
 	void save() {
 		Pass pass = new Pass();
 		pass.setFacilityCd("ss_35011740_01");

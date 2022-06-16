@@ -134,8 +134,8 @@
 			<div class="col-sm-12">
 				<div class="row">
 					<div class="col-sm-4" style="margin-left: 420px">
-						<a th:href="@{/order/orderDetail}" class="btn btn-primary">주문상세보기</a>
-						<button class="btn btn-default">홈화면으로 가기</button>
+						<button class="site-btn" id="orderDetail" >주문상세보기</button>
+						<button class="site-btn" id="indexHome">홈화면으로 가기</button>
 					</div>
 				</div>
 			</div>
@@ -145,7 +145,21 @@
 
 
 	</section>
+	
+	
+	<script>
+		const orderCd = 'order_code_3306162636';
 
+		document.querySelector('#orderDetail')
+			.addEventListener('click', ()=>{
+			location.href='/order/orderDetail';
+		});
+		document.querySelector('#indexHome')
+			.addEventListener('click', ()=>{
+				location.href='/';
+		});
+		
+	</script>
 </th:block>
 
 </html>

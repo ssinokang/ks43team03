@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Lesson;
 import ks43team03.service.LessonService;
 
@@ -33,14 +34,16 @@ public class LessonController {
 		
 		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
 		model.addAttribute(lesson);
+		model.addAttribute("title", "레슨상세조회");
 		return "lesson/detailLesson";
 	}
 	/**
 	 * 레슨 수정
 	 **/
 	@GetMapping("/modifyLesson")
-	public String modifyLesson(@RequestParam(name="lessonCd") String lessonCd) {
-		
+	public String modifyLesson(Model model
+								,@RequestParam(name="lessonCd") String lessonCd) {
+		model.addAttribute("title", "레슨수정");
 		return "lesson/modifyLesson";
 	}
 	/**
@@ -54,24 +57,27 @@ public class LessonController {
 		System.out.println(facilityCd + "lessonController/facilityLesosnLilst");
 		List<Lesson> lessonList = lessonService.getfacilityLessonList(facilityCd);
 		model.addAttribute("lessonList", lessonList);
+		model.addAttribute("title", "레슨리스트");
 		log.info("lessonList = {}", lessonList);
 		return "lesson/lessonList";
 	}
 	
 	@PostMapping("/addLesson")
-	public String addLesson(Lesson lesson,
+	public String addLesson(
+			FacilityGoods facilityGoods,
+			Lesson lesson,
 		    MultipartHttpServletRequest multipartHttpServletRequest) {
-		log.info("!!!lesson : {}", lesson);
-		System.out.println("!!!!!!!!!!!"+lesson);
-		System.out.println(multipartHttpServletRequest);
-		
+		log.info("facilityGoods : {}", facilityGoods);
+		log.info("lesson : {}", lesson);
+		log.info("multipartHttpServletRequest : {}", multipartHttpServletRequest);
 		lessonService.addLesson(lesson, multipartHttpServletRequest);
 		
 		return "redirect:/lesson/facilityLessonList?" + "facilityCd="+ lesson.getFacilityCd();
 		
 	}
 	@GetMapping("/addLesson")
-	public String addLesson() {
+	public String addLesson(Model model) {
+		model.addAttribute("title", "레슨등록");
 		return "lesson/addLesson";
 	}
 }

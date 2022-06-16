@@ -39,7 +39,10 @@ public class LessonService {
 		
 		//파일이 널이 아니라면
 		if (Objects.nonNull(mhsr)) {
-			FileUtils fu = new FileUtils(mhsr, lesson.getUserId());
+			String uproaderId 		= lesson.getUserId();
+			String facilityGoodsCd  = lesson.getFacilityGoodsCd();
+			
+			FileUtils fu = new FileUtils(mhsr, uproaderId, facilityGoodsCd);
 			List<Map<String, String>> dtoFileList = fu.parseFileInfo();
 			// 1. t_file 테이블에 삽입
 			System.out.println(dtoFileList + "LessonService/addLesson");

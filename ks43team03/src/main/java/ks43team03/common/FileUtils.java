@@ -23,7 +23,7 @@ public class FileUtils {
 	private MultipartHttpServletRequest mhsr;
 	private String userId;
 	
-	public FileUtils(MultipartHttpServletRequest mhsr, String userId) {
+	public FileUtils(MultipartHttpServletRequest mhsr, String userId, String facilityGoodsCd) {
 		this.mhsr = mhsr;
 		this.userId = userId;
 	}
@@ -34,7 +34,7 @@ public class FileUtils {
 		List<Map<String, String>> dtoFileList = new ArrayList<>();
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
 		ZonedDateTime currentTime = ZonedDateTime.now();
-		String path = "C:\\Users\\seonw\\Downloads\\" + currentTime.format(dateFormat);
+		String path = "D:\\" + currentTime.format(dateFormat);
 		
 		File file = new File(path);
 		

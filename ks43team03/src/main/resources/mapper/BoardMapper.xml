@@ -94,6 +94,57 @@
 			, #{boardPostState});
 	</insert>
 	
+	<!-- 게시글 답글 등록 -->
+	<insert id="addBoardComment" parameterType="boardComment">
+		INSERT INTO board_post_comment
+			(board_post_comment_cd
+			, board_post_cd, board_ctg_cd
+			, user_id
+			, board_post_comment_detail
+			, board_post_comment_date
+		VALUES 
+			(#{boardPostCommentCd}
+			, #{boardPostCd}
+			, #{boardCtgCd}
+			, #{userId}
+			, #{boardPostContentDetail}
+			, NOW()
+			, #{boardPostCommentState});
+	</insert>
+	
+	<!-- 게시글 리스트 조회 -->
+	<select id="getBoardCommentList" parameterType="String" resultMap="boardResultMap">
+		SELECT 
+			board_post_comment_cd
+			, board_post_cd
+			, board_ctg_cd
+			, user_id
+			, board_post_comment_detail
+			, board_post_comment_date
+			, board_post_comment_state
+		FROM 
+			board_post_comment;
+	</select>
+	
+	<!-- 게시글 조회수 업데이트 -->
+	<update id="boardViewUpdate" parameterType="int">
+		UPDATE 
+			board_post
+		SET
+			board_post_views = board_post_views+1
+		WHERE 
+			board_post_cd = #{boardPostCd};
+	</update>
+	
+	<!-- 게시글 답글 삭제 -->
+	<delete id="removeComment">
+		DELETE FROM 
+			board_post_comment 
+		WHERE 
+			board_post_comment_cd = #{boardPostCommentCd};
+	</delete>
+	
+	<!-- 게시글 삭제 -->
 	<delete id="removeBoard" parameterType="String">
 		DELETE
 		FROM
@@ -101,17 +152,5 @@
 		WHERE
 			board_post_cd = #{boardPostCd};
 	</delete>
-	
-	<!-- 조회수 업데이트 -->
-	<update id="boardViewUpdate" parameterType="String">
-		
-	</update>
-	
-	
-	
-	
-	
-	
-	
 	
 </mapper>

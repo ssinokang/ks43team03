@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default.html}">
+
+	<!-- 사용자 정의 contents -->
+	<th:block layout:fragment="customContents">
+	<!-- 이런식으로 넣으면 되겠죠? -->
+	<div class="breadcrumb-option">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumb__links">
+						<a href="./index.html"><i class="fa fa-home"></i> Home</a>
+						<span>노래추천</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<section class="shop-cart spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-3">
+					<div class="shop__sidebar">
+						<div class="sidebar__categories">
+							<div class="section-title">
+								<h4>My 쇼핑</h4>
+							</div>
+							<div class="categories__accordion">
+								<div class="accordion" id="mypagelink">
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapseOne" class="collapsed"
+												aria-expanded="false">My주문</a>
+										</div>
+										<div id="collapseOne" class="collapse" data-parent="#mypagelink">
+											<div class="card-body">
+												<ul>
+													<li><a href="#">주문 조회</a></li>
+													<li><a href="#">CSS</a></li>
+													<li><a href="#">취소/환불내역</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+												class="collapsed">My예약</a>
+										</div>
+										<div id="collapseTwo" class="collapse" data-parent="#mypagelink">
+											<div class="card-body">
+												<ul>
+													<li><a href="#">나의 대관 예약 정보</a></li>
+													<li><a href="#">나의 레슨 예약정보</a></li>
+		
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
+												class="collapsed">My 활동</a>
+										</div>
+										<div id="collapseThree" class="collapse" data-parent="#mypagelink">
+											<div class="card-body">
+												<ul>
+													<li><a href="#">문의하기</a></li>
+													<li><a href="#">문의내역 조회</a></li>
+													<li><a href="#">리뷰관리</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapseFour" aria-expanded="false"
+												class="collapsed">My 정보</a>
+										</div>
+										<div id="collapseFour" class="collapse" data-parent="#mypagelink">
+											<div class="card-body">
+												<ul>
+													<li><a href="#">개인정보 확인</a></li>
+													<li><a href="#">결제 수단 관리</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-9 col-md-9">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="sidebar__categories">
+								<div class="section-title">
+									<h4>주문 상세정보</h4>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<span>주문일자 2022-06-16 </span>
+									<span>주문코드 order_cd_0216545678</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+		
+	
+	
+	
+	</th:block>
+
+</html>

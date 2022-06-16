@@ -46,13 +46,25 @@ public class OrderController {
 	}
 	
 	
-	//==회원의 주문내역 조회==//
-	
+	//==회원의 주문상세내역 조회==//
+	@GetMapping("/orderDetail")
+	public String orderDetail() {
+		return "order/orderDetail";
+	}
 	
 	
 	
 	
 	//==판매자 주문예약/결제 정보 조회==//
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@GetMapping("/goods")
 	public String goodsRead() {
 		return "goods/goodsRead";

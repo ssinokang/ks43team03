@@ -15,6 +15,8 @@ import java.util.UUID;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import ks43team03.dto.Lesson;
+
 public class FileUtils {
 	
 	private String fileCd;
@@ -28,8 +30,6 @@ public class FileUtils {
 	
 	public List<Map<String, String>> parseFileInfo() {
 		if(Objects.isNull(mhsr)) return null;
-	
-		
 		
 		List<Map<String, String>> dtoFileList = new ArrayList<>();
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -43,6 +43,7 @@ public class FileUtils {
 		
 		Iterator<String> fileNameIterator = mhsr.getFileNames();
 		System.out.println(fileNameIterator + "fileNameIterator!!!!!!");
+		
 		String reFileName;
 		String fileExtention;
 		String fileContentType;
@@ -78,6 +79,7 @@ public class FileUtils {
 					fileMap.put("storedFilePath", path + "/" + reFileName);
 					dtoFileList.add(fileMap);
 					
+					System.out.println(dtoFileList + "FileUtil/dtoFileList");
 					file = new File(path + "/" + reFileName);
 					try {
 						mf.transferTo(file);

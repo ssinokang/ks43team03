@@ -11,7 +11,7 @@ public class Order {
 
 	private String orderCd;
 	private String userId;
-	private String facilityGoodsCode; //예약신청코드 
+	private String facilityGoodsCd; //예약신청코드 
 	private String goodsCtgCd; //카테고리코드 이것도 
 	private int orderPrice;//가격
 	private int userPoint; //회원이보유한 포인트 point

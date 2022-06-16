@@ -19,19 +19,15 @@ var sportCtg = document.querySelector('#sportCtg');
 				facilityCd : facilityCd.value
 			}
 
-			var result = fetch(url, {
+			fetch(url, {
 				  method: "POST",
 				  headers: {
 				    "Content-Type": "application/json",
 				  },
 				  body: JSON.stringify(data),
-			});
-
-			result.then(response => response.json())
-	          	  .then(data => createGoods(data));
-
-			console.log(result);
-			
+			}).then(response => response.json())
+        	  .then(data => createGoods(data));
+	
 		});
 		function createGoods(data){
 			console.log(data.facilityGoodsCd);

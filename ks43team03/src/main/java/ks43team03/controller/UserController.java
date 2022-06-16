@@ -1,6 +1,9 @@
 package ks43team03.controller;
 
 import java.util.Map;
+import java.util.Objects;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +50,7 @@ public class UserController {
 		model.addAttribute("lastPage", 			resultMap.get("lastPage"));
 		model.addAttribute("startPageNum", 		resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum", 		resultMap.get("endPageNum"));
+		model.addAttribute("title", 			"시설 내 회원 목록");
 		
 		return "user/facilityUser";
 	}
@@ -54,29 +58,45 @@ public class UserController {
 	//회원 삭제 변경
 	@PostMapping("/removeUser")
 	public String removeUser(Model model
-							,@RequestParam(name="userId", required = false) String userId
-							,@RequestParam(name="userPw") String userPw) {
+							,@RequestParam(name="userPw") String userPw
+							,HttpSession session) {
+		String sessionId = (String)session.getAttribute("SID"); 
 		
-		log.info("회원아이디 : {}", userId);
+		log.info("회원아이디 : {}", sessionId);
 		log.info("회원비밀번호 : {}", userPw);
 		
-		User user = userService.getUserInfoById(userId);
+		User user = userService.getUserInfoById(sessionId);
 		
 		log.info("DB회원 : {}", user);
 		
 		if(userPw.equals(user.getUserPw())) {
 			user.setUserDrop("Y");
 			userService.modifyUser(user);
-			return "redirect:/";
+			session.invalidate();
+		}
+		return "redirect:/";
+	}
+	
+	//회원 비밀번호 확인
+	@PostMapping("/pwCheck")
+	@ResponseBody
+	public boolean isPwCheck(@RequestParam(value = "userId") String userId
+							,@RequestParam(value = "userPw") String userPw) {
+		
+		boolean pwCheck = false;
+		
+		log.info("패스워드중복체크 클릭시 요청받은 userId의 값: {}", userId);
+		log.info("패스워드중복체크 클릭시 요청받은 userPw의 값: {}", userPw);
+		
+		User userCheck = userService.getUserInfoById(userId);
+		
+		if(userPw.equals(userCheck.getUserPw())) {
 			
-		}else {
-			model.addAttribute("user", user);
-			model.addAttribute("userId", userId);
-			model.addAttribute("result", "비밀번호가 일치하지 않습니다.");
+			pwCheck = true;
 			
-			return "user/userDetail";
 		}
 		
+		return pwCheck;
 	}
 	
 	//회원 비밀번호 변경
@@ -132,19 +152,28 @@ public class UserController {
 	//회원 정보 조회
 	@GetMapping("/userDetail")
 	public String getUserDetail(Model model
-							   ,@RequestParam(name="userId", required = false) String userId) {
-		userId = "id001";
-		User user = userService.getUserInfoById(userId);
+							   ,HttpSession session) {
 		
-		log.info("회원정보조회 아이디 : {}", userId);
+		String sessionId = (String)session.getAttribute("SID");
+		
+		log.info("회원정보조회 아이디 : {}", sessionId);
 		
 		model.addAttribute("title", "회원정보");
-		model.addAttribute("user", user);
 		
+		if(Objects.isNull(sessionId)) {
+			
+			return "user/userDetail";
+		}
+		
+		User user = userService.getUserInfoById(sessionId);
+		
+		model.addAttribute("user", user);
+		model.addAttribute("sessionId", sessionId);
+		model.addAttribute("title", "회원 정보");
 		return "user/userDetail";
 	}
 	
-	//회원 등록
+	//회원 가입
 	@PostMapping("/addUser")
 	public String addMember(User user) {
 		
@@ -152,10 +181,14 @@ public class UserController {
 		
 		log.info("회원가입폼에서 입력받은 데이터:{}", user);
 		
-		return "redirect:/user/addUser";
+		int result = userService.addUser(user);
+		
+		log.info("result : {}", result);
+		
+		return "redirect:/";
 	}
 	
-	//회원 등록 페이지 이동
+	//회원 가입 페이지 이동
 	@GetMapping("/addUser")
 	public String addUser(Model model) {
 		
@@ -190,11 +223,11 @@ public class UserController {
 		
 		model.addAttribute("resultMap", 			resultMap);
 		model.addAttribute("currentPage", 			currentPage);
-		model.addAttribute("userList",		resultMap.get("userList"));
+		model.addAttribute("userList",				resultMap.get("userList"));
 		model.addAttribute("lastPage", 				resultMap.get("lastPage"));
 		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
-		
+		model.addAttribute("title", 				"회원 전체 목록");
 		return "user/userList";
 	}
 }

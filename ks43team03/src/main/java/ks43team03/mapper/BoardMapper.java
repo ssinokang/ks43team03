@@ -15,29 +15,27 @@ public interface BoardMapper {
 	public List<Board> getBoardList(Map<String, Object> paramMap);
 	
 	//게시글 코드로 상세 조회 
-	public Board getBoardDetail();
+	public Board getBoardDetail(String boardPostCd);
 	
 	// 게시글 등록
 	public int addBoard(Board board);
 	
+	// 게시글 수정 
+	public int modifyBoard(Board board);
 	
+	// 게시글 조회수 업데이트 
+	public int boardViewUpdate(String boardPostCd);
 	
+	// 게시글 답글 등록 
+	public void addBoardComment(BoardComment boardComment);
 	
+	// 게시글 답글 조회 
+	public List<BoardComment> getBoardCommentList(String boardPostCd);
 	
+	// 게시글 답글 삭제 
+	public int removeComment(String boardCommentCode);
 	
-	/*
-	 * // 게시글 수정 public int modifyBoard(Board board);
-	 * 
-	 * // 게시글 삭제 public int removeBoard(String boardPostCd);
-	 * 
-	 * // 게시글 조회수 업데이트 public int boardViewUpdate(String boardPostCd);
-	 * 
-	 * // 게시글 답글 등록 public void addBoardComment(BoardComment boardComment);
-	 * 
-	 * // 게시글 답글 조회 public List<BoardComment> getBoardCommentList(String
-	 * boardPostCd);
-	 * 
-	 * // 게시글 답글 삭제 public int removeComment(String boardCommentCode);
-	 */
+	// 게시글 삭제
+	public int removeBoard(String boardPostCd);
 	
 }

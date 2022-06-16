@@ -12,7 +12,7 @@ import ks43team03.dto.Pass;
 import ks43team03.mapper.FacilityGoodsMapper;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class FacilityGoodsService {
 
 	
@@ -25,7 +25,7 @@ public class FacilityGoodsService {
 		this.facilityGoodsMapper = facilityGoodsMapper;
 	}
 	
-	@Transactional
+
 	public String addPass(Pass pass) {
 		String goodsCode = addGoodsCode(pass);
 		
@@ -42,7 +42,12 @@ public class FacilityGoodsService {
 		log.info("addPass에서 받은 값 : {}", facilityGoods);
 		facilityGoodsMapper.addFaciliryGoods(facilityGoods);
 		return facilityGoods.getFacilityGoodsCd();
+		
 	}
+	
+	
+	
+	
 	
 	/*
 	 * Admin 전체조회

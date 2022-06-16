@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import ks43team03.dto.Facility;
 import ks43team03.service.FacilityService;
@@ -23,11 +24,22 @@ public class FacilityController {
 		this.facilityService = facilityService;
 	}
 
-	/*
-	 * 시설 상세 조회
-	 * 
-	 * @GetMapping("/facilityDetail") public String get
-	 */
+	
+	/* 시설 상세 조회*/
+
+	 @GetMapping("/facilityDetail")
+	 public String getFacilityDetail(Model model
+									 ,@RequestParam(name="facilityCd", required = false) String facilityCd){
+										
+			Facility facilityDetail = facilityService.getFacilityDetail(facilityCd);
+			log.info(facilityCd);
+			
+			model.addAttribute("title", "시설 상세 정보");
+			model.addAttribute("facilityDetail", facilityDetail);
+			return "facility/facilityDetail";
+			
+										 }
+
 
 	/* 사용자 시설 조회 */
 	@GetMapping("/facilityList")

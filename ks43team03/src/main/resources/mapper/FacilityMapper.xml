@@ -36,7 +36,7 @@
 		<association property="areaCity" 	javaType="AreaCity">
 			<id 	 column="city_cd" 		property="cityCd"/>
 			<result  column="area_cd" 		property="areaCd"/>
-			<result  column="town_nm" 		property="townNm"/>
+			<result  column="city_nm" 		property="cityNm"/>
 		</association>	
 		<association property="areaCityTown" 	javaType="AreaCityTown">
 			<id 	 column="town_cd" 			property="townCd"/>
@@ -67,10 +67,10 @@
 	
 	
 	<select id="getFacilityInfoByCd" resultType="Facility" resultMap="facilityResultMap">
-		/*시설전체조회*/
+		/*시설상세정보조회*/
 			SELECT
 				f.facility_cd
-				,f.main_ctg_cd
+				,mc.main_ctg_nm
 				,fu.facility_use_nm
 				,a.area_nm
 				,ac.city_nm
@@ -101,6 +101,10 @@
 				facility_use AS fu
 				ON 
 				f.facility_use_cd = fu.facility_use_cd
+				INNER join
+				main_ctg AS mc
+				ON 
+				f.main_ctg_cd = mc.main_ctg_cd
 			WHERE
 				f.facility_cd = #{facilityCd};
 	</select>

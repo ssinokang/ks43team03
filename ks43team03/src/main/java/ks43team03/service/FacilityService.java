@@ -28,11 +28,14 @@ public class FacilityService {
 		this.facilityMapper = facilityMapper;
 	}
 
+
 	
-	public Facility getFacilityInfoByCd(String facilityCd) {
-		Facility facilityInfoByCd = facilityMapper.getFacilityInfoByCd(facilityCd);
+	/*시설 상세 정보 조회*/
+	public Facility getFacilityDetail(String facilityCd) {
+		Facility facilityDetail = facilityMapper.getFacilityInfoByCd(facilityCd);
 		
-		return facilityInfoByCd;
+
+		return facilityDetail;
 	}
 	
 	

@@ -15,6 +15,7 @@ public class Boomk {
 	private String boomkFacilityState;
 	private String boomkUpdateDate;
 
+	private Facility facility;
 }
  
 

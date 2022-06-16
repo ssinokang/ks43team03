@@ -16,11 +16,12 @@
 		<id column="facility_cd"					property="facilityCd"/>
 		<result column="main_ctg_cd"				property="mainCtgCd"/>
 		<result column="facility_use_cd"			property="facilityUseCd"/>
+		<result column="town_cd"					property="townCd"/>
 		<result column="user_id"					property="userId"/>
 		<result column="facility_nm"				property="facilityNm"/>
-		<result column="facility_address"			property="facilityAddress"/>
+		<result column="facility_address"			property="facilityAddr"/>
 		<result column="facility_tell"				property="facilityTell"/>
-		<result column="business_number"			property="businessNumber"/>
+		<result column="business_number"			property="businessNum"/>
 		<result column="facility_reg_date"			property="facilityRegDate"/>
 		<result column="facility_post_num"			property="facilityPostNum"/>
 		<result column="facility_detail_addr"		property="facilityDetailAddr"/>
@@ -46,7 +47,7 @@
 	</resultMap> -->
 
 <!-- id="boomkFacilityResultMap"와 resultMap="boomkFacilityResultMap"는 같아야 한다. -->
-	<select id="getBoomkInfoById" parameterType="String" resultMap="boomkFacilityResultMap">
+	<select id="getBoomkList" parameterType="String" resultMap="boomkFacilityResultMap">
 		<!-- 아이디로  즐겨찾기 정보 조회-->
 		SELECT
 			 b.user_id
@@ -67,6 +68,24 @@
 			b.user_id = #{userId};
 	</select>	
 
-  
+		<select id="getFacilityList" resultType="Facility"> <!-- resultMap="boomkFacilityResultMap" -->
+		/*시설전체조회*/
+			SELECT 
+				facility_cd 		as facilityCd		
+				,main_ctg_cd 		as mainCtgCd	 	
+				,area_cd 			as areaCd			
+				,city_cd			as cityCd	
+				,town_cd			as townCd
+				,facility_use_cd	as facilityUseCd
+				,user_id			as userId
+				,facility_nm		as facilityNm
+				,facility_address	as facilityAddr
+				,facility_tell		as facilityTell
+				,facility_post_num	as facilityPostNum
+				,business_number	as businessNum
+				,facility_reg_date  as facilityRegDate
+			FROM 
+				facility 
+		</select>  
   
 </mapper>  

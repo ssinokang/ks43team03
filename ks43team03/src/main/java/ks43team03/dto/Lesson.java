@@ -25,4 +25,6 @@ public class Lesson {
 	private String lessonState;
 	
 	private Sports sports;
+	private Facility facility;
+	private AreaCityTown areaCityTown;
 }

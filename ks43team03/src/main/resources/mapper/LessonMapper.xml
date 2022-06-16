@@ -24,30 +24,71 @@
 			<id 	column="sports_cd"	property="sportsCd"/>
 			<result column="sports_nm" 	property="sportsName"/>
 		</association> 
+		<association property="facility" javaType="Facility">
+			<id 	column="facility_cd" 		property="facilityCd"/>
+			<result column="main_ctg_cd"		property="mainCtgCd"/>
+			<result column="area_cd"  			property="areaCd"/>
+			<result column="city_cd"  			property="cityCd"/>
+			<result column="town_cd"  			property="townCd"/>
+			<result column="facility_use_cd" 	property="facilityUseCd"/>
+			<result column="user_id" 			property="userId"/>
+			<result column="facility_nm" 		property="facilityNm"/>
+			<result column="facility_address" 	property="facilityAddr"/>
+			<result column="facility_tell" 		property="facilityTell"/>
+			<result column="facility_post_num" 	property="facilityPostNum"/>
+			<result column="business_number" 	property="businessNum"/>
+			<result column="facility_reg_date"	property="facilityRegDate"/>
+		</association>
+		<association property="areaCityTown" 	javaType="AreaCityTown">
+			<id 	 column="town_cd" 	property="townCd"/>
+			<result  column="city_cd" 	property="cityCd"/>
+			<result  column="area_cd" 	property="areaCd"/>
+			<result  column="town_nm" 	property="townNm"/>
+		</association>
 	</resultMap>
 	<!-- 레슨 코드를 사용한 레슨 상세 조회 -->
 	<select id="getLessonInfoByCd" parameterType="String" resultMap="lessonResultMap">
 		SELECT
-			l.lesson_cd,
-			l.lesson_division,
-			l.facility_goods_cd,
-			l.facility_cd,
-			l.goods_ctg_cd,
-			l.sports_cd,
-			l.user_id,
-			l.lesson_nm,
-			l.lesson_detail,
-			l.lesson_total_member,
-			l.lesson_price,
-			l.lesson_member,
-			l.lesson_start_date,
-			l.lesson_end_date,
-			l.lesson_state,
-			l.lesson_reg_date
-		FROM
-			lesson AS l
+        act.town_nm
+        ,act.town_cd
+        ,act.town_nm
+        ,act.area_cd
+        ,f.facility_cd
+        ,f.main_ctg_cd
+        ,f.town_cd
+        ,f.facility_use_cd
+        ,f.user_id
+        ,f.facility_nm
+        ,f.facility_address
+        ,f.facility_tell
+        ,f.business_number
+        ,f.facility_reg_date
+        ,f.facility_post_num
+        ,f.facility_detail_addr
+        ,f.area_cd
+        ,l.lesson_division
+        ,l.user_id
+        ,l.sports_nm
+        ,l.lesson_nm
+        ,l.lesson_detail
+        ,l.lesson_total_member
+        ,l.lesson_member
+        ,l.lesson_start_date
+        ,l.lesson_end_date
+        ,l.lesson_price
+        ,l.lesson_reg_date
+        FROM
+                lesson   AS l
+                INNER JOIN
+                facility AS f
+                on
+                l.facility_cd = f.facility_cd
+                INNER JOIN
+                area_city_town AS act
+                on
+                f.town_cd = act.town_cd
 		WHERE
-			l.lesson_cd = #{lessonCd}
+		        l.lesson_cd = #{lessonCd}
 	</select>
 	<!-- 시설 내 레슨 조회 -->
 	<select id="getFacilityLessonList" fetchSize="100" parameterType="String" resultMap="lessonResultMap">

@@ -111,27 +111,33 @@
 	
 	
 	
+		<select id="getFacilityCount" resultType="int">
+			/*시설 목록 총 튜플 수*/
+			SELECT
+				COUNT(*)
+			FROM
+				facility;
+		</select>
 	
 	
-	
-	<select id="getFacilityList" resultType="Facility" resultMap="facilityResultMap">
+	<select id="getFacilityList" parameterType="map" resultType="map">
 		/*시설전체조회*/
 			SELECT 
-				facility_cd 		
-				,main_ctg_cd		
-				,area_cd			
-				,city_cd			
-				,town_cd			
-				,facility_use_cd	
-				,user_id			
-				,facility_nm		
-				,facility_address
-				,facility_tell		
-				,facility_post_num	
-				,business_number	
-				,facility_reg_date
+				facility_cd 	AS facilityCd	
+				,main_ctg_cd	AS mainCtgCd	
+				,area_cd		AS areaCd	
+				,city_cd		AS cityCd	
+				,town_cd		AS townCd	
+				,facility_use_cd	AS facilityUseCd
+				,user_id			AS userId
+				,facility_nm		AS facilityNm
+				,facility_address   AS facilityAddr
+				,facility_tell		AS facilityTell
+				,facility_post_num	AS businessNum
+				,facility_reg_date	AS facilityRegDate
 			FROM 
 				facility 
+			LIMIT #{startRow}, #{rowPerPage};	
 		</select>
 	
 	
@@ -145,6 +151,7 @@
 		</select>
 	
 		<select id="getFacilityUseList" resultType="FacilityUse">
+			/*용도*/
 			SELECT 
 				facility_use_cd 	AS facilityUseCd
 				,facility_use_nm	AS facilityUseNm
@@ -153,6 +160,7 @@
 		
 		</select>
 		<select id="getAreaList" resultType="Area">
+			/*시도*/
 			SELECT 
 				area_cd	AS areaCd
 				,area_nm	AS areaNm
@@ -161,6 +169,7 @@
 		</select>
 
 		<select id="getAreaCityList" resultType="AreaCity">
+			/*시군구*/
 			SELECT 
 				city_cd	AS cityCd
 				,area_cd	AS areaCd
@@ -170,6 +179,7 @@
 		</select>
 		
 		<select id="getAreaCityTownList" resultType="AreaCityTown">
+		/*읍면동*/
 			SELECT 
 				town_cd 	AS townCd
 				,area_cd	AS areaCd
@@ -182,21 +192,5 @@
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 
 </mapper>

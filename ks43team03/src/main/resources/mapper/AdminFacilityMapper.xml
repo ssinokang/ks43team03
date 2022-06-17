@@ -118,20 +118,46 @@
 
 	
 		<update id="modifyFacility" parameterType="Facility" >
+		/*시설수정*/
 			UPDATE facility
-			SET
-				main_ctg_cd = 			#{mainCtgCd},
-				town_cd = 				#{townCd},
-				facility_use_cd = 		#{facilityUseCd},
-				user_id = 				#{userId},
-				facility_nm =			#{facilityNm},
-				facility_address =		#{facilityAddr},
-				facility_tell = 		#{facilityTell},
-				business_number = 		#{businessNum},
-				facility_post_num = 	#{facilityPostNum},
-				facility_detail_addr = 	#{facilityDetailAddr},
-				area_cd 		=	    #{areaCd},
-				city_cd = 				#{cityCd}
+			<trim prefix="SET" prefixOverrides=",">
+				<if test="mainCtgCd != null and mainCtgCd != ''">
+					main_ctg_cd = 			#{mainCtgCd},
+				</if>	
+				<if test="townCd != null and townCd != ''">
+					town_cd = 				#{townCd},
+				</if>
+				<if test="facilityUseCd != null and facilityUseCd != ''">
+					facility_use_cd = 		#{facilityUseCd},
+				</if>
+				<if test="userId != null and userId != ''">
+					user_id = 				#{userId},
+				</if>
+				<if test="facilityNm != null and facilityNm != ''">		
+					facility_nm =			#{facilityNm},
+				</if>
+				<if test="facilityAddr != null and facilityAddr != ''">
+					facility_address =		#{facilityAddr},
+				</if>
+				<if test="facilityTell != null and facilityTell != ''">
+					facility_tell = 		#{facilityTell},					
+				</if>
+				<if test="businessNum != null and businessNum != ''">					
+					business_number = 		#{businessNum},
+				</if>
+				<if test="facilityPostNum != null and facilityPostNum != ''">
+					facility_post_num = 	#{facilityPostNum},
+				</if>
+				<if test="facilityDetailAddr != null and facilityDetailAddr != ''">
+					facility_detail_addr = 	#{facilityDetailAddr},
+				</if>
+				<if test="areaCd != null and areaCd != ''">
+					area_cd 		=	    #{areaCd},
+				</if>
+				<if test="cityCd != null and cityCd != ''">
+					city_cd = 				#{cityCd}
+				</if>
+			</trim>	
 			WHERE 
 				facility_cd	=			#{facilityCd};
 		</update>
@@ -139,7 +165,7 @@
 		
 		<select id="getAdminFacilityListById" parameterType="Facility" resultMap="facilityResultMap">
 			SELECT
-				f.facility_cd
+				f.facility_cd 
 				,f.main_ctg_cd
 				,fu.facility_use_nm
 				,a.area_nm
@@ -239,22 +265,22 @@
 		</select>
 
 
-		<select id="getAdminFacilityList" resultType="Facility" resultMap="facilityResultMap">
+		<select id="getAdminFacilityList" parameterType="map" resultType="map">
 		/*시설전체조회*/
 			SELECT
-				f.facility_cd
-				,f.main_ctg_cd
-				,fu.facility_use_nm
-				,a.area_nm
-				,ac.city_nm
-				,act.town_nm
-				,f.user_id
-				,f.facility_nm
-				,f.facility_address
-				,f.facility_detail_addr
-				,f.facility_tell
-				,f.business_number
-				,f.facility_reg_date
+				f.facility_cd 			AS facilityCd
+				,f.main_ctg_cd 			AS mainCtgCd
+				,fu.facility_use_nm 	AS facilityUseNm
+				,a.area_nm 				AS areaNm
+				,ac.city_nm				AS cityNm
+				,act.town_nm 			AS townNm
+				,f.user_id 				AS userId
+				,f.facility_nm 			AS facilityNm
+ 				,f.facility_address 	AS facilityAddr
+				,f.facility_detail_addr AS facilityDetailAddr
+				,f.facility_tell 		AS facilityTell
+				,f.business_number		AS businessNum
+				,f.facility_reg_date 	AS facilityRegDate
 				
 			FROM
 				facility AS f
@@ -273,8 +299,10 @@
 				INNER join
 				facility_use AS fu
 				ON 
-				f.facility_use_cd = fu.facility_use_cd;
+				f.facility_use_cd = fu.facility_use_cd
+			LIMIT #{startRow}, #{rowPerPage};
 		</select>
+		
 		
 		<select id="getMainCtgList" resultType="MainCtg">
 			SELECT 

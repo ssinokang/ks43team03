@@ -1,6 +1,7 @@
 package ks43team03.controller;
 
-import java.util.List;
+
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,12 +42,22 @@ public class FacilityController {
 										 }
 
 
-	/* 사용자 시설 조회 */
+	/* 사용자가 시설 조회 */
 	@GetMapping("/facilityList")
-	public String getFacilityList(Model model) {
-		List<Facility> facilityList = facilityService.getFacilityList();
-
-		model.addAttribute("facilityList", facilityList);
+	public String getFacilityList(Model model
+								,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage){
+		Map<String, Object> resultMap = facilityService.getFacilityList(currentPage);
+		
+		log.info("resultMap : {}",resultMap);
+		log.info("resultMap.get(\"facilityList\") : {}",resultMap.get("facilityList"));
+		
+		model.addAttribute("resultMap", 			resultMap);
+		model.addAttribute("currentPage", 			currentPage);
+		model.addAttribute("facilityList",		resultMap.get("facilityList"));
+		model.addAttribute("lastPage", 				resultMap.get("lastPage"));
+		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
+		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
+		model.addAttribute("title", "시설");
 		return "facility/facilityList";
 	}
 

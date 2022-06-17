@@ -60,8 +60,11 @@ public class OrderController {
 	
 	
 	
-	
-	
+	//== fragment Test ==//
+	@GetMapping("/fragmentTest")
+	public String fragmentTest() {
+		return "order/fragmetTest";
+	}
 	
 	
 	

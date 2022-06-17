@@ -3,7 +3,10 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/adminDefault}">
 
-
+<!-- 사용자 정의 title -->
+<th:block layout:fragment="customTitle">
+   <title th:text="${title}"></title>
+</th:block>
 <!-- 사용자 정의Contents -->
 <th:block layout:fragment="customContents">
 
@@ -58,10 +61,10 @@
 										name="table_records"></td>
 									<td th:text="${l.facilityCd}"></td>
 									<td th:text="${l.mainCtgCd}"></td>
-									<td th:text="${l.areaCd}"></td>
-									<td th:text="${l.cityCd}"></td>
-									<td th:text="${l.townCd}"></td>
-									<td th:text="${l.facilityUseCd}"></td>
+									<td th:text="${l.area.areaNm}"></td>
+									<td th:text="${l.areaCity.cityNm}"></td>
+									<td th:text="${l.areaCityTown.townNm}"></td>
+									<td th:text="${l.facilityUse.facilityUseNm}"></td>
 									<td th:text="${l.userId}"></td>
 									<td th:text="${l.facilityNm}"></td>
 									<td th:text="${l.facilityAddr}"></td>

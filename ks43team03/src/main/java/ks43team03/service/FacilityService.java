@@ -1,6 +1,8 @@
 package ks43team03.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,17 @@ public class FacilityService {
 		this.facilityMapper = facilityMapper;
 	}
 
+
+	
+	/*시설 상세 정보 조회*/
+	public Facility getFacilityDetail(String facilityCd) {
+		Facility facilityDetail = facilityMapper.getFacilityInfoByCd(facilityCd);
+		
+
+		return facilityDetail;
+	}
+	
+	
 	
 	/*시도조회*/
 	public List<Area> getAreaList(){
@@ -64,26 +77,50 @@ public class FacilityService {
 	}
 	
 	/*시설조회*/
-	public List<Facility> getFacilityList(){
-		List<Facility> adminFacilityList = facilityMapper.getFacilityList();
+	public Map<String, Object> getFacilityList(int currentPage){
 		
-		if(adminFacilityList != null) {
-			
-			//향상된 for문
-			for(Facility facility : adminFacilityList) {
-				String mainCtg = facility.getMainCtgCd();
-				if(mainCtg != null){
-					if("gg".equals(mainCtg)) {
-						facility.setMainCtgCd("공공시설");
-					}else if("ss".equals(mainCtg)) {
-						facility.setMainCtgCd("사설시설");		
-					}
+		int rowPerPage = 9;
+		int startPageNum = 1;
+		int endPageNum = 10;
+		
+		double rowCount = facilityMapper.getFacilityCount();
+		
+		int lastPage = (int)Math.ceil(rowCount/rowPerPage);
+		
+		int startRow = (currentPage - 1) * rowPerPage;
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+		paramMap.put("startRow", startRow);
+		paramMap.put("rowPerPage", rowPerPage);
+		
+	
+		
+		if(lastPage > 10) {
+			if(currentPage >= 6) {
+				startPageNum = currentPage - 4;
+				endPageNum = currentPage + 5;
+				
+				if(endPageNum >= lastPage) {
+					startPageNum = lastPage - 9;
+					endPageNum = lastPage;
 				}
 			}
+		}else {
+			endPageNum = lastPage;
 		}
+		List<Map<String, Object>> facilityList = facilityMapper.getFacilityList(paramMap);
 		
-		return adminFacilityList;
+		log.info("paramMap : {}", paramMap);
 		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("lastPage", 			lastPage);
+		resultMap.put("facilityList",	facilityList);
+		resultMap.put("startPageNum",		startPageNum);
+		resultMap.put("endPageNum",			endPageNum);
+		return resultMap;
+
+	
 	}
 
 	

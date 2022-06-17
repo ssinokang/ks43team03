@@ -13,7 +13,10 @@
 			.form-group{margin-top:10px;}
 		</style>
 	</th:block>
-	
+<!-- 사용자 정의 title -->
+   <th:block layout:fragment="customTitle">
+      <title th:text="${title}"></title>
+   </th:block>
 	
 	
 	<!-- 사용자 정의 Js 파일-->

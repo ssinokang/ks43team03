@@ -11,10 +11,14 @@
 		<result column="board_post_content"			property="boardPostContent"/>
 		<result column="board_post_file"			property="boardPostFile"/>
 		<result column="board_post_date"			property="boardPostDate"/>
-		<result column="board_post_pw"				property="boardPostPw"/>
-		<result column="board_post_views"			property="boardPostViews"/>
 		<result column="board_post_comment_number"	property="boardPostCommentNum"/>
+		<result column="board_post_views"			property="boardPostViews"/>
 		<result column="board_post_state"			property="boardPostState"/>
+	</resultMap>
+	<resultMap type="BoardCtgCd" 					id="BoardCtgCdResultMap">
+		<id column="board_sub_ctg_cd"				property="boardCtgCd"/>
+		<result column="board_ctg_nm"				property="boardCtgNm"/>
+		<result column="board_ctg_rdg_date"			property="boardCtgRegDate"/>
 	</resultMap>
 	<resultMap type="BoardComment" 					id="boardCommentResultMap">
 		<id column="board_post_comment_cd"			property="boardPostCommentCd"/>
@@ -26,7 +30,7 @@
 		<result column="board_post_comment_state"	property="boardPostCommentState"/>
 	</resultMap>
 	
-	<!-- 게시판 전체 조회 -->
+	<!-- 게시글 전체 조회 -->
 	<select id="getBoardList" parameterType="String" resultMap="boardResultMap">
 		SELECT
 			b.board_post_cd
@@ -112,22 +116,18 @@
 			, #{boardPostCommentState});
 	</insert>
 	
-	<!-- 게시글 리스트 조회 -->
-	<select id="getBoardCommentList" parameterType="String" resultMap="boardResultMap">
+	<!-- 게시글 카테고리 조회 -->
+	<select id="getBoardCtgCdList" parameterType="String" resultMap="BoardCtgCdResultMap">
 		SELECT 
-			board_post_comment_cd
-			, board_post_cd
-			, board_ctg_cd
-			, user_id
-			, board_post_comment_detail
-			, board_post_comment_date
-			, board_post_comment_state
+			board_sub_ctg_cd
+			, board_ctg_nm
+			, board_ctg_reg_date
 		FROM 
-			board_post_comment;
+			board_ctg;
 	</select>
 	
 	<!-- 게시글 조회수 업데이트 -->
-	<update id="boardViewUpdate" parameterType="int">
+	<update id="boardViewUpdate" parameterType="String">
 		UPDATE 
 			board_post
 		SET
@@ -136,8 +136,28 @@
 			board_post_cd = #{boardPostCd};
 	</update>
 	
+	<!-- 게시글 답글 리스트 조회 -->
+	<select id="getBoardCommentList" parameterType="String" resultMap="boardCommentResultMap">
+		SELECT 
+			c.board_post_comment_cd
+			, c.board_post_cd
+			, c.board_ctg_cd
+			, c.user_id
+			, c.board_post_comment_detail
+			, c.board_post_comment_date
+			, c.board_post_comment_state
+		FROM 
+			board_post_comment AS c
+		INNER join
+			board_post AS p
+		ON
+			c.board_post_cd = p.board_post_cd
+		WHERE
+			p.board_post_cd = #{boardPostCd};
+	</select>
+	
 	<!-- 게시글 답글 삭제 -->
-	<delete id="removeComment">
+	<delete id="removeComment" parameterType="String">
 		DELETE FROM 
 			board_post_comment 
 		WHERE 

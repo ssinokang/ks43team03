@@ -2,34 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/default.html}">
-	  
-	 <th:block layout:fragment="customContents">
+	<!-- 사용자 정의 title -->
+	<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+	</th:block>
+	
+	<!-- 사용자 정의 Css -->
+	<th:block layout:fragment="customCss">
+		<style>
+			.form-group{margin-top: 30px;}
+		</style>
+	</th:block>
+	
+	<th:block layout:fragment="customContents">
 	 
 		<section class="board-details spad">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-8 col-md-8">
+					
+						<!-- contents -->
 						<div class="board__details__content">
+							
+							<!-- detail -->
 							<div class="board__details__item">
 								<img src="img/board/details/board-details.jpg" alt="">
-								<input type="hidden">
 								<div class="board__details__item__title">
-									<span class="tip">공지</span>
-									<label>공지사항01</label>
+									<input type="hidden" th:value="${board.boardCtgCd}" id="boardCtgCd">
+									<span class="tip">공지사항</span>
+									<label th:text="${board.boardPostTitle}"></label>
+									<input type="hidden" th:value="${board.boardPostCd}" id="boardPostCd">
 									<ul>
 										<li>by
-											<span>userId</span>
+											<span th:text="${board.userId}"></span>
 										</li>
-										<li>Seb 17, 2019</li>
-										<li>39 Comments</li>
+										<li th:text="${board.boardPostDate}"></li>
+										<li> [[${board.boardPostCommentNum}]] Comments</li>
 									</ul>
 								</div>
 							</div>
 							<div class="board__details__desc">
-								<p>
-									공지합니다.
-								</p>
+								<p th:text="${board.boardPostContent}"></p>
 							</div>
+							<!-- detail end -->
+							
+							<!-- btn -->
 							<div class="board__details__btns">
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-6">
@@ -54,92 +71,83 @@
 									</div>
 								</div>
 							</div>
+							<!-- btn end -->
+							
 							<div class="board__details__comment">
-								<h5>3 Comment</h5>
-								<a href="@{board/addComment}" class="leave-btn">답글쓰기</a>
+								<h5>[[${board.boardPostCommentNum}]] Comment</h5>
+								<a class="leave-btn" data-toggle="modal" data-target="#addCommentModal">답글쓰기</a>
+								
+								<!-- modal -->
+								<div class="modal fade" id="addCommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<form id="addCommentForm" method="post">
+										<div class="modal-dialog" role="document">
+									 		<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLabel">답글 작성</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+													<div class="form-group row">
+														<div class="col-md-3 col-sm-3">
+															<label class="control-label" for="userId">아이디</label>
+														</div>
+														<div class="col-md-9 col-sm-9">
+															<input type="text" class="form-control" name="userId" readonly="readonly" th:value="${session.SID}">
+														</div>
+													</div>
+													<div class="form-group row">
+														<div class="col-md-3 col-sm-3">
+															<label class="control-label" for="boardPostContentDetail">답글</label>
+														</div>
+														<div class="col-md-9 col-sm-9">
+															<input type="text" class="form-control" id="boardPostContentDetail" name="boardPostContentDetail" placeholder="작성해주세요.">
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<div class="form-group">
+														<button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
+														<button type="button" class="btn btn-danger" id="saveBtn1" th:onclick="saveBtn()" >저장</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+								<!-- modal end -->						
+								
+								<!-- comment -->
 								<div class="board__comment__item">
-									<div class="board__comment__item__pic">
-										<img src="img/board/details/comment-1.jpg" alt="">
-									</div>
-									<div class="board__comment__item__text">
-										<h6>강트레이너</h6>
-										<p>
-											확인했습니다.
-										</p>
+									<div class="board__comment__item__text" th:each="c : ${boardCommentList}">
+										<h6 th:text="${c.userId}"></h6>
+										<p th:text="${c.boardPostContentDetail}"></p>
 										<ul>
 											<li>
 												<i class="fa fa-clock-o"></i>
-												Seb 17, 2019
+												3
 											</li>
 											<li>
 												<i class="fa fa-heart-o"></i>
 												12
 											</li>
-											<li>
+											<li id="removeComment">
 												<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="#CA1515" class="bi bi-trash3" viewBox="0 0 16 16">
 												  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
 												</svg>
-												삭제
+													삭제
 											</li>
 										</ul>
 									</div>
 								</div>
-								<div class="board__comment__item board__comment__item--reply">
-									<div class="board__comment__item__pic">
-										<img src="img/board/details/comment-2.jpg" alt="">
-									</div>
-									<div class="board__comment__item__text">
-										<h6>김트레이너</h6>
-										<p>
-											네.
-										</p>
-										<ul>
-											<li>
-												<i class="fa fa-clock-o"></i>
-												Seb 17, 2019
-											</li>
-											<li>
-												<i class="fa fa-heart-o"></i>
-												12
-											</li>
-											<li>
-												<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="#CA1515" class="bi bi-trash3" viewBox="0 0 16 16">
-												  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-												</svg>
-												삭제
-											</li>
-										</ul>
-									</div>
-								</div>
-								<div class="board__comment__item">
-									<div class="board__comment__item__pic">
-										<img src="img/board/details/comment-3.jpg" alt="">
-									</div>
-									<div class="board__comment__item__text">
-										<h6>이트레이너</h6>
-										<p>
-											왜죠?
-										</p>
-										<ul>
-											<li>
-												<i class="fa fa-clock-o"></i>
-												Seb 17, 2019
-											</li>
-											<li>
-												<i class="fa fa-heart-o"></i>
-												12
-											</li>
-											<li>
-												<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="#CA1515" class="bi bi-trash3" viewBox="0 0 16 16">
-												  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-												</svg>
-												삭제
-											</li>
-										</ul>
-									</div>
-								</div>
+								<!-- comment end -->
+						
 							</div>
 						</div>
+						<!-- contents end -->
+						
+						
 					</div>
 					<div class="col-lg-4 col-md-4">
 						<div class="board__sidebar">
@@ -218,5 +226,80 @@
 		</section>
 		<!-- board Details Section End -->
 	 </th:block>
-
+	
+	 <!-- 사용자 정의 Js 파일-->
+	<th:block layout:fragment="customJs">
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+		<script >
+			// 답글 작성
+			function saveBtn(){
+				var boardPostContentDetail = $('#boardPostContentDetail').val();
+				var boardPostCd = $('#boardPostCd').val();
+				var boardCtgCd = $('#boardCtgCd').val();
+				var obj = {"boardPostContentDetail":boardPostContentDetail,
+							"boardPostCd":boardPostCd,
+							"boardCtgCd":boardCtgCd};
+				console.log(boardCtgCd);
+				console.log(boardPostCd);
+				console.log(obj);
+				$.ajax({
+					type: 'POST',
+					url: '/board/boardDetail', 
+					contentType: "application/json",
+					data: JSON.stringify(obj),
+					success: function() {
+					      alert('SuccessSave');
+					}
+				});
+			}
+			
+			
+			
+			// 답글 삭제
+			/* $(function(){
+				var $removeComment = $('#removeComment');
+				
+				function validationCheck(data){
+					if(typeof data == 'undefined' || data == '' || data == null){
+						return false;
+					}
+					return true;
+				}
+				
+				$removeComment.on('click','#removeComment',function(){
+					console.log('test');
+					
+					var userId = $('input[name="userId"]').val();
+					var userPw = $('input[name="userPw"]').val();
+					
+					console.log(userId);
+					console.log(userPw);
+					
+					var vCheck = validationCheck(userPw);
+					
+					if(vCheck){
+						$.ajax({
+							 url: '/user/pwCheck'
+							,type: 'POST'
+							,data: {'userId' : userId, 'userPw' : userPw}
+							,dataType: 'json'
+							,success: function(data){
+								console.log(data);
+								// 아이디 중복이 발생 않은 경우(회원가입 O) 입력하는 요소는 활성화
+								if(data){
+									$removeComment.attr('action','/board/boardDetail').submit();
+								}else{
+									alert("비밀번호가 일치하지 않습니다.");
+								}
+							}
+						});
+					}else{
+						alert("비밀번호를 입력해주세요.");
+					}
+				});
+			}); */
+			
+		</script>
+	</th:block>
+	
 </html>

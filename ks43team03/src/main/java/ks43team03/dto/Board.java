@@ -11,7 +11,6 @@ public class Board {
 
 	private String  boardPostCd;
 	private String  boardCtgCd;
-	private String  boardSubCtgCd;
 	private String  userId;
 	private String  boardPostTitle;
 	private String  boardPostContent;
@@ -19,7 +18,6 @@ public class Board {
 	private String  boardPostDate;
 	private String  boardPostCommentNum;
 	private int  boardPostViews;
-	private int  boardPostNum;
 	private char  boardPostState;
 	
 }

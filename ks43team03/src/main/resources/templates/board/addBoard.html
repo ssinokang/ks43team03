@@ -3,6 +3,11 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/default.html}">
 	  
+	<!-- 사용자 정의 title -->
+	<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+	</th:block>
+	  
 <th:block layout:fragment="customContents">
 	<section class="checkout spad" th:fragment="checkOutFragment">
 		<div class="container">
@@ -24,13 +29,12 @@
 									<p>카테고리
 										<span>*</span>
 									</p>
-									<select name="ctg" class="tip" id="pet-select" style="margin-bottom: 25px;">
+									<select name="ctg" class="tip" id="ctg-select" th:value="${boardCtgCd.boardCtgNm}"
+											style="margin-bottom: 25px;">
 									    <option value="">--목록을 선택하세요--</option>
-									    <option value="notice">공지</option>
-									    <option value="qoestion">문의</option>
-									    <option value="councle">상담</option>
-									    <option value="suggestion">건의</option>
-									    <option value="report">신고</option>
+									    <option th:selected="${boardCtgCd.boardCtgNm}==공지사항">공지사항</option>
+									    <option th:selected="${boardCtgCd.boardCtgNm}==건의사항">건의사항</option>
+									    <option th:selected="${boardCtgCd.boardCtgNm}==신고사항">신고사항</option>
 									</select>
 								</div>
 							</div>
@@ -85,7 +89,7 @@
 						</div>
 						<div class="text-right">
 							<a th:href="@{/board/boardDetail}">
-								<button type="button" class="site-btn" style="margin-top: 20px;">작성하기</button>
+								<button type="submit" class="site-btn" style="margin-top: 20px;">작성하기</button>
 							</a>
 						</div>
 					</div>

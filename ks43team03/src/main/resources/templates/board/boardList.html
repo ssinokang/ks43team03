@@ -2,8 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/default.html}">
+	  	<!-- 사용자 정의 title -->
+	<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+	</th:block>
 	  
-  	 <th:block layout:fragment="customContents">
+	 <!-- 사용자 정의 Js 파일-->
+	<th:block layout:fragment="customJs">
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+		
+		<script>
+			$(function(){
+				var $boardTr = $('#boardBody tr');
+				console.log($boardTr);
+
+				$boardTr.click(function(){
+					console.log(this);
+  
+					var boardPostCd = $(this).find('input').val();
+					console.log(boardPostCd);
+						
+					$(location).attr('href','/board/boardDetail?boardPostCd='+boardPostCd);
+				});
+			});
+		</script>
+	</th:block>
+	 	 
+	<th:block layout:fragment="customContents">
 	<section class="shop-cart spad">
 		<div class="container">
 			<div class="row">
@@ -12,23 +37,28 @@
 						<table class="table">
 							<thead>
 								<tr>
-									<th>제목</th>
-									<th>내용</th>
-									<th>첨부파일</th>
-									<th>등록일</th>
-									<th>조회수</th>
-									<th>댓글 수</th>
-									<th>작성자</th>
+									<th id="boardPostTitle">제목</th>
+									<th id="boardPostContent">내용</th>
+									<th id="boardPostFile">첨부파일</th>
+									<th id="boardPostDate">등록일</th>
+									<th id="boardPostViews">조회수</th>
+									<th id="boardPostCommentNum">댓글 수</th>
+									<th id="userId">작성자</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr th:if="${not #lists.isEmpty(boardList)}" th:each="l : ${boardList}" onClick="location.href='http://localhost/board/boardDetail'">
+							<tbody id="boardBody">
+								<!-- tr안에 넣는 방법 
+										onClick="location.href='http://localhost/board/boardDetail'" -->
+								<!-- onclick 빼고 td 안에 넣는 방법 
+										<a th:href="@{/board/boardDeail(boardPostCd=${l.boardPostCd})}" th:text="${l.boardPostTitle}"></a> -->
+								<tr th:if="${not #lists.isEmpty(boardList)}" th:each="l : ${boardList}">
+									<input type="hidden" th:value="${l.boardPostCd}">
 									<td th:text="${l.boardPostTitle}"></td>
 									<td th:text="${l.boardPostContent}"></td>
 									<td th:text="${l.boardPostFile}"></td>
 									<td th:text="${l.boardPostDate}"></td>
 									<td th:text="${l.boardPostViews}"></td>
-									<td th:text="${l.boardPostNum}"></td>
+									<td th:text="${l.boardPostCommentNum}"></td>
 									<td th:text="${l.userId}"></td>
 								</tr>
 								<tr th:unless="${not #lists.isEmpty(boardList)}">

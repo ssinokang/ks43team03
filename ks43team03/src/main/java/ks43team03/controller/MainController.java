@@ -15,4 +15,12 @@ public class MainController {
 	public String index() {
 		return "index";
 	}
+	
+	/**
+	 *임시 addGoods 컨트롤러  
+	 ***/
+	@GetMapping("/admin/addGoods")
+	public String addGoods() {
+		return "admin/addGoods";
+	}
 }

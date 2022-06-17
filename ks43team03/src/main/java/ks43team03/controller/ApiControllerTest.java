@@ -18,7 +18,7 @@ public class ApiControllerTest {
 	@PostMapping("/api/pass")
 	public FacilityGoods addGoodsCode(@RequestBody FacilityGoods facilityGoods) {
 		
-		facilityGoods.setFacilityGoodsCd("goodsCode--1111");
+		
 		log.info("facilityGoods : {}", facilityGoods);
 		
 		return facilityGoods;

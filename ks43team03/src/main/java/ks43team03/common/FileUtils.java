@@ -15,15 +15,13 @@ import java.util.UUID;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import ks43team03.dto.Lesson;
-
 public class FileUtils {
 	
 	private String fileCd;
 	private MultipartHttpServletRequest mhsr;
 	private String userId;
 	
-	public FileUtils(MultipartHttpServletRequest mhsr, String userId, String facilityGoodsCd) {
+	public FileUtils(MultipartHttpServletRequest mhsr, String userId) {
 		this.mhsr = mhsr;
 		this.userId = userId;
 	}

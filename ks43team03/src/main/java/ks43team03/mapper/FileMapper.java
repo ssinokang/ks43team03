@@ -10,6 +10,6 @@ public interface FileMapper {
 
 	public void uploadFile(List<Map<String, String>> dtoFileList);
 
-	public void uploadRelationFile(Map<String, String> m);
+	public void uploadRelationFile(List<Map<String, String>> relationFileList);
 	
 }

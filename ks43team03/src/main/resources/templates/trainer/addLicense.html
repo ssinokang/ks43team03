@@ -17,6 +17,8 @@
 	<!-- 사용자 정의 Js 파일-->
 	<th:block layout:fragment="customJs">
 		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+		<!-- 주소검색 API -->
+		<script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
 		
 		<script>
 			/* 닉네임 중복 여부 검사 */
@@ -65,9 +67,9 @@
 				});
 				
 				/* 회원가입시 유효성 검사 */
-				$('#addTrainertBtn').click(function(){
+				$('#addUserBtn').click(function(){
 					var isSubmit = true;
-					var inputObj = $('#addTrainerForm').find('input');
+					var inputObj = $('#addUserForm').find('input');
 					
 					$.each(inputObj, function(){
 						var inputData = $(this).val();
@@ -82,9 +84,9 @@
 						}
 					});
 					
-					console.log('유효여부 폼전송할건지?' + isSubmit );
+					console.log('유효여부 폼전송할건지?' + isSubmit )
 					
-					if(isSubmit) $('#addTrainerForm').submit();
+					if(isSubmit) $('#addUserForm').submit();
 				});
 			});
 			</script>
@@ -152,7 +154,7 @@
 						<a th:href="@{/}">
 							<button type="button" class="btn btn-primary">취소</button>
 						</a>
-						<button type="button" id="addTrainertBtn" class="btn btn-success">등록</button>
+						<button type="button" id="addUserBtn" class="btn btn-success">등록</button>
 					</div>
 				</div>
 			</form>

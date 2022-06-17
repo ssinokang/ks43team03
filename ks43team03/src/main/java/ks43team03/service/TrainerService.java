@@ -2,6 +2,7 @@ package ks43team03.service;
 
 import org.springframework.stereotype.Service;
 
+import ks43team03.dto.TrainerProfile;
 import ks43team03.mapper.TrainerMapper;
 
 @Service
@@ -11,6 +12,13 @@ public class TrainerService {
 	
 	public TrainerService(TrainerMapper trainerMapper) {
 		this.trainerMapper = trainerMapper;
+	}
+	
+	public TrainerProfile getTrainerInfoById(String userId) {
+		
+		TrainerProfile trainerProfile = trainerMapper.getTrainerInfoById(userId);
+		
+		return trainerProfile;
 	}
 	
 	/**

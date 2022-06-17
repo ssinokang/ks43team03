@@ -12,7 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import ks43team03.dto.FacilityGoods;
+import ks43team03.dto.AreaCity;
+import ks43team03.dto.AreaCityTown;
+import ks43team03.dto.Facility;
 import ks43team03.dto.Lesson;
+import ks43team03.dto.Sports;
 import ks43team03.service.LessonService;
 
 @Controller
@@ -25,6 +30,36 @@ public class LessonController {
 		this.lessonService = lessonService;
 	}
 	/**
+	 *  회원이 보는 레슨 리스트 
+	 **/
+	@GetMapping("/lessonListForUser")
+	public String lessonListforUser(
+			Lesson 		  lesson
+			,Facility 	  facility
+			,AreaCity 	  areaCity
+			,AreaCityTown areaCityTown
+			,Sports 	  sports
+			,Model 		  model) {
+		
+		log.info("facility : {}", facility);
+		log.info("areaCity : {}", areaCity);
+		log.info("areaCityTown : {}", areaCityTown);
+		log.info("sports : {}", sports);
+		
+		lesson.setAreaCityTown(areaCityTown);
+		lesson.setFacility(facility);
+		lesson.setAreaCity(areaCity);
+		lesson.setSports(sports);
+		
+		log.info("lesson : {}", lesson);
+		
+		List<Lesson> lessonList = lessonService.getLessonListForUser(lesson);
+		model.addAttribute("lessonList", lessonList);
+		
+		log.info("lessonList : {}", lessonList);
+		return "lesson/lessonListforUser";
+	}
+	/**
 	 * 레슨 상세 조회 
 	 **/
 	@GetMapping("/detailLesson")
@@ -33,14 +68,16 @@ public class LessonController {
 		
 		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
 		model.addAttribute(lesson);
+		model.addAttribute("title", "레슨상세조회");
 		return "lesson/detailLesson";
 	}
 	/**
 	 * 레슨 수정
 	 **/
 	@GetMapping("/modifyLesson")
-	public String modifyLesson(@RequestParam(name="lessonCd") String lessonCd) {
-		
+	public String modifyLesson(Model model
+								,@RequestParam(name="lessonCd") String lessonCd) {
+		model.addAttribute("title", "레슨수정");
 		return "lesson/modifyLesson";
 	}
 	/**
@@ -54,24 +91,27 @@ public class LessonController {
 		System.out.println(facilityCd + "lessonController/facilityLesosnLilst");
 		List<Lesson> lessonList = lessonService.getfacilityLessonList(facilityCd);
 		model.addAttribute("lessonList", lessonList);
+		model.addAttribute("title", "레슨리스트");
 		log.info("lessonList = {}", lessonList);
 		return "lesson/lessonList";
 	}
 	
 	@PostMapping("/addLesson")
-	public String addLesson(Lesson lesson,
+	public String addLesson(
+			FacilityGoods facilityGoods,
+			Lesson lesson,
 		    MultipartHttpServletRequest multipartHttpServletRequest) {
-		log.info("!!!lesson : {}", lesson);
-		System.out.println("!!!!!!!!!!!"+lesson);
-		System.out.println(multipartHttpServletRequest);
-		
+		log.info("facilityGoods : {}", facilityGoods);
+		log.info("lesson : {}", lesson);
+		log.info("multipartHttpServletRequest : {}", multipartHttpServletRequest);
 		lessonService.addLesson(lesson, multipartHttpServletRequest);
 		
 		return "redirect:/lesson/facilityLessonList?" + "facilityCd="+ lesson.getFacilityCd();
 		
 	}
 	@GetMapping("/addLesson")
-	public String addLesson() {
+	public String addLesson(Model model) {
+		model.addAttribute("title", "레슨등록");
 		return "lesson/addLesson";
 	}
 }

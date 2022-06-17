@@ -3,13 +3,14 @@ package ks43team03.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ks43team03.dto.Boomk;
 import ks43team03.dto.Facility;
 import ks43team03.mapper.BoomkMapper;
 
 @Service
-
+@Transactional
 public class BoomkService {
 	
 	private final BoomkMapper boomkMapper;
@@ -22,15 +23,25 @@ public class BoomkService {
 	 * 회원 즐겨찾기 조회
 	 */
 	
-	/*
-	 * public Boomk getBoomkInfoById(String userId) { Boomk boomk =
-	 * boomkMapper.getBoomkInfoById(userId); return boomk; }
-	 */	
 	public List<Boomk> getBoomkList(String userId){
 		List<Boomk> BoomkList = boomkMapper.getBoomkList(userId);
 		
 		return BoomkList;
 	}
+	
+	/**
+	 * 회원 즐겨찾기 취소
+	 */
+	
+	public void modifyBoomk(Boomk boomk) {
+		boomkMapper.modifyBoomk(boomk);
+	}
+	 
+	
+	
+	
+	
+	
 	
 	
 	/**
@@ -43,6 +54,8 @@ public class BoomkService {
 		return FacilityList;
 		
 	}
+
+
 	
 	
 	

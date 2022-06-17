@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ks43team03.dto.Boomk;
@@ -27,7 +28,7 @@ public class BoomkController {
 		this.boomkService = boomkService;
 	}
 
-	
+	// 즐겨찾기 내역
 	@GetMapping("/boomkList")
 	public String getBoomkList(Model model, HttpSession session) {
 
@@ -57,4 +58,28 @@ public class BoomkController {
 
 	// 즐겨찾기 등록 페이지 이동
 
+	
+	// 즐겨찾기 취소
+	@GetMapping("/modifyBoomk")
+	public String modifyBoomk(Boomk boomk, Model model) {
+
+		log.info("즐겨찾기 취소:::::::: {}", boomk);
+		
+		boomkService.modifyBoomk(boomk);
+		
+		return "redirect:/boomk/boomkList";
+	}
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

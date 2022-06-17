@@ -13,4 +13,6 @@ public class TrainerProfile {
 	private String trainerNickname;
 	private String trainerPicture;
 	private String trainerRegDate;
+	
+	private User user;
 }

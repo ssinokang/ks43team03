@@ -157,4 +157,63 @@
 			,NOW()
 		)
 	</insert>
+	<select id="getLessonListForUser" parameterType="Lesson" resultMap="lessonResultMap">
+	SELECT
+		ac.city_nm
+		,act.town_nm
+		,f.facility_cd
+	    ,f.main_ctg_cd
+	    ,f.town_cd
+	    ,f.facility_use_cd
+	    ,f.user_id
+	    ,f.facility_nm
+	    ,f.facility_address
+	    ,f.facility_tell
+	    ,f.business_number
+	    ,f.facility_reg_date
+	    ,f.facility_post_num
+	    ,f.facility_detail_addr
+	    ,f.area_cd
+	    ,l.lesson_cd
+	    ,l.facility_goods_cd
+	    ,l.lesson_division
+	    ,l.user_id
+	    ,l.sports_nm
+	    ,l.lesson_nm
+	    ,l.lesson_detail
+	    ,l.lesson_total_member
+	    ,l.lesson_member
+	    ,l.lesson_start_date
+	    ,l.lesson_end_date
+	    ,l.lesson_price
+	    ,l.lesson_reg_date
+	    FROM
+	   		lesson   AS l
+	   		INNER JOIN
+	   		facility AS f
+	   		on
+	   		l.facility_cd = f.facility_cd
+	   		INNER JOIN
+	   		area_city_town AS act
+	   		on
+	   		act.town_cd = f.town_cd
+	   		INNER JOIN
+	   		area_city AS ac
+	   		on
+	   		ac.city_cd = act.city_cd
+	   	<trim prefix="WHERE" prefixOverrides="AND /OR ">
+	   		<if test="facility.mainCtgCd != null and facility.mainCtgCd != '' ">
+	   			f.main_ctg_cd = #{facility.mainCtgCd}
+	   		</if>
+	   		<if test="areaCity.cityCd != null and areaCity.cityCd != '' ">
+	   			ac.city_cd = #{areaCity.cityCd}
+	   		</if>
+	   		<if test="areaCityTown.townCd != null and areaCityTown.townCd != '' ">
+	   			act.town_cd = #{areaTownCity.townCd}
+	   		</if>
+	   		<if test="sports.sportsCd != null and sports.sportsCd != '' ">
+	   			l.sports_cd = #{sports.sportsCd}
+	   		</if>
+	   	</trim>
+	</select>
 </mapper>

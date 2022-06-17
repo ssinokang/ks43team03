@@ -32,7 +32,7 @@
 				return newCode;
 		END
 	 -->
-	<insert id="addFaciliryGoods" parameterType="FacilityGoods">
+	<insert id="addFacilityGoods" parameterType="FacilityGoods">
 		INSERT INTO facility_goods(
 			facility_goods_cd, 
 			facility_cd, 
@@ -44,7 +44,7 @@
 		)VALUES (
 			sf_new_goods_code(), 
 			#{facilityCd}, 
-			#{goodsCdCtgCd}, 
+			#{goodsCtgCd}, 
 			#{sportsCd}, 
 			#{userId}, 
 			NOW(), 

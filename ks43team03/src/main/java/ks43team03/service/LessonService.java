@@ -1,5 +1,6 @@
 package ks43team03.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -40,35 +41,37 @@ public class LessonService {
 		//파일이 널이 아니라면
 		if (Objects.nonNull(mhsr)) {
 			String uproaderId 		= lesson.getUserId();
-			String facilityGoodsCd  = lesson.getFacilityGoodsCd();
+			String facilityGoodsCd;
 			
-			FileUtils fu = new FileUtils(mhsr, uproaderId, facilityGoodsCd);
-			List<Map<String, String>> dtoFileList = fu.parseFileInfo();
-			// 1. t_file 테이블에 삽입
-			System.out.println(dtoFileList + "LessonService/addLesson");
-			fileMapper.uploadFile(dtoFileList);
+			facilityGoodsMapper.addFacilityGoods(lesson.getFacilityGoods());
+			facilityGoodsCd = lesson.getFacilityGoods().getFacilityGoodsCd();
 			
 			/***
 			 * test code: start
 			 ***/
 			
-			//facilityGoodsMapper.getFacilityGoods(lesson.getLessonCd());
-			
+			FileUtils fu = new FileUtils(mhsr, uproaderId);
+			List<Map<String, String>> dtoFileList = fu.parseFileInfo();
+			// 1. t_file 테이블에 삽입
+			System.out.println(dtoFileList + "LessonService/addLesson");
+			fileMapper.uploadFile(dtoFileList);
 			/***
 			 * test code: end
 			 ***/
 			// 2. lesson 테이블에 삽입
 			//lessonMapper.addLesson(lesson);
 			System.out.println(lesson + "LessonService/addLesson/lesson");
+			lessonMapper.addLesson(lesson);
 			
 			// 3. 릴레이션 테이블에 삽입
-			/*
-			String facilityGoodsCd = "test";
+			List<Map<String, String>> relationFileList = new ArrayList<>();
 			for(Map<String, String> m : dtoFileList) {
 				m.put("facilityGoodsCd", facilityGoodsCd);
-				fileMapper.uploadRelationFile(m);
+				relationFileList.add(m);
 			}
-			*/
+			System.out.println(relationFileList);
+			fileMapper.uploadRelationFile(relationFileList);
+			
 			
 			
 			/****************

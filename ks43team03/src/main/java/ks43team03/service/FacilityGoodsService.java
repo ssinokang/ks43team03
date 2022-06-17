@@ -40,7 +40,7 @@ public class FacilityGoodsService {
 	
 	public String addGoodsCode(FacilityGoods facilityGoods) {
 		log.info("addPass에서 받은 값 : {}", facilityGoods);
-		facilityGoodsMapper.addFaciliryGoods(facilityGoods);
+		facilityGoodsMapper.addFacilityGoods(facilityGoods);
 		return facilityGoods.getFacilityGoodsCd();
 		
 	}

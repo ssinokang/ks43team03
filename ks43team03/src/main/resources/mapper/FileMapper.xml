@@ -25,4 +25,18 @@
       )
       </foreach>
    </insert>
+   <insert id="uploadRelationFile" parameterType="List">
+      /*릴레이션 테이블 삽입*/
+INSERT INTO rel_file_with_goods
+	(
+	facility_goods_cd
+	,flie_cd   
+   ) VALUES
+      <foreach collection="list" item="item" separator=",">
+      (
+         #{item.facilityGoodsCd}
+         ,#{item.fileCd}
+      )
+      </foreach>
+   </insert>
 </mapper>

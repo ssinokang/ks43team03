@@ -48,12 +48,20 @@ $(function() {
 						$stadium.css('display', 'block');
 					}
 					//facilityGoodsCd = fg.facilityGoodsCd;
-					$('#facilityCd2').val(fg.facilityCd);
-					$('#facilityGoodsCd').val(fg.facilityGoodsCd);
-					$('#userId2').val(fg.userId);
-					$('#sportCtg2').val(fg.sportCtg);
-					console.log(fg.facilityGoodsCd);
-					console.log(fg.facilityGoodsCd);
+					
+					$('#facilityCd-lesson').val(fg.facilityCd);
+					$('#facilityGoodsCd-lesson').val(fg.facilityGoodsCd);
+					$('#goodsCtgCd-lesson').val(fg.goodsCtgCd);
+					$('#userId-lesson').val(fg.userId);
+					$('#sportsCd-lesson').val(fg.sportsCd);
+					console.log(fg);
+					console.log(fg.userId);
+					console.log(fg.goodsCtgCd);
+					console.log($('#facilityCd-lesson').val());
+					console.log($('#facilityGoodsCd-lesson').val());
+					console.log($('#goodsCtgCd-lesson').val());
+					console.log($('#userId-lesson').val());
+					console.log($('#sportsCd-lesson').val());
 					productData = fg;
 				}).fail(function (error) {
 					alert(JSON.stringify(error));
@@ -62,12 +70,10 @@ $(function() {
 			}
 	
 		}
+
 	}
 	
 	$lesson.on('click', function () {
-		console.log(productData);
-		console.log(productData.facilityGoodsCd);
-//		console.log(facilityGoodsCd);
 	})
 	main.init();
 	

@@ -1,5 +1,7 @@
 package ks43team03.dto;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,6 +15,7 @@ public class Lesson {
 	private String facilityGoodsCd;
 	private String facilityCd;
 	private String goodsCtgCd;
+	private String sportsCd;
 	private String userId;
 	private String lessonName;
 	private String lessonDetail;
@@ -24,8 +27,10 @@ public class Lesson {
 	private String lessonRegDate;
 	private String lessonState;
 	
-	private Sports sports;
-	private Facility facility;
-	private AreaCityTown areaCityTown;
-	private AreaCity areaCity;
+	private Sports 					sports;
+	private Facility 				facility;
+	private AreaCity 				areaCity;
+	private AreaCityTown 			areaCityTown;
+	private FacilityGoods 			facilityGoods;
+	private List<relFileWithGoods> 	relFileWithGoods;
 }

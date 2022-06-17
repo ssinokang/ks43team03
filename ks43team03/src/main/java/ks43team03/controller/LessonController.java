@@ -101,9 +101,10 @@ public class LessonController {
 			FacilityGoods facilityGoods,
 			Lesson lesson,
 		    MultipartHttpServletRequest multipartHttpServletRequest) {
-		log.info("facilityGoods : {}", facilityGoods);
-		log.info("lesson : {}", lesson);
-		log.info("multipartHttpServletRequest : {}", multipartHttpServletRequest);
+		lesson.setFacilityGoods(facilityGoods);
+		log.info("LessonController addLesson/facilityGoods : {}", facilityGoods);
+		log.info("LessonController addLesson/lesson : {}", lesson);
+		log.info("LessonController addLesson/multipartHttpServletRequest : {}", multipartHttpServletRequest);
 		lessonService.addLesson(lesson, multipartHttpServletRequest);
 		
 		return "redirect:/lesson/facilityLessonList?" + "facilityCd="+ lesson.getFacilityCd();

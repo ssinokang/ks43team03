@@ -359,30 +359,18 @@
 							<div class="item form-group">
 								<div class="col-md-6 col-sm-6 ">
 								<!-- 후에 세션으로 받든 수정 할 것 -->
-									<input type="hidden" name="facilityCd" 		id="facilityCd2">
-									<input type="hidden" name="facilityGoodsCd" id="facilityGoodsCd">
-									<input type="hidden" name="userId" 			id="userId2">
-									<input type="hidden" name="goodsCtgCd" 		id="goodsCtgCd">
-									<input type="hidden" name="sportCtg" 		id="sportCtg2">
+									<input type="hidden" name="facilityCd" 		id="facilityCd-lesson">
+									<input type="hidden" name="facilityGoodsCd" id="facilityGoodsCd-lesson">
+									<input type="hidden" name="userId" 			id="userId-lesson">
+									<input type="hidden" name="goodsCtgCd" 		id="goodsCtgCd-lesson">
+									<input type="hidden" name="sportsCd"		id="sportsCd-lesson">
 								</div>
 							</div>
 							<div class="item form-group">
 								<label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonNm">레슨 이름 <span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 ">
-									<input type="text" id="lessonNm" name="lessonNm" required="required" class="form-control ">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 label-align">종목을 선택해 주세요<span class="required">*</span></label>
-								<div class="col-md-6 col-sm-6 ">
-									<select class="select2_single form-control" tabindex="-1" name="sportsCd">
-										<option></option>
-										<option value="sp01">축구</option>
-										<option value="sp02">테니스</option>
-									 	<option value="sp03">배드민턴</option>
-										<option value="sp04">헬스</option>
-									</select>
+									<input type="text" id="lessonNm" name="lessonName" required="required" class="form-control ">
 								</div>
 							</div>
 							<div class="item form-group">
@@ -421,21 +409,21 @@
 								<label class="col-form-label col-md-3 col-sm-3 label-align">레슨 시작 시간<span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 ">
-									<input type="datetime-local" class="form-control-file" id="lessonStartDate">
+									<input type="date" class="form-control-file" name="lessonStartDate" id="lessonStartDate">
 								</div>
 							</div>
 							<div class="item form-group">
 								<label class="col-form-label col-md-3 col-sm-3 label-align">레슨 끝난 시간<span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 ">
-									<input type="datetime-local" class="form-control-file" id="lessonEndDate">
+									<input type="date" class="form-control-file" name="lessonEndDate" id="lessonEndDate">
 								</div>
 							</div>
 							<div class="item form-group" >
 								<label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonPrice">수강료<span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 ">
-									<input type="number" class="form-control-file" id="lessonPrice">
+									<input type="number" class="form-control-file" name="lessonPrice" id="lessonPrice">
 								</div>
 							</div>
 							
@@ -447,7 +435,6 @@
 									<button type="submit" class="btn btn-success">등록</button>
 								</div>
 							</div>
-		
 						</form>
 					</div>
 				</div>

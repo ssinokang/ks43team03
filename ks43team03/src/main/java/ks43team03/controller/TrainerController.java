@@ -1,5 +1,6 @@
 package ks43team03.controller;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ks43team03.dto.TrainerCareer;
 import ks43team03.dto.TrainerProfile;
 import ks43team03.service.TrainerService;
 
@@ -79,6 +81,15 @@ public class TrainerController {
 		model.addAttribute("sessionId", sessionId);
 		
 		return "trainer/addLicense";
+	}
+	
+	//경력 등록
+	@PostMapping("/addCareer")
+	public String addCareer(TrainerCareer trainerCareer) {
+		
+		log.info("trainerCareer : {}", trainerCareer);
+		
+		return "trainer/addCareer";
 	}
 	
 	//경력 등록 페이지 이동

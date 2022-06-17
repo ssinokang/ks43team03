@@ -65,9 +65,9 @@
 				});
 				
 				/* 회원가입시 유효성 검사 */
-				$('#addUserBtn').click(function(){
+				$('#addTrainertBtn').click(function(){
 					var isSubmit = true;
-					var inputObj = $('#addUserForm').find('input');
+					var inputObj = $('#addTrainerForm').find('input');
 					
 					$.each(inputObj, function(){
 						var inputData = $(this).val();
@@ -84,7 +84,7 @@
 					
 					console.log('유효여부 폼전송할건지?' + isSubmit );
 					
-					if(isSubmit) $('#addUserForm').submit();
+					if(isSubmit) $('#addTrainerForm').submit();
 				});
 			});
 			</script>
@@ -152,7 +152,7 @@
 						<a th:href="@{/}">
 							<button type="button" class="btn btn-primary">취소</button>
 						</a>
-						<button type="button" id="addUserBtn" class="btn btn-success">등록</button>
+						<button type="button" id="addTrainertBtn" class="btn btn-success">등록</button>
 					</div>
 				</div>
 			</form>

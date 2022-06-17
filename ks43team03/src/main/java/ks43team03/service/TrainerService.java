@@ -1,5 +1,7 @@
 package ks43team03.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import ks43team03.dto.TrainerProfile;
@@ -14,11 +16,24 @@ public class TrainerService {
 		this.trainerMapper = trainerMapper;
 	}
 	
+	
+	/**
+	 * 아이디로 트레이너 정보 조회
+	 * @param userId
+	 * @return
+	 */
 	public TrainerProfile getTrainerInfoById(String userId) {
 		
 		TrainerProfile trainerProfile = trainerMapper.getTrainerInfoById(userId);
 		
 		return trainerProfile;
+	}
+	
+	public List<TrainerProfile> getTrainerList() {
+		
+		List<TrainerProfile> trainerList = trainerMapper.getTrainerList();
+		
+		return trainerList;
 	}
 	
 	/**

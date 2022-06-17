@@ -64,7 +64,7 @@
 					
 				});
 				
-				/* 회원가입시 유효성 검사 */
+				/* 트레이너 등록 시 유효성 검사 */
 				$('#addTrainertBtn').click(function(){
 					var isSubmit = true;
 					var inputObj = $('#addTrainerForm').find('input');
@@ -111,7 +111,7 @@
 		</div>
 		<!-- Breadcrumb End -->
 	
-		<!-- 회원가입 -->
+		<!-- 트레이너 등록 -->
 		<div class="container" th:if="${#strings.isEmpty(sessionId)}">
 			<h4>로그인이 필요한 서비스입니다.</h4>
 		</div>

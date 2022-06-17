@@ -27,9 +27,9 @@
 				}
 				return true;
 			}
-			
-			/* 회원가입시 유효성 검사 */
-		/* 	$('#addCareerBtn').click(function(){
+		
+		/* 경력 추가 시 유효성 검사 */
+		$('#addCareerBtn').click(function(){
 				var isSubmit = true;
 				var inputObj = $('#careerUl').find('input');
 				
@@ -43,14 +43,47 @@
 						$('#careerNotice').text('경력 사항이 없을 경우 다음페이지로 이동하세요.');
 						$(this).focus();
 						isSubmit = false;
+						
 						return false;
 					}
 				});
 				
-				if(isSubmit) $('#addCareerForm').submit();
-			}); */
+				/* 여러 li list 형태로 보내기 */
+				if(isSubmit){
+					var trainerCareerList = [];
+					
+					var careerNum = $('#careerUl li').length;
+					
+					console.log(careerNum);
+					
+					for(var i=0; i<careerNum; i++){
+						
+						var trainerCareer = new Object();
+						
+						trainerCareer.trainerCareerTerm = $('input[name="trainerCareerTerm"]').eq(i).val()
+						trainerCareer.trainerCareerCenter = $('input[name="trainerCareerCenter"]').eq(i).val()
+						trainerCareer.trainerCareerPosition = $('input[name="trainerCareerPosition"]').eq(i).val()
+						trainerCareer.trainerCareerWork = $('input[name="trainerCareerWork"]').eq(i).val()
+						trainerCareer.trainerCareerFile = $('input[name="trainerCareerFile"]').eq(i).val()
+						
+						trainerCareerList.push(trainerCareer);
+					}
+						console.log(trainerCareerList);
+					
+					$.ajax({
+						 url: '/trainer/addCareer'
+						,type: 'POST'
+						,data: JSON.stringify(trainerCareerList)
+						,contentType: 'application/json; charset=utf-8'
+						,dataType: 'json'
+						,success: function(data){
+							console.log(data);
+							if(data) $(location).attr('href','/trainer/addLicense');
+						}
+					});
+				}
+			});
 			
-			var $careerUl = $('#careerUl');
 			
 			/*리스트 추가 삭제*/
 			$('#delLi').click(function(){
@@ -63,8 +96,7 @@
 			$('#addLi').click(function(){
 				var
 					 $clone = $(this).parents('li').clone(true)
-					,$inputClone = $clone.find('input')
-					,careerNum = $('#careerUl li').length;
+					,$inputClone = $clone.find('input');
 				
 				$.each($inputClone, function(){
 					$(this).val('');
@@ -88,7 +120,7 @@
 								<i class="fa fa-home"></i>
 								Home
 							</a>
-							<span>addTrainer</span>
+							<span>addCareer</span>
 						</div>
 					</div>
 				</div>
@@ -96,72 +128,69 @@
 		</div>
 		<!-- Breadcrumb End -->
 	
-		<!-- 회원가입 -->
+		<!-- 경력 등록 -->
 		<div class="container" th:if="${#strings.isEmpty(sessionId)}">
 			<h4>로그인이 필요한 서비스입니다.</h4>
 		</div>
 		<div class="container" th:unless="${#strings.isEmpty(sessionId)}">
 			<span id="careerNotice" style="color: red;">
 			</span>
-			
-			<form id="addCareerForm" th:action="@{/trainer/addCareer}" method="post">
-				<ul class="list-group list-group-flush" id="careerUl">
-					<li class="list-group-item a">
-						<div class="row">
-							<div class="col-sm-2">
-								<span>경력사항</span>
-							</div>
-							<div class="col-sm-2 offset-sm-8">
-								<button type="button" class="btn btn-secondary btn-sm" id="addLi">추가</button>
-								<button type="button" class="btn btn-secondary btn-sm" id="delLi">삭제</button>
-							</div>
+			<ul class="list-group list-group-flush" id="careerUl">
+				<li class="list-group-item a">
+					<div class="row">
+						<div class="col-sm-3">
+							<span>경력사항</span>
 						</div>
-						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3" for="trainerCareerTerm">기간
-								<span class="required">*</span>
-							</label>
-							<div class="col-md-6 col-sm-6">
-								<input type="number" class="form-control" name="trainerCareerTerm">
-							</div>
-							<div>
-								<span class="required">년</span>
-							</div>
+						<div class="col-sm-2">
+							<button type="button" class="btn btn-secondary btn-sm" id="addLi">추가</button>
+							<button type="button" class="btn btn-secondary btn-sm" id="delLi">삭제</button>
 						</div>
-						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3" for="trainerCareerCenter">시설명
-								<span class="required">*</span>
-							</label>
-							<div class="col-md-9 col-sm-9 ">
-								<input type="text" class="form-control" name="trainerCareerCenter">
-							</div>
+					</div>
+					<div class="row">
+						<label class="control-label col-md-3 col-sm-3" for="trainerCareerTerm">기간
+							<span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6">
+							<input type="number" class="form-control" name="trainerCareerTerm">
 						</div>
-						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3" for="trainerCareerPosition">직책
-								<span class="required">*</span>
-							</label>
-							<div class="col-md-9 col-sm-9 ">
-								<input type="text" class="form-control" name="trainerCareerPosition">
-							</div>
+						<div>
+							<span class="required">년</span>
 						</div>
-						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3" for="trainerCareerWork">직무
-								<span class="required">*</span>
-							</label>
-							<div class="col-md-9 col-sm-9 ">
-								<input type="text" class="form-control" name="trainerCareerWork">
-							</div>
+					</div>
+					<div class="row">
+						<label class="control-label col-md-3 col-sm-3" for="trainerCareerCenter">시설명
+							<span class="required">*</span>
+						</label>
+						<div class="col-md-9 col-sm-9 ">
+							<input type="text" class="form-control" name="trainerCareerCenter">
 						</div>
-						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3" for="trainerCareerFile">첨부 파일
-								<span class="required"></span>
-							</label>
-							<div class="col-md-9 col-sm-9 ">
-								<input type="text" class="form-control" name="trainerCareerFile" placeholder="원래는 첨부 파일  그냥 doc 입력 바람">
-							</div>
+					</div>
+					<div class="row">
+						<label class="control-label col-md-3 col-sm-3" for="trainerCareerPosition">직책
+							<span class="required">*</span>
+						</label>
+						<div class="col-md-9 col-sm-9 ">
+							<input type="text" class="form-control" name="trainerCareerPosition">
 						</div>
-					</li>
-				</ul>
-			</form>
+					</div>
+					<div class="row">
+						<label class="control-label col-md-3 col-sm-3" for="trainerCareerWork">직무
+							<span class="required">*</span>
+						</label>
+						<div class="col-md-9 col-sm-9 ">
+							<input type="text" class="form-control" name="trainerCareerWork">
+						</div>
+					</div>
+					<div class="row">
+						<label class="control-label col-md-3 col-sm-3" for="trainerCareerFile">첨부 파일
+							<span class="required"></span>
+						</label>
+						<div class="col-md-9 col-sm-9 ">
+							<input type="text" class="form-control" name="trainerCareerFile" placeholder="원래는 첨부 파일  그냥 doc 입력 바람">
+						</div>
+					</div>
+				</li>
+			</ul>
 			<div class="row pt-2">
 				<div class="col-md-8 col-sm-8  offset-md-4">
 					<a th:href="@{/}">
@@ -174,6 +203,5 @@
 				</div>
 			</div>
 		</div>
-		
 	</th:block>
 </html>

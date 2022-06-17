@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default.html}">
+
+<!-- 사용자 정의 contents -->
+<th:block layout:fragment="customContents">
+	<!-- 이런식으로 넣으면 되겠죠? -->
+	<section class="shop-cart spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-3">
+					<div class="shop__sidebar">
+						<div class="sidebar__categories">
+							<div class="section-title">
+								<h4>My 쇼핑</h4>
+							</div>
+							<div class="categories__accordion">
+								<div class="accordion" id="mypagelink">
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapseOne" class="collapsed"
+												aria-expanded="false">My주문</a>
+										</div>
+										<div id="collapseOne" class="collapse" data-parent="#mypagelink">
+											<div class="card-body">
+												<ul>
+													<li><a href="#">주문목록/주문조회</a></li>
+													<li><a href="#">CSS</a></li>
+													<li><a href="#">취소/환불내역</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+												class="collapsed">My예약</a>
+										</div>
+										<div id="collapseTwo" class="collapse" data-parent="#mypagelink">
+											<div class="card-body">
+												<ul>
+													<li><a href="#">나의 대관 예약 정보</a></li>
+													<li><a href="#">나의 레슨 예약정보</a></li>
+			
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
+												class="collapsed">My 활동</a>
+										</div>
+										<div id="collapseThree" class="collapse" data-parent="#mypagelink">
+											<div class="card-body">
+												<ul>
+													<li><a href="#">문의하기</a></li>
+													<li><a href="#">문의내역 조회</a></li>
+													<li><a href="#">리뷰관리</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapseFour" aria-expanded="false"
+												class="collapsed">My 정보</a>
+										</div>
+										<div id="collapseFour" class="collapse" data-parent="#mypagelink">
+											<div class="card-body">
+												<ul>
+													<li><a href="#">개인정보 확인</a></li>
+													<li><a href="#">결제 수단 관리</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-9 col-md-9">
+					<div class="row">
+						<div class="col-lg-8 col-sm-8">
+							<form action="#" method="get">
+								<div class="form row">
+									<div class="form-group col-8">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<select class="form-control" id="exampleFormControlSelect1" name="searchKey" style="font-size: 14px;">
+													<option value="ldgAddr">주문상태</option>
+													<option value="ldgName">상품명</option>
+												</select>
+											</div>
+											<input type="text" name="searchValue" class="form-control" id="formGroupExampleInput" placeholder="검색 키워드를 입력하세요." style="font-size: 14px;">
+											<div class="input-group-prepend">
+												<button type="button" class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;">검색</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					
+					<div class="row mt-4">
+						<div class="col-sm-12 col-lg-12">
+							<ul class="nav nav-tabs" role="tablist">
+								<li class="nav-item">
+									<a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">전체주문</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">예약</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">레슨</a>
+								</li>
+							</ul>	
+							<div class="tab-content">
+								<div class="tab-pane active" id="tabs-1" role="tabpanel">
+									<div class="row">
+										<div class="col-sm-12 col-lg-12">
+											<h6>전체주문</h6>
+											<div class="card mb-4">
+												<div class="card-body">
+													<div class="tab-content">
+														<div class="row">
+															<div class="col-sm-12 col-lg-12">
+																<table class="table">
+																	<tbody>
+																		<tr>
+																			<th class="col-sm-2 col-lg-2">주문코드</th>
+																			<td >order_cd_3306789785</td>
+																			<th rowspan="4" class="col-sm-3 col-lg-3">
+																				<div class="div btn-box ml-5" style="margin-top: 60px;">
+																					<button type="button" class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;">상세보기</button>
+																				</div>
+																			</th>
+																		</tr>
+																		<tr>
+																			<th rowspan="2" class="col-sm-2 col-lg-2">상품명</th>
+																			<td><a href="#">지구어딘가체육관/이용권</a></td>
+																		</tr>
+																		<tr>
+																			<td class="col-sm-2 col-lg-2">주문완료(결제완료)</td>
+																		</tr>
+																		<tr>
+																			<th class="col-sm-2 col-lg-2">상품금액</th>
+																			<td>500000</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+															
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="card mb-4">
+												<div class="card-body">
+													<div class="tab-content">
+														<div class="row">
+															<div class="col-sm-12 col-lg-12">
+																<table class="table">
+																	<tbody>
+																		<tr>
+																			<th class="col-sm-2 col-lg-2">주문코드</th>
+																			<td >order_cd_3306789785</td>
+																			<th rowspan="4" class="col-sm-3 col-lg-3">
+																				<div class="div btn-box ml-5" style="margin-top: 60px;">
+																					<button type="button" class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;">상세보기</button>
+																				</div>
+																			</th>
+																		</tr>
+																		<tr>
+																			<th rowspan="2" class="col-sm-2 col-lg-2">상품명</th>
+																			<td><a href="#">지구어딘가체육관/이용권</a></td>
+																		</tr>
+																		<tr>
+																			<td class="col-sm-2 col-lg-2">주문완료(결제완료)</td>
+																		</tr>
+																		<tr>
+																			<th class="col-sm-2 col-lg-2">상품금액</th>
+																			<td>500000</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+															
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="card mb-4">
+												<div class="card-body">
+													<div class="tab-content">
+														<div class="row">
+															<div class="col-sm-12 col-lg-12">
+																<table class="table">
+																	<tbody>
+																		<tr>
+																			<th class="col-sm-2 col-lg-2">주문코드</th>
+																			<td >order_cd_3306789785</td>
+																			<th rowspan="4" class="col-sm-3 col-lg-3">
+																				<div class="div btn-box ml-5" style="margin-top: 60px;">
+																					<button type="button" class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;">주문 취소 상세보기</button>
+																				</div>
+																			</th>
+																		</tr>
+																		<tr>
+																			<th rowspan="2" class="col-sm-2 col-lg-2">상품명</th>
+																			<td><a href="#">지구어딘가체육관/이용권</a></td>
+																		</tr>
+																		<tr>
+																			<td class="col-sm-2 col-lg-2">취소완료</td>
+																		</tr>
+																		<tr>
+																			<th class="col-sm-2 col-lg-2">상품금액</th>
+																			<td>500000</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+															
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+	
+									</div>
+									
+								</div>
+								<div class="tab-pane" id="tabs-2" role="tabpanel">
+									<h6>예약</h6>
+									<div><span>예약정보만 출력</span></div>
+								</div>
+								<div class="tab-pane" id="tabs-3" role="tabpanel">
+									<h6>레슨</h6>
+									<div><span>레슨정보만 출력</span></div>
+								</div>
+							</div>
+						</div>
+						
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</th:block>
+
+</html>

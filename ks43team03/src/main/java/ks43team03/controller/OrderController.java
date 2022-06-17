@@ -60,14 +60,15 @@ public class OrderController {
 	
 	
 	
-	//== fragment Test ==//
-	@GetMapping("/fragmentTest")
-	public String fragmentTest() {
-		return "order/fragmetTest";
-	}
 	
 	
 	
+	
+	//== 화면연결 임시메소드 ==//
+	/**
+	 *  화면연결 임시메소드
+	 *   
+	 */
 	@GetMapping("/goods")
 	public String goodsRead() {
 		return "goods/goodsRead";

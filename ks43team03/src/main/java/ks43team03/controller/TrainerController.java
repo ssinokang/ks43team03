@@ -1,7 +1,6 @@
 package ks43team03.controller;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,11 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ks43team03.dto.TrainerCareer;
+import ks43team03.dto.TrainerLicense;
 import ks43team03.dto.TrainerProfile;
 import ks43team03.service.TrainerService;
 
@@ -33,27 +34,32 @@ public class TrainerController {
 	
 	//프로필 조회 페이지 이동
 	@GetMapping("/trainerDetail")
-	public String getUserDetail(Model model
+	public String gettrainerDetail(Model model
 							   ,HttpSession session) {
 		
 		String sessionId = (String)session.getAttribute("SID");
 		
 		log.info("트레이너 정보조회 아이디 : {}", sessionId);
 		
-		model.addAttribute("title", "트레이너 정보");
-		
-		if(Objects.isNull(sessionId)) {
-			
-			return "trainer/trainerDetail";
-		}
-		
 		TrainerProfile tainerProfile = trainerService.getTrainerInfoById(sessionId);
 		
 		model.addAttribute("tainerProfile", tainerProfile);
-		model.addAttribute("sessionId", sessionId);
-		model.addAttribute("title", "트레이너 정보");
+		model.addAttribute("sessionId",		sessionId);
+		model.addAttribute("title",			"트레이너 정보");
 		
 		return "trainer/trainerDetail";
+	}
+	
+	//트레이너 리스트 페이지 이동
+	@GetMapping("/trainerList")
+	public String getTrainerList(Model model) {
+		
+		List<TrainerProfile> trainerList = trainerService.getTrainerList();
+		
+		model.addAttribute("trainerList",	trainerList);
+		model.addAttribute("title",			"트레이너 리스트");
+		
+		return "trainer/trainerList";
 	}
 	
 	// 아이디 중복체크 여부
@@ -71,7 +77,17 @@ public class TrainerController {
 		return nicknameCheck;
 	}
 	
-	//경력 등록 페이지 이동
+	//자격증 등록
+	@ResponseBody
+	@PostMapping("/addLicense")
+	public boolean addLicense(@RequestBody List<TrainerLicense> trainerLicense) {
+		
+		log.info("trainerCareer : {}",trainerLicense);
+		//값만 받아옴 
+		return true;
+	}
+	
+	//자격증 등록 페이지 이동
 	@GetMapping("/addLicense")
 	public String addLicense(Model model
 							,HttpSession session) {
@@ -79,27 +95,30 @@ public class TrainerController {
 		String sessionId = (String)session.getAttribute("SID");
 		
 		model.addAttribute("sessionId", sessionId);
+		model.addAttribute("title", 	"자격증 등록");
 		
 		return "trainer/addLicense";
 	}
 	
 	//경력 등록
+	@ResponseBody
 	@PostMapping("/addCareer")
-	public String addCareer(TrainerCareer trainerCareer) {
+	public boolean addCareer(@RequestBody List<TrainerCareer> trainerCareer) {
 		
-		log.info("trainerCareer : {}", trainerCareer);
-		
-		return "trainer/addCareer";
+		log.info("trainerCareer : {}",trainerCareer);
+		//값만 받아옴 
+		return true;
 	}
 	
 	//경력 등록 페이지 이동
 	@GetMapping("/addCareer")
 	public String addCareer(Model model
-							,HttpSession session) {
+						   ,HttpSession session) {
 		
 		String sessionId = (String)session.getAttribute("SID");
 		
 		model.addAttribute("sessionId", sessionId);
+		model.addAttribute("title", 	"경력 등록");
 		
 		return "trainer/addCareer";
 	}
@@ -113,6 +132,7 @@ public class TrainerController {
 		String sessionId = (String)session.getAttribute("SID");
 		
 		model.addAttribute("sessionId", sessionId);
+		model.addAttribute("title", 	"트레이너 등록");
 		
 		return "trainer/addTrainer";
 	}

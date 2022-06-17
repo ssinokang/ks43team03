@@ -1,7 +1,6 @@
 package ks43team03.controller;
 
 import java.util.Map;
-import java.util.Objects;
 
 import javax.servlet.http.HttpSession;
 
@@ -159,11 +158,6 @@ public class UserController {
 		log.info("회원정보조회 아이디 : {}", sessionId);
 		
 		model.addAttribute("title", "회원정보");
-		
-		if(Objects.isNull(sessionId)) {
-			
-			return "user/userDetail";
-		}
 		
 		User user = userService.getUserInfoById(sessionId);
 		

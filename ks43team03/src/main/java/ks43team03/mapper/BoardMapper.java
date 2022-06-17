@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import ks43team03.dto.Board;
 import ks43team03.dto.BoardComment;
+import ks43team03.dto.BoardCtgCd;
 
 @Mapper
 public interface BoardMapper {
@@ -19,6 +20,9 @@ public interface BoardMapper {
 	
 	// 게시글 등록
 	public int addBoard(Board board);
+	
+	// 게시글 카테고리 등록
+	public List<BoardCtgCd> getBoardCtgCdList(BoardCtgCd boardCtgCd);
 	
 	// 게시글 수정 
 	public int modifyBoard(Board board);
@@ -37,5 +41,5 @@ public interface BoardMapper {
 	
 	// 게시글 삭제
 	public int removeBoard(String boardPostCd);
-	
+
 }

@@ -17,5 +17,7 @@ public interface LessonMapper {
 	
 	//
 	public Lesson getLessonInfoByCd(String lessonCd);
-	
+
+	public List<Lesson> getLessonListForUser(Lesson lesosn);
+
 }

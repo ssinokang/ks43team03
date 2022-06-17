@@ -2,7 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/adminDefault.html}">
-
+	<!-- 사용자 정의 title -->
+	<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+	</th:block>
 	<!-- 사용자 정의 Js -->
 	<th:block layout:fragment="customJs">
 		
@@ -37,8 +40,10 @@
 					<div class="item form-group">
 						<div class="col-md-6 col-sm-6 ">
 						<!-- 후에 세션으로 받든 수정 할 것 -->
-							<input type="hidden" name="facilityCd" value="ss_35011740_01">
-							<input type="hidden" name="userId"	   value="id006">
+							<input type="hidden" id="facilityCd" name="facilityGoodsCd">
+							<input type="hidden" id="userId" name="userId">
+							<input type="hidden" id="goodsCtgCd" name="goodsCtgCd">
+							<input type="hidden" id="sportCtg" name="sportCtg">
 						</div>
 					</div>
 					<div class="item form-group">

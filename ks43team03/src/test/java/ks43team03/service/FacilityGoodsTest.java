@@ -19,7 +19,7 @@ public class FacilityGoodsTest {
 		Pass pass = new Pass();
 		pass.setFacilityCd("ss_35011740_01");
 		pass.setUserId("id002");
-		pass.setGoodsCdCtgCd("lesson");
+		pass.setGoodsCtgCd("lesson");
 		pass.setSportsCd("sp03");
 		
 		String code = facilityGoodsService.addPass(pass);

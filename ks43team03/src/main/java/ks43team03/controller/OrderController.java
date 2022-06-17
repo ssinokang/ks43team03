@@ -34,16 +34,7 @@ public class OrderController {
 	
 	
 	
-	@GetMapping("/order-info")	//@RequestParam(name = "orderCd")String orderCd
-	public String orderInfo() {
-		// 주문완료 후 주문코드 조회 후주문내역 조회 
-		
-		// 
-		
-		// 이용권 내역 조회
-		
-		return "order/orderInfo";
-	}
+
 	
 	
 	//==회원의 주문상세내역 조회==//
@@ -56,6 +47,11 @@ public class OrderController {
 	@GetMapping("/orders")
 	public String orders() {
 		return "order/회원한명주문리스트";
+	}
+	
+	@GetMapping("/orderAfter")
+	public String orderinfo() {
+		return "order/orderAfter";
 	}
 	
 	

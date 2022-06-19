@@ -2,8 +2,11 @@ package ks43team03.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import ks43team03.dto.Order;
 
+@Mapper
 public interface OrderMapper {
 	
 	// 주문 생성메소드

@@ -69,6 +69,7 @@ public class LessonController {
 		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
 		model.addAttribute(lesson);
 		model.addAttribute("title", "레슨상세조회");
+		log.info("model : {}", model);
 		return "lesson/detailLesson";
 	}
 	/**

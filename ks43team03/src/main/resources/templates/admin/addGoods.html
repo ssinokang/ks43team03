@@ -374,13 +374,17 @@
 								</div>
 							</div>
 							<div class="item form-group">
-								<label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonImgFile">레슨 사진 
-								</label>
+								<div class="col-form-label col-md-3 col-sm-3 label-align" id="lesson-img-label">레슨 사진 
+								</div>
 								<div class="col-md-6 col-sm-6 ">
-									<input type="file" id="lessonImgFile"  name="lessonImgFile" class="form-control" multiple="multiple">
+									<ul class="lesson-file-line">
+										<li>
+											<input type="file" name="lessonImgFile" class="form-control lesson-img" accept="image/*" required multiple>
+										</li>
+									</ul>
 								</div>
 							</div>
-							<div class="item form-group">
+							<div class="item form-group">	
 								<label for="lessonDetail" class="col-form-label col-md-3 col-sm-3 label-align">레슨 정보</label>
 								<div class="col-md-6 col-sm-6 ">
 									<input id="middle-name" class="form-control" type="text" name="lessonDetail">

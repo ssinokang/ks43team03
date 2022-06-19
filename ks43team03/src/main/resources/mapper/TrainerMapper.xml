@@ -28,7 +28,7 @@
 		</association>
 	</resultMap>
 	
-	<select id="getTrainerInfoById" parameterType="String" resultMap="trainerResultMap">
+	<select id="getTrainerInfoByTrainerCd" parameterType="String" resultMap="trainerResultMap">
 		/* 아이디로 트레이너 정보 조회 */
 		SELECT
 			 t.trainer_cd
@@ -36,10 +36,16 @@
 			,t.trainer_nicknm
 			,t.trianer_picture
 			,t.trainer_reg_date
+			,u.user_nm
+			,u.user_tell
 		FROM
 			trainer_profile as t
+			INNER join
+			user AS u
+			on
+			t.user_id = u.user_id
 		WHERE
-			user_id = #{userId};
+			t.trainer_cd = #{trainerCd};
 	</select>
 	
 	<select id="getTrainerList" parameterType="String" resultMap="trainerResultMap">
@@ -51,7 +57,7 @@
 			,t.trianer_picture
 			,t.trainer_reg_date
 		FROM
-			trainer_profile as t
+			trainer_profile as t;
 	</select>
 	
 	<select id="isNicknameCheck" parameterType="String" resultType="boolean">

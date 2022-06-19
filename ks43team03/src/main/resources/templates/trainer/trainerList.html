@@ -81,7 +81,7 @@
 							</div>
 							<div class="product__item__text">
 								<h6>
-									<a href="#">Buttons tweed blazer</a>
+									<a th:href="@{/trainer/trainerDetail(trainerCd=${l.trainerCd})}">Buttons tweed blazer</a>
 								</h6>
 								<div class="rating">
 									<i class="fa fa-star"></i>
@@ -91,7 +91,6 @@
 									<i class="fa fa-star"></i>
 								</div>
 								<div class="product__price">[[${l.trainerNickname}]]</div>
-								<input type="hidden" th:value="${l.userId}">
 							</div>
 						</div>
 					</div>

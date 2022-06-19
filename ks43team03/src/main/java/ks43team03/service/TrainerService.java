@@ -18,17 +18,21 @@ public class TrainerService {
 	
 	
 	/**
-	 * 아이디로 트레이너 정보 조회
+	 * 트레이너 코드로 트레이너 정보 조회
 	 * @param userId
 	 * @return
 	 */
-	public TrainerProfile getTrainerInfoById(String userId) {
+	public TrainerProfile getTrainerInfoByTrainerCd(String trainerCd) {
 		
-		TrainerProfile trainerProfile = trainerMapper.getTrainerInfoById(userId);
+		TrainerProfile trainerProfile = trainerMapper.getTrainerInfoByTrainerCd(trainerCd);
 		
 		return trainerProfile;
 	}
 	
+	/**
+	 * 트레이너 리스트 조회
+	 * @return
+	 */
 	public List<TrainerProfile> getTrainerList() {
 		
 		List<TrainerProfile> trainerList = trainerMapper.getTrainerList();

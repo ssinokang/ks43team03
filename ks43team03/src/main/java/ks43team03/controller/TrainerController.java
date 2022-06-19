@@ -35,16 +35,16 @@ public class TrainerController {
 	//프로필 조회 페이지 이동
 	@GetMapping("/trainerDetail")
 	public String gettrainerDetail(Model model
-							   ,HttpSession session) {
+								  ,@RequestParam (value = "trainerCd")String trainerCd) {
 		
-		String sessionId = (String)session.getAttribute("SID");
 		
-		log.info("트레이너 정보조회 아이디 : {}", sessionId);
+		log.info("트레이너 정보조회 코드 : {}", trainerCd);
 		
-		TrainerProfile tainerProfile = trainerService.getTrainerInfoById(sessionId);
+		TrainerProfile trainerProfile = trainerService.getTrainerInfoByTrainerCd(trainerCd);
 		
-		model.addAttribute("tainerProfile", tainerProfile);
-		model.addAttribute("sessionId",		sessionId);
+		log.info("트레이너 정보 : {}", trainerProfile);
+		
+		model.addAttribute("trainerProfile", trainerProfile);
 		model.addAttribute("title",			"트레이너 정보");
 		
 		return "trainer/trainerDetail";

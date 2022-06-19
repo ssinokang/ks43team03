@@ -86,6 +86,7 @@ public class LessonService {
 	public Lesson getLessonInfoByCd(String lessonCd) {
 		
 		Lesson lesson = lessonMapper.getLessonInfoByCd(lessonCd);
+		System.out.println(lesson + "lessonService/getLessonInfoById");
 		return lesson;
 	}
 

@@ -1,0 +1,36 @@
+package ks43team03.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
+
+
+import ks43team03.dto.Stadium;
+import ks43team03.dto.StadiumPrice;
+
+
+
+
+@Mapper
+public interface StadiumMapper {
+
+	
+	//회원이 구장 조회
+	public List<Map<String, Object>> getStadiumList(Map<String, Object> paramMap);
+	
+	//구장 단가 등록
+	public int addStadiumPrice(StadiumPrice stadiumPrice);
+	//구장 등록
+	public int addStadium(Stadium stadium);
+	
+	//시설 내 구장 정보 조회
+	public List<Stadium> getAdminStadiumListByCd(String facilityCd);
+	
+	//구장 테이블 총 row(튜플) 수
+	public int getStadiumCount();
+	
+	//구장 조회
+	public List<Map<String, Object>> getAdminStadiumList(Map<String, Object> paramMap);
+	
+}

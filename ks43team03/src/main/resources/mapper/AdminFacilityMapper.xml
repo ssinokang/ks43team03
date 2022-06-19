@@ -164,6 +164,7 @@
 		
 		
 		<select id="getAdminFacilityListById" parameterType="Facility" resultMap="facilityResultMap">
+		/*아이디 별 시설 조회*/
 			SELECT
 				f.facility_cd 
 				,f.main_ctg_cd
@@ -224,6 +225,7 @@
 
 
 		<insert id="addFacility" parameterType="Facility" >
+		/*시설등록*/
 			INSERT INTO facility
 				(facility_cd
 				,main_ctg_cd

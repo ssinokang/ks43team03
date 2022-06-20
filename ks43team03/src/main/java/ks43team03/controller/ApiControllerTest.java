@@ -22,25 +22,23 @@ import ks43team03.dto.FacilityGoods;
 @RestController
 public class ApiControllerTest {
 
-	
 	private static final Logger log = LoggerFactory.getLogger(ApiControllerTest.class);
 
-	
 	@PostMapping("/api/pass")
 	public FacilityGoods addGoodsCode(@RequestBody FacilityGoods facilityGoods) {
-		
-		
+
 		log.info("facilityGoods : {}", facilityGoods);
-		
+
 		return facilityGoods;
 	}
+
 	
-	@GetMapping(value = "display/img/{path}", produces = MediaType.IMAGE_JPEG_VALUE)
-	public ResponseEntity<byte[]> userSearch(@PathVariable("path") String path) throws IOException {
-		System.out.println("ApiControllerTest");
-		InputStream imageStream = new FileInputStream(path);
-		byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-		imageStream.close();
-		return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
-	}
+	 @GetMapping(value = "display/img/{name}", produces = MediaType.IMAGE_JPEG_VALUE)
+	 public ResponseEntity<byte[]> imgFile(@RequestParam("name") String name) throws IOException {
+		 InputStream imageStream = null;
+		 System.out.println(name + "ApiControllerTest/name");
+		 
+		 return null;
+		 }
+	 
 }

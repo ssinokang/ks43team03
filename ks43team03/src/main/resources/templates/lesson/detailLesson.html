@@ -53,16 +53,20 @@
 						<div class="col-md-7 col-sm-7 " >
 							<!-- db에서 저장된 사진 불러오기 -->
 							<div th:if="${not #lists.isEmpty(lesson.tFile)}" th:each="t : ${lesson.tFile}">
-								<div class="product-image" th:if="${t.representImg} eq Y">
-									<img th:src="@{display/img(path=${storedFilePath}}" alt="..." />
+								<div class="product-image" th:if="${t.representImg eq 'Y'}">
+									<img src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="..." />
 								</div>
-								<div class="product_gallery" th:unless="${t.representImg} eq Y">
-									<a><img src="${t.storedFilePath}" alt="..." /></a>
+							
+								<div class="product_gallery" th:unless="${t.representImg eq 'Y'}">
+									<a><img th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="..." /></a>
+							<!-- @{${#strings.replace(t.storedFilePath,'\','/')}} -->
 								</div>
+
 							<!-- db에서 저장된 사진 불러오기 -->
 							</div>
 							<div th:unless="${not #lists.isEmpty(lesson.tFile)}">
-								<a><img src="@{display/img(path=${storedFilePath}}" alt="..." /></a>
+								<!-- 저장된 사진 없음 -->
+								<a><img th:src="#" alt="..." /></a>
 							</div>
 						</div>
 						
@@ -206,7 +210,6 @@
 			</div>
 		</div>
 	</div>
-	<div th:text="${lesson}"></div>
 </th:block>
 
 </html>

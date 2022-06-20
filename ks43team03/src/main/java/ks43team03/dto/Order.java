@@ -17,7 +17,7 @@ public class Order {
 	private int userPoint; //회원이보유한 포인트 point
 	private int usedPoint;
 	private int orderPayPrice; // 실결제 금액
-	private String orderRegDate; // rocalDateTime or Time 주문일자
+	private String orderRegDate; //  주문일자
 	private String orderPayState; // 주문/결제상태 enum테스트
 	
 	

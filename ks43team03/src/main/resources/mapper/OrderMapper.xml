@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks43team03.mapper.OrderMapper">
+	<resultMap type="Order" id="orderResultMap">
+		<id column="order_cd" property="orderCd"/>
+		<result column="user_id" property="userId"/>
+		<result column="facility_goods_cd" property="facilityGoodsCd"/>
+		<result column="goods_ctg_cd" property="goodsCtgCd"/>
+		<result column="order_price" property="orderPrice"/>
+		<result column="order_user_point" property="userPoint"/>
+		<result column="order_used_point" property="usedPoint"/>
+		<result column="order_pay_price" property="orderPayPrice"/>
+		<result column="order_reg_date" property="orderRegDate"/>
+		<result column="order_pay_state" property="orderPayState"/>
+	</resultMap>
+	
+	<!-- 주문 내역 등록 -->
+	<insert id="addOrder" parameterType="Order">
+		INSERT INTO goods_order
+		(
+			order_cd,
+			user_id, 
+			facility_goods_cd, 
+			goods_ctg_cd, 
+			order_price, 
+			order_user_point, 
+			order_used_point, 
+			order_pay_price, 
+			order_reg_date, 
+			order_pay_state
+		)VALUES (
+			 #{orderCd}
+			,#{userId}
+			,#{facilityGoodsCd} 
+			,#{goodsCtgCd}
+			,#{orderPrice}
+			,#{userPoint} 
+			,#{usedPoint} 
+			,#{orderPayPrice} 
+			,NOW()
+			,#{orderPayState}
+		)
+	</insert>
+</mapper>

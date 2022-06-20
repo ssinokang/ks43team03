@@ -9,18 +9,24 @@ public class OrderService {
 
 	private final OrderMapper orderMapper;
 	
+	
+	
 	public OrderService(OrderMapper orderMapper) {
-		super();
 		this.orderMapper = orderMapper;
 	}
-	
+
+
+
+	//주문 하기
 	public String addOrder(String userId, String goodsCtgCd, int orderPayPrice) {
 		Order order = Order.createOrder(userId, goodsCtgCd, orderPayPrice);
 		orderMapper.addOrder(order);
 		return order.getOrderCd();
 	}
 
-
+	
+	
+	//주문 취소 
 
 	
 }

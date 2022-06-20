@@ -109,8 +109,10 @@ public class TrainerController {
 	
 	//자격증 등록 페이지 이동
 	@GetMapping("/addLicense")
-	public String addLicense(Model model) {
+	public String addLicense(Model model
+							,@RequestParam(value = "trainerCd") String trainerCd) {
 		
+		model.addAttribute("trainerCd", trainerCd);
 		model.addAttribute("title", 	"자격증 등록");
 		
 		return "trainer/addLicense";

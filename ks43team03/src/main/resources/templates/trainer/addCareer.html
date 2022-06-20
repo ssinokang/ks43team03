@@ -60,7 +60,7 @@
 						
 						var trainerCareer = new Object();
 						
-						trainerCareer.trainerCd = $('input[name="trainerCd"]').eq(i).val()
+						trainerCareer.trainerCd = $('input[name="trainerCd"]').val()
 						trainerCareer.trainerCareerTerm = $('input[name="trainerCareerTerm"]').eq(i).val()
 						trainerCareer.trainerCareerCenter = $('input[name="trainerCareerCenter"]').eq(i).val()
 						trainerCareer.trainerCareerPosition = $('input[name="trainerCareerPosition"]').eq(i).val()
@@ -70,7 +70,8 @@
 						trainerCareerList.push(trainerCareer);
 					}
 						console.log(trainerCareerList);
-					
+						console.log(trainerCareer.trainerCd);
+						
 					$.ajax({
 						 url: '/trainer/addCareer'
 						,type: 'POST'
@@ -79,7 +80,7 @@
 						,dataType: 'json'
 						,success: function(data){
 							console.log(data);
-							if(data) $(location).attr('href','/trainer/addLicense');
+							if(data) $(location).attr('href','/trainer/addLicense?trainerCd='+trainerCareer.trainerCd);
 						}
 					});
 				}

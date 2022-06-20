@@ -10,7 +10,6 @@
 		<result column="trianer_picture"	property="trainerPicture"></result>
 		<result column="trainer_reg_date"	property="trainerRegDate"></result>
 		<association property="user" javaType="User">
-			<id 	column="user_id"			property="userId"/>
 			<result column="user_level"			property="userLevel"/>
 			<result column="user_password"		property="userPw"/>
 			<result column="user_nm"			property="userName"/>
@@ -26,10 +25,65 @@
 			<result column="user_post_num"		property="userPostNum"/>
 			<result column="user_detail_addr"	property="userDetailAddr"/>
 		</association>
+		<collection property="trainerCareerList" ofType="TrainerCareer">
+			<id		column="trainer_career_cd"			property="trainerCareerCd"/>
+			<result	column="trainer_career_term"		property="trainerCareerTerm"/>
+			<result	column="trainer_career_center"		property="trainerCareerCenter"/>
+			<result	column="trainer_career_position"	property="trainerCareerPosition"/>
+			<result	column="trainer_career_work"		property="trainerCareerWork"/>
+			<result	column="trainer_career_file"		property="trainerCareerFile"/>
+			<result	column="trainer_career_reg_date"	property="trainerCareerRegDate"/>
+		</collection>
+		<collection property="trainerLicenseList" ofType="TrainerLicense">
+			<id		column="trainer_license_cd"			property="trainerLicenseCd"/>
+			<result	column="trainer_license"			property="trainerLicense"/>
+			<result	column="trainer_license_file"		property="trainerLicenseFile"/>
+			<result	column="trainer_license_reg_date"	property="trainerLicenseRegDate"/>
+		</collection>
 	</resultMap>
 	
-	<select id="getTrainerInfoByTrainerCd" parameterType="String" resultMap="trainerResultMap">
-		/* 아이디로 트레이너 정보 조회 */
+	<select id="getTrainerLicenseInfoByTrainerCd" parameterType="String" resultMap="trainerResultMap">
+		/* 트레이너코드로 트레이너 자격증 조회 */
+		SELECT
+			 t.trainer_cd
+			,t.user_id
+			,t.trainer_nicknm
+			,t.trianer_picture
+			,t.trainer_reg_date
+			,l.trainer_license_cd
+			,l.trainer_license
+		FROM
+			trainer_profile AS t
+			LEFT JOIN
+			trainer_license AS l
+			on
+			t.trainer_cd = l.trainer_cd
+		WHERE
+			t.trainer_cd = #{trainerCd};
+	</select>
+	<select id="getTrainerCareerInfoByTrainerCd" parameterType="String" resultMap="trainerResultMap">
+		/* 트레이너코드로 트레이너 경력 조회 */
+		SELECT
+			 t.trainer_cd
+			,t.user_id
+			,t.trainer_nicknm
+			,t.trianer_picture
+			,t.trainer_reg_date
+			,c.trainer_career_term
+			,c.trainer_career_center
+			,c.trainer_career_position
+			,c.trainer_career_work
+		FROM
+			trainer_profile as t
+			LEFT join
+			trainer_career AS c
+			on
+			t.trainer_cd = c.trainer_cd
+		WHERE
+			t.trainer_cd = #{trainerCd};
+	</select>
+	<select id="getTrainerProfileInfoByTrainerCd" parameterType="String" resultMap="trainerResultMap">
+		/* 트레이너코드로 트레이너 정보 조회 */
 		SELECT
 			 t.trainer_cd
 			,t.user_id
@@ -59,6 +113,49 @@
 		FROM
 			trainer_profile as t;
 	</select>
+	
+	<select id="getTrainerProfileInfoByUserId" parameterType="String" resultMap="trainerResultMap">
+		/* 회원아이디로 트레이너 정보 조회 */
+		SELECT
+			 t.trainer_cd
+			,t.user_id
+			,t.trainer_nicknm
+			,t.trianer_picture
+			,t.trainer_reg_date
+		FROM
+			trainer_profile as t
+		WHERE
+			t.user_id = #{userId};
+	</select>
+	
+	<update id="modifyUserLevel" parameterType="String">
+		/* 트레이너 회원 권한으로 변경*/
+		UPDATE user
+		SET
+			user_level=4
+		WHERE
+			user_id = #{userId};
+	</update>
+	
+	<insert id="addtrainer" parameterType="TrainerProfile">
+		/*트레이너 등록*/
+		INSERT INTO trainer_profile
+		(	 trainer_cd
+			,user_id
+			,trainer_nicknm
+			,trianer_picture
+			,trainer_reg_date
+		)VALUES (
+			(SELECT
+				CONCAT('trainer_', LPAD(MAX(CAST(SUBSTRING_INDEX(t.trainer_cd,'_',-1)AS UNSIGNED))+1,2,0))
+			FROM
+				trainer_profile AS t)
+			,#{userId}
+			,#{trainerNickname}
+			,#{trainerPicture}
+			,CURDATE()
+		);
+	</insert>
 	
 	<select id="isNicknameCheck" parameterType="String" resultType="boolean">
 		/* 트레이너 닉네임 중복 체크 */

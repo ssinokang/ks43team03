@@ -36,6 +36,7 @@
 	</resultMap>
 	
 	<insert id="addUser" parameterType="User">
+		/*회원 가입*/
 		INSERT INTO user
 		(	 user_id
 			,user_level

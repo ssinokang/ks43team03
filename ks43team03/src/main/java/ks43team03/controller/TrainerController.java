@@ -1,8 +1,7 @@
 package ks43team03.controller;
 
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ks43team03.dto.TrainerCareer;
 import ks43team03.dto.TrainerLicense;
@@ -32,20 +32,40 @@ public class TrainerController {
 	
 	private static final Logger log = LoggerFactory.getLogger(TrainerController.class);
 	
+	//트레이너 정보 수정 페이지 이동
+	@GetMapping("/modifyTrainer")
+	public String modifyTrainer(Model model
+							   ,@RequestParam (value = "trainerCd", required = false)String trainerCd) {
+		
+		log.info("트레이너 정보조회 코드 : {}", trainerCd);
+		
+		TrainerProfile trainerProfile = trainerService.getTrainerProfileByTrainerCd(trainerCd);
+		
+		model.addAttribute("trainerProfile", trainerProfile);
+		model.addAttribute("title", "트레이너 정보 수정");
+		
+		return "trainer/modifyTrainer";
+	}
+	
 	//프로필 조회 페이지 이동
 	@GetMapping("/trainerDetail")
-	public String gettrainerDetail(Model model
+	public String getTrainerDetail(Model model
 								  ,@RequestParam (value = "trainerCd")String trainerCd) {
 		
 		
 		log.info("트레이너 정보조회 코드 : {}", trainerCd);
 		
-		TrainerProfile trainerProfile = trainerService.getTrainerInfoByTrainerCd(trainerCd);
+		Map<String, Object> trainerMap = trainerService.getTrainerInfoByTrainerCd(trainerCd);
 		
-		log.info("트레이너 정보 : {}", trainerProfile);
 		
-		model.addAttribute("trainerProfile", trainerProfile);
-		model.addAttribute("title",			"트레이너 정보");
+		log.info("트레이너 정보 : {}",		trainerMap.get("trainerProfile"));
+		log.info("트레이너 경력 정보 : {}",	trainerMap.get("trainerCareer"));
+		log.info("트레이너 자격증 정보 : {}",	trainerMap.get("trainerLicense"));
+		
+		model.addAttribute("trainerProfile",	trainerMap.get("trainerProfile"));
+		model.addAttribute("trainerCareer",		trainerMap.get("trainerCareer"));
+		model.addAttribute("trainerLicense",	trainerMap.get("trainerLicense"));
+		model.addAttribute("title",				"트레이너 정보");
 		
 		return "trainer/trainerDetail";
 	}
@@ -62,7 +82,7 @@ public class TrainerController {
 		return "trainer/trainerList";
 	}
 	
-	// 아이디 중복체크 여부
+	// 닉네임 중복체크 여부
 	@PostMapping("/nicknameCheck")
 	@ResponseBody
 	public boolean isIdCheck(@RequestParam(value = "trainerNickname") String trainerNickname) {
@@ -89,12 +109,8 @@ public class TrainerController {
 	
 	//자격증 등록 페이지 이동
 	@GetMapping("/addLicense")
-	public String addLicense(Model model
-							,HttpSession session) {
+	public String addLicense(Model model) {
 		
-		String sessionId = (String)session.getAttribute("SID");
-		
-		model.addAttribute("sessionId", sessionId);
 		model.addAttribute("title", 	"자격증 등록");
 		
 		return "trainer/addLicense";
@@ -113,25 +129,33 @@ public class TrainerController {
 	//경력 등록 페이지 이동
 	@GetMapping("/addCareer")
 	public String addCareer(Model model
-						   ,HttpSession session) {
+						   ,@RequestParam(value = "trainerCd") String trainerCd) {
 		
-		String sessionId = (String)session.getAttribute("SID");
-		
-		model.addAttribute("sessionId", sessionId);
+		model.addAttribute("trainerCd", trainerCd);
 		model.addAttribute("title", 	"경력 등록");
 		
 		return "trainer/addCareer";
 	}
 	
+	//트레이너 등록
+	@PostMapping("/addTrainer")
+	public String addTrainer(TrainerProfile trainerProfile
+							,RedirectAttributes reAttr) {
 		
+		log.info("trainerProfile : {}",trainerProfile);
+		
+		String trainerCd = trainerService.addtrainer(trainerProfile);
+		log.info("trainerCd : {}",trainerCd);
+		
+		reAttr.addAttribute("trainerCd", trainerCd);
+		
+		return "redirect:/trainer/addCareer";
+	}	
+	
 	//트레이너 등록 페이지 이동
 	@GetMapping("/addTrainer")
-	public String addTrainer(Model model
-							,HttpSession session) {
+	public String addTrainer(Model model) {
 		
-		String sessionId = (String)session.getAttribute("SID");
-		
-		model.addAttribute("sessionId", sessionId);
 		model.addAttribute("title", 	"트레이너 등록");
 		
 		return "trainer/addTrainer";

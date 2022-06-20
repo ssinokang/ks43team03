@@ -112,10 +112,10 @@
 		<!-- Breadcrumb End -->
 	
 		<!-- 회원 정보 -->
-		<div class="container" th:if="${#strings.isEmpty(sessionId)}">
+		<div class="container" th:if="${#strings.isEmpty(session.SID)}">
 			<h4>로그인이 필요한 서비스입니다.</h4>
 		</div>
-		<div class="container" th:unless="${#strings.isEmpty(sessionId)}">
+		<div class="container" th:unless="${#strings.isEmpty(session.SID)}">
 			<h4>[[${user.userName}]]<small>님의 마이페이지</small></h4>
 			<div class="clearfix"></div>
 			<form th:action="@{/user/modifyUser}" method="post">

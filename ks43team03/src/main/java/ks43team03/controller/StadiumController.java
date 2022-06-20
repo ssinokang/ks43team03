@@ -69,7 +69,7 @@ public class StadiumController {
 	/*구장 단가 수정 처리*/
 	@PostMapping("/modifyStadiumPrice") 
 	public String modifyStadiumPrice(StadiumPrice stadiumPrice) {
-		log.info("구장등록화면에서 입력한 data : {}", stadiumPrice);
+		log.info("구장단가 수정 화면에서 입력한 data : {}", stadiumPrice);
 		
 		stadiumService.modifyStadiumPrice(stadiumPrice); 
 		return "redirect:/stadium/adminStadiumListByCd"; 
@@ -85,15 +85,16 @@ public class StadiumController {
 		model.addAttribute("title", "구장 등록");
 		model.addAttribute("stadiumPrice",stadiumPrice);
 		
-		return "stadium/modifyStadium";
+		return "stadium/modifyStadiumPrice";
 	}
+	
 	/*구장수정 처리*/
 	@PostMapping("/modifyStadium") 
-	public String modifyStadium(StadiumPrice stadiumPrice) {
-		log.info("구장등록화면에서 입력한 data : {}", stadiumPrice);
+	public String modifyStadium(Stadium stadium) {
+		log.info("구장수정 처리 화면에서 입력한 data : {}", stadium);
 		
-		stadiumService.modifyStadiumPrice(stadiumPrice); 
-		return "redirect:/stadium/modifyStadium"; 
+		stadiumService.modifyStadium(stadium); 
+		return "redirect:/stadium/modifyStadiumPrice"; 
 	}
 	
 	
@@ -114,7 +115,7 @@ public class StadiumController {
 	  public String addStadiumPrice(StadiumPrice stadiumPrice
 			  					,@RequestParam(name="facilityStadiumCd", required = false) String facilityStadiumCd
 			  					,HttpServletRequest request) {
-		  log.info("구장등록화면에서 입력한 data : {}", stadiumPrice);
+		  log.info("구장단가등록화면에서 입력한 data : {}", stadiumPrice);
 		  
 		  stadiumService.addStadiumPrice(stadiumPrice); 
 		  return "redirect:/stadium/adminStadiumListByCd"; 

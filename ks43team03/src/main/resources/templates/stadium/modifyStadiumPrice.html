@@ -89,7 +89,7 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityStadiumCd">구장대표코드 <span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityStadiumCd"   data-validate-minmax="10,100" required='required'></div>
+					<input class="form-control" type="text" name="facilityStadiumCd" th:value="${stadiumPrice.facilityStadiumCd}" data-validate-minmax="10,100" required='required'></div>
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="sportsCd" >종목<span class="required">*</span></label>

@@ -121,6 +121,15 @@
 		/*구장단가수정*/
 			UPDATE stadium_price
 			<trim prefix="SET" prefixOverrides=",">
+				<if test="facilityStadiumCd != null and facilityStadiumCd != ''">
+					facility_stadium_cd = 				#{facilityStadiumCd},
+				</if>
+				<if test="sportsCd != null and sportsCd != ''">
+					sports_cd = 				#{sportsCd},
+				</if>
+				<if test="dayPrice != null and dayPrice != ''">
+					day_price = 				#{dayPrice},
+				</if>
 				<if test="dayPrice != null and dayPrice != ''">
 					day_price = 				#{dayPrice},
 				</if>
@@ -128,8 +137,8 @@
 					night_price = 		#{nightPrice},
 				</if>
 				<if test="holPrice != null and holPrice != ''">
-					hol_price = 	#{holPrice},
-				</if>>
+					hol_price = 	#{holPrice}
+				</if>
 			</trim>	
 			WHERE 
 				facility_stadium_cd	=			#{facilityStadiumCd};
@@ -156,15 +165,27 @@
 		/*구장수정*/
 			UPDATE facility_stadium
 			<trim prefix="SET" prefixOverrides=",">
+				<if test="facilityGoodsCd != null and facilityGoodsCd != ''">
+					facility_goods_cd = 		#{facilityGoodsCd},
+				</if>
+				<if test="facilityCd != null and facilityCd != ''">
+					facility_cd = 				#{facilityCd},
+				</if>
+				<if test="goodsCtgCd != null and goodsCtgCd != ''">
+					goods_ctg_cd = 				#{goodsCtgCd},
+				</if>
 				<if test="sportsCd != null and sportsCd != ''">
 					sports_cd = 				#{sportsCd},
+				</if>
+				<if test="userId != null and userId != ''">
+					user_id = 				#{userId},
 				</if>
 				<if test="facilityStadiumNm != null and facilityStadiumNm != ''">
 					facility_stadium_nm = 		#{facilityStadiumNm},
 				</if>
 				<if test="facilityStadiumDetail != null and facilityStadiumDetail != ''">
-					facility_stadium_detail = 	#{facilityStadiumDetail},
-				</if>>
+					facility_stadium_detail = 	#{facilityStadiumDetail}
+				</if>
 			</trim>	
 			WHERE 
 				facility_stadium_cd	=			#{facilityStadiumCd};

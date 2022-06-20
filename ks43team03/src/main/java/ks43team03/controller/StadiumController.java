@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ks43team03.dto.Facility;
+
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;
 import ks43team03.service.StadiumService;
@@ -29,6 +29,19 @@ public class StadiumController {
 	
 	public StadiumController(StadiumService stadiumService) {
 		this.stadiumService = stadiumService;
+	}
+	
+
+	/*회원이 구장 상세정보 조회*/
+	@GetMapping("stadiumDetail")
+	public String getStadiumInfoByCdForUser(Model model
+											,@RequestParam(name="facilityStadiumCd", required = false) String facilityStadiumCd) {
+		Stadium stadiumDetail = stadiumService.getStadiumInfoByCdForUser(facilityStadiumCd);
+		log.info(facilityStadiumCd);
+		
+		model.addAttribute("title", "구장 상세 정보");
+		model.addAttribute("stadiumDetail", stadiumDetail);
+		return "stadium/stadiumDetail";
 	}
 	
 	
@@ -53,6 +66,48 @@ public class StadiumController {
 		return "stadium/stadiumList";
 	}
 	
+	/*구장 단가 수정 처리*/
+	@PostMapping("/modifyStadiumPrice") 
+	public String modifyStadiumPrice(StadiumPrice stadiumPrice) {
+		log.info("구장등록화면에서 입력한 data : {}", stadiumPrice);
+		
+		stadiumService.modifyStadiumPrice(stadiumPrice); 
+		return "redirect:/stadium/adminStadiumListByCd"; 
+	}
+	
+	
+	/*구장 단가 수정화면*/
+	@GetMapping("/modifyStadiumPrice")
+	public String modifyStadiumPrice(@RequestParam(value="facilityStadiumCd", required=false) String facilityStadiumCd
+								,Model model) {
+		StadiumPrice stadiumPrice = stadiumService.getStadiumPriceInfoByCd(facilityStadiumCd);
+		
+		model.addAttribute("title", "구장 등록");
+		model.addAttribute("stadiumPrice",stadiumPrice);
+		
+		return "stadium/modifyStadium";
+	}
+	/*구장수정 처리*/
+	@PostMapping("/modifyStadium") 
+	public String modifyStadium(StadiumPrice stadiumPrice) {
+		log.info("구장등록화면에서 입력한 data : {}", stadiumPrice);
+		
+		stadiumService.modifyStadiumPrice(stadiumPrice); 
+		return "redirect:/stadium/modifyStadium"; 
+	}
+	
+	
+	/*구장수정화면*/
+	@GetMapping("/modifyStadium")
+	public String modifyStadium(@RequestParam(value="facilityStadiumCd", required=false) String facilityStadiumCd
+			,Model model) {
+		Stadium stadium = stadiumService.getStadiumInfoByCd(facilityStadiumCd);
+		
+		model.addAttribute("title", "구장 등록");
+		model.addAttribute("stadium",stadium);
+		
+		return "stadium/modifyStadium";
+	}
 	
 	/*구장 단가 등록 처리*/
 	@PostMapping("/addStadiumPrice") 
@@ -79,8 +134,8 @@ public class StadiumController {
 	/*구장등록 처리*/
 	@PostMapping("/addStadium") 
 	public String addStadium(Stadium stadium
-			,@RequestParam(name="facilityStadiumCd", required = false) String facilityStadiumCd
-			,HttpServletRequest request) {
+							,@RequestParam(name="facilityStadiumCd", required = false) String facilityStadiumCd
+							,HttpServletRequest request) {
 		log.info("구장등록화면에서 입력한 data : {}", stadium);
 		
 		stadiumService.addStadium(stadium); 

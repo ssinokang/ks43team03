@@ -45,8 +45,41 @@
 	
 	
 	
-	
-	
+	<select id="getStadiumInfoByCdForUser" parameterType="String" resultMap="stadiumResultMap">
+		SELECT 
+			fs.facility_stadium_cd
+			,fs.facility_goods_cd
+			,fs.facility_cd
+			,fs.goods_ctg_cd
+			,fs.sports_cd
+			,fs.user_id
+			,fs.facility_stadium_nm
+			,fs.facility_stadium_reg_date
+			,fs.facility_stadium_detail
+			,sp.stadium_price_cd
+			,sp.facility_stadium_cd
+			,sp.sports_cd
+			,sp.day_price
+			,sp.night_price
+			,sp.hol_price
+			,f.main_ctg_cd
+			,f.facility_address
+			,f.facility_detail_addr
+			,f.facility_nm
+			,f.facility_tell
+		FROM 
+			facility_stadium AS fs
+			INNER JOIN
+			stadium_price AS sp
+			on
+			fs.facility_stadium_cd = sp.facility_stadium_cd
+			INNER join
+			facility AS f
+			on
+			fs.facility_cd = f.facility_cd
+		WHERE
+			facility_stadium_cd =  #{facilityStadiumCd};
+	</select>
 	
 	
 	<select id="getStadiumList" parameterType="map" resultType="map">
@@ -84,6 +117,78 @@
 			user_id = '#{userId}' AND facility_nm = '#{facilityNm}'; -->
 	
 	
+		<update id="modifyStadiumPrice" parameterType="StadiumPrice" >
+		/*구장단가수정*/
+			UPDATE stadium_price
+			<trim prefix="SET" prefixOverrides=",">
+				<if test="dayPrice != null and dayPrice != ''">
+					day_price = 				#{dayPrice},
+				</if>
+				<if test="nightPrice != null and nightPrice != ''">
+					night_price = 		#{nightPrice},
+				</if>
+				<if test="holPrice != null and holPrice != ''">
+					hol_price = 	#{holPrice},
+				</if>>
+			</trim>	
+			WHERE 
+				facility_stadium_cd	=			#{facilityStadiumCd};
+		</update>	
+	
+	
+		<select id="getStadiumPriceInfoByCd" parameterType="String" resultMap="stadiumResultMap">
+		/*구장코드별 구장가격 상세정보 조회*/
+			SELECT 
+				stadium_price_cd
+				,facility_stadium_cd
+				,sports_cd
+				,day_price
+				,night_price
+				,hol_price
+			FROM 
+				stadium_price
+			WHERE 
+				facility_stadium_cd =  #{facilityStadiumCd};
+		</select>
+	
+	
+		<update id="modifyStadium" parameterType="Stadium" >
+		/*구장수정*/
+			UPDATE facility_stadium
+			<trim prefix="SET" prefixOverrides=",">
+				<if test="sportsCd != null and sportsCd != ''">
+					sports_cd = 				#{sportsCd},
+				</if>
+				<if test="facilityStadiumNm != null and facilityStadiumNm != ''">
+					facility_stadium_nm = 		#{facilityStadiumNm},
+				</if>
+				<if test="facilityStadiumDetail != null and facilityStadiumDetail != ''">
+					facility_stadium_detail = 	#{facilityStadiumDetail},
+				</if>>
+			</trim>	
+			WHERE 
+				facility_stadium_cd	=			#{facilityStadiumCd};
+		</update>
+		
+		<select id="getStadiumInfoByCd" parameterType="String" resultMap="stadiumResultMap">
+		/*구장코드별 구장 상세정보 조회*/
+			SELECT
+				facility_stadium_cd
+				,facility_goods_cd
+				,facility_cd
+				,goods_ctg_cd
+				,sports_cd
+				,user_id
+				,facility_stadium_nm
+				,facility_stadium_reg_date
+				,facility_stadium_detail
+			FROM
+				 facility_stadium
+			WHERE
+				facility_stadium_cd = #{facilityStadiumCd};
+		</select>
+
+	
 		<insert id="addStadiumPrice" parameterType="StadiumPrice">
 			/*구장단가등록*/
 			INSERT INTO stadium_price
@@ -94,13 +199,13 @@
 				,night_price
 				,hol_price)
 				VALUES (
-					#{stadiumPriceCd}
+					sf_new_stadium_price_cd()
 					,#{facilityStadiumCd}
 					,#{sportsCd}
 					,#{dayPrice}
 					,#{nightPrice}
-					,#{holPrice);
-			</insert>
+					,#{holPrice});
+		</insert>
 	
 	
 	<insert id="addStadium" parameterType="Stadium">
@@ -116,7 +221,7 @@
 			,facility_stadium_reg_date
 			,facility_stadium_detail
 			)VALUES (
-			#{facilityStadiumCd}
+			sf_new_stadium_cd()
 			,#{facilityGoodsCd}
 			,#{facilityCd}
 			,#{goodsCtgCd}
@@ -143,6 +248,7 @@
 			,fs.facility_stadium_nm			
 			,fs.facility_stadium_reg_date	
 			,fs.facility_stadium_detail		
+			,sp.stadium_price_cd
 			,sp.day_price					
 			,sp.night_price					
 			,sp.hol_price					
@@ -200,7 +306,7 @@
 	</select>
 	
 	<select id="getStadiumPrice" resultType="StadiumPrice">
-		/*시설 목록 총 튜플 수*/
+		/*구장 가격 총 튜플 수*/
 		SELECT
 			stadium_price_cd 		 AS 	stadiumPriceCd
 			,facility_stadium_cd	 AS		facilityStadiumCd
@@ -214,22 +320,6 @@
 	
 	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 
 </mapper>   

@@ -43,6 +43,16 @@
 						return false;
 					}
 				});
+				
+				
+				if(isSubmit){
+					if($("#sportsCd").val() == ""){
+					    alert("종목을 선택해주세요");
+					    $("#sportsCd").focus();
+					    isSubmit = false;
+					    return false;
+					}
+				}
 			
 			console.log('유효여부 폼전송할건지?' + isSubmit )
 			
@@ -77,19 +87,14 @@
 			<div class="x_content">
 			<form id="addStadiumForm" th:action="@{/stadium/addStadiumPrice}" method="post">
 				<div class="field item form-group">
-					<label class="col-form-label col-md-3 col-sm-3  label-align" for="stadiumPriceCd">구장단가코드 <span class="required">*</span></label>
-					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="stadiumPriceCd" data-validate-minmax="10,100" required='required'></div>
-				</div>
-				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityStadiumCd">구장대표코드 <span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityStadiumCd" value = "ss_35011740_01_stadium_02" data-validate-minmax="10,100" required='required'></div>
+					<input class="form-control" type="text" name="facilityStadiumCd"   data-validate-minmax="10,100" required='required'></div>
 				</div>
 				<div class="field item form-group">
-					<label class="col-form-label col-md-3 col-sm-3  label-align" for="sportsCd">종목<span class="required">*</span></label>
-					<div class="col-md-6 col-sm-6"><!-- th:value="${session.SID}" -->
-						<select class="select2_single form-control" tabindex="-1" name="sportsCd">
+					<label class="col-form-label col-md-3 col-sm-3  label-align" for="sportsCd" >종목<span class="required">*</span></label>
+					<div class="col-md-6 col-sm-6">
+						<select class="select2_single form-control" tabindex="-1" name="sportsCd" >
 							<option value = "">::종목 선택::</option>
 							<option value="sp01">축구</option>
 							<option value="sp02">테니스</option>
@@ -101,7 +106,7 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="dayPrice">주중가 <span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="dayPrice"  readonly="readonly" data-validate-minmax="10,100" ></div>
+					<input class="form-control" type="text" name="dayPrice" data-validate-minmax="10,100" ></div>
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="nightPrice">야간가 <span class="required">*</span></label>
@@ -131,7 +136,7 @@
 	  
 	  
 				<!-- <div class="item form-group">
-					<label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonImgFile">시설 사진 
+					<label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonImgFile">구장 사진 
 					</label>
 					<div class="col-md-6 col-sm-6 ">
 						<input type="file" id="lessonImgFile"  name="facilityImgFile" multiple="multiple">

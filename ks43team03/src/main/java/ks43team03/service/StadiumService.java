@@ -9,9 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ks43team03.dto.AreaCityTown;
-import ks43team03.dto.Facility;
-import ks43team03.dto.Sports;
+
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;
 import ks43team03.mapper.FileMapper;
@@ -29,6 +27,16 @@ public class StadiumService {
 		this.stadiumMapper = stadiumMapper;
 		this.fileMapper = fileMapper;
 	}
+	
+	
+	/*회원이 구장 상세정보 조회*/
+	public Stadium getStadiumInfoByCdForUser(String facilityStadiumCd) {
+		Stadium stadium = stadiumMapper.getStadiumInfoByCdForUser(facilityStadiumCd);
+		
+		return stadium;
+	}
+	
+	
 
 	/*회원이 구장 전체 조회*/
 	public Map<String, Object> getStadiumList(int currentPage) {
@@ -75,11 +83,32 @@ public class StadiumService {
 		return resultMap;
 	}	
 	
+	/*단가 수정*/
+	public int modifyStadiumPrice(StadiumPrice stadiumPrice) {
+		return stadiumMapper.modifyStadiumPrice(stadiumPrice);
+	}
 	
+	/*시설코드별 가격상세정보조회*/
+	public StadiumPrice getStadiumPriceInfoByCd(String stadiumPriceCd) {
+		StadiumPrice stadiumPrice = stadiumMapper.getStadiumPriceInfoByCd(stadiumPriceCd);
+
+		return stadiumPrice;
+	}
+	
+	/*구장 수정*/
+	public int modifyStadium(Stadium stadium) {
+		return stadiumMapper.modifyStadium(stadium);
+	}
+	
+	/* 시설코드별상세정보조회 */
+	public Stadium getStadiumInfoByCd(String facilityStadiumCd) {
+		Stadium stadium = stadiumMapper.getStadiumInfoByCd(facilityStadiumCd);
+
+		return stadium;
+	}
 	
 	/*구장단가등록*/
 	public int addStadiumPrice(StadiumPrice stadiumPrice) {
-		/* facility.setUserId(sessionId); */
 		int result = stadiumMapper.addStadiumPrice(stadiumPrice);
 		return result;
 	}
@@ -146,5 +175,10 @@ public class StadiumService {
 		resultMap.put("startPageNum", startPageNum);
 		resultMap.put("endPageNum", endPageNum);
 		return resultMap;
-	}	
+	}
+
+
+
+
+
 }

@@ -40,6 +40,7 @@
 									<th class="column-title">구장명</th>
 									<th class="column-title">종목</th>
 									<th class="column-title">등록자 아이디</th>
+									<th class="column-title">구장단가코드</th>
 									<th class="column-title">주중가</th>
 									<th class="column-title">야간가</th>
 									<th class="column-title">공휴일가</th>
@@ -62,13 +63,14 @@
 									<td th:text ="${l.facilityStadiumNm}"></td>
 									<td th:text ="${l.sports.sportsName}"></td>
 									<td th:text ="${l.userId}"></td>
+									<td th:text ="${l.stadiumPrice.stadiumPriceCd}"></td>
 									<td th:text ="${l.stadiumPrice.dayPrice}"></td>
 									<td th:text ="${l.stadiumPrice.nightPrice}"></td>
 									<td th:text ="${l.stadiumPrice.holPrice}"></td>
 									<td th:text ="${l.facilityStadiumDetail}"></td>
 									<td th:text ="${l.facilityStadiumRegDate}"></td>
 									<td>
-										<a href="#">수정</a>
+										<a th:href="@{/stadium/modifyStadium(facilityStadiumCd=${l.facilityStadiumCd})}">수정</a>
 									</td>
 									<td>
 										<a href="#">삭제</a>

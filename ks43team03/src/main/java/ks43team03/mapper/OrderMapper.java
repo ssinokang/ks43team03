@@ -19,5 +19,5 @@ public interface OrderMapper {
 	public List<Order>getOrderAll();
 	
 	// 회원 한명의 주문내역 조회 메소드
-	public List<Order> getOrderByMember(String userId);
+	public List<Order> getOrderByUser(String userId);
 }

@@ -32,7 +32,7 @@ public class OrderMapperImlTest implements OrderMapper {
 	}
 	
 	@Override
-	public List<Order> getOrderByMember(String userId) {
+	public List<Order> getOrderByUser(String userId) {
 		
 		return orderMap.values().stream()
 					.filter(o -> o.getUserId().equals(userId))

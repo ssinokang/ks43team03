@@ -1,10 +1,12 @@
 package ks43team03.service;
 
 
+import org.springframework.stereotype.Service;
+
 import ks43team03.dto.Order;
 import ks43team03.mapper.OrderMapper;
 
-
+@Service
 public class OrderService {
 
 	private final OrderMapper orderMapper;

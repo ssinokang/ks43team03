@@ -23,6 +23,10 @@ public class FacilityGoods {
 	private String faclityGoodsState; //상품활성화상태
 
 	
+	private Pass pass;
+	private Lesson lesson;
+	private FacilityStadium facilityStadium;
+	
 	private Sports sports;
 	
 }

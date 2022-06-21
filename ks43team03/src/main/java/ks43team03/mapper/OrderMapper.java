@@ -10,7 +10,7 @@ import ks43team03.dto.Order;
 public interface OrderMapper {
 	
 	// 주문 생성메소드
-	public Order addOrder(Order order);
+	public void addOrder(Order order);
 	
 	// 주문 상세정보를 보는 메소드
 	public Order getOrderByCode(String orderCd);

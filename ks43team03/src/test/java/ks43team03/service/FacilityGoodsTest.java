@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ks43team03.dto.FacilityGoods;
+import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
+@Slf4j
 public class FacilityGoodsTest {
 
 	@Autowired
@@ -25,5 +27,9 @@ public class FacilityGoodsTest {
 		fGoodserv.addGoodsCode(fg);
 		
 		System.out.println(fg.getFacilityGoodsCd());
+		log.info("결과값은 : {}",fg.getFacilityGoodsCd());
 	}
+	
+	
+	
 }

@@ -1,5 +1,6 @@
 package ks43team03.dto;
 
+import ks43team03.dto.type.PayType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,5 @@ public class Payment {
 	
 	private PayType payType;
 	
-	public enum PayType{
-		CARD, KAKAO, NAVER, DEPOSIT
-	}
+	
 }

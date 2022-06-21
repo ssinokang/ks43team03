@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks43team03.dto.FacilityGoods;
-import ks43team03.dto.Pass;
+import ks43team03.dto.ResponseGoods;
 import ks43team03.mapper.FacilityGoodsMapper;
 
 @Service
@@ -41,11 +41,12 @@ public class FacilityGoodsService {
 	}
 	
 	// 상폼하나 조회 
-	public FacilityGoods getFacilityGoodsCd(String facilityGoodsCd) {
+	public ResponseGoods getFacilityGoodsCd(String facilityGoodsCd) {
 		FacilityGoods facilityGoods = facilityGoodsMapper.getFacilityGoodsCd(facilityGoodsCd);
+		String categoryCode = facilityGoods.getGoodsCtgCd();
+		ResponseGoods responceGoods = getFacilityGoodsCd(facilityGoodsCd,categoryCode);
 
-		FacilityGoods goods = getFacilityGoodsDetail(facilityGoods);
-		return goods;
+		return responceGoods;
 	}
 	
 	
@@ -53,24 +54,47 @@ public class FacilityGoodsService {
 	/**
 	 * 
 	 * @param facilityGoods
-	 * @return facility detail
+	 * @return ResponceGoods ResponceGoods
 	 * 
 	 * 상품코드 조회 레슨, 이용권, 상품
 	 */
-	
-	private FacilityGoods getFacilityGoodsDetail(FacilityGoods facilityGoods) {
-		FacilityGoods goods = null;
-		String categoryCode = facilityGoods.getGoodsCtgCd();
+	private ResponseGoods getFacilityGoodsCd(String failityGoodscd, String categoryCode) {
+		int price = 0;
+		FacilityGoods facilityGoods = null;
+
 		if("lesson".equals(categoryCode)) {
 
 		}else if("pass".equals(categoryCode)) {
-			
+			facilityGoods = facilityGoodsMapper.getFacilityGoodsPassCd(failityGoodscd);
+			price = facilityGoods.getPass().getPassPrice();
 		}else if("stadium".equals(categoryCode)) {
 			
 		}
 		
-		return goods;
+		return ResponseGoods.builder()
+				.facilityGoods(facilityGoods)
+				.price(price)
+				.build();
 	}
+	
+	
+	
+	private ResponseGoods getFacilityGoodsPassCd(FacilityGoods facilityGoods) {
+		return ResponseGoods.builder()
+				.facilityGoods(facilityGoods)
+				.price(facilityGoods.getPass().getPassPrice())
+				.build();
+	}
+	
+	private ResponseGoods getFacilityGoodsLessonCd(FacilityGoods facilityGoods) {
+		return ResponseGoods.builder()
+				.facilityGoods(facilityGoods)
+				.price(facilityGoods.getLesson().getLessonPrice())
+				.build();
+	}
+	
+	
+	
 	
 	
 	/*

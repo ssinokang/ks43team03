@@ -35,7 +35,6 @@ public class PassController {
 	
 	@PostMapping("/addPass2")
 	public String addPass2(Pass pass) {
-		log.info("facilityGoods값에 담긴갑 : {}", pass.getSportsCd());
 		log.info("pass값에 담긴갑 : {}", pass.getGoodsCtgCd());
 		log.info("abGoods test", pass);
 		

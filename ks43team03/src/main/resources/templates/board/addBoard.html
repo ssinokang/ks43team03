@@ -7,7 +7,15 @@
 	<th:block layout:fragment="customTitle">
 		<title th:text="${title}"></title>
 	</th:block>
-	  
+	   <!-- 사용자 정의 Js 파일-->
+	<th:block layout:fragment="customJs">
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+		
+		<script>
+		</script>
+		
+	</th:block>	
+		
 <th:block layout:fragment="customContents">
 	<section class="checkout spad" th:fragment="checkOutFragment">
 		<div class="container">
@@ -26,15 +34,23 @@
 						<div class="row">
 							<div class="col-lg-12 col-md-12 col-sm-12">
 								<div class="checkout__form__input">
+									<p>작성자 아이디
+										<span>*</span>
+									</p>
+									<input th:value="${board.boardPostCd}" name="boardPostCd" type="hidden">
+									<input type="text" th:value="${session.SID}" name="userId" readonly="readonly">
+								</div>
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12">
+								<div class="checkout__form__input">
 									<p>카테고리
 										<span>*</span>
 									</p>
-									<select name="ctg" class="tip" id="ctg-select" th:value="${boardCtgCd.boardCtgNm}"
-											style="margin-bottom: 25px;">
-									    <option value="">--목록을 선택하세요--</option>
-									    <option th:selected="${boardCtgCd.boardCtgNm}==공지사항">공지사항</option>
-									    <option th:selected="${boardCtgCd.boardCtgNm}==건의사항">건의사항</option>
-									    <option th:selected="${boardCtgCd.boardCtgNm}==신고사항">신고사항</option>
+									<select name="boardSubCtgCd" class="tip" id="ctg-select" style="margin-bottom: 25px;">
+										<option value="" disabled selected> :: 게시글 카테고리 선택 :: </option>
+										<th:block th:if="${not #lists.isEmpty(boardCtgCdList)}" th:each="nm : ${boardCtgCdList}">
+										    <option id="boardCtgNmChoice" th:value="${nm.boardSubCtgCd}">[[${nm.boardCtgNm}]]</option>
+										</th:block>
 									</select>
 								</div>
 							</div>
@@ -43,15 +59,7 @@
 									<p>제목
 										<span>*</span>
 									</p>
-									<input type="text">
-								</div>
-							</div>
-							<div class="col-lg-12 col-md-12 col-sm-12">
-								<div class="checkout__form__input">
-									<p>게시글 비밀번호
-										<span>*</span>
-									</p>
-									<input type="text">
+									<input type="text" th:value="${board.boardPostTitle}" name="boardPostTitle">
 								</div>
 							</div>
 							<div class="col-lg-12">
@@ -59,9 +67,15 @@
 									<p>내용
 										<span>*</span>
 									</p>
-									<textarea class="form-control" style="min-height: 150px;"></textarea>
+									<textarea class="form-control" style="min-height: 150px;" th:value="${board.boardPostContent}" name="boardPostContent"></textarea>
 								</div>
 							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12">
+								<div class="checkout__form__input">
+									<p>첨부파일</p>
+								</div>
+							</div>
+							
 						</div>
 					</div>
 					<div class="col-lg-4">

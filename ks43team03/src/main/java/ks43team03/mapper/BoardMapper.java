@@ -21,8 +21,8 @@ public interface BoardMapper {
 	// 게시글 등록
 	public int addBoard(Board board);
 	
-	// 게시글 카테고리 등록
-	public List<BoardCtgCd> getBoardCtgCdList(BoardCtgCd boardCtgCd);
+	// 게시글 카테고리 조회
+	public List<BoardCtgCd> getBoardSubCtgCd(BoardCtgCd boardSubCtgCd);
 	
 	// 게시글 수정 
 	public int modifyBoard(Board board);
@@ -31,7 +31,7 @@ public interface BoardMapper {
 	public int boardViewUpdate(String boardPostCd);
 	
 	// 게시글 답글 등록 
-	public void addBoardComment(BoardComment boardComment);
+	public int addBoardComment(BoardComment boardComment);
 	
 	// 게시글 답글 조회 
 	public List<BoardComment> getBoardCommentList(String boardPostCd);

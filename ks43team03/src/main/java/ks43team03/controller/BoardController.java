@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -14,18 +14,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ks43team03.dto.Board;
 import ks43team03.dto.BoardComment;
 import ks43team03.dto.BoardCtgCd;
-import ks43team03.dto.User;
 import ks43team03.service.BoardService;
-import ks43team03.service.UserService;
 
 @Controller
 @RequestMapping("/board")
@@ -60,7 +56,7 @@ public class BoardController {
 	public String getBoardDetail(Model model,
 								@RequestParam(value = "boardPostCd", required = false) String boardPostCd) {
 		Board board = boardService.getBoardDetail(boardPostCd);
-
+		
 		List<BoardComment> boardCommentList = boardService.getBoardCommentList(boardPostCd);
 		
 		boardService.boardViewUpdate(boardPostCd);
@@ -72,36 +68,59 @@ public class BoardController {
 		log.info("boardPostcd : {}", boardPostCd);
 		log.info("boardDetail : {}", board);
 		log.info("boardCommentList : {}", boardCommentList);
-
+		
 		return "board/boardDetail";
 	}
 
-	/* 게시글 등록 post */
+	/* 게시글 등록 처리 */
 	@PostMapping("/addBoard")
-	public String addBoard(Board board) {
-
+	public String addBoard(Board board
+							,@RequestParam(name="boardPostCd", required = false) String boardPostCd
+							,HttpServletRequest request) {
+		
 		boardService.addBoard(board);
-
-		log.info("게시글 등록 post", board);
-
-		return "redirect:/board/boardList";
+		
+		return "redirect:/";
 	}
-
-	/* 게시글 등록 get */
+	
+	/* 게시글 등록 페이지 */
 	@GetMapping("/addBoard")
-	public String addBoard(Model model, BoardCtgCd boardCtgCd) {
+	public String addBoard(Model model, HttpSession session, Board board,BoardCtgCd boardSubCtgCd) {
+		
+		String sessionId = (String)session.getAttribute("SID");
+		board.setUserId(sessionId);
+		
+		List<BoardCtgCd> boardCtgCdList = boardService.getBoardSubCtgCd(boardSubCtgCd);
+		
+		log.info(" !!!!!!!!!!" + boardSubCtgCd);
+		model.addAttribute("title", "게시글 등록");
+		model.addAttribute("getBoardPostCd", board.getBoardPostCd());
+		model.addAttribute("getBoardCtgCd", board.getBoardCtgCd());
+		model.addAttribute("getBoardPostTitle", board.getBoardPostTitle());
+		model.addAttribute("getBoardPostContent", board.getBoardPostContent());
+		model.addAttribute("boardCtgCdList", boardCtgCdList);
+		log.info("회원이 입력한 게시글 내용 : {}", board);
+		
+		log.info("sessionId : {}",sessionId);
+		log.info("boardCtgCd : {}", board.getBoardCtgCd());
+		log.info("boardPostTitle : {}", board.getBoardPostTitle());
+		log.info("boardPostContent : {}", board.getBoardPostContent());
+		
+		/*
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		List<Board> boardList = boardService.getBoardList(paramMap);
 		List<BoardCtgCd> boardCtgCdList = boardService.getBoardCtgCdList(boardCtgCd);
 		
 		log.info("boardCtgCd : {}", boardCtgCd);
-		log.info("boardList : {}", boardList);
 		log.info("boardCtgCdList : {}", boardCtgCdList);
-
+		
 		model.addAttribute("title", "게시글 등록");
-		model.addAttribute("boardList", boardList);
+		model.addAttribute("boardCtgCd", boardCtgCd);
 		model.addAttribute("boardCtgCdList", boardCtgCdList);
-
+		
+		boardService.addBoard(board);
+		*/
+		
 		return "board/addBoard";
 	}
 
@@ -129,21 +148,24 @@ public class BoardController {
 	}
 
 	/* 게시물 답글 등록 post */
-	@PostMapping(value = "/boardDetail", produces = "application/json")
-	@ResponseBody
-	public String addBoardComment(@RequestBody BoardComment boardComment, Model model, HttpSession session) {
+	@PostMapping(value = "/addBoardComment", produces = "application/json")
+	public String addBoardComment(BoardComment boardComment, Board board, HttpSession session, RedirectAttributes attr) {
 		
 		String sessionId = (String)session.getAttribute("SID");
+		log.info("회원 sessionId : {}", sessionId);
+		log.info(boardComment.getBoardCtgCd());
+		log.info("boardComment : {}", boardComment);
 		
 		boardComment.setUserId(sessionId);
-//		
-//		log.info("회원 sessionId : {}", sessionId);
-
+		
+		
+		attr.addAttribute("boardPostCd", boardComment.getBoardPostCd());
+		attr.addAttribute("boardPostContentDetail", boardComment.getBoardPostContentDetail());
 		log.info("게시글 답글 등록 : {}", boardComment.getBoardPostContentDetail());
-
-		// attr.addAttribute("boardPostCd", boardComment.getBoardPostCd());
-		return null;
-		// return "redirect:/board/boardDetail";
+		
+		boardService.addBoardComment(boardComment);
+		
+		return "redirect:/board/boardDetail";
 	}
 
 	/* 게시글 답글 삭제 */

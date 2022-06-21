@@ -18,6 +18,13 @@
 	
 	<!-- 주문 내역 등록 -->
 	<insert id="addOrder" parameterType="Order">
+		<selectKey keyProperty="orderCd" resultType="String" order="BEFORE">
+		SELECT 
+			CONCAT('order_',MAX(CAST(SUBSTRING_INDEX(o.order_cd,'_',-1) AS UNSIGNED))+1)
+		FROM
+			goods_order AS o
+		</selectKey>
+		
 		INSERT INTO goods_order
 		(
 			order_cd,

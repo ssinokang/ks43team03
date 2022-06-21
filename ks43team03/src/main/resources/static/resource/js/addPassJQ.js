@@ -1,9 +1,16 @@
+
 $(function() {
 	var $stadium = $('#stadium');
 	var $pass = $('#pass');
 	var $lesson = $('#lesson');
 	var $goodsCtg = $('#goodsCtg')
-	var productData;
+
+	var ctg = new Array();
+	
+	ctg.push($lesson);
+	ctg.push($pass);
+	ctg.push($stadium);
+	
 	//var facilityGoodsCd = '';
 	const main = {
 
@@ -78,6 +85,20 @@ $(function() {
 	main.init();
 	
 	$goodsCtg.on('change', function(e) {
+		console.log(e.target.indexOf('lesson'));
+		console.log(e.target.length);
+		console.log(e.target.index);
+		console.log(e.target.index());
+		console.log($(e.target).index());
+		
+		for(var i = 1; i < e.target.length; i++) {
+			ctg[i].addClass("none-display");
+			
+			if($('e.target').index() == i-1) {
+				ctg[i].removeClass('none-display');
+			}
+		}
+		/*
 		if(this.value == 'lesson') {
 			$lesson.removeClass("none-display");
 			$pass.addClass("none-display");
@@ -95,6 +116,11 @@ $(function() {
 			$pass.addClass("none-display");
 			$stadium.addClass("none-display");
 		}
+		*/
 	})
-	
+	$(document).on('click', '#register-goods', function() {
+		$('#facilityCd').prop('disabled', true);
+		$('#sportCtg').prop('disabled', true);
+		$('#goodsCtg').prop('disabled', true);
+	});
 });

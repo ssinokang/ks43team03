@@ -35,6 +35,21 @@ public class LessonController {
 	/**
 	 *  회원이 보는 레슨 리스트 
 	 **/
+	@GetMapping("/detailLessonForUser")
+	public String detailLessonForUser(@RequestParam(name		  = "lessonCd"
+													,required 	  = false
+													,defaultValue = "error") String lessonCd
+									 ,Model model) {
+		
+		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
+		
+		model.addAttribute("lesson", lesson);
+		model.addAttribute("title" , "상품상세보기");
+		
+		log.info("lesson : {}", lesson);
+		
+		return "lesson/detailLessonForUser";
+	}
 	@GetMapping("/lessonListForUser")
 	public String lessonListforUser(
 			Lesson 		  lesson

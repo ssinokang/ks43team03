@@ -54,7 +54,7 @@
 							<!-- db에서 저장된 사진 불러오기 -->
 							<div th:if="${not #lists.isEmpty(lesson.tFile)}" th:each="t : ${lesson.tFile}">
 								<div class="product-image" th:if="${t.representImg eq 'Y'}">
-									<img src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="..." />
+									<img th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="..." />
 								</div>
 							
 								<div class="product_gallery" th:unless="${t.representImg eq 'Y'}">

@@ -12,6 +12,34 @@
 		<result column="user_id" 					property="userId"/>
 		<result column="facility_goods_reg_date" 	property="facilityRegDate"/>
 		<result column="facility_goods_state" 		property="faclityGoodsState"/>
+		<!-- <association property="pass" javaType="Pass">
+			<id column=""/>
+			<result column=""/>
+		</association> -->
+		<association property="lesson" javaType="Lesson">
+			<id 	column="lesson_cd" 				property="lessonCd"/>
+			<result column="lesson_division" 		property="lessonDivision"/>
+			<result column="facility_goods_cd" 		property="facilityGoodsCd"/>
+			<result column="facility_cd" 			property="facilityCd"/>
+			<result column="goods_ctg_cd" 			property="goodsCtgCd"/>
+			<result column="user_id" 				property="userId"/>
+			<result column="lesson_nm" 				property="lessonName"/>
+			<result column="lesson_detail" 			property="lessonDetail"/>		
+			<result column="lesson_total_member" 	property="lessonTotalMember"/>		
+	 		<result column="lesson_member" 			property="lessonMember"/>		 
+			<result column="lesson_start_date" 		property="lessonStartDate"/>		
+			<result column="lesson_end_date" 		property="lessonEndDate"/>		
+			<result column="lesson_price" 			property="lessonPrice"/>		
+			<result column="lesson_reg_date" 		property="lessonRegDate"/>		
+			<result column="lesson_state" 			property="lessonState"/>	
+		</association>
+		<!-- <association property="facilityStadium" javaType="FacilityStadium">
+		
+		</association> -->
+		<association property="sports" javaType="Sports">
+			<id 	column="sports_cd"	property="sportsCd"/>
+			<result column="sports_nm" 	property="sportsName"/>
+		</association>
 	</resultMap>
 	<!-- 
 	SELECT 

@@ -16,4 +16,7 @@ public interface FacilityGoodsMapper {
 	// 상폼하나 조회 
 	public FacilityGoods getFacilityGoodsCd(String facilityGoodsCd);
 	
+	
+	public FacilityGoods getFacilityGoodsPassCd(String facilityGoodsCd);
+	
 }

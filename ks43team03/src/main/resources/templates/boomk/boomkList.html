@@ -39,7 +39,7 @@
 										<td th:text="${l.facility.facilityDetailAddr}"></td>
 										<td th:text="${l.facility.facilityTell}"></td>
  										<td>
-											<a th:href="@{/boomk/modifyBoomk(boomkFacilityCd=${l.boomkFacilityCd},userId=${l.userId})}">취소</a>
+											<a th:href="@{/boomk/removeBoomk(facilityCd=${l.facilityCd},userId=${l.userId})}">취소</a>
 										</td> 										
 									</tr>
 									<tr th:unless="${not #lists.isEmpty(boomkList)}">

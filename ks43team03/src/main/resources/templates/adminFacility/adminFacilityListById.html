@@ -55,10 +55,9 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:if="${not #lists.isEmpty(adminFacilityListById)}"
-									th:each="l:${adminFacilityListById}">
-									<td class="a-center "><input type="checkbox" class="flat"
-										name="table_records"></td>
+								<tr th:if="${not #lists.isEmpty(adminFacilityListById)}" th:each="l:${adminFacilityListById}">
+									<td class="a-center ">
+										<input type="checkbox" class="flat" name="table_records"></td>
 									<td th:text="${l.facilityCd}"></td>
 									<td th:text="${l.mainCtgCd}"></td>
 									<td th:text="${l.area.areaNm}"></td>

@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class FacilityStadium {
+public class Stadium {
 	private String facilityStadiumCd;
 	private String facilityGoodsCd;
 	private String facilityCd;
@@ -17,5 +17,10 @@ public class FacilityStadium {
 	private String facilityStadiumNm;
 	private String facilityStadiumRegDate;
 	private String facilityStadiumDetail;
+	
+	
+	private Facility facility;
+	private Sports sports;
+	private StadiumPrice stadiumPrice;
 	
 }

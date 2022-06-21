@@ -20,7 +20,7 @@
 		<script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
 	
 			<script>
-			/* 아이디 중복 여부 검사 */
+			
 			$(function(){
 			
 			function validationCheck(data){
@@ -46,7 +46,46 @@
 						return false;
 					}
 				});
-			
+				if(isSubmit){
+					if($("#mainCtgCd").val() == ""){
+					    alert("시설 카테고리를 선택해주세요");
+					    $("#mainCtgCd").focus();
+					    isSubmit = false;
+					    return false;
+					}
+				}
+				if(isSubmit){
+					if($("#areaCd").val() == ""){
+					    alert("지역(시도)을 선택해주세요");
+					    $("#areaCd").focus();
+					    isSubmit = false;
+					    return false;
+					}
+				}
+				if(isSubmit){
+					if($("#areaCd").val() == ""){
+					    alert("지역(시군구)을 선택해주세요");
+					    $("#areaCd").focus();
+					    isSubmit = false;
+					    return false;
+					}
+				}
+				if(isSubmit){
+					if($("#areaCd").val() == ""){
+					    alert("지역(읍면동)을 선택해주세요");
+					    $("#areaCd").focus();
+					    isSubmit = false;
+					    return false;
+					}
+				}
+				if(isSubmit){
+					if($("#facilityUseCd").val() == ""){
+					    alert("시설용도를 선택해주세요");
+					    $("#facilityUseCd").focus();
+					    isSubmit = false;
+					    return false;
+					}
+				}
 			console.log('유효여부 폼전송할건지?' + isSubmit )
 			
 			if(isSubmit) $('#addFacilityForm').submit();
@@ -113,7 +152,7 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="mainCtgCd">시설카테고리<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<select class="form-control" name="mainCtgCd" data-validate-length-range="6" data-validate-words="2" required="required">
+					<select class="form-control" name="mainCtgCd" id="mainCtgCd" data-validate-length-range="6" data-validate-words="2" required="required">
 						<option value=""> ::  시 설 카 테 고 리  선 택   ::</option>
 						<th:block th:if="${not #lists.isEmpty(mainCtgList)}" th:each="l:${mainCtgList}">
 							<option th:value="${l.mainCtgCd}">[[${l.mainCtgNm}]]</option>
@@ -151,7 +190,7 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityUseCd">시설용도<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<select class="form-control" name="facilityUseCd" data-validate-length-range="5,15" >
+					<select class="form-control" name="facilityUseCd" id="facilityUseCd" data-validate-length-range="5,15" >
 						<option value=""> ::  시 설 용 도 선 택   ::</option>
 						<th:block th:if="${not #lists.isEmpty(facilityUseList)}" th:each="l:${facilityUseList}">
 							<option th:value="${l.facilityUseCd}">[[${l.facilityUseNm}]]</option>

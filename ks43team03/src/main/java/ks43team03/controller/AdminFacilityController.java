@@ -154,7 +154,7 @@ public class AdminFacilityController {
 	public String getAdminFacilityListById(Model model
 										 ,@RequestParam(name="userId", required = false) String userId) {
 		userId = "id002";
-		log.info("회원정보조회 아이디 : {}", userId);
+		log.info("시설조회 아이디 : {}", userId);
 		
 		List<Facility> adminFacilityListById = adminFacilityService.getAdminFacilityListById(userId);
 		model.addAttribute("title", "내 시설 정보");

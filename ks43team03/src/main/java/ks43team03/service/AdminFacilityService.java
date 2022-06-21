@@ -26,7 +26,7 @@ import ks43team03.mapper.FileMapper;
 @Transactional
 public class AdminFacilityService {
 
-	private static final Logger log = LoggerFactory.getLogger(UserService.class);
+	private static final Logger log = LoggerFactory.getLogger(AdminFacilityService.class);
 	private final AdminFacilityMapper adminFacilityMapper;
 	private final FileMapper fileMapper;
 

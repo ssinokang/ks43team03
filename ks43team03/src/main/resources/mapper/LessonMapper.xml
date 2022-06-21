@@ -63,8 +63,28 @@
 		</collection>
 	</resultMap>
 	<!-- 레슨 수정하기 -->
-	<update id="modifyLesson" parameterType="Lesson" resultMap="lessonResultMap">
-	
+	<update id="modifyLesson" parameterType="Lesson">
+	UPDATE lesson
+	SET
+		lesson_cd=#{}
+		,lesson_division=
+		,facility_goods_cd=
+		,facility_cd=
+		,goods_ctg_cd=
+		,sports_cd=
+		,user_id=
+		,sports_nm=
+		,lesson_nm=
+		,lesson_detail=
+		,lesson_total_member=0,
+		,lesson_member=0,
+		,lesson_start_date=NOW()
+		,lesson_end_date=NOW()
+		,lesson_price=0
+		,lesson_reg_date=NOW()
+		,lesson_state=
+	WHERE
+		lesson_cd=''
 	</update>
 	<!-- 레슨 코드를 사용한 레슨 상세 조회 -->
 	<select id="getLessonInfoByCd" parameterType="String" resultMap="lessonResultMap">

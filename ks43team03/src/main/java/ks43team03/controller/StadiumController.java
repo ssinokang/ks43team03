@@ -36,7 +36,7 @@ public class StadiumController {
 	@GetMapping("stadiumDetail")
 	public String getStadiumInfoByCdForUser(Model model
 											,@RequestParam(name="facilityStadiumCd", required = false) String facilityStadiumCd) {
-		Stadium stadiumDetail = stadiumService.getStadiumInfoByCdForUser(facilityStadiumCd);
+		Stadium stadiumDetail = stadiumService.getStadiumInfoByCd(facilityStadiumCd);
 		log.info(facilityStadiumCd);
 		
 		model.addAttribute("title", "구장 상세 정보");
@@ -80,7 +80,7 @@ public class StadiumController {
 	@GetMapping("/modifyStadiumPrice")
 	public String modifyStadiumPrice(@RequestParam(value="facilityStadiumCd", required=false) String facilityStadiumCd
 								,Model model) {
-		StadiumPrice stadiumPrice = stadiumService.getStadiumPriceInfoByCd(facilityStadiumCd);
+		StadiumPrice stadiumPrice = stadiumService.getAdminStadiumPriceInfoByCd(facilityStadiumCd);
 		
 		model.addAttribute("title", "구장 등록");
 		model.addAttribute("stadiumPrice",stadiumPrice);
@@ -102,7 +102,7 @@ public class StadiumController {
 	@GetMapping("/modifyStadium")
 	public String modifyStadium(@RequestParam(value="facilityStadiumCd", required=false) String facilityStadiumCd
 			,Model model) {
-		Stadium stadium = stadiumService.getStadiumInfoByCd(facilityStadiumCd);
+		Stadium stadium = stadiumService.getAdminStadiumInfoByCd(facilityStadiumCd);
 		
 		model.addAttribute("title", "구장 등록");
 		model.addAttribute("stadium",stadium);

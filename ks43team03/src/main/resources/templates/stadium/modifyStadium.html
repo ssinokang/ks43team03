@@ -125,9 +125,9 @@
 				</div>
 				<div class="ln_solid">
 					<div class="form-group">
-						<div class="col-md-6 offset-md-3">
-							<button type='reset' class="btn btn-primary">취소</button>
-							<button type="button" id="modifyStadiumBtn" class="btn btn-success" th:onclick="|location.href ='@{/stadium/modifyStadiumPrice(facilityStadiumCd=${stadium.facilityStadiumCd})}'|" >다음</button>
+						<div class="col-md-6 offset-md-3" th:if="${not #lists.isEmpty(stadium)}" th:each="l:${stadium}">
+							<button type="reset" class="btn btn-primary">취소</button>
+							<button type="button" id="modifyStadiumBtn" class="btn btn-success" th:onclick="|location.href ='@{/stadium/modifyStadiumPrice(facilityStadiumCd=${l.facilityStadiumCd})}'|" >다음</button>
 						</div>
 					</div>
 				</div>

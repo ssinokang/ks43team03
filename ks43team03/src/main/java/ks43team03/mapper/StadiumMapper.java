@@ -15,7 +15,7 @@ import ks43team03.dto.StadiumPrice;
 public interface StadiumMapper {
 
 	//회원이 구장 상세정보 조회 
-	public Stadium getStadiumInfoByCdForUser(String facilityStadiumCd);
+	public Stadium getStadiumInfoByCd(String facilityStadiumCd);
 	
 	//회원이 구장 조회
 	public List<Map<String, Object>> getStadiumList(Map<String, Object> paramMap);
@@ -24,10 +24,10 @@ public interface StadiumMapper {
 	public int modifyStadiumPrice(StadiumPrice stadiumPrice);
 	
 	//구장코드별 구장 단가 상세정보조회
-	public StadiumPrice getStadiumPriceInfoByCd(String facilityStadiumCd);
+	public StadiumPrice getAdminStadiumPriceInfoByCd(String facilityStadiumCd);
 	
 	//구장코드별 구장 상세정보조회
-	public Stadium getStadiumInfoByCd(String facilityStadiumCd);
+	public Stadium getAdminStadiumInfoByCd(String facilityStadiumCd);
 	
 	//구장 수정
 	public int modifyStadium(Stadium stadium);

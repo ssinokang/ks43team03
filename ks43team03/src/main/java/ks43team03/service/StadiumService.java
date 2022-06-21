@@ -30,8 +30,8 @@ public class StadiumService {
 	
 	
 	/*회원이 구장 상세정보 조회*/
-	public Stadium getStadiumInfoByCdForUser(String facilityStadiumCd) {
-		Stadium stadium = stadiumMapper.getStadiumInfoByCdForUser(facilityStadiumCd);
+	public Stadium getStadiumInfoByCd(String facilityStadiumCd) {
+		Stadium stadium = stadiumMapper.getStadiumInfoByCd(facilityStadiumCd);
 		
 		return stadium;
 	}
@@ -89,8 +89,8 @@ public class StadiumService {
 	}
 	
 	/*시설코드별 가격상세정보조회*/
-	public StadiumPrice getStadiumPriceInfoByCd(String stadiumPriceCd) {
-		StadiumPrice stadiumPrice = stadiumMapper.getStadiumPriceInfoByCd(stadiumPriceCd);
+	public StadiumPrice getAdminStadiumPriceInfoByCd(String stadiumPriceCd) {
+		StadiumPrice stadiumPrice = stadiumMapper.getAdminStadiumPriceInfoByCd(stadiumPriceCd);
 
 		return stadiumPrice;
 	}
@@ -101,8 +101,8 @@ public class StadiumService {
 	}
 	
 	/* 시설코드별상세정보조회 */
-	public Stadium getStadiumInfoByCd(String facilityStadiumCd) {
-		Stadium stadium = stadiumMapper.getStadiumInfoByCd(facilityStadiumCd);
+	public Stadium getAdminStadiumInfoByCd(String facilityStadiumCd) {
+		Stadium stadium = stadiumMapper.getAdminStadiumInfoByCd(facilityStadiumCd);
 
 		return stadium;
 	}

@@ -45,7 +45,7 @@
 	
 	
 	
-	<select id="getStadiumInfoByCdForUser" parameterType="String" resultMap="stadiumResultMap">
+	<select id="getStadiumInfoByCd" parameterType="String" resultMap="stadiumResultMap">
 		SELECT 
 			fs.facility_stadium_cd
 			,fs.facility_goods_cd
@@ -145,7 +145,7 @@
 		</update>	
 	
 	
-		<select id="getStadiumPriceInfoByCd" parameterType="String" resultMap="stadiumResultMap">
+		<select id="getAdminStadiumPriceInfoByCd" parameterType="String" resultMap="stadiumResultMap">
 		/*구장코드별 구장가격 상세정보 조회*/
 			SELECT 
 				stadium_price_cd
@@ -191,7 +191,7 @@
 				facility_stadium_cd	=			#{facilityStadiumCd};
 		</update>
 		
-		<select id="getStadiumInfoByCd" parameterType="String" resultMap="stadiumResultMap">
+		<select id="getAdminStadiumInfoByCd" parameterType="String" resultMap="stadiumResultMap">
 		/*구장코드별 구장 상세정보 조회*/
 			SELECT
 				facility_stadium_cd

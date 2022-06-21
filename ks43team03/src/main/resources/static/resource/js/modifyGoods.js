@@ -131,4 +131,11 @@ $(function() {
 			alert("더이상 지울 수 없습니다.");
 		}
 	});
+
+	$sportsCtgVal = $('#sportsCtg').attr('data-sport');
+	$goodsCtgVal  = $('#goodsCtg').attr('data-goodsCtg');
+	console.log($sportsCtgVal);
+	 $('#sportsCtg option[value=' + $sportsCtgVal + ']').attr('selected', 'selected');
+	 $('#goodsCtg option[value=' + $goodsCtgVal + ']').attr('selected', 'selected');
+
 });

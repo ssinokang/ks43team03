@@ -1,12 +1,17 @@
 package ks43team03.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Order;
+import ks43team03.dto.User;
+import ks43team03.service.FacilityGoodsService;
+import ks43team03.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -14,10 +19,31 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OrderController {
 
+	private final UserService userService;
+	private final FacilityGoodsService facilityGoodsService;
 	
+
+	public OrderController(UserService userService, FacilityGoodsService facilityGoodsService) {
+		this.userService = userService;
+		this.facilityGoodsService = facilityGoodsService;
+	}
 	
-	@GetMapping("/order")
-	public String order() {
+	// 주문 결제화면으로 이동 
+	@GetMapping("/addOrder")
+	public String order(Model model, @RequestParam(name = "userId", required = false)String userId,@RequestParam(name = "facilityGoodsCd" , required = false)String facilityGoodsCd) {
+		
+		
+		log.info("화면에서 받은 goodsCode : {}", facilityGoodsCd);
+		log.info("화면에서 받은 userId : {}", userId);
+		
+		facilityGoodsCd = "gg_35011750_02_lesson_04";
+		userId = "id002";
+		User user = userService.getUserInfoById(userId);
+		FacilityGoods facilityGoods = facilityGoodsService.getFacilityGoodsCd(facilityGoodsCd);
+		
+		model.addAttribute("user", user);
+		model.addAttribute("goods", facilityGoods);
+		
 		return "order/orderForm";
 	}
 	
@@ -29,7 +55,7 @@ public class OrderController {
 		// order 저장 
 		
 		String orderCode = "oderCdoe1111112";
-		return "redirect:/order/order-info?orderCd="+orderCode;
+		return "redirect:/order/orderDetail?orderCd="+orderCode;
 	}
 	
 	
@@ -39,7 +65,8 @@ public class OrderController {
 	
 	//==회원의 주문상세내역 조회==//
 	@GetMapping("/orderDetail")
-	public String orderDetail() {
+	public String orderDetail(@RequestParam(name = "orderCode")String orderCode) {
+		
 		return "order/orderDetail";
 	}
 	
@@ -66,8 +93,7 @@ public class OrderController {
 	
 	//== 화면연결 임시메소드 ==//
 	/**
-	 *  화면연결 임시메소드
-	 *   
+	 *  화면연결 임시메소드   
 	 */
 	@GetMapping("/goods")
 	public String goodsRead() {
@@ -76,6 +102,6 @@ public class OrderController {
 	
 	@GetMapping("/tempgoods")
 	public String goodsTemp() {
-		return "goods/tempGoods";
+		return "goods/하나의 상품페이지";
 	}
 }

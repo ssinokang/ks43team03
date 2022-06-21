@@ -26,11 +26,6 @@ public class FacilityGoodsService {
 	}
 	
 
-	public String addPass(Pass pass) {
-		String goodsCode = addGoodsCode(pass);
-		
-		return goodsCode;
-	}
 	
 	/**
 	 * 
@@ -45,8 +40,37 @@ public class FacilityGoodsService {
 		
 	}
 	
+	// 상폼하나 조회 
+	public FacilityGoods getFacilityGoodsCd(String facilityGoodsCd) {
+		FacilityGoods facilityGoods = facilityGoodsMapper.getFacilityGoodsCd(facilityGoodsCd);
+
+		FacilityGoods goods = getFacilityGoodsDetail(facilityGoods);
+		return goods;
+	}
 	
 	
+	
+	/**
+	 * 
+	 * @param facilityGoods
+	 * @return facility detail
+	 * 
+	 * 상품코드 조회 레슨, 이용권, 상품
+	 */
+	
+	private FacilityGoods getFacilityGoodsDetail(FacilityGoods facilityGoods) {
+		FacilityGoods goods = null;
+		String categoryCode = facilityGoods.getGoodsCtgCd();
+		if("lesson".equals(categoryCode)) {
+
+		}else if("pass".equals(categoryCode)) {
+			
+		}else if("stadium".equals(categoryCode)) {
+			
+		}
+		
+		return goods;
+	}
 	
 	
 	/*

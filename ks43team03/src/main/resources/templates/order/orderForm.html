@@ -38,11 +38,11 @@
 				<table class="table table-bordered">
 					<tr>
 						<td style="width: 16.66%">아이디</td>
-						<td style="width: 83.33%">id001</td>
+						<td style="width: 83.33%" th:text="${user.userId}">id001</td>
 					</tr>
 					<tr>
 						<td>연락처</td>
-						<td>010-9999-1111</td>
+						<td th:text="${user.userTell}">010-9999-1111</td>
 					</tr>
 				</table>
 			</div>
@@ -52,15 +52,15 @@
 					상품정보
 				</div>
 			</div>
-			<input type="hidden" name="userId" value="id002">
-			<input type="hidden" name="facilityGoodsCd" value="ss_35011740_01_lesson_01">
-			<input type="hidden" name="goodsCtgCd" value="lesson">
+			<input type="hidden" name="userId" th:value="${user.userId}">
+			<input type="hidden" name="facilityGoodsCd" th:value="${goods.facilityGoodsCd}">
+			<input type="hidden" name="goodsCtgCd" th:value="${goods.goodsCtgCd}">
 
 			<div class="row">
 				<table class="table table-bordered">
 					<tr>
 						<td style="width: 16.66%">상품코드</td>
-						<td style="width: 83.33%">ss_35011740_01_lesson_01</td>
+						<td style="width: 83.33%"th:text="${goods.facilityGoodsCd}">ss_35011740_01_lesson_01</td>
 					</tr>
 					<tr>
 						<td>시설명</td>

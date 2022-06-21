@@ -6,10 +6,14 @@ import lombok.ToString;
 
 @Getter @Setter
 @ToString
-public class Pass extends FacilityGoods{
+public class Pass{
 	
-	private String passCd;
-	private String facilityGoodsCode;
+	private String passCd;	
+	private String facilityGoodsCd;
+	private String facilityCd;
+	private String goodsCtgCd;
+	private String sportsCd;
+	private String userId;
 	private String passNm;
 	private int passUnit;
 	private int passPrice;

@@ -2,8 +2,11 @@ package ks43team03.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import ks43team03.dto.Order;
 
+@Mapper
 public interface OrderMapper {
 	
 	// 주문 생성메소드
@@ -16,5 +19,5 @@ public interface OrderMapper {
 	public List<Order>getOrderAll();
 	
 	// 회원 한명의 주문내역 조회 메소드
-	public List<Order> getOrderByMember(String userId);
+	public List<Order> getOrderByUser(String userId);
 }

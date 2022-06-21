@@ -64,7 +64,7 @@ public class TrainerService {
 	}
 	
 	/**
-	 * 트레이너 등록 후 코드 반환
+	 * 트레이너 등록 및 권한 변경 후 코드 반환
 	 */
 	public String addtrainer(TrainerProfile trainerProfile) {
 		

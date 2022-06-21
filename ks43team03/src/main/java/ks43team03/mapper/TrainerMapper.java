@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks43team03.dto.TrainerCareer;
 import ks43team03.dto.TrainerProfile;
 
 @Mapper
@@ -20,6 +21,9 @@ public interface TrainerMapper {
 	
 	//트레이너 리스트
 	public List<TrainerProfile> getTrainerList();
+	
+	//트레이너 경력 등록
+	public int addTrainerCareer(TrainerCareer trainerCareer);
 	
 	//아이디로 트레이너 정보 조회
 	public TrainerProfile getTrainerProfileInfoByUserId(String userId);

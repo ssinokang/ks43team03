@@ -1,8 +1,8 @@
 
 $(function() {
-	var $stadium = $('#stadium');
-	var $pass = $('#pass');
-	var $lesson = $('#lesson');
+	var $stadium  = $('#stadium');
+	var $pass 	  = $('#pass');
+	var $lesson   = $('#lesson');
 	var $goodsCtg = $('#goodsCtg')
 
 	var ctg = new Array();
@@ -10,7 +10,7 @@ $(function() {
 	ctg.push($lesson);
 	ctg.push($pass);
 	ctg.push($stadium);
-	
+
 	//var facilityGoodsCd = '';
 	const main = {
 
@@ -85,15 +85,15 @@ $(function() {
 	main.init();
 	
 	$goodsCtg.on('change', function(e) {
-		console.log(e.target.indexOf('lesson'));
+
 		console.log(e.target.length);
-		console.log(e.target.index);
-		console.log(e.target.index());
-		console.log($(e.target).index());
+		console.log(e.target);
+		console.log($('e.target option'));
+		console.log($('e.target option').index($('e.target option:selected')));
 		
 		for(var i = 1; i < e.target.length; i++) {
-			ctg[i].addClass("none-display");
-			
+			console.log(ctg[i-1]);
+			ctg[i-1].addClass('none-display');
 			if($('e.target').index() == i-1) {
 				ctg[i].removeClass('none-display');
 			}

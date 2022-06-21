@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ks43team03.dto.Boomk;
 import ks43team03.dto.Facility;
+import ks43team03.dto.User;
 import ks43team03.mapper.BoomkMapper;
 
 @Service
@@ -29,8 +30,31 @@ public class BoomkService {
 		return BoomkList;
 	}
 	
+	
 	/**
-	 * 회원 즐겨찾기 취소
+	 * 회원 즐겨찾기 등록
+	 */
+	public int addBoomk(Boomk boomk) {
+		System.out.println("BoomkService/addBoomk");
+		int result = boomkMapper.addBoomk(boomk);
+	
+		return result;
+	}	
+	
+	/**
+	 * 회원 즐겨찾기 삭제
+	 */
+	public int removeBoomk (Boomk boomk) {
+		
+		int result = boomkMapper.removeBoomk(boomk);
+		
+		return result;
+	}
+	
+	
+	
+	/**
+	 * 회원 즐겨찾기 취소 (N)
 	 */
 	
 	public void modifyBoomk(Boomk boomk) {
@@ -38,10 +62,13 @@ public class BoomkService {
 	}
 	 
 	
+	/**
+	 * 회원 즐겨찾기 추가 (Y)
+	 */
 	
-	
-	
-	
+	public void modifyBoomk2(Boomk boomk) {
+		boomkMapper.modifyBoomk2(boomk);
+	}		
 	
 	
 	/**
@@ -52,16 +79,7 @@ public class BoomkService {
 		List<Facility> FacilityList = boomkMapper.getFacilityList();
 		
 		return FacilityList;
-		
 	}
-
-
-	
-	
-	
-	
-	
-	
 	
 	
 }

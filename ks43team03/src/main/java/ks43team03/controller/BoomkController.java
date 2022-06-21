@@ -3,6 +3,7 @@ package ks43team03.controller;
 import java.util.List;
 import java.util.Objects;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import ks43team03.dto.Boomk;
 import ks43team03.service.BoomkService;
@@ -47,16 +49,44 @@ public class BoomkController {
 		
 		model.addAttribute("title", "회원정보");
 		model.addAttribute("boomkList", boomkList);
-		model.addAttribute("sessionId", sessionId);		
-		model.addAttribute("title", "회원 정보");
+		model.addAttribute("sessionId", sessionId);	
 		log.info("boomkList : {}",boomkList);
 		
 		return "boomk/boomkList";
 	}
+	
+	
+	//즐겨찾기 등록
+	@GetMapping("/addBoomk")
+	public String addBoomk(Model model, Boomk boomk) {		
 
-	// 즐겨찾기 등록
+		log.info("즐겨찾기 등록:::::::: {}", boomk);
+		
+		boomkService.addBoomk(boomk);
+		
+		model.addAttribute("title", "즐겨찾기 등록");
+		
+		return "redirect:/boomk/boomkList";
+	}
+	
 
-	// 즐겨찾기 등록 페이지 이동
+	//즐겨찾기 삭제
+	@GetMapping("/removeBoomk")
+	public String removeBoomk (Model model, Boomk boomk) {
+	
+		log.info("즐겨찾기 삭제:::::::: {}", boomk);
+		
+		boomkService.removeBoomk(boomk);
+		
+		return "redirect:/boomk/boomkList";		
+		
+	}
+	
+
+	
+	
+	
+	
 
 	
 	// 즐겨찾기 취소

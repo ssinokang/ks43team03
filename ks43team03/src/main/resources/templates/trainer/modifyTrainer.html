@@ -26,6 +26,63 @@
 	<!-- 사용자 정의 Js 파일-->
 	<th:block layout:fragment="customJs">
 		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+		
+		<script>
+			/* 닉네임 중복 여부 검사 */
+			$(function(){
+				
+				function validationCheck(data){
+					if(typeof data == 'undefined' || data == '' || data == null){
+						return false;
+					}
+					return true;
+				}
+				
+				var $modifyNicknameBtn = $('#modifyNicknameBtn');
+				
+				$(document).on('keyup', 'input[name="trainerNickname"]', function(){
+					$modifyNicknameBtn.prop('disabled', true);
+				});
+				
+				$('#nicknameCheck').click(function(){
+					console.log('test');
+					var trainerNickname = $('input[name="trainerNickname"]').val();
+					
+					var vCheck = validationCheck(trainerNickname);
+					
+					if(vCheck){
+						$.ajax({
+							 url: '/trainer/nicknameCheck'
+							,type: 'POST'
+							,data: {'trainerNickname' : trainerNickname}
+							,dataType: 'json'
+							,success: function(data){
+								console.log(data);
+								// 화면에서 맨처음 아이디를 제외한 모든 입력하는 요소는 비활성화 (HTML 속성 추가 disabled="disabled") 
+								// 아이디 중복이 발생 않은 경우(회원가입 O) 입력하는 요소는 활성화
+								if(data){
+									$('#nicknameCheckResult').text('사용 가능한 닉네임 입니다.');
+									$('#nicknameCheckResult').css('color','blue');
+									$modifyNicknameBtn.prop('disabled', false);
+								}else{									
+									// 아이디 중복이 발생하는 경우(회원가입 X) 입력하는 요소는 비활성화
+									$('#nicknameCheckResult').text('중복된 닉네임이 있습니다.');
+									$('#nicknameCheckResult').css('color','red');
+									$modifyNicknameBtn.prop('disabled', true);
+								}
+							}
+						});
+					}
+				});
+				
+				$modifyNicknameBtn.click(function(){
+					console.log('test');
+					
+					$('#modifyNicknameForm').attr('action','/trainer/modifyTrainerProfile').submit();
+				});
+				
+			});
+		</script>
 	</th:block>
 	
 
@@ -62,17 +119,14 @@
 									
 									<form id="addTrainerForm" action="#" method="post">
 										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3" for="trainerNickname">닉네임
+											<label class="control-label col-md-3 col-sm-3" for="nowTrainerNickname">닉네임
 												<span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6">
-												<input type="text" class="form-control" name="trainerNickname" th:value="trainerProfile">
+												<input type="text" class="form-control" name="nowTrainerNickname" th:value="${trainerProfile.trainerNickname}" readonly="readonly">
 											</div>
 											<div class="col-md-3 col-sm-3">
-												<button type="button" class="btn-primary form-control" id="nicknameCheck">중복체크</button>
-											</div>
-											<div class="offset-md-3">
-												<span id="nicknameCheckResult" style="padding-left: 15px;"></span>
+												<button type="button" class="btn-primary form-control" data-toggle="modal" data-target="#modifyModal">변경</button>
 											</div>
 										</div>
 										<div class="form-group row">
@@ -132,6 +186,45 @@
 						</div>
 					</div>
 				</div>
+				
+				<!-- Modal -->
+				<div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<form id="modifyNicknameForm" method="post">
+						<div class="modal-dialog" role="document">
+					 		<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">닉네임 변경</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<div class="form-group row">
+										<div class="col-md-3 col-sm-3">
+											<label class="control-label" for="trainerNickname">닉네임</label>
+										</div>
+										<div class="col-md-6 col-sm-6">
+											<input type="text" class="form-control" name="trainerNickname">
+										</div>
+										<div class="col-md-3 col-sm-3">
+											<button type="button" class="btn-primary form-control" id="nicknameCheck">중복체크</button>
+										</div>
+										<div class="offset-md-3">
+											<span id="nicknameCheckResult" style="padding-left: 15px;"></span>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<div class="form-group">
+										<button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
+										<button type="button" class="btn btn-info" id="modifyNicknameBtn" disabled="disabled">저장</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				
 			</div>
 		</section>
 	</th:block>

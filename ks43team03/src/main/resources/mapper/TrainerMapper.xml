@@ -42,6 +42,20 @@
 		</collection>
 	</resultMap>
 	
+	<update id="modifyTrainerProfile" parameterType="TrainerProfile">
+		UPDATE trainer_profile
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="trainerNickname != null and trainerNickname != ''">
+				 trainer_nicknm = #{trainerNickname}
+			</if>
+			<if test="trainerPicture != null and trainerPicture != ''">
+				,trianer_picture = #{trainerPicture}
+			</if>	 
+		</trim>
+		WHERE
+			trainer_cd = #{trainerCd};
+	</update>
+	
 	<select id="getTrainerLicenseInfoByTrainerCd" parameterType="String" resultMap="trainerResultMap">
 		/* 트레이너코드로 트레이너 자격증 조회 */
 		SELECT
@@ -113,6 +127,58 @@
 		FROM
 			trainer_profile as t;
 	</select>
+	
+	<insert id="addTrainerLicense" parameterType="java.util.List">
+		/* 트레이너 자격증 등록 */
+		INSERT INTO trainer_license
+		(	 trainer_license_cd
+			,trainer_cd
+			,trainer_license
+			,trainer_license_file
+			,trainer_license_reg_date
+		)VALUES
+			<foreach collection="list" item="item" separator=",">
+				(
+					(SELECT
+						CONCAT('trainer_license_', LPAD(MAX(CAST(SUBSTRING_INDEX(l.trainer_license_cd,'_',-1) AS UNSIGNED))+1,2,0))
+					FROM
+						trainer_license AS l)
+					,#{item.trainerCd}
+					,#{item.trainerLicense}
+					,#{item.trainerLicenseFile}
+					,CURDATE()
+				)
+			</foreach>
+	</insert>
+	
+	<insert id="addTrainerCareer" parameterType="java.util.List">
+		/* 트레이너 경력 등록 */
+		INSERT INTO trainer_career
+		(	 trainer_career_cd
+			,trainer_cd
+			,trainer_career_term
+			,trainer_career_center
+			,trainer_career_position
+			,trainer_career_work
+			,trainer_career_file
+			,trainer_career_reg_date
+		)VALUES
+			<foreach collection="list" item="item" separator=",">
+				(
+					(SELECT
+						CONCAT('trainer_career_', LPAD(MAX(CAST(SUBSTRING_INDEX(c.trainer_career_cd,'_',-1) AS UNSIGNED))+1,2,0))
+					FROM
+						trainer_career AS c)
+					,#{item.trainerCd}
+					,#{item.trainerCareerTerm}
+					,#{item.trainerCareerCenter}
+					,#{item.trainerCareerPosition}
+					,#{item.trainerCareerWork}
+					,#{item.trainerCareerFile}
+					,CURDATE()
+				)
+			</foreach>
+	</insert>
 	
 	<select id="getTrainerProfileInfoByUserId" parameterType="String" resultMap="trainerResultMap">
 		/* 회원아이디로 트레이너 정보 조회 */

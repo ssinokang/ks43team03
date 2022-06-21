@@ -32,6 +32,13 @@ public class TrainerController {
 	
 	private static final Logger log = LoggerFactory.getLogger(TrainerController.class);
 	
+	//트레이너 정보 수정
+	@PostMapping("modifyTrainer")
+	public String modifyTrainer() {
+		
+		return "redirect:/trainer/trainerDetail";
+	}
+	
 	//트레이너 정보 수정 페이지 이동
 	@GetMapping("/modifyTrainer")
 	public String modifyTrainer(Model model
@@ -41,8 +48,8 @@ public class TrainerController {
 		
 		TrainerProfile trainerProfile = trainerService.getTrainerProfileByTrainerCd(trainerCd);
 		
-		model.addAttribute("trainerProfile", trainerProfile);
-		model.addAttribute("title", "트레이너 정보 수정");
+		model.addAttribute("trainerProfile",	trainerProfile);
+		model.addAttribute("title",				"트레이너 정보 수정");
 		
 		return "trainer/modifyTrainer";
 	}
@@ -87,12 +94,12 @@ public class TrainerController {
 	@ResponseBody
 	public boolean isIdCheck(@RequestParam(value = "trainerNickname") String trainerNickname) {
 		boolean nicknameCheck = false;
-		log.info("아이디중복체크 클릭시 요청받은 userId의 값: {}", trainerNickname);
+		log.info("닉네임중복체크 클릭시 요청받은 userId의 값: {}", trainerNickname);
 		
 		boolean result = trainerService.isNicknameCheck(trainerNickname);
 		if(result) nicknameCheck = true;
 		
-		log.info("아이디중복체크 여부 : {}", result);
+		log.info("닉네임중복체크 여부 : {}", result);
 		
 		return nicknameCheck;
 	}
@@ -100,11 +107,17 @@ public class TrainerController {
 	//자격증 등록
 	@ResponseBody
 	@PostMapping("/addLicense")
-	public boolean addLicense(@RequestBody List<TrainerLicense> trainerLicense) {
+	public boolean addLicense(@RequestBody List<TrainerLicense> trainerLicenseList) {
 		
-		log.info("trainerCareer : {}",trainerLicense);
-		//값만 받아옴 
-		return true;
+		boolean addLicenseCheck = false;
+		
+		log.info("trainerLicenseList : {}",trainerLicenseList);
+		
+		int result = trainerService.addTrainerLicense(trainerLicenseList);
+		
+		if(result>0) addLicenseCheck = true;
+		
+		return addLicenseCheck;
 	}
 	
 	//자격증 등록 페이지 이동
@@ -121,11 +134,17 @@ public class TrainerController {
 	//경력 등록
 	@ResponseBody
 	@PostMapping("/addCareer")
-	public boolean addCareer(@RequestBody List<TrainerCareer> trainerCareer) {
+	public boolean addCareer(@RequestBody List<TrainerCareer> trainerCareerList) {
 		
-		log.info("trainerCareer : {}",trainerCareer);
-		//값만 받아옴 
-		return true;
+		boolean addCareerCheck = false;
+		
+		log.info("trainerCareerList : {}",trainerCareerList);
+		
+		int result = trainerService.addTrainerCareer(trainerCareerList);
+		
+		if(result > 0) addCareerCheck = true;
+		
+		return addCareerCheck;
 	}
 	
 	//경력 등록 페이지 이동

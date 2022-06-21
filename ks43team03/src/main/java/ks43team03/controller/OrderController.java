@@ -3,6 +3,7 @@ package ks43team03.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,9 +54,13 @@ public class OrderController {
 	
 	//==회원의 주문상세내역 조회==//
 	@GetMapping("/orderDetail/{orderCd}")
-	public String orderDetail(@PathVariable("orderCd") String orderCd) {
+	public String orderDetail(@PathVariable("orderCd") String orderCd,Model model) {
 		log.info("화면에서 받은 데이터 : {}", orderCd);
+		Order order = orderService.getOrderByCode(orderCd);
 		
+		// 상품 코드 goodsService vs orderService 에서 
+		
+		model.addAttribute("order", order);
 		
 		return "order/orderDetail";
 	}

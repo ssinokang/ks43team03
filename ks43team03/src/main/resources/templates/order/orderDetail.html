@@ -137,7 +137,9 @@
 								</div>
 							</div>
 							<!-- 예약 정보 -->
-							<div class="product__details__tab">
+							<th:block th:if="${#strings.equals(order.goodsCtgCd,'lesson')} or ${#strings.equals(order.goodsCtgCd,'stadium')}">
+							
+								<div class="product__details__tab">
 								<ul class="nav nav-tabs" role="tablist">
 									
 									<li class="nav-item">
@@ -153,7 +155,7 @@
 												<tbody>
 													<tr>
 														<th class="col-sm-2 col-lg-2">예약</th>
-														<td >order_cd_3306789785</td>
+														<td th:text="${order.orderCd}">order_cd_3306789785</td>
 													</tr>
 													<tr>
 														<th class="col-sm-2 col-lg-2">상품명</th>
@@ -170,6 +172,7 @@
 									</div>
 								</div>
 							</div>
+							</th:block>
 
 							<div class="">
 								<ul class="nav nav-tabs" role="tablist">

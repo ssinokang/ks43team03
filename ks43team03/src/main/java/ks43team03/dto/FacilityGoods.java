@@ -25,7 +25,7 @@ public class FacilityGoods {
 	
 	private Pass pass;
 	private Lesson lesson;
-	private FacilityStadium facilityStadium;
+	private Stadium stadium;
 	
 	private Sports sports;
 	

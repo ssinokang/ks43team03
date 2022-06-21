@@ -60,6 +60,7 @@
 						
 						var trainerLicense = new Object();
 						
+						trainerLicense.trainerCd = $('input[name="trainerCd"]').val()
 						trainerLicense.trainerLicense = $('input[name="trainerLicense"]').eq(i).val()
 						trainerLicense.trainerLicenseFile = $('input[name="trainerLicenseFile"]').eq(i).val()
 						
@@ -127,12 +128,13 @@
 		<!-- Breadcrumb End -->
 	
 		<!-- 자격증 등록 -->
-		<div class="container" th:if="${#strings.isEmpty(sessionId)}">
+		<div class="container" th:if="${#strings.isEmpty(session.SID)}">
 			<h4>로그인이 필요한 서비스입니다.</h4>
 		</div>
-		<div class="container" th:unless="${#strings.isEmpty(sessionId)}">
+		<div class="container" th:unless="${#strings.isEmpty(session.SID)}">
 			<span id="licenseNotice" style="color: red;">
 			</span>
+			<input type="hidden" class="form-control" name="trainerCd" th:value="${trainerCd}">
 			<ul class="list-group list-group-flush" id="licenseUl">
 				<li class="list-group-item a">
 					<div class="row">
@@ -149,7 +151,7 @@
 							<span class="required">*</span>
 						</label>
 						<div class="col-md-6 col-sm-6">
-							<input type="number" class="form-control" name="trainerLicense">
+							<input type="text" class="form-control" name="trainerLicense">
 						</div>
 					</div>
 					<div class="row">

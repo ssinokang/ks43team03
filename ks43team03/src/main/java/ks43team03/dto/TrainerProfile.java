@@ -1,5 +1,7 @@
 package ks43team03.dto;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,4 +17,6 @@ public class TrainerProfile {
 	private String trainerRegDate;
 	
 	private User user;
+	private List<TrainerCareer> trainerCareerList;
+	private List<TrainerLicense> trainerLicenseList;
 }

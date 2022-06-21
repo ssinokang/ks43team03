@@ -162,7 +162,6 @@ public class UserController {
 		User user = userService.getUserInfoById(sessionId);
 		
 		model.addAttribute("user", user);
-		model.addAttribute("sessionId", sessionId);
 		model.addAttribute("title", "회원 정보");
 		return "user/userDetail";
 	}

@@ -9,6 +9,18 @@
 
 	<!-- 사용자 정의 Css -->
 	<th:block layout:fragment="customCss">
+		<style>
+			.board__details__item__title ul li {
+				display: block;
+			}
+			.board__details__item__title ul li:after {
+				content: none;
+			}
+			.board__details__desc ul li {
+				border: none;
+				padding: 10px 5px;
+			}
+		</style>
 	</th:block>
 	
 	<!-- 사용자 정의 Js 파일-->
@@ -38,200 +50,175 @@
 		<!-- Breadcrumb End -->
 	
 		<!-- 트레이너 정보 -->
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-md-12">
-					<div class="blog__details__content">
-						<div class="blog__details__item">
-							<img src="img/blog/details/blog-details.jpg" alt="">
-							<div class="blog__details__item__title">
-								<span class="tip">Street style</span>
-								<h4>Being seen: how is age diversity effecting change in fashion and beauty?</h4>
-								<ul>
-									<li>by
-										<span>Ema Timahe</span>
+		<section class="board-details spad">
+			<div class="container">
+				<div class="row" style="padding-bottom: 80px">
+					<div class="col-lg-6 col-md-6">
+						<div class="board__details__content">
+							<div class="board__details__item">
+								<img src="img/board/details/board-details.jpg" alt="">
+								<div class="board__details__item__title">
+									<span class="tip">트레이너</span>
+									<span class="tip" th:if="${session.SID eq trainerProfile.userId}">
+										<a th:href="@{/trainer/modifyTrainer(trainerCd=${trainerProfile.trainerCd})}">
+											수정
+										</a>
+									</span>
+									<h4>[[${trainerProfile.trainerNickname}]]</h4>
+									<ul>
+										<li>
+											phone
+											<span>[[${trainerProfile.user.userTell}]]</span>
+										</li>
+										<li>이메일 등 들어 갈 수 있음</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6">
+						<div class="product__details__pic">
+							<div class="product__details__slider__content">
+								<div class="product__details__pic__slider owl-carousel">
+									<img data-hash="product-1" class="product__big__img" src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201608/04/htm_2016080484837486184.jpg/_ir_1250x834_/" alt="">
+									<img data-hash="product-2" class="product__big__img" src="https://cdn.ikoreadaily.co.kr/news/photo/201505/198248_93383_78.jpg" alt="">
+									<img data-hash="product-3" class="product__big__img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT39egyJYwCvo9ybQ8grzut7-74plOElbIhzA&usqp=CAU" alt="">
+									<img data-hash="product-4" class="product__big__img" src="http://img.tf.co.kr/article/home/2015/08/20/201520301440032275.jpg" alt="">
+								</div>
+							</div>
+							<div class="product__details__pic__left product__thumb nice-scroll">
+								<a class="pt active" href="#product-1">
+									<img src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201608/04/htm_2016080484837486184.jpg/_ir_1250x834_/" alt="">
+								</a>
+								<a class="pt" href="#product-2">
+									<img src="https://cdn.ikoreadaily.co.kr/news/photo/201505/198248_93383_78.jpg" alt="">
+								</a>
+								<a class="pt" href="#product-3">
+									<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT39egyJYwCvo9ybQ8grzut7-74plOElbIhzA&usqp=CAU" alt="">
+								</a>
+								<a class="pt" href="#product-4">
+									<img src="http://img.tf.co.kr/article/home/2015/08/20/201520301440032275.jpg" alt="">
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12">
+						<div>
+							<div class="board__details__quote">
+								<div class="icon">
+									<i class="fa fa-quote-left"></i>
+								</div>
+						 		<p>
+						 			소개 강조 글
+								</p>
+							</div>
+							<div class="board__details__desc">
+								<p>
+									소개 글 있으면 좋을 듯
+								</p>
+							</div>
+							<div class="board__details__tags">
+								<a href="#">Fashion</a>
+								<a href="#">Street style</a>
+								<a href="#">Diversity</a>
+								<a href="#">Beauty</a>
+							</div>
+							<div class="board__details__quote">
+								<div class="icon">
+									<i class="fa fa-quote-left"></i>
+								</div>
+						 		<p>
+						 			경력
+								</p>
+							</div>
+							<div class="board__details__desc">
+								<ul class="list-group list-group-horizontal"
+									th:if="${not #lists.isEmpty(trainerCareer.trainerCareerList)}" th:each="l : ${trainerCareer.trainerCareerList}">
+									<li class="list-group-item">
+										<span>[[${l.trainerCareerCenter}]]</span>
 									</li>
-									<li>Seb 17, 2019</li>
-									<li>39 Comments</li>
+									<li class="list-group-item">
+										<span>[[${l.trainerCareerPosition}]]</span>
+									</li>
+									<li class="list-group-item">
+										<span>[[${l.trainerCareerWork}]]</span>
+									</li>
+									<li class="list-group-item">
+										<span>[[${l.trainerCareerTerm}]]</span>
+										년
+									</li>
+								</ul>
+								<ul class="list-group list-group-horizontal"
+									th:unless="${not #lists.isEmpty(trainerCareer.trainerCareerList)}">
+									<li class="list-group-item">
+										<span>등록된 경력 사항이 없습니다.</span>
+									</li>
 								</ul>
 							</div>
-						</div>
-						<div class="blog__details__desc">
-							<p>
-								Afashion season can be defined as much by the people on the catwalk as it can by the
-								clothes they are wearing. This time around, a key moment came at the end of Marc Jacobs’
-								New York show, when an almost makeup-free Christy Turlington made a rare return to the
-								catwalk, aged 50 (she also stars, with the designer himself, in the label’s AW ad
-								campaign), where the average catwalk model is around 18.
-							</p>
-							<p>
-								A few days later, Simone Rocha arguably upped the ante. The 32-year-old’s show – in part
-								inspired by Louise Bourgeois, who lived until she was 98 – featured models in their 30s
-								and 40s, including cult favourite Jeny Howorth and actor Chloë Sevigny.
-							</p>
-						</div>
-						<div class="blog__details__quote">
-							<div class="icon">
-								<i class="fa fa-quote-left"></i>
+							<div class="board__details__tags">
+								<a href="#">Fashion</a>
+								<a href="#">Street style</a>
+								<a href="#">Diversity</a>
+								<a href="#">Beauty</a>
 							</div>
-					 		<p>
-					 			Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore magna
-								aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-								aliquip ex ea commodo consequat.
-							</p>
-						</div>
-						<div class="blog__details__desc">
-							<p>
-								Occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-								laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-								incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-								exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-								dolor in reprehenderit in voluptate.
-							</p>
-						</div>
-						<div class="blog__details__tags">
-							<a href="#">Fashion</a>
-							<a href="#">Street style</a>
-							<a href="#">Diversity</a>
-							<a href="#">Beauty</a>
-						</div>
-						<div class="blog__details__btns">
-							<div class="row">
-								<div class="col-lg-6 col-md-6 col-sm-6">
-									<div class="blog__details__btn__item">
-										<h6>
-											<a href="#">
-												<i class="fa fa-angle-left"></i>
-												Previous posts
-											</a>
-										</h6>
+							<div class="board__details__quote">
+								<div class="icon">
+									<i class="fa fa-quote-left"></i>
+								</div>
+						 		<p>
+						 			자격증
+								</p>
+							</div>
+							<div class="board__details__desc">
+								<ul class="list-group list-group-horizontal"
+									th:if="${not #lists.isEmpty(trainerLicense.trainerLicenseList)}" th:each="l : ${trainerLicense.trainerLicenseList}">
+									<li class="list-group-item">
+										<span>[[${l.trainerLicense}]]</span>
+									</li>
+								</ul>
+								<ul class="list-group list-group-horizontal"
+									th:unless="${not #lists.isEmpty(trainerLicense.trainerLicenseList)}">
+									<li class="list-group-item">
+										<span>등록된 자격증이 없습니다.</span>
+									</li>
+								</ul>
+							</div>
+							<div class="board__details__tags">
+								<a href="#">Fashion</a>
+								<a href="#">Street style</a>
+								<a href="#">Diversity</a>
+								<a href="#">Beauty</a>
+							</div>
+							<div class="board__details__btns">
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6">
+										<div class="board__details__btn__item">
+											<h6>
+												<a href="#">
+													<i class="fa fa-angle-left"></i>
+													Previous posts
+												</a>
+											</h6>
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-sm-6">
-									<div class="blog__details__btn__item blog__details__btn__item--next">
-										<h6>
-											<a href="#">
-												Next posts
-												<i class="fa fa-angle-right"></i>
-											</a>
-										</h6>
+									<div class="col-lg-6 col-md-6 col-sm-6">
+										<div class="board__details__btn__item board__details__btn__item--next">
+											<h6>
+												<a href="#">
+													Next posts
+													<i class="fa fa-angle-right"></i>
+												</a>
+											</h6>
+										</div>
 									</div>
-								</div>
-							</div>
-						</div>
-						<div class="blog__details__comment">
-							<h5>3 Comment</h5>
-							<a href="#" class="leave-btn">Leave a comment</a>
-							<div class="blog__comment__item">
-								<div class="blog__comment__item__pic">
-									<img src="img/blog/details/comment-1.jpg" alt="">
-								</div>
-								<div class="blog__comment__item__text">
-									<h6>Brandon Kelley</h6>
-									<p>
-										Duis voluptatum. Id vis consequat consetetur dissentiet, ceteros commune perpetua
-										mei et. Simul viderer facilisis egimus tractatos splendi.
-									</p>
-									<ul>
-										<li>
-											<i class="fa fa-clock-o"></i>
-											Seb 17, 2019
-										</li>
-										<li>
-											<i class="fa fa-heart-o"></i>
-											12
-										</li>
-										<li>
-											<i class="fa fa-share"></i>
-											1
-										</li>
-									</ul>
-								</div>
-							</div>
-							<div class="blog__comment__item blog__comment__item--reply">
-								<div class="blog__comment__item__pic">
-									<img src="img/blog/details/comment-2.jpg" alt="">
-								</div>
-								<div class="blog__comment__item__text">
-									<h6>Brandon Kelley</h6>
-									<p>
-										Consequat consetetur dissentiet, ceteros commune perpetua mei et. Simul viderer
-										facilisis egimus ulla mcorper.
-									</p>
-									<ul>
-										<li>
-											<i class="fa fa-clock-o"></i>
-											Seb 17, 2019
-										</li>
-										<li>
-											<i class="fa fa-heart-o"></i>
-											12
-										</li>
-										<li>
-											<i class="fa fa-share"></i>
-											1
-										</li>
-									</ul>
-								</div>
-							</div>
-							<div class="blog__comment__item">
-								<div class="blog__comment__item__pic">
-									<img src="img/blog/details/comment-3.jpg" alt="">
-								</div>
-								<div class="blog__comment__item__text">
-									<h6>Brandon Kelley</h6>
-									<p>
-										Duis voluptatum. Id vis consequat consetetur dissentiet, ceteros commune perpetua
-										mei et. Simul viderer facilisis egimus tractatos splendi.
-									</p>
-									<ul>
-										<li>
-											<i class="fa fa-clock-o"></i>
-											Seb 17, 2019
-										</li>
-										<li>
-											<i class="fa fa-heart-o"></i>
-											12
-										</li>
-										<li>
-											<i class="fa fa-share"></i>
-											1
-										</li>
-									</ul>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		
-		<div class="container">
-			<form id="addTrainerForm" th:action="@{/user/addTrainer}" method="post">
-				<div class="form-group row">
-					<label class="control-label col-md-3 col-sm-3" for="trainerNickname">닉네임</label>
-				</div>
-				<div class="form-group row">
-					<label class="control-label col-md-3 col-sm-3" for="userId">아이디</label>
-					<div class="col-md-9 col-sm-9 ">
-						<input type="text" class="form-control" name="userId" th:value="${sessionId}">
-					</div>
-				</div>
-				<div class="form-group row">
-					<label class="control-label col-md-3 col-sm-3" for="trainerPicture">프로필 사진	</label>
-					<div class="col-md-9 col-sm-9 ">
-						<input type="text" class="form-control" name="trainerPicture" placeholder="원래는 사진 첨부 파일  그냥 img 입력 바람">
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-md-8 col-sm-8  offset-md-4">
-						<a th:href="@{/}">
-							<button type="button" class="btn btn-primary">취소</button>
-						</a>
-						<button type="button" id="addTrainertBtn" class="btn btn-success">등록</button>
-					</div>
-				</div>
-			</form>
-		</div>
+		</section>
 	</th:block>
 </html>

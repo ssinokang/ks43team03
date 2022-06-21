@@ -60,6 +60,7 @@
 						
 						var trainerCareer = new Object();
 						
+						trainerCareer.trainerCd = $('input[name="trainerCd"]').val()
 						trainerCareer.trainerCareerTerm = $('input[name="trainerCareerTerm"]').eq(i).val()
 						trainerCareer.trainerCareerCenter = $('input[name="trainerCareerCenter"]').eq(i).val()
 						trainerCareer.trainerCareerPosition = $('input[name="trainerCareerPosition"]').eq(i).val()
@@ -69,7 +70,8 @@
 						trainerCareerList.push(trainerCareer);
 					}
 						console.log(trainerCareerList);
-					
+						console.log(trainerCareer.trainerCd);
+						
 					$.ajax({
 						 url: '/trainer/addCareer'
 						,type: 'POST'
@@ -78,7 +80,7 @@
 						,dataType: 'json'
 						,success: function(data){
 							console.log(data);
-							if(data) $(location).attr('href','/trainer/addLicense');
+							if(data) $(location).attr('href','/trainer/addLicense?trainerCd='+trainerCareer.trainerCd);
 						}
 					});
 				}
@@ -129,12 +131,13 @@
 		<!-- Breadcrumb End -->
 	
 		<!-- 경력 등록 -->
-		<div class="container" th:if="${#strings.isEmpty(sessionId)}">
+		<div class="container" th:if="${#strings.isEmpty(session.SID)}">
 			<h4>로그인이 필요한 서비스입니다.</h4>
 		</div>
-		<div class="container" th:unless="${#strings.isEmpty(sessionId)}">
+		<div class="container" th:unless="${#strings.isEmpty(session.SID)}">
 			<span id="careerNotice" style="color: red;">
 			</span>
+			<input type="hidden" name="trainerCd" th:value="${trainerCd}">
 			<ul class="list-group list-group-flush" id="careerUl">
 				<li class="list-group-item a">
 					<div class="row">

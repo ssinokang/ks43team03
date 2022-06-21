@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+import ks43team03.dto.Facility;
+import ks43team03.dto.FacilityUse;
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;
 import ks43team03.service.StadiumService;
@@ -146,9 +148,18 @@ public class StadiumController {
 	
 	/*구장등록화면*/
 	@GetMapping("/addStadium")
-	public String addStadium(Model model) {
+	public String addStadium(Model model
+							,HttpSession session) {
+		
+		String sessionId = (String) session.getAttribute("SID");
+		
+		List<Facility> facilityListById = stadiumService.getFacilityListById(sessionId);
+		log.info("컨트롤러", facilityListById);
+		log.info("컨트롤러", sessionId);
 		
 		model.addAttribute("title", "구장 등록");
+		model.addAttribute("facilityListById", facilityListById);
+		
 		
 		return "stadium/addStadium";
 	}

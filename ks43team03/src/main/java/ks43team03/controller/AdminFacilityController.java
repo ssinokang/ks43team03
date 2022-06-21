@@ -37,6 +37,8 @@ public class AdminFacilityController {
 	}
 	
 	
+	
+	
 	/*검색*/
 	@PostMapping("/adminFacilityList")
 	public String getSearchFacilityList(@RequestParam(name="searchKey")String searchKey
@@ -149,7 +151,7 @@ public class AdminFacilityController {
 		return "adminFacility/addFacility";
 	}
 	
-	//시설관리자가 본인시설조회
+	//시설등록자가 본인시설조회
 	@GetMapping("/adminFacilityListById")
 	public String getAdminFacilityListById(Model model
 										 ,HttpSession session) {

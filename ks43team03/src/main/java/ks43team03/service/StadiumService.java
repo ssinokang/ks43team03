@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import ks43team03.dto.Facility;
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;
 import ks43team03.mapper.FileMapper;
@@ -123,6 +123,16 @@ public class StadiumService {
 		return result;
 	}
 	
+	/*아이디별 시설 조회*/
+	public List<Facility> getFacilityListById(String userId) {
+		List<Facility> facilityListById = stadiumMapper.getFacilityListById(userId);
+		
+		log.info("서비스", facilityListById);
+		log.info("서비스", userId);
+		
+		return facilityListById;
+		
+	}
 	
 	/*시설 내 구장 조회*/
 	public List<Stadium> getAdminStadiumListByCd(String facilityCd) {

@@ -42,6 +42,17 @@
 			<result  column="area_cd" 			property="areaCd"/>
 			<result  column="town_nm" 			property="townNm"/>
 		</association>	
+		<collection property="facilityUser" javaType="FacilityUser">
+		<id column="facility_cd"				property="facilityCd"/>
+		<result column="user_id"				property="userId"/>
+		<result column="facility_user_level"	property="facilityUserLevel"/>
+		<result column="facility_approve_state"	property="facilityApproveState"/>
+		<result column="facility_approve_id"	property="facilityApproveId"/>
+		<result column="facility_approve_date"	property="facilityApproveDate"/>
+		<result column="facility_reg_date"		property="facilityRegDate"/>
+		</collection>	
+	
+	
 	</resultMap>
 	
 	
@@ -50,48 +61,7 @@
 	
 	
 	
-		<select id="getAdminFacilityListById" parameterType="Facility" resultMap="facilityResultMap">
-		/*아이디 별 시설 조회*/
-			SELECT
-				f.facility_cd 
-				,f.main_ctg_cd
-				,fu.facility_use_nm
-				,a.area_nm
-				,ac.city_nm
-				,act.town_nm
-				,f.user_id
-				,f.facility_nm
-				,f.facility_address
-				,f.facility_detail_addr
-				,f.facility_tell
-				,f.business_number
-				,f.facility_reg_date
-			FROM
-				facility AS f
-				INNER JOIN 
-				area AS a
-				ON 
-				f.area_cd = a.area_cd
-				INNER join
-				area_city AS ac
-				ON 
-				f.city_cd= ac.city_cd
-				INNER join
-				area_city_town AS act
-				on
-				f.town_cd = act.town_cd
-				INNER join
-				facility_use AS fu
-				ON 
-				f.facility_use_cd = fu.facility_use_cd
-				INNER join
-				facility_user AS fur
-				on
-				f.facility_cd = fur.facility_cd
-			WHERE
-				fur.user_id = #{userId};
-		</select>
-	
+			
 	
 		<select id="getSearchFacilityList" fetchSize="10" parameterType="String" resultMap="facilityResultMap">
 			/*시설검색*/
@@ -226,8 +196,14 @@
 				facility_use AS fu
 				ON 
 				f.facility_use_cd = fu.facility_use_cd
+				left join
+				facility_user AS fus
+				on
+				f.facility_cd = fus.facility_cd
 			WHERE
-				user_id = #{userId};
+				fus.user_id = #{userId} AND fus.facility_approve_state = 'Y' OR f.user_id = #{userId}
+			GROUP BY
+	 			f.facility_cd;
 		</select>
 		
 		<select id="getAdminFacilityInfoByCd" parameterType="String" resultMap="facilityResultMap">

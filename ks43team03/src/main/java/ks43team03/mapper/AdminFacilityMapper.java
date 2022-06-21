@@ -15,10 +15,7 @@ import ks43team03.dto.MainCtg;
 @Mapper
 public interface AdminFacilityMapper {
 	
-	
 
-	//회원(트레이너/시설관리자)이 등록한 시설  정보 아이디로 조회
-	public List<Facility> getFacilityListByUserId(String userId);
 	
 	//시설 검색
 	public List<Facility> getSearchFacilityList(String searchKey, String searchValue);

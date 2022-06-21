@@ -262,6 +262,23 @@
 				,#{facilityStadiumDetail});
 	</insert>
 	
+	<select id="getFacilityListById" resultType="Facility">
+	/*아이디별시설조회*/
+		SELECT 
+			f.facility_cd 			AS	facilityCd
+			,f.facility_nm			AS  facilityNm
+		FROM 
+			facility AS f
+			left join
+			facility_user AS fu
+			on
+			f.facility_cd = fu.facility_cd
+		WHERE
+				fu.user_id = #{userId} AND fu.facility_approve_state = 'Y'OR f.user_id = #{userId}
+		GROUP BY
+			 f.facility_cd;
+	</select>
+	
 	
 	
 	<select id="getAdminStadiumListByCd"  parameterType="Stadium" resultMap="stadiumResultMap">

@@ -33,6 +33,8 @@ public class AdminFacilityService {
 		this.adminFacilityMapper = adminFacilityMapper;
 		this.fileMapper = fileMapper;
 	}
+	
+	
 
 	/* 시설 검색 */
 	public List<Facility> getSearchFacilityList(String searchKey, String searchValue) {

@@ -2,6 +2,8 @@ package ks43team03.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import ks43team03.dto.FacilityGoods;
@@ -32,6 +35,21 @@ public class LessonController {
 	/**
 	 *  회원이 보는 레슨 리스트 
 	 **/
+	@GetMapping("/detailLessonForUser")
+	public String detailLessonForUser(@RequestParam(name		  = "lessonCd"
+													,required 	  = false
+													,defaultValue = "error") String lessonCd
+									 ,Model model) {
+		
+		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
+		
+		model.addAttribute("lesson", lesson);
+		model.addAttribute("title" , "상품상세보기");
+		
+		log.info("lesson : {}", lesson);
+		
+		return "lesson/detailLessonForUser";
+	}
 	@GetMapping("/lessonListForUser")
 	public String lessonListforUser(
 			Lesson 		  lesson
@@ -69,6 +87,7 @@ public class LessonController {
 		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
 		model.addAttribute(lesson);
 		model.addAttribute("title", "레슨상세조회");
+		log.info("model : {}", model);
 		return "lesson/detailLesson";
 	}
 	/**
@@ -100,12 +119,23 @@ public class LessonController {
 	public String addLesson(
 			FacilityGoods facilityGoods,
 			Lesson lesson,
-		    MultipartHttpServletRequest multipartHttpServletRequest) {
+			@RequestParam MultipartFile[] lessonImgFile, Model model, 
+			HttpServletRequest request) {
 		lesson.setFacilityGoods(facilityGoods);
 		log.info("LessonController addLesson/facilityGoods : {}", facilityGoods);
 		log.info("LessonController addLesson/lesson : {}", lesson);
-		log.info("LessonController addLesson/multipartHttpServletRequest : {}", multipartHttpServletRequest);
-		lessonService.addLesson(lesson, multipartHttpServletRequest);
+		log.info("LessonController addLesson/multipartHttpServletRequest : {}", lessonImgFile);
+		
+		String serverName = request.getServerName();
+		String fileRealPath = "";
+		if("localhost".equals(serverName)) {				
+			fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
+			//fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}else {
+			fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}
+		
+		lessonService.addLesson(lesson, lessonImgFile, fileRealPath);
 		
 		return "redirect:/lesson/facilityLessonList?" + "facilityCd="+ lesson.getFacilityCd();
 		

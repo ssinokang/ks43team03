@@ -7,6 +7,8 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import ks43team03.common.FileUtils;
@@ -36,10 +38,10 @@ public class LessonService {
 	}
 
 	//레슨 등록하기
-	public void addLesson(Lesson lesson, MultipartHttpServletRequest mhsr) {
+	public void addLesson(Lesson lesson, MultipartFile[] uploadfile, String fileRealPath) {
 		
 		//파일이 널이 아니라면
-		if (Objects.nonNull(mhsr)) {
+		if (!ObjectUtils.isEmpty(uploadfile)) {
 			String uproaderId 		= lesson.getUserId();
 			String facilityGoodsCd;
 			
@@ -50,7 +52,7 @@ public class LessonService {
 			 * test code: start
 			 ***/
 			
-			FileUtils fu = new FileUtils(mhsr, uproaderId);
+			FileUtils fu = new FileUtils(uploadfile, uproaderId, fileRealPath);
 			List<Map<String, String>> dtoFileList = fu.parseFileInfo();
 			// 1. t_file 테이블에 삽입
 			System.out.println(dtoFileList + "LessonService/addLesson");
@@ -86,6 +88,7 @@ public class LessonService {
 	public Lesson getLessonInfoByCd(String lessonCd) {
 		
 		Lesson lesson = lessonMapper.getLessonInfoByCd(lessonCd);
+		System.out.println(lesson + "lessonService/getLessonInfoById");
 		return lesson;
 	}
 

@@ -15,32 +15,15 @@
 				<div class="row">
 					<div class="col-lg-6">
 						<div class="product__details__pic">
-							<div class="product__details__pic__left product__thumb nice-scroll" th:if="${not #lists.isEmpty(lesson.tFile)}" th:each="t, i : ${lesson.tFile}">
+							<div class="product__details__pic__left product__thumb nice-scroll" th:if="${not #lists.isEmpty(lesson.tFile)}" th:each="t, i : ${lesson.TFile}">
 								<a class="pt active" th:href="#product-${i.index+1}">
 									<img th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="">
 								</a>
-								<a class="pt" href="#product-2">
-									<img src="img/product/details/thumb-2.jpg" alt="">
-								</a>
-								<a class="pt" href="#product-3">
-									<img src="img/product/details/thumb-3.jpg" alt="">
-								</a>
-								<a class="pt" href="#product-4">
-									<img src="img/product/details/thumb-4.jpg" alt="">
-								</a>
 							</div>
-							<div class="product__details__pic__left product__thumb nice-scroll" th:unless="${not #lists.isEmpty(lesson.tFile)}">
-								<a class="pt active" href="#product-1">
-									<img src="img/product/details/thumb-1.jpg" alt="">
-								</a>
-								<a class="pt" href="#product-2">
-									<img src="img/product/details/thumb-2.jpg" alt="">
-								</a>
-								<a class="pt" href="#product-3">
-									<img src="img/product/details/thumb-3.jpg" alt="">
-								</a>
-								<a class="pt" href="#product-4">
-									<img src="img/product/details/thumb-4.jpg" alt="">
+						
+							<div class="product__details__pic__left product__thumb nice-scroll" th:unless="${not #lists.isEmpty(lesson.TFile)}">
+								<a class="pt active">
+									<img th:src="@{/images/notImage.jfif}" alt="">
 								</a>
 							</div>
 							<div class="product__details__slider__content">
@@ -53,6 +36,10 @@
 							</div>
 						</div>
 					</div>
+					
+					<a class="pt active">
+									야야<img th:src="@{/images/notImage.jfif}" alt="">
+								</a>
 					<div class="col-lg-6">
 						<div class="product__details__text">
 							<h3>[[${lesson.lessonName}]]</h3>

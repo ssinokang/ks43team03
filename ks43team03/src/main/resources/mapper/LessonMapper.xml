@@ -62,6 +62,10 @@
 			<result	column="represent_img"		property="representImg"/>
 		</collection>
 	</resultMap>
+	<!-- 레슨 수정하기 -->
+	<update id="modifyLesson" parameterType="Lesson" resultMap="lessonResultMap">
+	
+	</update>
 	<!-- 레슨 코드를 사용한 레슨 상세 조회 -->
 	<select id="getLessonInfoByCd" parameterType="String" resultMap="lessonResultMap">
 		SELECT
@@ -345,4 +349,5 @@
 	   		</if>
 	   	</trim>
 	</select>
+
 </mapper>

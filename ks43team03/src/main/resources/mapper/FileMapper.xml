@@ -13,7 +13,8 @@
       ,file_size
       ,re_file_name
       ,uploader_id
-      ,upload_date      
+      ,upload_date    
+      ,represent_img  
    ) VALUES
       <foreach collection="list" item="item" separator=",">
       (
@@ -24,6 +25,7 @@
          ,#{item.reFileName}
          ,#{item.userId}
          ,NOW()
+         ,#{representImg}
       )
       </foreach>
    </insert>

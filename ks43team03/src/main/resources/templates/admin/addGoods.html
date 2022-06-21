@@ -114,8 +114,6 @@
 						<div class="item form-group">
 							<div class="col-md-6 col-sm-6 offset-md-3">
 								<button class="btn btn-success" type="button" id="register-goods">등록</button>
-								<button class="btn btn-primary" type="reset">Reset</button>
-								<button type="button" class="btn btn-primary">취소</button>
 							</div>
 						</div>
 					</div>
@@ -373,13 +371,14 @@
 									<input type="text" id="lessonNm" name="lessonName" required="required" class="form-control ">
 								</div>
 							</div>
-							<div class="item form-group">
-								<div class="col-form-label col-md-3 col-sm-3 label-align" id="lesson-img-label">레슨 사진 
-								</div>
+							<div class="item form-group" style = "list-style:none;">
+								<div class="col-form-label col-md-3 col-sm-3 label-align" id="lesson-img-label">레슨 사진</div>
 								<div class="col-md-6 col-sm-6 ">
 									<ul class="lesson-file-line">
 										<li>
 											<input type="file" name="lessonImgFile" class="form-control lesson-img" accept="image/*" required multiple>
+											<button id="plus-button">플러스</button>
+											<button id="minus-button">마이너스</button>
 										</li>
 									</ul>
 								</div>

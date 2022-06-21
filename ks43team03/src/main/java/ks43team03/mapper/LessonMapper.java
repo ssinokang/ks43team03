@@ -15,9 +15,13 @@ public interface LessonMapper {
 	//레슨 등록하기
 	public int addLesson(Lesson lesson);
 	
-	//
+	//레슨 코드를 파라미터로 주고 정보를 받아오기
 	public Lesson getLessonInfoByCd(String lessonCd);
-
+	
+	//
 	public List<Lesson> getLessonListForUser(Lesson lesosn);
+	
+	//레슨 수정하기
+	public int modifyLesson(Lesson lesson);
 
 }

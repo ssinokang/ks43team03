@@ -96,7 +96,9 @@ public class LessonController {
 	@GetMapping("/modifyLesson")
 	public String modifyLesson(Model model
 								,@RequestParam(name="lessonCd") String lessonCd) {
+		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
 		model.addAttribute("title", "레슨수정");
+		model.addAttribute("lesson", lesson);
 		return "lesson/modifyLesson";
 	}
 	/**

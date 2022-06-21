@@ -49,6 +49,8 @@ public class FileUtils {
     	
     	List<Map<String, String>> fileList = new ArrayList<>();    	
 		
+    	//대표이미지 인덱스
+    	int representImg = 0;
 		for (MultipartFile multipartFile : uploadfile){
 			if(multipartFile.isEmpty() == false){
 				contentType = multipartFile.getContentType();
@@ -124,6 +126,13 @@ public class FileUtils {
 					fileMap.put("originalFileName", multipartFile.getOriginalFilename());
 					fileMap.put("reFileName", resultFileName);
 					fileMap.put("storedFilePath", directory+ current.format(format)+ File.separator + resultFileName);
+					
+					if(representImg == 0) {
+						fileMap.put("representImg", "Y");
+						representImg++;
+					} else {
+						fileMap.put("representImg", "N");
+					}
 					
 					fileList.add(fileMap);
 				}

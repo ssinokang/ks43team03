@@ -87,27 +87,7 @@ $(function() {
 				ctg[i-1].removeClass('none-display');
 			}
 		}
-		/*
-		if(this.value == 'lesson') {
-			$lesson.removeClass("none-display");
-			$pass.addClass("none-display");
-			$stadium.addClass("none-display");
-		} else if (this.value == 'pass') {
-			$pass.removeClass("none-display");
-			$stadium.addClass("none-display");
-			$lesson.addClass("none-display");
-		} else if(this.value == 'stadium'){
-			$stadium.removeClass("none-display");
-			$pass.addClass("none-display");
-			$lesson.addClass("none-display");
-		} else {
-			$lesson.addClass("none-display");
-			$pass.addClass("none-display");
-			$stadium.addClass("none-display");
-		}
-		*/
 	})
-	//코드 중복 제거 할 것
 	$(document).on('click', '#register-goods', function() {
 		if($(this).html() == '등록') {
 			$('#facilityCd').prop('disabled', true);

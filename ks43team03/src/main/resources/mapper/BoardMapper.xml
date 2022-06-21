@@ -16,7 +16,7 @@
 		<result column="board_post_state"			property="boardPostState"/>
 	</resultMap>
 	<resultMap type="BoardCtgCd" 					id="BoardCtgCdResultMap">
-		<id column="board_sub_ctg_cd"				property="boardCtgCd"/>
+		<id column="board_sub_ctg_cd"				property="boardSubCtgCd"/>
 		<result column="board_ctg_nm"				property="boardCtgNm"/>
 		<result column="board_ctg_rdg_date"			property="boardCtgRegDate"/>
 	</resultMap>
@@ -80,44 +80,45 @@
 			, board_post_content
 			, board_post_file
 			, board_post_date
-			, board_post_pw
 			, board_post_views
 			, board_post_comment_number
 			, board_post_state)
 		VALUES 
-			(#{boardPostCd}
+			(sf_new_board_post_cd()
 			, #{boardCtgCd}
 			, #{userId}
 			, #{boardPostTitle}
 			, #{boardPostContent}
 			, #{boardPostFile}
 			, NOW()
-			, #{boardPostPw});
 			, #{boardPostViews}
 			, #{boardPostCommentNum}
-			, #{boardPostState});
+			, #{boardPostCommentState});
 	</insert>
 	
 	<!-- 게시글 답글 등록 -->
 	<insert id="addBoardComment" parameterType="boardComment">
 		INSERT INTO board_post_comment
-			(board_post_comment_cd
-			, board_post_cd, board_ctg_cd
-			, user_id
-			, board_post_comment_detail
-			, board_post_comment_date
-		VALUES 
-			(#{boardPostCommentCd}
-			, #{boardPostCd}
-			, #{boardCtgCd}
-			, #{userId}
-			, #{boardPostContentDetail}
-			, NOW()
-			, #{boardPostCommentState});
+		(		 board_post_comment_cd
+				,board_post_cd
+				,board_ctg_cd
+				,user_id
+				,board_post_comment_detail
+				,board_post_comment_state
+				,board_post_comment_date
+		)VALUES	(
+				 sf_new_board_post_comment_cd()
+				,#{boardPostCd}
+				,#{boardCtgCd}
+				,#{userId}
+				,#{boardPostContentDetail}
+				,'N'
+				,NOW()
+		);
 	</insert>
 	
 	<!-- 게시글 카테고리 조회 -->
-	<select id="getBoardCtgCdList" parameterType="String" resultMap="BoardCtgCdResultMap">
+	<select id="getBoardSubCtgCd" parameterType="String" resultMap="BoardCtgCdResultMap">
 		SELECT 
 			board_sub_ctg_cd
 			, board_ctg_nm

@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public class BoardCtgCd {
 
-	private String  boardCtgCd;
+	private String  boardSubCtgCd;
 	private String  boardCtgNm;
 	private String  boardCtgRegDate;
 	

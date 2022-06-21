@@ -17,7 +17,8 @@ public class Board {
 	private String  boardPostFile;
 	private String  boardPostDate;
 	private String  boardPostCommentNum;
-	private int  boardPostViews;
-	private char  boardPostState;
+	private int  	boardPostViews;
+	private char  	boardPostState;
 	
+	private BoardComment boardComment;
 }

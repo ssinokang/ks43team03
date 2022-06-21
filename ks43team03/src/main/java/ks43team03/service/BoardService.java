@@ -38,14 +38,15 @@ public class BoardService {
 	}
 	
 	/* 게시글 등록 */
-	public void addBoard(Board board) { 
-		boardMapper.addBoard(board); 
+	public int addBoard(Board board) { 
+		int result = boardMapper.addBoard(board);
+		return result;
 	}
 	
 	/* 게시글 카테고리 조회 */
-	public List<BoardCtgCd> getBoardCtgCdList(BoardCtgCd boardCtgCd){
-		List<BoardCtgCd> boardCtgCdList = boardMapper.getBoardCtgCdList(boardCtgCd);
-		return boardCtgCdList;
+	public List<BoardCtgCd> getBoardSubCtgCd(BoardCtgCd boardSubCtgCd){
+		List<BoardCtgCd> boardCtgCd = boardMapper.getBoardSubCtgCd(boardSubCtgCd);
+		return boardCtgCd;
 	}
 	
 	/* 게시글 수정 */
@@ -56,7 +57,8 @@ public class BoardService {
 	/* 게시글 삭제 */
 	public int removeBoard(String boardPostCd) { 
 		int result = boardMapper.removeBoard(boardPostCd); 
-		result += boardMapper.removeBoard(boardPostCd); return result; 
+		result += boardMapper.removeBoard(boardPostCd); 
+		return result; 
 	}
 	
 	/* 게시글 조회수 증가 */
@@ -65,8 +67,9 @@ public class BoardService {
 	}
 	
 	/* 게시글 답글등록 */
-	public void addBoardComment(BoardComment boardComment) {
-		boardMapper.addBoardComment(boardComment); 
+	public int addBoardComment(BoardComment boardComment) {
+		int result =  boardMapper.addBoardComment(boardComment); 
+		return result;
 	}
 	
 	/* 게시글 답글 삭제 */ 

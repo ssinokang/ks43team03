@@ -30,7 +30,7 @@ public class BoomkController {
 		this.boomkService = boomkService;
 	}
 
-	// 즐겨찾기 내역
+	// 즐겨찾기 목록
 	@GetMapping("/boomkList")
 	public String getBoomkList(Model model, HttpSession session) {
 
@@ -47,7 +47,7 @@ public class BoomkController {
 		
 		List<Boomk> boomkList = boomkService.getBoomkList(sessionId);
 		
-		model.addAttribute("title", "회원정보");
+		model.addAttribute("title", "즐겨찾기 목록");
 		model.addAttribute("boomkList", boomkList);
 		model.addAttribute("sessionId", sessionId);	
 		log.info("boomkList : {}",boomkList);

@@ -60,7 +60,7 @@
 								<div class="board__details__item__title">
 									<span class="tip">트레이너</span>
 									<th:block th:if="${session.SID eq trainerProfile.userId}">
-										<a th:href="@{/trainer/modifyTrainer(trainerCd=${trainerProfile.trainerCd})}">
+										<a th:href="@{/trainer/modifyTrainer}">
 											<button class="tip btn">트레이너 정보 수정</button>
 										</a>	
 									</th:block>
@@ -80,23 +80,23 @@
 						<div class="product__details__pic">
 							<div class="product__details__slider__content">
 								<div class="product__details__pic__slider owl-carousel">
-									<img data-hash="product-1" class="product__big__img" src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201608/04/htm_2016080484837486184.jpg/_ir_1250x834_/" alt="">
-									<img data-hash="product-2" class="product__big__img" src="https://cdn.ikoreadaily.co.kr/news/photo/201505/198248_93383_78.jpg" alt="">
-									<img data-hash="product-3" class="product__big__img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT39egyJYwCvo9ybQ8grzut7-74plOElbIhzA&usqp=CAU" alt="">
-									<img data-hash="product-4" class="product__big__img" src="http://img.tf.co.kr/article/home/2015/08/20/201520301440032275.jpg" alt="">
+									<img th:data-hash="@{product-1}" class="product__big__img" src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201608/04/htm_2016080484837486184.jpg/_ir_1250x834_/" alt="">
+									<img th:data-hash="@{product-2}" class="product__big__img" src="https://cdn.ikoreadaily.co.kr/news/photo/201505/198248_93383_78.jpg" alt="">
+									<img th:data-hash="@{product-3}" class="product__big__img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT39egyJYwCvo9ybQ8grzut7-74plOElbIhzA&usqp=CAU" alt="">
+									<img th:data-hash="@{product-4}" class="product__big__img" src="http://img.tf.co.kr/article/home/2015/08/20/201520301440032275.jpg" alt="">
 								</div>
 							</div>
 							<div class="product__details__pic__left product__thumb nice-scroll">
-								<a class="pt active" href="#product-1">
+								<a class="pt active" th:href="@{#product-1}">
 									<img src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201608/04/htm_2016080484837486184.jpg/_ir_1250x834_/" alt="">
 								</a>
-								<a class="pt" href="#product-2">
+								<a class="pt" th:href="@{#product-2}">
 									<img src="https://cdn.ikoreadaily.co.kr/news/photo/201505/198248_93383_78.jpg" alt="">
 								</a>
-								<a class="pt" href="#product-3">
+								<a class="pt" th:href="@{#product-3}">
 									<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT39egyJYwCvo9ybQ8grzut7-74plOElbIhzA&usqp=CAU" alt="">
 								</a>
-								<a class="pt" href="#product-4">
+								<a class="pt" th:href="@{#product-4}">
 									<img src="http://img.tf.co.kr/article/home/2015/08/20/201520301440032275.jpg" alt="">
 								</a>
 							</div>
@@ -133,12 +133,6 @@
 									<a th:href="@{/trainer/addCareer(trainerCd=${trainerProfile.trainerCd})}">
 										<button class="btn btn-info btn-sm">경력 및 자격증 추가</button>
 									</a>
-									<a th:href="@{/trainer/modifyTrainer(trainerCd=${trainerProfile.trainerCd})}">
-										<button class="btn btn-primary btn-sm">경력 및 자격증 수정</button>
-									</a>
-									<a th:href="@{/trainer/modifyTrainer(trainerCd=${trainerProfile.trainerCd})}">
-										<button class="btn btn-danger btn-sm">경력 및 자격증 삭제</button>
-									</a>
 								</div>
 						 		<p>
 						 			경력
@@ -159,6 +153,14 @@
 									<li class="list-group-item">
 										<span>[[${l.trainerCareerTerm}]]</span>
 										년
+									</li>
+									<li th:if="${session.SID eq trainerProfile.userId}">
+										<a th:href="@{/trainer/modifyCareer(trainerCareerCd=${l.trainerCareerCd})}">
+											<button class="btn btn-primary btn-sm">수정</button>
+										</a>
+										<a th:href="@{/trainer/modifyCareer(trainerCareerCd=${l.trainerCareerCd})}">
+											<button class="btn btn-danger btn-sm">삭제</button>
+										</a>
 									</li>
 								</ul>
 								<ul class="list-group list-group-horizontal"
@@ -187,6 +189,14 @@
 									th:if="${not #lists.isEmpty(trainerLicense.trainerLicenseList)}" th:each="l : ${trainerLicense.trainerLicenseList}">
 									<li class="list-group-item">
 										<span>[[${l.trainerLicense}]]</span>
+									</li>
+									<li th:if="${session.SID eq trainerProfile.userId}">
+										<a th:href="@{/trainer/modifyLicense(trainerLicenseCd=${l.trainerLicenseCd})}">
+											<button class="btn btn-primary btn-sm">수정</button>
+										</a>
+										<a th:href="@{/trainer/modifyLicense(trainerLicenseCd=${l.trainerLicenseCd})}">
+											<button class="btn btn-danger btn-sm">삭제</button>
+										</a>
 									</li>
 								</ul>
 								<ul class="list-group list-group-horizontal"

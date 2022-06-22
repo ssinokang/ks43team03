@@ -116,36 +116,32 @@
 								<img src="img/board/details/board-details.jpg" alt="">
 								<div class="board__details__item__title">
 									<span class="tip">트레이너</span>
-									
-									<form id="addTrainerForm" action="#" method="post">
-										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3" for="nowTrainerNickname">닉네임
-												<span class="required">*</span>
-											</label>
-											<div class="col-md-6 col-sm-6">
-												<input type="text" class="form-control" name="nowTrainerNickname" th:value="${trainerProfile.trainerNickname}" readonly="readonly">
-											</div>
-											<div class="col-md-3 col-sm-3">
-												<button type="button" class="btn-primary form-control" data-toggle="modal" data-target="#modifyModal">변경</button>
-											</div>
+									<div class="form-group row">
+										<label class="control-label col-md-3 col-sm-3" for="nowTrainerNickname">닉네임
+											<span class="required">*</span>
+										</label>
+										<div class="col-md-6 col-sm-6">
+											<input type="text" class="form-control" name="nowTrainerNickname" th:value="${trainerProfile.trainerNickname}" readonly="readonly">
 										</div>
-										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3" for="trainerPicture">프로필 사진
-												<span class="required">*</span>
-											</label>
-											<div class="col-md-9 col-sm-9 ">
-												<input type="text" class="form-control" name="trainerPicture" placeholder="원래는 사진 첨부 파일  그냥 img 입력 바람">
-											</div>
+										<div class="col-md-3 col-sm-3">
+											<button type="button" class="btn-primary form-control" data-toggle="modal" data-target="#modifyModal">변경</button>
 										</div>
-										<div class="form-group">
-											<div class="col-md-8 col-sm-8  offset-md-4">
-												<a th:href="@{/}">
-													<button type="button" class="btn btn-primary">취소</button>
-												</a>
-												<button type="button" id="addTrainertBtn" class="btn btn-success">등록</button>
-											</div>
+									</div>
+									<div class="form-group row">
+										<label class="control-label col-md-3 col-sm-3" for="trainerPicture">프로필 사진
+											<span class="required">*</span>
+										</label>
+										<div class="col-md-9 col-sm-9 ">
+											<input type="text" class="form-control" name="trainerPicture" placeholder="원래는 사진 첨부 파일  그냥 img 입력 바람">
 										</div>
-									</form>
+									</div>
+									<div class="form-group">
+										<div class="col-md-8 col-sm-8  offset-md-4">
+											<a th:href="@{/}">
+												<button type="button" class="btn btn-primary">취소</button>
+											</a>
+										</div>
+									</div>
 									
 								</div>
 							</div>

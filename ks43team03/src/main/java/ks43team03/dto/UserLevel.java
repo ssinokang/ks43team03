@@ -8,6 +8,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UserLevel {
-	private String LevelNum;
-	private String LevelName;
+	private String levelNum;
+	private String levelName;
 }

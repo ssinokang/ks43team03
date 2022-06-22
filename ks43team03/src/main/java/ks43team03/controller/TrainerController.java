@@ -3,6 +3,8 @@ package ks43team03.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -32,26 +34,58 @@ public class TrainerController {
 	
 	private static final Logger log = LoggerFactory.getLogger(TrainerController.class);
 	
-	//트레이너 정보 수정
-	@PostMapping("modifyTrainer")
-	public String modifyTrainer(TrainerProfile trainerProfile
-							   ,RedirectAttributes reAttr
-							   ,@RequestParam(name = "trainerCd") String trainerCd) {
+	//자격증 수정 페이지 이동
+	@GetMapping("/modifyLicense")
+	public String modifyLicense(Model model
+							   ,@RequestParam(name = "trainerLicenseCd") String trainerLicenseCd) {
 		
+		TrainerProfile trainerLicense = trainerService.getTrainerLicenseByTrainerLicenseCd(trainerLicenseCd);
+		log.info("trainerLicense : {}", trainerLicense);
+		
+		model.addAttribute("trainerLicense",	trainerLicense);		
+		model.addAttribute("title",				"자격증 수정");
+		
+		return "trainer/modifyLicense";
+	}
+	
+	//경력 수정 페이지 이동
+	@GetMapping("/modifyCareer")
+	public String modifyCareer(Model model
+							  ,@RequestParam(name = "trainerCareerCd") String trainerCareerCd) {
+		
+		TrainerProfile trainerCareer = trainerService.getTrainerCareerByTrainerCareerCd(trainerCareerCd);
+		log.info("trainerCareer : {}", trainerCareer);
+		
+		model.addAttribute("trainerCareer",	trainerCareer);	
+		model.addAttribute("title",			"경력 수정");
+		
+		return "trainer/modifyCareer";
+	}
+	
+	//트레이너 정보 수정
+	@PostMapping("/modifyTrainer")
+	public String modifyTrainer(TrainerProfile trainerProfile
+							   ,HttpSession session) {
+		
+		String userId = (String)session.getAttribute("SID");
+		trainerProfile.setUserId(userId);
+		
+		log.info("trainerProfile : {}", trainerProfile);
 		trainerService.modifyTrainerProfile(trainerProfile);
 		
-		reAttr.addAttribute("trainerCd", trainerCd);
 		return "redirect:/trainer/modifyTrainer";
 	}
 	
 	//트레이너 정보 수정 페이지 이동
 	@GetMapping("/modifyTrainer")
 	public String modifyTrainer(Model model
-							   ,@RequestParam (value = "trainerCd", required = false)String trainerCd) {
+							   ,HttpSession session) {
 		
-		log.info("트레이너 정보조회 코드 : {}", trainerCd);
+		String userId = (String)session.getAttribute("SID");
 		
-		TrainerProfile trainerProfile = trainerService.getTrainerProfileByTrainerCd(trainerCd);
+		log.info("트레이너 정보조회 코드 : {}", userId);
+		
+		TrainerProfile trainerProfile = trainerService.getTrainerProfileByUserId(userId);
 		
 		model.addAttribute("trainerProfile",	trainerProfile);
 		model.addAttribute("title",				"트레이너 정보 수정");

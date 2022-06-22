@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 
 import ks43team03.common.FileUtils;
 import ks43team03.dto.Area;
@@ -18,7 +18,6 @@ import ks43team03.dto.AreaCityTown;
 import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityUse;
 import ks43team03.dto.MainCtg;
-import ks43team03.dto.UserLevel;
 import ks43team03.mapper.AdminFacilityMapper;
 import ks43team03.mapper.FileMapper;
 
@@ -34,6 +33,8 @@ public class AdminFacilityService {
 		this.adminFacilityMapper = adminFacilityMapper;
 		this.fileMapper = fileMapper;
 	}
+	
+	
 
 	/* 시설 검색 */
 	public List<Facility> getSearchFacilityList(String searchKey, String searchValue) {

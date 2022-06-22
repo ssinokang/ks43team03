@@ -44,28 +44,9 @@
 			<result  column="area_cd" 			property="areaCd"/>
 			<result  column="town_nm" 			property="townNm"/>
 		</association>	
-		<collection property="user" ofType="User">
-			<id column="user_id"				property="userId"/>
-			<result column="user_level"			property="userLevel"/>
-			<result column="user_password"		property="userPw"/>
-			<result column="user_nm"			property="userName"/>
-			<result column="user_address"		property="userAddr"/>
-			<result column="user_birth"			property="userBirth"/>
-			<result column="user_email"			property="userEmail"/>
-			<result column="user_tell"			property="userTell"/>
-			<result column="user_gender"		property="userGender"/>
-			<result column="user_drop"			property="userDrop"/>
-			<result column="reg_path"			property="userRegPath"/>
-			<result column="user_terms"			property="userTerms"/>
-			<result column="user_reg_date"		property="userRegDate"/>
-			<result column="user_post_num"		property="userPostNum"/>
-			<result column="user_detail_addr"	property="userDetailAddr"/>
-		</collection>
 	</resultMap>
 	
-	
-	
-	
+
 	<select id="getFacilityInfoByCd" resultType="Facility" resultMap="facilityResultMap">
 		/*시설상세정보조회*/
 			SELECT
@@ -139,57 +120,6 @@
 				facility 
 			LIMIT #{startRow}, #{rowPerPage};	
 		</select>
-	
-	
-		<select id="getMainCtgList" resultType="MainCtg">
-			SELECT 
-				main_ctg_cd 	AS mainCtgCd
-				,main_ctg_nm	AS mainCtgNm
-			FROM 
-				main_ctg;
-		
-		</select>
-	
-		<select id="getFacilityUseList" resultType="FacilityUse">
-			/*용도*/
-			SELECT 
-				facility_use_cd 	AS facilityUseCd
-				,facility_use_nm	AS facilityUseNm
-			FROM 
-				facility_use;
-		
-		</select>
-		<select id="getAreaList" resultType="Area">
-			/*시도*/
-			SELECT 
-				area_cd	AS areaCd
-				,area_nm	AS areaNm
-			FROM
-				area;
-		</select>
-
-		<select id="getAreaCityList" resultType="AreaCity">
-			/*시군구*/
-			SELECT 
-				city_cd	AS cityCd
-				,area_cd	AS areaCd
-				,city_nm	AS cityNm
-			FROM
-				area_city;
-		</select>
-		
-		<select id="getAreaCityTownList" resultType="AreaCityTown">
-		/*읍면동*/
-			SELECT 
-				town_cd 	AS townCd
-				,area_cd	AS areaCd
-				,city_cd	AS cityCd
-				,town_nm	AS townNm
-			FROM
-				area_city_town;
-		</select>
-	
-	
 	
 	
 

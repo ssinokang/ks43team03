@@ -35,18 +35,17 @@
 									<th>
 										<input type="checkbox" id="check-all" class="flat">
 									</th>
-									<th class="column-title">구장대표코드 </th>
 									<th class="column-title">시설명</th>
 									<th class="column-title">구장명</th>
 									<th class="column-title">종목</th>
 									<th class="column-title">등록자 아이디</th>
-									<th class="column-title">구장단가코드</th>
 									<th class="column-title">주중가</th>
 									<th class="column-title">야간가</th>
 									<th class="column-title">공휴일가</th>
 									<th class="column-title">구장상세정보</th>
 									<th class="column-title">등록 일자</th>
-									<th class="column-titleno-link last"><span class="nobr">수정</span></th>
+									<th class="column-titleno-link last"><span class="nobr">정보수정</span></th>
+									<th class="column-titleno-link last"><span class="nobr">단가수정</span></th>
 									<th class="column-titleno-link last"><span class="nobr">삭제</span></th>
 									<th class="bulk-actions" colspan="7">
 										<a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
@@ -58,12 +57,10 @@
 									<td class="a-center ">
 										<input type="checkbox" class="flat" name="table_records">
 									</td>
-									<td th:text ="${l.facilityStadiumCd}"></td>
 									<td th:text ="${l.facility.facilityNm}"></td>
 									<td th:text ="${l.facilityStadiumNm}"></td>
 									<td th:text ="${l.sports.sportsName}"></td>
 									<td th:text ="${l.userId}"></td>
-									<td th:text ="${l.stadiumPrice.stadiumPriceCd}"></td>
 									<td th:text ="${l.stadiumPrice.dayPrice}"></td>
 									<td th:text ="${l.stadiumPrice.nightPrice}"></td>
 									<td th:text ="${l.stadiumPrice.holPrice}"></td>
@@ -71,6 +68,9 @@
 									<td th:text ="${l.facilityStadiumRegDate}"></td>
 									<td>
 										<a th:href="@{/stadium/modifyStadium(facilityStadiumCd=${l.facilityStadiumCd})}">수정</a>
+									</td>
+									<td>
+										<a th:href="@{/stadium/modifyStadiumPrice(facilityStadiumCd=${l.facilityStadiumCd})}">수정</a>
 									</td>
 									<td>
 										<a href="#">삭제</a>

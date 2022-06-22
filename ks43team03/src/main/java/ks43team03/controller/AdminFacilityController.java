@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 
 import ks43team03.dto.Area;
 import ks43team03.dto.AreaCity;
@@ -35,6 +35,8 @@ public class AdminFacilityController {
 	public AdminFacilityController(AdminFacilityService adminFacilityService) {
 		this.adminFacilityService = adminFacilityService;
 	}
+	
+	
 	
 	
 	/*검색*/
@@ -149,14 +151,14 @@ public class AdminFacilityController {
 		return "adminFacility/addFacility";
 	}
 	
-	//시설관리자가 본인시설조회
+	//시설등록자가 본인시설조회
 	@GetMapping("/adminFacilityListById")
 	public String getAdminFacilityListById(Model model
-										 ,@RequestParam(name="userId", required = false) String userId) {
-		userId = "id002";
-		log.info("시설조회 아이디 : {}", userId);
+										 ,HttpSession session) {
+		String sessionId = (String) session.getAttribute("SID");
+		log.info("시설조회 아이디 : {}", sessionId);
 		
-		List<Facility> adminFacilityListById = adminFacilityService.getAdminFacilityListById(userId);
+		List<Facility> adminFacilityListById = adminFacilityService.getAdminFacilityListById(sessionId);
 		model.addAttribute("title", "내 시설 정보");
 		model.addAttribute("adminFacilityListById", adminFacilityListById);
 		return "adminFacility/adminFacilityListById";

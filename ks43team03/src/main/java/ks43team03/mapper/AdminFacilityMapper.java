@@ -15,8 +15,8 @@ import ks43team03.dto.MainCtg;
 @Mapper
 public interface AdminFacilityMapper {
 	
-	
 
+	
 	//시설 검색
 	public List<Facility> getSearchFacilityList(String searchKey, String searchValue);
 	

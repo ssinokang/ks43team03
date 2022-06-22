@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import ks43team03.dto.Facility;
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;
 import ks43team03.mapper.FileMapper;
@@ -22,7 +22,7 @@ public class StadiumService {
 	private static final Logger log = LoggerFactory.getLogger(StadiumService.class);
 	private final StadiumMapper stadiumMapper;
 	private final FileMapper fileMapper;
-
+	
 	public StadiumService(StadiumMapper stadiumMapper, FileMapper fileMapper) {
 		this.stadiumMapper = stadiumMapper;
 		this.fileMapper = fileMapper;
@@ -83,14 +83,17 @@ public class StadiumService {
 		return resultMap;
 	}	
 	
+	
 	/*단가 수정*/
 	public int modifyStadiumPrice(StadiumPrice stadiumPrice) {
-		return stadiumMapper.modifyStadiumPrice(stadiumPrice);
+		log.info("단가 수정 서비스", stadiumPrice);
+		int result = stadiumMapper.modifyStadiumPrice(stadiumPrice);
+		return result;
 	}
 	
-	/*시설코드별 가격상세정보조회*/
-	public StadiumPrice getAdminStadiumPriceInfoByCd(String stadiumPriceCd) {
-		StadiumPrice stadiumPrice = stadiumMapper.getAdminStadiumPriceInfoByCd(stadiumPriceCd);
+	/*구장코드별 가격상세정보조회*/
+	public StadiumPrice getAdminStadiumPriceInfoByCd(String facilityStadiumCd) {
+		StadiumPrice stadiumPrice = stadiumMapper.getAdminStadiumPriceInfoByCd(facilityStadiumCd);
 
 		return stadiumPrice;
 	}
@@ -120,6 +123,16 @@ public class StadiumService {
 		return result;
 	}
 	
+	/*아이디별 시설 조회*/
+	public List<Facility> getFacilityListById(String userId) {
+		List<Facility> facilityListById = stadiumMapper.getFacilityListById(userId);
+		
+		log.info("서비스", facilityListById);
+		log.info("서비스", userId);
+		
+		return facilityListById;
+		
+	}
 	
 	/*시설 내 구장 조회*/
 	public List<Stadium> getAdminStadiumListByCd(String facilityCd) {

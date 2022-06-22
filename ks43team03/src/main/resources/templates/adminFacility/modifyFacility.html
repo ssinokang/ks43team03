@@ -160,7 +160,7 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설주 아이디<span>*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="userId" th:value="${facility.userId}"  data-validate-minmax="10,100" readonly="readonly"/></div>
+					<input class="form-control" type="text" name="userId" th:value="${session.SID}"  data-validate-minmax="10,100" readonly="readonly"/></div>
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설명 <span class="required">*</span></label>

@@ -101,4 +101,13 @@ public class LessonService {
 		System.out.println("___________________________________________________");
 		return LessonListForUser;
 	}
+
+	public int modifyLesson(Lesson lesson) {
+		System.out.println("___________________________________________________");
+		System.out.println("_______________start modifyLesson");
+		int result = lessonMapper.modifyLesson(lesson);
+		System.out.println("_______________end   modifyLesson");
+		System.out.println("___________________________________________________");
+		return 0;
+	}
 }

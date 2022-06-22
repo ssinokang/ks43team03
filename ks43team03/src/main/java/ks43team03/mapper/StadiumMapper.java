@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks43team03.dto.Facility;
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;
 
@@ -37,6 +38,9 @@ public interface StadiumMapper {
 	
 	//구장 등록
 	public int addStadium(Stadium stadium);
+	
+	//아이디로 시설 조회
+	public List<Facility> getFacilityListById(String userId);
 	
 	//시설 내 구장 정보 조회
 	public List<Stadium> getAdminStadiumListByCd(String facilityCd);

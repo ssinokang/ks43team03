@@ -73,7 +73,7 @@
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                         </div>
-                        
+                        <p th:text="${l.facility.facilityNm}" style="font-size : large; margin: 0px;" ></p>
                         <p th:text="${l.facility.facilityAddr} + ' ' +${l.facility.facilityDetailAddr}" style="font-size : medium; margin: 0px;" ></p>
                         <p th:text="${l.facility.facilityTell}" style="font-size:medium;"></p>
                         <div class="product__details__button">
@@ -101,8 +101,8 @@
 	                        </ul>
 	                        <div class="tab-content">
 	                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
-	                                <h6>Description</h6>
-	                                <p></p>
+	                                <h6>상세정보</h6>
+	                                <p th:text="${l.facilityStadiumDetail}"></p>
 	                            </div>
 	                            <div class="tab-pane" id="tabs-2" role="tabpanel">
 	                                <h6>Specification</h6>

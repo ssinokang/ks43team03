@@ -50,8 +50,8 @@
 										<div id="collapseTwo" class="collapse" data-parent="#accordionExample">
 											<div class="card-body">
 												<ul>
-													<li><a th:href="@{/lesson/lessonListForUser(mainCtgCd=gg)}">사설</a></li>
-													<li><a th:href="@{/lesson/LessonListForUser(mainCtgCd=ss)}">공공</a></li>
+													<li><a th:href="@{/lesson/lessonListForUser(mainCtgCd=gg)}">공공</a></li>
+													<li><a th:href="@{/lesson/lessonListForUser(mainCtgCd=ss)}">사설</a></li>
 												</ul>
 											</div>
 										</div>
@@ -210,8 +210,56 @@
 				<div class="col-lg-9 col-md-9">
 					<div class="row">
 						<div class="col-lg-4 col-md-6" th:if="${not #lists.isEmpty(lessonList)}" th:each="l : ${lessonList}">
-							<div class="product__item">
-								<div class="product__item__pic set-bg" th:if="{not #lists.isEmpty(l.tFile)}" th:each="t : ${l.tFile}" th:data-setbg="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}"
+							<div class="product__item" th:if="${not #lists.isEmpty(l.tFile)}" th:each="t : ${l.tFile}">
+								<div class="product__item__pic set-bg" th:if="${t.representImg == 'Y'}" th:data-setbg="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}"
+										style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
+									<div>
+										<div class="label new">New</div>
+										<ul class="product__hover">
+											<li><a href="img/shop/shop-1.jpg" class="image-popup"><span
+														class="arrow_expand"></span></a></li>
+											<li><a href="#"><span class="icon_heart_alt"></span></a></li>
+											<li><a href="#"><span class="icon_bag_alt"></span></a></li>
+										</ul>
+									</div>
+									<div class="product__item__text">
+										<h6><a th:href="@{/lesson/detailLessonForUser(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></h6>
+										<div class="rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</div>
+										<div class="product__price">$ [[${l.lessonPrice}]]</div>
+									</div>
+								</div>
+								<div class="product__item__pic set-bg" th:unless="${t.representImg == 'Y'}" th:data-setbg="@{/images/notImage.jfif}"
+										style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
+									<div>
+										<div class="label new">New</div>
+										<ul class="product__hover">
+											<li><a href="img/shop/shop-1.jpg" class="image-popup"><span
+														class="arrow_expand"></span></a></li>
+											<li><a href="#"><span class="icon_heart_alt"></span></a></li>
+											<li><a href="#"><span class="icon_bag_alt"></span></a></li>
+										</ul>
+									</div>
+									<div class="product__item__text">
+										<h6><a th:href="@{/lesson/detailLessonForUser(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></h6>
+										<div class="rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</div>
+										<div class="product__price">$ [[${l.lessonPrice}]]</div>
+									</div>
+								</div>
+							</div>
+							<div th:unless="${not #lists.isEmpty(l.tFile)}" >
+								<div class="product__item__pic set-bg"  th:data-setbg="@{/images/notImage.jfif}"
 									style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
 									<div class="label new">New</div>
 									<ul class="product__hover">
@@ -221,9 +269,7 @@
 										<li><a href="#"><span class="icon_bag_alt"></span></a></li>
 									</ul>
 								</div>
-								<div th:unless="${not #lists.isEmpty(l.tFile)}">
-									<div style="text-align: center;">등록된 사진이 없습니다.</div>
-								</div>
+								
 								<div class="product__item__text">
 									<h6><a th:href="@{/lesson/detailLessonForUser(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></h6>
 									<div class="rating">
@@ -236,6 +282,7 @@
 									<div class="product__price">$ [[${l.lessonPrice}]]</div>
 								</div>
 							</div>
+							
 						</div>
 						<div class="col-lg-4 col-md-6" th:unless="${not #lists.isEmpty(lessonList)}">
 							<div style="text-align: center;">등록된 게시물이 없습니다.</div>

@@ -17,6 +17,7 @@ public class Lesson {
 	private String facilityCd;
 	private String goodsCtgCd;
 	private String sportsCd;
+	private String sportsName;
 	private String userId;
 	private String lessonName;
 	private String lessonDetail;

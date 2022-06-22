@@ -200,8 +200,8 @@
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="userId">시설주 아이디<span class="required">*</span></label>
-					<div class="col-md-6 col-sm-6"><!-- th:value="${session.SID}" -->
-					<input class="form-control" type="text" id="userId" name="userId" value="id002" data-validate-minmax="10,100" readonly="readonly"/></div>
+					<div class="col-md-6 col-sm-6">
+					<input class="form-control" type="text" id="userId" name="userId" th:value="${session.SID}" data-validate-minmax="10,100" readonly="readonly"/></div>
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityNm">시설명 <span class="required">*</span></label>

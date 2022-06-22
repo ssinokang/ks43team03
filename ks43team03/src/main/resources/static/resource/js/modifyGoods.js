@@ -87,27 +87,7 @@ $(function() {
 				ctg[i-1].removeClass('none-display');
 			}
 		}
-		/*
-		if(this.value == 'lesson') {
-			$lesson.removeClass("none-display");
-			$pass.addClass("none-display");
-			$stadium.addClass("none-display");
-		} else if (this.value == 'pass') {
-			$pass.removeClass("none-display");
-			$stadium.addClass("none-display");
-			$lesson.addClass("none-display");
-		} else if(this.value == 'stadium'){
-			$stadium.removeClass("none-display");
-			$pass.addClass("none-display");
-			$lesson.addClass("none-display");
-		} else {
-			$lesson.addClass("none-display");
-			$pass.addClass("none-display");
-			$stadium.addClass("none-display");
-		}
-		*/
 	})
-	//코드 중복 제거 할 것
 	$(document).on('click', '#register-goods', function() {
 		if($(this).html() == '등록') {
 			$('#facilityCd').prop('disabled', true);
@@ -151,4 +131,11 @@ $(function() {
 			alert("더이상 지울 수 없습니다.");
 		}
 	});
+
+	$sportsCtgVal = $('#sportsCtg').attr('data-sport');
+	$goodsCtgVal  = $('#goodsCtg').attr('data-goodsCtg');
+	console.log($sportsCtgVal);
+	 $('#sportsCtg option[value=' + $sportsCtgVal + ']').attr('selected', 'selected');
+	 $('#goodsCtg option[value=' + $goodsCtgVal + ']').attr('selected', 'selected');
+
 });

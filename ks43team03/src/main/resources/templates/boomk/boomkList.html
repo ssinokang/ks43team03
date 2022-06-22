@@ -2,6 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org"
  	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/default.html}"> 
+	  	<!-- 사용자 정의 title -->
+	<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+	</th:block>
+	  
+	 <!-- 사용자 정의 Js 파일-->
+	<th:block layout:fragment="customJs">
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+		
+		<script>
+			$(function(){
+				var $boomkTr = $('#boomkBody tr');
+				console.log($boomkTr);
+
+				$boomkTr.click(function(){
+					console.log(this);
+  
+					var facilityCd = $(this).find('input').val();
+					console.log(facilityCd);
+						
+					$(location).attr('href','/facility/facilityDetail?facilityCd='+facilityCd);
+				});
+			});
+		</script>
+	</th:block>
 
   	 <th:block layout:fragment="customContents">
 		<section class="shop-cart spad">
@@ -27,12 +52,13 @@
 										<th>즐겨찾기 취소</th>
 									</tr>
 								</thead>
-								<tbody> 
+								<tbody id="boomkBody"> 
 									<tr th:if="${not #lists.isEmpty(boomkList)}" th:each="l : ${boomkList}">
 										<!-- <td th:text="${l.get('userId')}"></td> -->
  								<!--	<td th:text="${l.userId}"></td>
 										<td th:text="${l.boomkRegDate}"></td>
 										<td th:text="${l.boomkFacilityState}"></td> -->
+										<input type="hidden" th:value="${l.facility.facilityCd}">
 										<td th:text="${l.boomkUpdateDate}"></td>
 										<td th:text="${l.facility.facilityNm}"></td>
 										<td th:text="${l.facility.facilityAddr}"></td>

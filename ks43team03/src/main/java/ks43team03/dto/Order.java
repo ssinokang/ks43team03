@@ -1,11 +1,15 @@
 package ks43team03.dto;
 
+import ks43team03.dto.type.OrderState;
+import ks43team03.dto.type.PayType;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
+@Builder
 @ToString
 public class Order {
 
@@ -18,15 +22,23 @@ public class Order {
 	private int usedPoint;
 	private int orderPayPrice; // 실결제 금액
 	private String orderRegDate; //  주문일자
-	private String orderPayState; // 주문/결제상태 enum테스트
+	private OrderState orderPayState; // 주문/결제상태 enum테스트
 	
 	
 	//User객체를 + 테스트하기위해 만든 메소드
-	public static Order createOrder(String userId, String goodsCtgCd, int orderPayPrice) {
-		Order order = new Order();
-		order.setUserId(userId);
-		order.setGoodsCtgCd(goodsCtgCd);
-		order.setOrderPayPrice(orderPayPrice);
-		return order;
+	
+	
+	
+	@Getter
+	@Setter
+	public static class Request{
+		private String userId;
+		private String facilityGoodsCd; 
+		private int orderPrice;
+		private int userPoint;
+		private int usedPoint;
+		private int orderPayPrice;
+		private PayType payType;
+		
 	}
 }

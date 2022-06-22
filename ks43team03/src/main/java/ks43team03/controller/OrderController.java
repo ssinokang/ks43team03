@@ -1,17 +1,19 @@
 package ks43team03.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import ks43team03.dto.FacilityGoods;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import ks43team03.dto.Order;
-import ks43team03.dto.User;
+import ks43team03.dto.ResponseGoods;
 import ks43team03.service.FacilityGoodsService;
-import ks43team03.service.UserService;
+import ks43team03.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -19,43 +21,29 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OrderController {
 
-	private final UserService userService;
+	private final OrderService orderService;
 	private final FacilityGoodsService facilityGoodsService;
 	
-
-	public OrderController(UserService userService, FacilityGoodsService facilityGoodsService) {
-		this.userService = userService;
+	
+	public OrderController(OrderService orderService,FacilityGoodsService facilityGoodsService) {
+		this.orderService = orderService;
 		this.facilityGoodsService = facilityGoodsService;
 	}
 	
-	// 주문 결제화면으로 이동 
-	@GetMapping("/addOrder")
-	public String order(Model model, @RequestParam(name = "userId", required = false)String userId,@RequestParam(name = "facilityGoodsCd" , required = false)String facilityGoodsCd) {
-		
-		
-		log.info("화면에서 받은 goodsCode : {}", facilityGoodsCd);
-		log.info("화면에서 받은 userId : {}", userId);
-		
-		facilityGoodsCd = "gg_35011750_02_lesson_04";
-		userId = "id002";
-		User user = userService.getUserInfoById(userId);
-		FacilityGoods facilityGoods = facilityGoodsService.getFacilityGoodsCd(facilityGoodsCd);
-		
-		model.addAttribute("user", user);
-		model.addAttribute("goods", facilityGoods);
-		
-		return "order/orderForm";
-	}
 	
 	@PostMapping("/addOrder")
-	public String addOrder(Order order) {
-		log.info("order의 담긴 값 : {}", order);
+	public ResponseEntity<Order> addOrder(@RequestBody Order.Request req) {
 		
+		
+		log.info("데이터 userId 요청 : {}", req.getUserId());
+		log.info("데이터 facilityGoodsCd 요청 : {}", req.getFacilityGoodsCd());
 		
 		// order 저장 
+		ResponseGoods responseGoods = facilityGoodsService.getFacilityGoodsCd(req.getFacilityGoodsCd());
+		String goodsCode = responseGoods.getFacilityGoods().getFacilityGoodsCd();
+		 
 		
-		String orderCode = "oderCdoe1111112";
-		return "redirect:/order/orderDetail?orderCd="+orderCode;
+		return ResponseEntity.ok(orderService.addOrder(req, responseGoods));
 	}
 	
 	
@@ -64,8 +52,10 @@ public class OrderController {
 	
 	
 	//==회원의 주문상세내역 조회==//
-	@GetMapping("/orderDetail")
-	public String orderDetail(@RequestParam(name = "orderCode")String orderCode) {
+	@GetMapping("/orderDetail/{orderCd}")
+	public String orderDetail(@PathVariable("orderCd") String orderCd) {
+		log.info("화면에서 받은 데이터 : {}", orderCd);
+		
 		
 		return "order/orderDetail";
 	}

@@ -12,12 +12,12 @@ public class Pass{
 	private String facilityGoodsCd;
 	private String facilityCd;
 	private String goodsCtgCd;
-	private String sportsCd;
 	private String userId;
 	private String passNm;
 	private int passUnit;
 	private int passPrice;
 	private String passState;
+	private String passRegDate;
 	private int passEndDate;
 	
 	

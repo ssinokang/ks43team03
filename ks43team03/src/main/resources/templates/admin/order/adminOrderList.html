@@ -122,13 +122,16 @@
 															style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
 													</div>
 												</td>
-												<td class=" ">땡떙체육관</td>
-												<td class=" " th:text=""> </td>
-												<td class=" " th:text="">121000210 <i class="success fa fa-long-arrow-up"></i></td>
-												<td class=" " th:text="">John Blank L</td>
-												<td class=" " th:text="">Paid</td>
-												<td class="a-right a-right " th:text="">$7.45</td>
-												<td class=" last"><a href="#">View</a>
+												<td class=" " th:text="${order.userId}"></td>
+												<td class=" " th:text="${order.facility.facilityNm}">땡떙체육관</td>
+												<td class=" " th:text="${order.goodsCtgCd}"> </td>
+												<td class=" " th:text="${order.orderPrice}"> <i class="success fa fa-long-arrow-up"></i></td>
+												<td class=" " th:text="${order.userPoint}"> </td>
+												<td class=" " th:text="${order.usedPoint}"></td>
+												<td class="a-right a-right " th:text="${order.orderPayPrice}"></td>
+												<td class=" " th:text="${order.orderRegDate}"></td>
+												<td class=" " th:text="${order.orderPayState}"></td>
+												<td class=" last"><a th:href="@{/admin/order/orderDetail(orderCd=${order.orderCd},goodsCtgCd=${order.goodsCtgCd})}">View</a>
 												</td>
 											</tr>
 											<tr th:unless="${not #lists.isEmpty(orderList)}">

@@ -1,16 +1,12 @@
 package ks43team03.dto;
 
-import ks43team03.dto.type.OrderState;
 import ks43team03.dto.type.PayType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@Builder
-@ToString
 public class Order {
 
 	private String orderCd;
@@ -22,10 +18,29 @@ public class Order {
 	private int usedPoint;
 	private int orderPayPrice; // 실결제 금액
 	private String orderRegDate; //  주문일자
-	private OrderState orderPayState; // 주문/결제상태 enum테스트
+	//private OrderState orderPayState; // 주문/결제상태 enum테스트
+	private String orderPayState;
 	
-	
+	private FacilityGoods facilityGoods;
+	private Facility facility;
 	//User객체를 + 테스트하기위해 만든 메소드
+	
+	
+	public Order() {}
+	
+	
+	@Builder
+	public Order(String userId, String facilityGoodsCd, String goodsCtgCd, int orderPrice, int userPoint, int usedPoint,
+			int orderPayPrice, String orderPayState) {
+		this.userId = userId;
+		this.facilityGoodsCd = facilityGoodsCd;
+		this.goodsCtgCd = goodsCtgCd;
+		this.orderPrice = orderPrice;
+		this.userPoint = userPoint;
+		this.usedPoint = usedPoint;
+		this.orderPayPrice = orderPayPrice;
+		this.orderPayState = orderPayState;
+	}
 	
 	
 	
@@ -41,4 +56,9 @@ public class Order {
 		private PayType payType;
 		
 	}
+
+
+
+
+	
 }

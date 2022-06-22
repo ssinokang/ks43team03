@@ -37,13 +37,13 @@ public class OrderService {
 	
 	private Order createOrder(Order.Request req, ResponseGoods goods) {
 		return Order.builder()
-					.facilityGoodsCd(goods.getFacilityGoods().getFacilityGoodsCd())
-					.goodsCtgCd(goods.getFacilityGoods().getGoodsCtgCd())
-					.orderPayPrice(req.getOrderPayPrice())
-					.orderPrice(req.getOrderPrice())
-					.userId(req.getUserId())
-					.orderPayState(OrderState.ORDER)
-					.build();
+				.facilityGoodsCd(goods.getFacilityGoods().getFacilityGoodsCd())
+				.goodsCtgCd(goods.getFacilityGoods().getGoodsCtgCd())
+				.orderPayPrice(req.getOrderPayPrice())
+				.orderPrice(req.getOrderPrice())
+				.userId(req.getUserId())
+				.orderPayState(OrderState.ORDER.getCode())
+				.build();
 	}
 	
 	

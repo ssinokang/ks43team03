@@ -14,6 +14,31 @@
 		<result column="order_pay_price" property="orderPayPrice"/>
 		<result column="order_reg_date" property="orderRegDate"/>
 		<result column="order_pay_state" property="orderPayState"/>
+		<association property="facilityGoods" javaType="FacilityGoods">
+			<id 	column="facility_goods_cd" 			property="facilityGoodsCd"/>
+			<result column="facility_cd"				property="facilityCd"/>
+			<result column="goods_ctg_cd"  				property="goodsCtgCd"/>
+			<result column="sports_cd" 					property="sportsCd"/>
+			<result column="user_id" 					property="userId"/>
+			<result column="facility_goods_reg_date" 	property="facilityRegDate"/>
+			<result column="facility_goods_state" 		property="faclityGoodsState"/>
+		</association>
+		<association property="facility" javaType="Facility">
+			<id 	column="facility_cd" 			property="facilityCd"/>
+			<result column="main_ctg_cd"			property="mainCtgCd"/>
+			<result column="town_cd"  				property="townCd"/>
+			<result column="facility_use_cd" 		property="facilityUseCd"/>
+			<result column="user_id" 				property="userId"/>
+			<result column="facility_nm" 			property="facilityNm"/>
+			<result column="facility_address" 		property="facilityAddr"/>
+			<result column="facility_tell" 			property="facilityTell"/>
+			<result column="facility_post_num" 		property="facilityPostNum"/>
+			<result column="business_number" 		property="businessNum"/>
+			<result column="facility_reg_date"		property="facilityRegDate"/>
+			<result column="facility_detail_addr" 	property="facilityDetailAddr"/>
+			<result column="area_cd"  				property="areaCd"/>
+			<result column="city_cd"  				property="cityCd"/>
+		</association>
 	</resultMap>
 	
 	<!--  typeHandler="ks43team03.dto.type.OrderState$TypeHandler" -->
@@ -81,20 +106,30 @@
 		WHERE 
 			o.order_cd = #{orderCd}
 	</select>
-	
+	<!-- 시설명과 상품코드 주문내역조회 -->
 	<select id="getOrderAll" resultMap="orderResultMap" resultType="Order">
 		SELECT
-			order_cd
-			,user_id
-			,facility_goods_cd
-			,goods_ctg_cd
-			,order_price
-			,order_user_point
-			,order_used_point
-			,order_pay_price
-			,order_reg_date
-			,order_pay_state
-		FROM 
-			goods_order
+			o.order_cd,
+			o.user_id,
+			o.facility_goods_cd,
+			o.goods_ctg_cd,
+			o.order_price,
+			o.order_user_point,
+			o.order_used_point,
+			o.order_pay_price,
+			o.order_reg_date,
+			o.order_pay_state,
+			g.facility_cd,
+			f.facility_nm
+		FROM
+			goods_order AS o
+			INNER join
+			facility_goods AS g
+			on
+			o.facility_goods_cd = g.facility_goods_cd
+			INNER join
+			facility AS f
+			on
+			g.facility_cd = f.facility_cd
 	</select>
 </mapper>

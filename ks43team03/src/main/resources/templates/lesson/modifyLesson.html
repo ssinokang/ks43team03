@@ -164,7 +164,7 @@
 								<label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonNm">레슨 이름 <span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 ">
-									<input type="text" id="lessonNm" name="lessonName" required="required" class="form-control" th:text="${lesson.lessonName}">
+									<input type="text" id="lessonNm" name="lessonName" required="required" class="form-control" th:value="${lesson.lessonName}">
 								</div>
 							</div>
 							<div class="item form-group" style = "list-style:none;">
@@ -208,7 +208,7 @@
 								<label class="col-form-label col-md-3 col-sm-3 label-align">레슨 시작 시간<span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 ">
-									<input type="date" class="form-control-file" name="lessonStartDate" id="lessonStartDate" th:text="">
+									<input type="date" class="form-control-file" name="lessonStartDate" id="lessonStartDate">
 								</div>
 							</div>
 							<div class="item form-group">

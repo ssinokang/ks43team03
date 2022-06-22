@@ -32,14 +32,26 @@
 					<div class="tip">2</div>
 				</a>
 			</li>
+			<li>
+				<a href="/admin" title="관리자페이지">
+					<span class="icon_house_alt"></span>
+				</a>
+			</li>
 		</ul>
 	<div class="offcanvas__logo">
 		<a th:href="@{/}"><img src="img/logo.png" alt=""></a>
 	</div>
 	<div id="mobile-menu-wrap"></div>
 		<div class="offcanvas__auth">
-			<a href="#">Login</a>
-			<a href="#">Register</a>
+			<th:block th:if="${session.SID == null}">
+				<a href="/login">Login</a>
+			</th:block>
+			<th:block th:unless="${session.SID == null}">
+				<a href="/user/userDetail">
+					[[${session.SNAME}]]님 마이페이지!<small>(강신호)</small>
+				</a>
+			</th:block>
+			<a href="/logout">Logout<br/><small>(김지혜)</small></a>
 		</div>
 	</div>
 	<!-- Offcanvas Menu End -->

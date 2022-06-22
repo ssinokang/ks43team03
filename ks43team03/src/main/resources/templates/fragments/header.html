@@ -5,41 +5,79 @@
 <header class="header" th:fragment="headerFragment">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-xl-3 col-lg-2">
+			<div class="col-xl-2 col-lg-2">
 				<div class="header__logo">
-					<a href="./index.html"><img src="../img/logo.png" alt=""></a>
+					<a th:href="@{/}"><img src="../img/logo.png" alt=""></a>
 				</div>
 			</div>
-			<div class="col-xl-6 col-lg-7">
+			<div class="col-xl-5 col-lg-5">
 				<nav class="header__menu">
 					<ul>
 
-						<li><a href="#">Men’s</a></li>
-						<li><a href="#">Shop</a></li>
-						<li><a th:href="@{lesson/lessonListforUser}">레슨</a></li>
-						<li><a href="./blog.html">Blog</a>
+						<li><a th:href="@{/facility/facilityList}">시설!<br/><small>(정다운)</small></a>
 							<ul class="dropdown">
-								<li><a href="./product-details.html">Product Details</a></li>
-								<li><a href="./shop-cart.html">Shop Cart</a></li>
-								<li><a href="./checkout.html">Checkout</a></li>
-								<li><a href="./blog-details.html">Blog Details</a></li>
+								<li><a href="#">넣기전에</a></li>
+								<li><a href="#">항상</a></li>
+								<li><a href="#">먼저</a></li>
+								<li><a href="#">말씀해주세요~</a></li>
 							</ul>
 						</li>
-						<li><a th:href="@{/board/boardList}">Board</a></li>
-						<li><a href="./contact.html">Contact</a></li>
+						<li><a th:href="@{/lesson/lessonListForUser}">레슨!<br/><small>(정다운)</small></a>
+							<ul class="dropdown">
+								<li><a href="#">넣기전에</a></li>
+								<li><a href="#">항상</a></li>
+								<li><a href="#">먼저</a></li>
+								<li><a href="#">말씀해주세요~</a></li>
+							</ul>
+						</li>
+						<li><a href="#">이용권#<br/><small>(위찬복)</small></a>
+							<ul class="dropdown">
+								<li><a href="#">넣기전에</a></li>
+								<li><a href="#">항상</a></li>
+								<li><a href="#">먼저</a></li>
+								<li><a href="#">말씀해주세요~</a></li>
+							</ul>
+						</li>
+						<li><a th:href="@{/stadium/stadiumList}">구장!<br/><small>(정다운)</small></a>
+							<ul class="dropdown">
+								<li><a href="#">넣기전에</a></li>
+								<li><a href="#">항상</a></li>
+								<li><a href="#">먼저</a></li>
+								<li><a href="#">말씀해주세요~</a></li>
+							</ul>
+						</li>
+						<li><a th:href="@{/board/boardList}">게시판!<br/><small>(신서진)</small></a>
+							<ul class="dropdown">
+								<li><a href="#">넣기전에</a></li>
+								<li><a href="#">항상</a></li>
+								<li><a href="#">먼저</a></li>
+								<li><a href="#">말씀해주세요~</a></li>
+							</ul>
+						</li>
+						<li><a href="/trainer/trainerList">트레이너!<br/><small>(강신호)</small></a>
+							<ul class="dropdown">
+								<li><a href="#">넣기전에</a></li>
+								<li><a href="#">항상</a></li>
+								<li><a href="#">먼저</a></li>
+								<li><a href="#">말씀해주세요~</a></li>
+							</ul>
+						</li>
 					</ul>
 				</nav>
 			</div>
-			<div class="col-lg-3">
+			<div class="col-lg-5">
 				<div class="header__right">
 					<div class="header__right__auth">
-						<a href="/login">Login</a>
-						<a href="/logout">Logout</a>
-					<div th:unless="${session.SID == null}" style="text-align: right;">
-						<label>
-							[[${session.SNAME}]] 님이 로그인하셨습니다.
-						</label>
-					</div>					
+						<th:block th:if="${session.SID == null}">
+							<a href="/login">Login</a>
+							<a href="/logout">Logout<br/><small>(김지혜)</small></a>
+						</th:block>
+						<th:block th:unless="${session.SID == null}">
+							<a href="/user/userDetail">
+								[[${session.SNAME}]]님 마이페이지!
+							</a>
+							<a href="/logout">Logout<br/><small>(강신호) / (김지혜)</small></a>
+						</th:block>
 						<!-- <a href="#">Register</a> -->
 					</div>
 					<ul class="header__right__widget">
@@ -54,6 +92,11 @@
 							<a href="#">
 								<span class="icon_bag_alt"></span>
 								<div class="tip">2</div>
+							</a>
+						</li>
+						<li>
+							<a href="/admin"  title="관리자페이지">
+								<span class="icon_house_alt"></span>
 							</a>
 						</li>
 					</ul>

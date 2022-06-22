@@ -10,6 +10,7 @@
 		<result column="facility_goods_cd" 		property="facilityGoodsCd"/>
 		<result column="facility_cd" 			property="facilityCd"/>
 		<result column="goods_ctg_cd" 			property="goodsCtgCd"/>
+		<result column="sports_cd" 				property="sportsCd"/>
 		<result column="user_id" 				property="userId"/>
 		<result column="lesson_nm" 				property="lessonName"/>
 		<result column="lesson_detail" 			property="lessonDetail"/>		
@@ -62,6 +63,27 @@
 			<result	column="represent_img"		property="representImg"/>
 		</collection>
 	</resultMap>
+	<!-- 레슨 수정하기 -->
+	<update id="modifyLesson" parameterType="Lesson">
+		UPDATE lesson
+		SET
+			lesson_division=#{lessonDivision}
+			,facility_goods_cd=#{facilityGoodsCd}
+			,facility_cd=#{facilityCd}
+			,goods_ctg_cd=#{goodsCtgCd}
+			,sports_cd=#{sportsCd}
+			,user_id=#{userId}
+			,sports_nm=#{sportsNm}
+			,lesson_nm=#{lessonNm}
+			,lesson_detail=#{lessonDetail}
+			,lesson_total_member=#{lessonTotalMember}
+			,lesson_start_date=#{lessonStartDate}
+			,lesson_end_date=#{lessonEndDate}
+			,lesson_price=#{lessonPrice}
+			,lesson_reg_date=NOW()
+		WHERE
+			lesson_cd=#{lessonCd}
+	</update>
 	<!-- 레슨 코드를 사용한 레슨 상세 조회 -->
 	<select id="getLessonInfoByCd" parameterType="String" resultMap="lessonResultMap">
 		SELECT
@@ -71,6 +93,7 @@
 			,lesson_sub.facility_cd
 			,lesson_sub.main_ctg_cd
 			,lesson_sub.facility_use_cd
+			,lesson_sub.sports_cd
 			,lesson_sub.user_id
 			,lesson_sub.facility_nm
 			,lesson_sub.facility_address
@@ -81,6 +104,8 @@
 			,lesson_sub.facility_detail_addr
 			,lesson_sub.area_cd
 			,lesson_sub.lesson_cd
+			,lesson_sub.goods_ctg_cd
+			,lesson_sub.sports_cd
 			,lesson_sub.lesson_division
 			,lesson_sub.sports_nm
 			,lesson_sub.lesson_nm
@@ -117,7 +142,9 @@
 				  	,f.facility_detail_addr
 				  	,f.area_cd
 				  	,l.lesson_cd
+				  	,l.sports_cd
 				  	,l.lesson_division
+				  	,l.goods_ctg_cd
 				  	,l.user_id
 				  	,l.sports_nm
 				  	,l.lesson_nm
@@ -140,7 +167,7 @@
 				   on
 				   f.town_cd = act.town_cd
 				WHERE
-		      	l.lesson_cd = #{lessonCd}) AS lesson_sub
+		      	l.lesson_cd = 'lesson_008') AS lesson_sub
 				LEFT JOIN
 				(SELECT
 					rfwg.facility_goods_cd
@@ -205,6 +232,7 @@
 			,facility_cd
 			,goods_ctg_cd
 			,sports_cd
+			,sports_nm
 			,user_id
 			,lesson_nm
 			,lesson_detail
@@ -220,6 +248,7 @@
 			,#{facilityCd}
 			,#{goodsCtgCd}
 			,#{sportsCd}
+			,#{sportsName}
 			,#{userId}
 			,#{lessonName}
 			,#{lessonDetail}
@@ -345,4 +374,5 @@
 	   		</if>
 	   	</trim>
 	</select>
+
 </mapper>

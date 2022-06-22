@@ -93,10 +93,19 @@ public class LessonController {
 	/**
 	 * 레슨 수정
 	 **/
+	@PostMapping("/modyfyLesson")
+	public String modifyLesson(Lesson lesson
+							   ,Model model) {
+		int result = lessonService.modifyLesson(lesson);
+		model.addAttribute("facilityCd", lesson.getFacilityCd());
+		return "lesson/facilitylessonList";
+	}
 	@GetMapping("/modifyLesson")
 	public String modifyLesson(Model model
 								,@RequestParam(name="lessonCd") String lessonCd) {
+		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
 		model.addAttribute("title", "레슨수정");
+		model.addAttribute("lesson", lesson);
 		return "lesson/modifyLesson";
 	}
 	/**

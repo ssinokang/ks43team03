@@ -1,15 +1,17 @@
 package ks43team03.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import ks43team03.common.FileUtils;
 import ks43team03.dto.Lesson;
@@ -63,6 +65,19 @@ public class LessonService {
 			// 2. lesson 테이블에 삽입
 			//lessonMapper.addLesson(lesson);
 			System.out.println(lesson + "LessonService/addLesson/lesson");
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyymmdd");
+			
+			try {
+				Date date = formatter.parse(lesson.getLessonStartDate());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			if(lesson.getFacility().getMainCtgCd().equals("gg")) {
+				lesson.setLessonState("심사 대기중");
+			} else {
+				
+			}
 			lessonMapper.addLesson(lesson);
 			
 			// 3. 릴레이션 테이블에 삽입

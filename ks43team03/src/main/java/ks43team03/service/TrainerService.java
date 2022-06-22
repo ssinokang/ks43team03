@@ -34,7 +34,10 @@ public class TrainerService {
 	 * 트레이너 프로필 수정
 	 */
 	public int modifyTrainerProfile(TrainerProfile trainerProfile) {
-		return 0;
+		
+		int result = trainerMapper.modifyTrainerProfile(trainerProfile);
+		
+		return result;
 	}
 	
 	/**

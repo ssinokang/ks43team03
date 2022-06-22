@@ -34,9 +34,14 @@ public class TrainerController {
 	
 	//트레이너 정보 수정
 	@PostMapping("modifyTrainer")
-	public String modifyTrainer() {
+	public String modifyTrainer(TrainerProfile trainerProfile
+							   ,RedirectAttributes reAttr
+							   ,@RequestParam(name = "trainerCd") String trainerCd) {
 		
-		return "redirect:/trainer/trainerDetail";
+		trainerService.modifyTrainerProfile(trainerProfile);
+		
+		reAttr.addAttribute("trainerCd", trainerCd);
+		return "redirect:/trainer/modifyTrainer";
 	}
 	
 	//트레이너 정보 수정 페이지 이동

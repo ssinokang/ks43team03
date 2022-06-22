@@ -59,11 +59,11 @@
 								<img src="img/board/details/board-details.jpg" alt="">
 								<div class="board__details__item__title">
 									<span class="tip">트레이너</span>
-									<span class="tip" th:if="${session.SID eq trainerProfile.userId}">
+									<th:block th:if="${session.SID eq trainerProfile.userId}">
 										<a th:href="@{/trainer/modifyTrainer(trainerCd=${trainerProfile.trainerCd})}">
-											수정
-										</a>
-									</span>
+											<button class="tip btn">트레이너 정보 수정</button>
+										</a>	
+									</th:block>
 									<h4>[[${trainerProfile.trainerNickname}]]</h4>
 									<ul>
 										<li>
@@ -128,6 +128,17 @@
 							<div class="board__details__quote">
 								<div class="icon">
 									<i class="fa fa-quote-left"></i>
+								</div>
+								<div th:if="${session.SID eq trainerProfile.userId}">
+									<a th:href="@{/trainer/addCareer(trainerCd=${trainerProfile.trainerCd})}">
+										<button class="btn btn-info btn-sm">경력 및 자격증 추가</button>
+									</a>
+									<a th:href="@{/trainer/modifyTrainer(trainerCd=${trainerProfile.trainerCd})}">
+										<button class="btn btn-primary btn-sm">경력 및 자격증 수정</button>
+									</a>
+									<a th:href="@{/trainer/modifyTrainer(trainerCd=${trainerProfile.trainerCd})}">
+										<button class="btn btn-danger btn-sm">경력 및 자격증 삭제</button>
+									</a>
 								</div>
 						 		<p>
 						 			경력

@@ -65,6 +65,8 @@ public class LessonService {
 			// 2. lesson 테이블에 삽입
 			//lessonMapper.addLesson(lesson);
 			System.out.println(lesson + "LessonService/addLesson/lesson");
+			
+			/*
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyymmdd");
 			
 			try {
@@ -76,8 +78,15 @@ public class LessonService {
 			if(lesson.getFacility().getMainCtgCd().equals("gg")) {
 				lesson.setLessonState("심사 대기중");
 			} else {
-				
+				if("현재날짜" < "레슨 시작 날짜") {
+					lesson.setLessonState("모집대기중");
+				} else if("현재 날짜" > "시작 날짜" && "끝나는 날짜" > "현재 날짜") {
+					lesson.setLessonState("모집중");
+				} else if("현재 날짜" > "시작 날짜" && "끝나는 날짜" < "현재 날짜") {
+					lesson.setLessonState("마감");
+				}
 			}
+			*/
 			lessonMapper.addLesson(lesson);
 			
 			// 3. 릴레이션 테이블에 삽입

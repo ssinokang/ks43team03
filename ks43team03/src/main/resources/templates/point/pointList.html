@@ -37,13 +37,10 @@
 						<table class="table">
 							<thead>
 								<tr>
-									<th id="">보유포인트</th>
-									<th id="">적립 분류</th>
-									<th id=""></th>
-									<th id=""></th>
-									<th id=""></th>
-									<th id=""></th>
-									<th id=""></th>
+									<th id="total_point">총 포인트</th>
+									<th id="event_detail">이벤트 내용</th>
+									<th id="apply_point_amount">적립 금액</th>
+									<th id="apply_date">적용 날짜</th>
 								</tr>
 							</thead>
 							<tbody id="boardBody">
@@ -57,9 +54,6 @@
 									<td th:text="${l.boardPostContent}"></td>
 									<td th:text="${l.boardPostFile}"></td>
 									<td th:text="${l.boardPostDate}"></td>
-									<td th:text="${l.boardPostViews}"></td>
-									<td th:text="${l.boardPostCommentNum}"></td>
-									<td th:text="${l.userId}"></td>
 								</tr>
 								<tr th:unless="${not #lists.isEmpty(boardList)}">
 									<td colspan="7">조회된 내용이 없습니다.</td>

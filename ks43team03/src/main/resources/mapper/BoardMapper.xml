@@ -93,7 +93,7 @@
 			, NOW()
 			, #{boardPostViews}
 			, #{boardPostCommentNum}
-			, #{boardPostCommentState});
+			, 'N');
 	</insert>
 	
 	<!-- 게시글 답글 등록 -->

@@ -75,32 +75,34 @@ public class BoardController {
 	/* 게시글 등록 처리 */
 	@PostMapping("/addBoard")
 	public String addBoard(Board board
-							,@RequestParam(name="boardPostCd", required = false) String boardPostCd
-							,HttpServletRequest request) {
+							,@RequestParam(name="boardPostCd", required = false) String boardPostCd) {
 		
-		boardService.addBoard(board);
+		int result =  boardService.addBoard(board);
+		log.info("result", result);
 		
 		return "redirect:/";
 	}
 	
 	/* 게시글 등록 페이지 */
 	@GetMapping("/addBoard")
-	public String addBoard(Model model, HttpSession session, Board board,BoardCtgCd boardSubCtgCd) {
+	public String addBoard(Model model, HttpSession session, Board board, BoardCtgCd boardSubCtgCd) {
 		
 		String sessionId = (String)session.getAttribute("SID");
 		board.setUserId(sessionId);
 		
 		List<BoardCtgCd> boardCtgCdList = boardService.getBoardSubCtgCd(boardSubCtgCd);
+		boardService.addBoard(board);
 		
 		log.info(" !!!!!!!!!!" + boardSubCtgCd);
+		
 		model.addAttribute("title", "게시글 등록");
 		model.addAttribute("getBoardPostCd", board.getBoardPostCd());
 		model.addAttribute("getBoardCtgCd", board.getBoardCtgCd());
 		model.addAttribute("getBoardPostTitle", board.getBoardPostTitle());
 		model.addAttribute("getBoardPostContent", board.getBoardPostContent());
 		model.addAttribute("boardCtgCdList", boardCtgCdList);
-		log.info("회원이 입력한 게시글 내용 : {}", board);
 		
+		log.info("회원이 입력한 게시글 내용 : {}", board);
 		log.info("sessionId : {}",sessionId);
 		log.info("boardCtgCd : {}", board.getBoardCtgCd());
 		log.info("boardPostTitle : {}", board.getBoardPostTitle());

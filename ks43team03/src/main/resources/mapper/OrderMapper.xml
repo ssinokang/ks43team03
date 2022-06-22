@@ -50,4 +50,22 @@
 			,#{orderPayState}
 		)
 	</insert>
+	<!-- 상품 디테일 쿼리 -->
+	<select id="getOrderByCode" parameterType="String" resultType="Order" resultMap="orderResultMap">
+		SELECT 
+			 o.order_cd
+			,o.user_id
+			,o.facility_goods_cd
+			,o.goods_ctg_cd
+			,o.order_price
+			,o.order_user_point
+			,o.order_used_point
+			,o.order_pay_price
+			,o.order_reg_date
+			,o.order_pay_state
+		FROM 
+			goods_order AS o
+		WHERE 
+			o.order_cd = #{orderCd}
+	</select>
 </mapper>

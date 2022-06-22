@@ -2,8 +2,7 @@ package ks43team03.service;
 
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.support.TransactionSynchronizationAdapter;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.transaction.annotation.Transactional;
 
 import ks43team03.dto.Order;
 import ks43team03.dto.ResponseGoods;
@@ -11,6 +10,7 @@ import ks43team03.dto.type.OrderState;
 import ks43team03.mapper.OrderMapper;
 
 @Service
+@Transactional
 public class OrderService {
 
 	private final OrderMapper orderMapper;
@@ -56,6 +56,19 @@ public class OrderService {
 //				}
 //			});
 //	}
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	
+	//== 주문 상세 조회 ==//
+	public Order getOrderByCode(String orderCd) {
+		
+		
+		return orderMapper.getOrderByCode(orderCd);
+	}
 	
 	
 	//주문 취소 

@@ -16,13 +16,26 @@
 		<result column="order_pay_state" property="orderPayState"/>
 	</resultMap>
 	
+	<!--  typeHandler="ks43team03.dto.type.OrderState$TypeHandler" -->
+	
 	<!-- 주문 내역 등록 -->
+	
+	<!-- ,jdbcType=VARCHAR,
+				typeHandler=ks43team03.dto.type.OrderState$TypeHandler 
+				
+	select CONCAT('order_cd','_',max(CAST(substring(order_cd,9)+1 AS DECIMAL))) AS order_code FROM goods_order	<< 처음에 값이 없으면 null이됨.		
+				-->
 	<insert id="addOrder" parameterType="Order">
 		<selectKey keyProperty="orderCd" resultType="String" order="BEFORE">
-		SELECT 
-			CONCAT('order_',MAX(CAST(SUBSTRING_INDEX(o.order_cd,'_',-1) AS UNSIGNED))+1)
+		select
+			case
+			when COUNT(o.order_cd) = 0 
+			then 'order_cd_1'
+			else
+				CONCAT('order_cd_',MAX(CAST(SUBSTRING_INDEX(o.order_cd,'_',-1) AS UNSIGNED))+1)
+			end
 		FROM
-			goods_order AS o
+			goods_order AS o							
 		</selectKey>
 		
 		INSERT INTO goods_order
@@ -67,5 +80,21 @@
 			goods_order AS o
 		WHERE 
 			o.order_cd = #{orderCd}
+	</select>
+	
+	<select id="getOrderAll" resultMap="orderResultMap" resultType="Order">
+		SELECT
+			order_cd
+			,user_id
+			,facility_goods_cd
+			,goods_ctg_cd
+			,order_price
+			,order_user_point
+			,order_used_point
+			,order_pay_price
+			,order_reg_date
+			,order_pay_state
+		FROM 
+			goods_order
 	</select>
 </mapper>

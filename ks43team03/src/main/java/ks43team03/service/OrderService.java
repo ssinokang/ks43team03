@@ -1,6 +1,8 @@
 package ks43team03.service;
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,9 +29,9 @@ public class OrderService {
 	public Order addOrder(Order.Request req, ResponseGoods goods) {
 		
 		
-		Order o = createOrder(req, goods);
-		orderMapper.addOrder(o);
-		return o;
+		Order order = createOrder(req, goods);
+		orderMapper.addOrder(order);
+		return order;
 	}
 
 	
@@ -73,5 +75,15 @@ public class OrderService {
 	
 	//주문 취소 
 
+	
+	
+	/**
+	 * 관리자 주문리스트 
+	 * @return
+	 */
+	public List<Order> getOrderAll(){
+		List<Order> orderList =  orderMapper.getOrderAll();
+		return orderList;
+	}
 	
 }

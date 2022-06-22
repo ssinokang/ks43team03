@@ -158,6 +158,9 @@
 		const userId = document.querySelector('input[name="userId"]');
 		const facilityGoodsCd = document.querySelector('input[name="facilityGoodsCd"]');
 
+		//주문 폼
+		const orderForm = document.querySelector('#orderForm');
+
 		//포인트 사용후 총결제금액 
 		let sumPay = document.querySelector('#sum-pay');
 
@@ -217,7 +220,6 @@
 
 		$('#pay-btn').click(function(){
 
-			
 			const data = {
 				userId : $('input[name="userId"]').val(),
 				facilityGoodsCd : $('input[name="facilityGoodsCd"]').val()

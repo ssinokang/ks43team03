@@ -1,10 +1,46 @@
 package ks43team03.dto.type;
 
-import lombok.Getter;
+import java.util.Arrays;
 
-@Getter
-public enum OrderState {
+import org.apache.ibatis.type.MappedTypes;
 
-	ORDER, COMPLETE, FAIL, CENCEL
+
+
+
+public enum OrderState implements CodeEnum{
+
+	ORDER("주문중"),COMPLETE("주문완료"), FAIL("주문실패"), CENCEL("주문취소");
+	
+	private String code;
+	
+	OrderState(String code) {
+		this.code = code;
+	}
+	
+	
+	
+	public static OrderState getEnumByCode(String code) {
+		OrderState[] value = values();
+		return Arrays.stream(value)
+					.filter(e -> e.getCode().equalsIgnoreCase(code))
+					.findFirst()
+					.orElse(null);
+	}
+
+	@MappedTypes(OrderState.class)
+    public static class TypeHandler extends CodeEnumTypeHandler<OrderState> {
+        public TypeHandler() {
+            super(OrderState.class);
+        }
+    }
+
+
+	@Override
+	public String getCode() {
+		return code;
+	}
+	
+
+
 	
 }

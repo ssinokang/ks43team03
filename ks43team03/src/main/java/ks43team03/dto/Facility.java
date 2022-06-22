@@ -31,5 +31,5 @@ public class Facility {
 	private AreaCity areaCity;
 	private AreaCityTown areaCityTown;
 	private FacilityUser facilityUser;
-
+	private TFile tFile;
 }

@@ -51,8 +51,6 @@
 		<result column="facility_approve_date"	property="facilityApproveDate"/>
 		<result column="facility_reg_date"		property="facilityRegDate"/>
 		</collection>	
-	
-	
 	</resultMap>
 	
 	

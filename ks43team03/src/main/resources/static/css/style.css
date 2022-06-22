@@ -1268,6 +1268,11 @@ ol {
 	display: inline-block;
 }
 
+.product__hover li a.active{
+	background-color: #ca1515;
+	color: #fff;
+}
+
 .product__item__text {
 	text-align: center;
 	padding-top: 22px;

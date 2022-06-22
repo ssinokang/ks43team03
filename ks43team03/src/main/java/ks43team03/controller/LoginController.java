@@ -25,7 +25,7 @@ public class LoginController {
 		this.userService = userService;
 	}
 
-	//로그인 내역
+	//로그인 기록
 	@GetMapping("/loginHistory")
 	public String loginHistory(@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage
 							  ,Model model) {
@@ -33,6 +33,7 @@ public class LoginController {
 		Map<String, Object> resultMap = userService.getLoginHistory(currentPage);
 		resultMap.get("lastPage");
 		
+		model.addAttribute("title", "로그인 기록");
 		model.addAttribute("resultMap", 		resultMap);
 		model.addAttribute("currentPage", 		currentPage);
 		model.addAttribute("loginHistoryList", 	resultMap.get("loginHistoryList"));
@@ -74,8 +75,8 @@ public class LoginController {
 	}
 	
 	@GetMapping("/login")
-	public String login() {
-		
+	public String login(Model model) {
+		model.addAttribute("title", "로그인");
 		return "login/login";
 	}
 }

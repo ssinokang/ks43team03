@@ -79,7 +79,7 @@
                         <div class="product__details__button">
                             <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> 회원등록</a> 
                             <ul>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li><a th:href="@{/boomk/addBoomk(facilityCd=${l.facilityCd},userId=${session.SID})}"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
                             </ul>
                         </div>

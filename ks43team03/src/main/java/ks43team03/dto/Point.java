@@ -32,6 +32,5 @@ public class Point {
 	private String eventDetail;
 	private int applyPointAmount;
 	private Date applyDate;
-	private String appyPointGroupCd;
 	
 }

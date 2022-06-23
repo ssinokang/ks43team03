@@ -3,109 +3,35 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ksmart42.khtour.mapper.PointMapper">
-	<resultMap type="Point" 			id="pointResultMap">
-		<id column="point_code" 		property="pointCode" />
-<!-- tb_point_def 포인트 적립 및 사용 기준 -->
-		<result column="comment" 		property="comment" /> 				<!-- 포인트 설명 -->
-		<result column="point_get_use" 	property="pointGetUse" /> 			<!-- 포인트 적립 및 사용 구분 -->
-<!-- tb_point_log 포인트 적립 및 사용 목록 -->
-		<result column="point_log" 		property="pointLog" /> 				<!-- 포인트 정의 -->
-		<result column="member_id" 		property="memberId" /> 				<!-- 회원 아이디 -->
-		<result column="point_amount"	property="pointAmount" /> 			<!-- 적립 액수 -->
-		<result column="reg_time"		property="regTime" />				<!-- 적립 일자 -->
+	<resultMap	type="Point" 					id="pointResultMap">
+		<!-- apply_point 누적 포인트 내역 -->
+		<id 	column="apply_point_cd" 		property="applyPointCd" />
+		<result column="user_id" 				property="userId" /> 			
+		<result column="event_detail" 			property="eventDetail" /> 			
+		<result column="apply_point_amount" 	property="applyPointAmount" /> 		
+		<result column="apply_date" 			property="applyDate" /> 			
+		<result column="apply_point_group_cd"	property="applyPointGroupCd" /> 	
+		<!-- total_point 총 포인트 -->
+		<result column="total_point"			property="totalPoint" />			
+		<result column="point_update_date"		property="pointUpdateDate" />			
 	</resultMap>
 	
-<!-- 관리자 포인트 현황 조회 SQL -->
-	<select id="getAdPointList" resultMap="pointResultMap">
-		SELECT
-		 s.point_log
-		,s.member_id
-		,s.point_amount
-		,s.reg_time
-		FROM
-		tb_point_log AS s;
+	<!-- 회원 포인트 조회 -->
+	<select id="getPointList" parameterType="String" resultMap="pointResultMap">
+		SELECT 
+			a.user_id
+			, a.event_detail
+			, a.apply_point_amount
+			, a.apply_date
+			,t.total_point
+		FROM 
+			total_point AS t
+		INNER JOIN
+			apply_point AS a
+		ON
+			t.user_id = a.user_id
+		WHERE 
+			t.user_id = #{userId};
 	</select>
-	
-	<!-- 전시회 등록 SQL -->
-	<insert id="addPoint" parameterType="Point">
-		INSERT INTO
-		tb_point_log
-		( point_code
-		,ch_mus_code
-		,point_cate
-		,point_name
-		,point_start
-		,point_end
-		,point_con
-		,point_current
-		) VALUES (
-		sf_new_point_code()
-		,#{chMusCode}
-		,#{pointCate}
-		,#{pointName}
-		,#{pointStart}
-		,#{pointEnd}
-		,#{pointCon}
-		,#{pointCurrent}
-		);
-	</insert>
 
-	<!-- 코드에 따른 전시회 조회 SQL -->
-	<select id="getPointByCode" parameterType="String" resultMap="pointResultMap">
-		SELECT
-		 s.point_code
-		,s.ch_mus_code
-		,s.point_cate
-		,s.point_name
-		,s.point_start
-		,s.point_end
-		,s.point_con
-		,s.point_current
-		FROM
-			tb_point_log AS s
-		WHERE
-			point_code = #{pointCode};
-	
-	</select>
-	
-	
-	
-	<!-- 전시회 수정 SQL -->
-	<update id="modifyPoint" parameterType="Point">
-		UPDATE tb_point
-		<trim prefix="SET" suffixOverrides=",">
-			<if test="chMusCode != null and chMusCode != ''">
-				ch_mus_code = #{chMusCode},
-			</if>		
-			<if test="pointCate != null and pointCate != ''">
-				point_cate = #{pointCate},
-			</if>		
-			<if test="pointName != null and pointName != ''">
-				point_name = #{pointName},
-			</if>		
-			<if test="pointStart != null and pointStart != ''">
-				point_start = #{pointStart},
-			</if>		
-			<if test="pointEnd != null and pointEnd != ''">
-				point_end = #{pointEnd},
-			</if>		
-			<if test="pointCon != null and pointCon != ''">
-				point_con = #{pointCon},
-			</if>		
-			<if test="pointCurrent != null and pointCurrent != ''">
-				point_current = #{pointCurrent},
-			</if>		
-		</trim>
-		WHERE
-			tb_point_log = #{pointCode};
-	</update>
-	
-	<!-- 전시회 정보 삭제 SQL -->
-	<delete id="removePoint" parameterType="String">
-		DELETE
-		FROM
-			tb_point_log
-		WHERE
-			tb_point_log = #{pointCode};
-	</delete>
 </mapper>

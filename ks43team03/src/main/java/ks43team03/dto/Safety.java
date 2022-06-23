@@ -16,6 +16,8 @@ public class Safety {
 	private String safetyCheckRegDate;
 	private String safetyCheckState;
 	
+	private Facility facility;	
+	private User user;
 }
  
 

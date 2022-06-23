@@ -51,7 +51,7 @@
 	<!-- 사용자 정의 contents -->
 	<th:block layout:fragment="customContents">
 	
-	<div class="title_left" style="margin-top: 100px;">	
+	<div class="title_left" style="margin-top:80px; margin-bottom:30px">	
 		<h3>안전점검 등록</h3>
 	</div>	
 	<div class="clearfix"></div>
@@ -71,37 +71,24 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityGoodsCd">안전점검 등록코드 <span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="" data-validate-minmax="10,100" required='required'></div>
+					<input class="form-control" type="text" name="" data-validate-minmax="10,100" required='required'>
+					</div>
 				</div>		
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="">시설대표코드<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="" data-validate-minmax="10,100" required='required' /></div>
-				</div>		
-				<div class="field item form-group">
-					<label class="col-form-label col-md-3 col-sm-3  label-align" for="">체육시설명<span class="required">*</span></label>
-					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="" data-validate-minmax="10,100" required='required' /></div>
+					<input class="form-control" type="text" name="" data-validate-minmax="10,100" required='required' />
+					</div>
 				</div>			
-				<div class="field item form-group">
-					<label class="col-form-label col-md-3 col-sm-3  label-align" for="">안전점검명<span class="required">*</span></label>
-					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="" data-validate-minmax="10,100" required='required' /></div>
-				</div>	
 				<div class="item form-group" style = "list-style:none;">
 					<div class="col-form-label col-md-3 col-sm-3 label-align" id="lesson-img-label">안전점검 결과 첨부 파일<span class="required">*</span></div>
-					<div class="col-md-6 col-sm-6 ">
-						<ul class="lesson-file-line">
-							<li>
-								<input type="file" name="lessonImgFile" class="form-control lesson-img" required multiple>
-							</li>
-						</ul>
+					<div class="col-md-6 col-sm-6">
+					<input type="file" name="lessonImgFile" class="form-control lesson-img" required multiple>			
 					</div>
 				</div>				
 				<div class="item form-group">
 					<label class="col-form-label col-md-3 col-sm-3 label-align" for="">안전 점검일
 						<span class="required">*</span>
-						
 					</label>
 					<div class="col-md-6 col-sm-6 ">
 						<input class="form-control" type="date" name="">
@@ -115,7 +102,6 @@
 						</div>
 					</div>
 				</div>		
-		
 			</form>
 			</div>
 			</div>

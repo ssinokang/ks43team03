@@ -1,10 +1,90 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+ 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/adminDefault}">
+	  	<!-- 사용자 정의 title -->
+	<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+	</th:block>	 
+	
+	<!-- 사용자 정의 contents -->
+	<th:block layout:fragment="customContents">
 
-</body>
+	<div class="title_left" style="margin-top:80px; margin-bottom:30px">	
+		<h3>안전점검 등록 시설 목록</h3>
+	</div>	
+	<div class="clearfix"></div>
+	<div class="row">
+		<div class="col-md-12 col-sm-12">	
+			<div class="x_panel">
+			<div class="x_title">
+				<h2>등록 시설 목록</h2>
+				<ul class="nav navbar-right panel_toolbox">
+					<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">			
+				<div class="row">
+					<div class="col-sm-12 text-center"> <!-- text-center 텍스트 중앙정렬 -->
+						<div class="card-box table-responsive">
+							<p class="text-muted font-13 m-b-30">
+								자율안전점검 결과를 등록한 시설을 볼 수 있습니다.
+							</p>
+							<table id="datatable" class="table table-striped jambo_table bulk_action table-bordered" style="width:100%">
+								<thead>
+									<tr>
+										<th>등록자 아이디</th>
+										<th>등록자 이름</th>
+										<th>체육시설명</th>
+										<th>안전점검 결과 첨부 파일</th>
+										<th>안전 점검일</th>
+										<th>안전 점검 등록일</th>
+										<th>수정</th>
+										<th>취소</th>										
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:if="${not #lists.isEmpty(safetyList)}" th:each="l:${safetyList}">
+										<td th:text="${l.userId}"></td>
+										<td th:text="${l.userName}"></td>
+										<td th:text="${l.facilityNm}"></td>
+										<td th:text="${l.safetyCheckFile}"></td>
+										<td th:text="${l.safetyCheckDate}"></td>
+										<td th:text="${l.safetyCheckRegDate}"></td>
+										<td>
+											<a th:href="@{}">수정</a>
+										</td>
+										<td>
+											<a th:href="@{}">취소</a>
+										</td>										
+									</tr>
+									<tr th:unless="${not #lists.isEmpty(safetyList)}">
+										<td colspan="8">조회된 내용이 없습니다.</td>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="8" style="text-align: center;">
+											<a th:href="@{/safety/safetyList}">[맨처음]</a>
+											<a th:if="${currentPage > 1}" th:href="@{/safety/safetyList(currentPage=${currentPage - 1})}">이전</a>
+											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">
+												<label th:if="${currentPage eq num}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></label>
+												<a th:unless="${currentPage eq num}" th:href="@{/safety/safetyList(currentPage=${num})}" th:text="${(num < 10) ? '[0' + num + ']' :'[' + num + ']'}"></a>
+											</th:block>
+											<a th:if="${currentPage < lastPage}" th:href="@{/safety/safetyList(currentPage=${currentPage + 1})}">다음</a>
+											<a th:href="@{/safety/safetyList(currentPage=${lastPage})}">[마지막]</a>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>	
+		</div>
+	</div>
+
 </html>

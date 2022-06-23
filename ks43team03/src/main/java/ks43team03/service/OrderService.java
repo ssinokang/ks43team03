@@ -9,7 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ks43team03.dto.Order;
 import ks43team03.dto.ResponseGoods;
 import ks43team03.dto.type.OrderState;
-import ks43team03.error.NotFoundOrderException;
+import ks43team03.exception.NotFoundOrderException;
+import ks43team03.mapper.CommonMapper;
 import ks43team03.mapper.OrderMapper;
 
 @Service
@@ -17,11 +18,15 @@ import ks43team03.mapper.OrderMapper;
 public class OrderService {
 
 	private final OrderMapper orderMapper;
+	private final CommonMapper commonMapper;
+	
+	private final static String COLUMN_NAME = "order_cd";
+	private final static String TABLE_NAME = "goods_order";
 	
 	
-	
-	public OrderService(OrderMapper orderMapper) {
+	public OrderService(OrderMapper orderMapper,CommonMapper commonMapper) {
 		this.orderMapper = orderMapper;
+		this.commonMapper = commonMapper;
 	}
 
 
@@ -29,15 +34,16 @@ public class OrderService {
 	//주문 하기
 	public Order addOrder(Order.Request req, ResponseGoods goods) {
 		
-		
-		Order order = createOrder(req, goods);
+		String code = commonMapper.createNewCode(COLUMN_NAME, TABLE_NAME);
+		Order order = createOrder(req, goods, code);
 		orderMapper.addOrder(order);
 		return order;
 	}
 
 	
-	private Order createOrder(Order.Request req, ResponseGoods goods) {
+	private Order createOrder(Order.Request req, ResponseGoods goods,String code) {
 		return Order.builder()
+				.orderCd(code)
 				.facilityGoodsCd(goods.getFacilityGoods().getFacilityGoodsCd())
 				.goodsCtgCd(goods.getFacilityGoods().getGoodsCtgCd())
 				.orderPayPrice(req.getOrderPayPrice())
@@ -96,7 +102,10 @@ public class OrderService {
 		case "pass":
 			order = orderMapper.getOrderDetailWithPass(orderCd);
 			break;
+		default: 
+			throw new NotFoundOrderException("주문한 내역이 없습니다.");
 		}
+		
 		
 		return order;
 	}

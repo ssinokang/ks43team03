@@ -1,4 +1,4 @@
-package ks43team03.error;
+package ks43team03.exception;
 
 public class NotFoundOrderException extends IllegalArgumentException {
 

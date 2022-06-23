@@ -30,8 +30,17 @@ public class Order {
 	
 	
 	@Builder
-	public Order(String userId, String facilityGoodsCd, String goodsCtgCd, int orderPrice, int userPoint, int usedPoint,
-			int orderPayPrice, String orderPayState) {
+	public Order(String orderCd,
+			String userId, 
+			String facilityGoodsCd, 
+			String goodsCtgCd, 
+			int orderPrice, 
+			int userPoint, 
+			int usedPoint,
+			int orderPayPrice, 
+			String orderPayState) {
+		
+		this.orderCd = orderCd;
 		this.userId = userId;
 		this.facilityGoodsCd = facilityGoodsCd;
 		this.goodsCtgCd = goodsCtgCd;

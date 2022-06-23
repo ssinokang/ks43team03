@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ks43team03.dto.Order;
 import ks43team03.dto.ResponseGoods;
 import ks43team03.dto.type.OrderState;
+import ks43team03.error.NotFoundOrderException;
 import ks43team03.mapper.OrderMapper;
 
 @Service
@@ -67,9 +68,37 @@ public class OrderService {
 	
 	//== 주문 상세 조회 ==//
 	public Order getOrderByCode(String orderCd) {
+		Order order = orderMapper.getOrderByCode(orderCd).orElseThrow(()->{
+			throw new NotFoundOrderException("주문한 내역이 없습니다.");
+		});
+		return order;
+	}
+	
+	//== 회원이 주문한 내역 ==//
+	@Transactional(readOnly = true)
+	public List<Order> getOrdersByUser(String userId){
+		List<Order> orderList = orderMapper.getOrdersByUser(userId);
+		return orderList;
+	}
+	
+	
+	public Order getOrderDetail(String orderCd) {
+
+		Order order = getOrderByCode(orderCd);
+		String goodsCtgCd = order.getGoodsCtgCd();
+		switch (goodsCtgCd) {
+		case "lesson":
+			order = orderMapper.getOrderDetailWithLesson(orderCd);
+			break;
+		case "stadium":
+			order = orderMapper.getOrderDetailWithStadium(orderCd);
+			break;
+		case "pass":
+			order = orderMapper.getOrderDetailWithPass(orderCd);
+			break;
+		}
 		
-		
-		return orderMapper.getOrderByCode(orderCd);
+		return order;
 	}
 	
 	
@@ -81,6 +110,7 @@ public class OrderService {
 	 * 관리자 주문리스트 
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public List<Order> getOrderAll(){
 		List<Order> orderList =  orderMapper.getOrderAll();
 		return orderList;

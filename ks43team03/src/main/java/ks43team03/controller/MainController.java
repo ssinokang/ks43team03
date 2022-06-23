@@ -23,4 +23,13 @@ public class MainController {
 	public String addGoods() {
 		return "admin/addGoods";
 	}
+	
+	
+	/**
+	 * 캘린더 테스트
+	 */
+	@GetMapping("/cal")
+	public String cal() {
+		return "order/cal";
+	}
 }

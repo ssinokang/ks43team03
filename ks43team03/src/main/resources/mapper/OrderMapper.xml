@@ -20,8 +20,49 @@
 			<result column="goods_ctg_cd"  				property="goodsCtgCd"/>
 			<result column="sports_cd" 					property="sportsCd"/>
 			<result column="user_id" 					property="userId"/>
-			<result column="facility_goods_reg_date" 	property="facilityRegDate"/>
+			<result column="facility_goods_reg_date" 	property="facilityGoodsRegDate"/>
 			<result column="facility_goods_state" 		property="faclityGoodsState"/>
+			<association property="pass" javaType="Pass">
+				<id column="pass_cd" property="passCd"/>
+				<result column="facility_goods_cd" property="facilityGoodsCd"/>
+				<result column="facility_cd" property="facilityCd"/>
+				<result column="goods_ctg_cd" property="goodsCtgCd"/>
+				<result column="user_id" property="userId"/>
+				<result column="pass_nm" property="passNm"/>
+				<result column="pass_unit" property="passUnit"/>
+				<result column="pass_price" property="passPrice"/>
+				<result column="pass_state" property="passState"/>
+				<result column="pass_reg_date" property="passRegDate"/>
+				<result column="pass_end_days" property="passEndDate"/>
+			</association>
+			<association property="lesson" javaType="Lesson">
+				<id 	column="lesson_cd" 				property="lessonCd"/>
+				<result column="lesson_division" 		property="lessonDivision"/>
+				<result column="facility_goods_cd" 		property="facilityGoodsCd"/>
+				<result column="facility_cd" 			property="facilityCd"/>
+				<result column="goods_ctg_cd" 			property="goodsCtgCd"/>
+				<result column="user_id" 				property="userId"/>
+				<result column="lesson_nm" 				property="lessonName"/>
+				<result column="lesson_detail" 			property="lessonDetail"/>		
+				<result column="lesson_total_member" 	property="lessonTotalMember"/>		
+		 		<result column="lesson_member" 			property="lessonMember"/>		 
+				<result column="lesson_start_date" 		property="lessonStartDate"/>		
+				<result column="lesson_end_date" 		property="lessonEndDate"/>		
+				<result column="lesson_price" 			property="lessonPrice"/>		
+				<result column="lesson_reg_date" 		property="lessonRegDate"/>		
+				<result column="lesson_state" 			property="lessonState"/>	
+			</association>
+			<association property="stadium" javaType="Stadium">
+				<id column="facility_stadium_cd" 			property="facilityStadiumCd"/>
+				<result column="facility_goods_cd" 			property="facilityGoodsCd"/>
+				<result column="facility_cd" 				property="facilityCd"/>
+				<result column="goods_ctg_cd" 				property="goodsCtgCd"/>
+				<result column="sports_cd" 					property="sportsCd"/>
+				<result column="user_id" 					property="userId"/>
+				<result column="facility_stadium_nm" 		property="facilityStadiumNm"/>
+				<result column="facility_stadium_reg_date"	property="facilityStadiumRegDate"/>
+				<result column="facility_stadium_detail"	property="facilityStadiumDetail"/>
+			</association>
 		</association>
 		<association property="facility" javaType="Facility">
 			<id 	column="facility_cd" 			property="facilityCd"/>
@@ -52,13 +93,13 @@
 				-->
 	<insert id="addOrder" parameterType="Order">
 		<selectKey keyProperty="orderCd" resultType="String" order="BEFORE">
-		select
+		SELECT
 			case
 			when COUNT(o.order_cd) = 0 
-			then 'order_cd_1'
+			then 'order_1'
 			else
-				CONCAT('order_cd_',MAX(CAST(SUBSTRING_INDEX(o.order_cd,'_',-1) AS UNSIGNED))+1)
-			end
+				CONCAT('order_',MAX(CAST(SUBSTRING_INDEX(o.order_cd,'_',-1) AS UNSIGNED))+1)
+			END
 		FROM
 			goods_order AS o							
 		</selectKey>
@@ -88,7 +129,7 @@
 			,#{orderPayState}
 		)
 	</insert>
-	<!-- 상품 디테일 쿼리 -->
+	<!-- 하나의 구매내역 조회 -->
 	<select id="getOrderByCode" parameterType="String" resultType="Order" resultMap="orderResultMap">
 		SELECT 
 			 o.order_cd
@@ -131,5 +172,157 @@
 			facility AS f
 			on
 			g.facility_cd = f.facility_cd
+	</select>
+	
+	<!-- 사용자 주문내역 조회 -->
+	<select id="getOrdersByUser" resultType="Order" resultMap="orderResultMap" parameterType="String">
+		SELECT
+			o.order_cd
+			,o.user_id
+			,o.facility_goods_cd
+			,o.goods_ctg_cd
+			,o.order_price
+			,o.order_user_point
+			,o.order_used_point
+			,o.order_pay_price
+			,o.order_reg_date
+			,o.order_pay_state
+			,(SELECT f.facility_nm FROM facility AS f WHERE f.facility_cd = g.facility_cd)
+		FROM
+			facility_goods AS g
+			INNER join
+			goods_order AS o
+			on
+			g.facility_goods_cd = o.facility_goods_cd
+			INNER join
+			user AS u
+			on
+			o.user_id = u.user_id
+		WHERE
+			o.user_id = #{userId}
+	</select>
+	
+	<!-- 대관 주문내역 -->
+	<select id="getOrderDetailWithStadium" parameterType="String" resultMap="orderResultMap">
+		SELECT
+			o.order_cd
+			,o.user_id
+			,o.facility_goods_cd
+			,o.goods_ctg_cd
+			,o.order_price
+			,o.order_user_point
+			,o.order_used_point
+			,o.order_pay_price
+			,o.order_reg_date
+			,o.order_pay_state
+			,g.sports_cd
+			,g.facility_cd
+			,g.user_id
+			,g.facility_goods_reg_date
+			,s.facility_stadium_nm
+			,s.facility_stadium_cd
+			,s.facility_stadium_detail
+			,f.facility_cd
+			,f.facility_nm
+			,f.facility_tell
+		FROM
+			goods_order AS o
+			INNER join
+			facility_goods AS g
+			on
+			o.facility_goods_cd = g.facility_goods_cd
+			INNER join
+			facility_stadium AS s
+			on
+			s.facility_goods_cd = g.facility_goods_cd
+			INNER join
+			facility AS f
+			on
+			f.facility_cd = s.facility_cd
+		WHERE
+			o.order_cd = #{orderCd}
+	</select>
+	<!-- 레슨 주문 내역 -->
+	<select id="getOrderDetailWithLesson" parameterType="String" resultMap="orderResultMap">
+		SELECT
+			o.order_cd
+			,o.user_id
+			,o.facility_goods_cd
+			,o.goods_ctg_cd
+			,o.order_price
+			,o.order_user_point
+			,o.order_used_point
+			,o.order_pay_price
+			,o.order_reg_date
+			,o.order_pay_state
+			,g.sports_cd
+			,g.facility_cd
+			,g.user_id
+			,g.facility_goods_reg_date
+			,l.lesson_cd
+			,l.lesson_nm
+			,l.lesson_price
+			,l.lesson_detail
+			,f.facility_cd
+			,f.facility_nm
+			,f.facility_tell
+		FROM
+			goods_order AS o
+			INNER join
+			facility_goods AS g
+			on
+			o.facility_goods_cd = g.facility_goods_cd
+			INNER join
+			lesson AS l
+			on
+			l.facility_goods_cd = g.facility_goods_cd
+			INNER join
+			facility AS f
+			on
+			f.facility_cd = l.facility_cd
+		WHERE
+			o.order_cd = #{orderCd}
+	</select>
+	
+	<!-- 이용권 주문내역 -->
+	<select id="getOrderDetailWithPass" parameterType="String" resultMap="orderResultMap">
+		SELECT
+			o.order_cd
+			,o.user_id
+			,o.facility_goods_cd
+			,o.goods_ctg_cd
+			,o.order_price
+			,o.order_user_point
+			,o.order_used_point
+			,o.order_pay_price
+			,o.order_reg_date
+			,o.order_pay_state
+			,g.sports_cd
+			,g.facility_cd
+			,g.user_id
+			,g.facility_goods_reg_date
+			,p.pass_cd
+			,p.pass_nm
+			,p.pass_unit
+			,p.pass_price
+			,f.facility_cd
+			,f.facility_nm
+			,f.facility_tell
+		FROM
+			goods_order AS o
+			INNER join
+			facility_goods AS g
+			on
+			o.facility_goods_cd = g.facility_goods_cd
+			INNER join
+			facility_pass AS p
+			on
+			p.facility_goods_cd = g.facility_goods_cd
+			INNER join
+			facility AS f
+			on
+			f.facility_cd = p.facility_cd
+		WHERE
+			o.order_cd = #{orderCd}
 	</select>
 </mapper>

@@ -34,11 +34,18 @@ public class AdminOrderController {
 		return "admin/order/adminOrderList";
 	}
 	
+	
+	/*
+	 * 주문내역 
+	 */
 	@GetMapping("/order/orderDetail")
-	public String orderDetail(@RequestParam(name = "orderCd")String orderCd,@RequestParam(name = "goodsCtgCd", required = false)String goodsCtgCd) {
+	public String orderDetail(@RequestParam(name = "orderCd")String orderCd,
+							@RequestParam(name = "goodsCtgCd", required = false)String goodsCtgCd,
+							Model model) {
 		log.info("화면에서 받은  orderCd 데이터 : {}",orderCd);
 		log.info("화면에서 받은  goodsCtgCd 데이터 : {}",goodsCtgCd);
-		
+		Order order = orderService.getOrderDetail(orderCd);
+		model.addAttribute("order", order);
 		return "admin/order/orderDetail";
 	}
 }

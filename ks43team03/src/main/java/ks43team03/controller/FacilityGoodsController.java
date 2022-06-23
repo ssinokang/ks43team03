@@ -30,7 +30,10 @@ public class FacilityGoodsController {
 	}
 
 
-	// 주문 결제화면으로 이동 
+	// 주문 결제화면으로 이동
+	// 임시로 만든  나중에 경로 /goods/유저아이디/order/시설상품코드/카테고리코드 받을예정
+	// ex /id001/order/goodsCd_111/lesson
+	// ex /order/id001/goodsCd_111/lesson
 	@GetMapping("/order")
 	public String order(Model model, @RequestParam(name = "userId", required = false)String userId,@RequestParam(name = "facilityGoodsCd" , required = false)String facilityGoodsCd) {
 		
@@ -44,7 +47,7 @@ public class FacilityGoodsController {
 		ResponseGoods facilityGoods = facilityGoodsService.getFacilityGoodsCd(facilityGoodsCd);
 
 		
-		
+		model.addAttribute("title", "결제 페이지");
 		model.addAttribute("user", user);
 		model.addAttribute("goods", facilityGoods);
 		

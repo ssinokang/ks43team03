@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="ks43team03.mapper.CommonMapper">
+  
+  
+  	<select id="createNewCode" parameterType="String" resultType="String">
+  		SELECT
+		      CASE
+		      WHEN COUNT(1)=0 THEN CONCAT(#{column},'_1')
+		      ELSE
+		         CONCAT(#{column},'_',MAX(CAST(SUBSTRING_INDEX(${column},'_',-1) AS UNSIGNED))+1)
+		      END
+		FROM
+		      ${tableName}; 
+  	</select>
+  </mapper>

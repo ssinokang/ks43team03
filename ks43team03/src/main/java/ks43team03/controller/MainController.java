@@ -29,4 +29,8 @@ public class MainController {
 		
 		return "admin/addGoods";
 	}
+	@GetMapping("/admin/ex")
+	public String ex() {
+		return "ex";
+	}
 }

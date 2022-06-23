@@ -358,7 +358,8 @@
 			tf.deleted_yn != 'Y') AS lesson_file
 		on
 		lesson_file.facility_goods_cd = lesson_sub.facility_goods_cd
-	   		
+		GROUP BY
+			lesson_sub.facility_goods_cd
 	   	<trim prefix="WHERE" prefixOverrides="AND /OR ">
 	   		<if test="facility.mainCtgCd != null and facility.mainCtgCd != '' ">
 	   			lesson_sub.main_ctg_cd = #{facility.mainCtgCd}

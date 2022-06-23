@@ -45,7 +45,7 @@ public class LessonController {
 		model.addAttribute("lesson", lesson);
 		model.addAttribute("title" , "상품상세보기");
 		
-		log.info("lesson : {}", lesson);
+		log.info("model : {}", model);
 		
 		return "lesson/detailLessonForUser";
 	}

@@ -4,12 +4,32 @@
 	<th:block layout:fragment="customJs">
 		<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 		<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
+		<script th:src='@{/resource/fullcalendar-5.11.0/lib/main.js}'></script>
     	<script th:src="@{/vendors/fullcalendar/dist/fullcalendar.min.js}"></script>
+    	<script>
+
+		document.addEventListener('DOMContentLoaded', function() {
+			var calendarEl = document.getElementById('calendar');
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				initialView: 'dayGridMonth'
+			});
+			calendar.render();
+		
+		});
+
+		</script>
 	</th:block>
+	
 	
 	<th:block layout:fragment="customCss">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
-		
+		<link th:href='@{/resource/fullcalendar-5.11.0/lib/main.css}' rel='stylesheet' />
+		<style>
+			.none-display {
+				display: none;
+			}
+		</style>
+	
 	</th:block>
 	<!-- 사용자 정의 contents -->
 	<th:block layout:fragment="customContents">
@@ -52,14 +72,9 @@
 							<div class="product__details__price">$ [[${lesson.lessonPrice}]]</div>
 							<p th:text="${lesson.lessonDetail}"></p>
 							<div class="product__details__button">
-								<div class="quantity">
-									<span>Quantity:</span>
-									<div class="pro-qty">
-										<input type="text" value="1">
-									</div>
-								</div>
-								<button type="button" class="cart-btn" data-toggle="modal" data-target="#reservationModal">
-									주문하기
+								
+								<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#reservationModal">
+									예약하기
 								</button>
 								<ul>
 									<li>
@@ -74,89 +89,92 @@
 									</li>
 								</ul>
 							</div>
-							<div class="product__details__widget">
-								<ul>
-									<li>
-										<span>Availability:</span>
-										<div class="stock__checkbox">
-											<label for="stockin">
-												In Stock
-												<input type="checkbox" id="stockin">
-												<span class="checkmark"></span>
-											</label>
-										</div>
-									</li>
-									<li>
-										<span>Available color:</span>
-										<div class="color__checkbox">
-											<label for="red">
-												<input type="radio" name="color__radio" id="red" checked>
-												<span class="checkmark"></span>
-											</label>
-											<label for="black">
-												<input type="radio" name="color__radio" id="black">
-												<span class="checkmark black-bg"></span>
-											</label>
-											<label for="grey">
-												<input type="radio" name="color__radio" id="grey">
-												<span class="checkmark grey-bg"></span>
-											</label>
-										</div>
-									</li>
-									<li>
-										<span>Available size:</span>
-										<div class="size__btn">
-											<label for="xs-btn" class="active">
-												<input type="radio" id="xs-btn">
-												xs
-											</label>
-											<label for="s-btn">
-												<input type="radio" id="s-btn">
-												s
-											</label>
-											<label for="m-btn">
-												<input type="radio" id="m-btn">
-												m
-											</label>
-											<label for="l-btn">
-												<input type="radio" id="l-btn">
-												l
-											</label>
-										</div>
-									</li>
-									<li>
-										<span>Promotions:</span>
-										<p>Free shipping</p>
-									</li>
-								</ul>
-							</div>
+							
 						</div>
 					</div>
-					<div class="col-lg-8">
-						<div class="x_panel">
-							<div class="x_title">
-								<h2>Calendar Events <small>Sessions</small></h2>
-									<ul class="nav navbar-right panel_toolbox">
-										<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-										</li>
-										<li class="dropdown">
-											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-											<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-											    <a class="dropdown-item" href="#">Settings 1</a>
-											    <a class="dropdown-item" href="#">Settings 2</a>
-											</div>
-										</li>
-										<li>
-											<a class="close-link"><i class="fa fa-close"></i></a>
-										</li>
-									</ul>
-								<div class="clearfix"></div>
-							</div>
-							<div class="x_content">						
-								<div id='calendar'></div>						
-							</div>>
-						</div>
+					
+					
+					
+					<!-- 캘린더 -->
+					<div id='calendar' class="col-lg-8"></div>
+					
+					<div class="product__details__widget col-lg-4 ">
+						<ul>
+							
+							<li>
+								<span>레슨 구분</span>
+								<div class="color__checkbox">
+
+									<input type="button" name="color__radio" id="solo" th:value="${lesson.lessonDivision}">
+
+								</div>
+							</li>
+							<li>
+								<span>종목</span>
+								<div class="size__btn">
+									<label for="xs-btn" class="active">
+										<input type="radio" id="xs-btn">
+										[[${lesson.sports.sportsName}]]
+									</label>
+								</div>
+							</li>
+							<li>
+								<span>Promotions:</span>
+								<p>Free shipping</p>
+							</li>
+
+							<li>
+								<span>시설 이름 : </span>
+								<span th:text="${lesson.facility.facilityNm}"></span>
+								
+							</li>
+							<li>
+								<span>시설 주소 : </span>
+								<span th:text="${lesson.facility.facilityAddr}"></span>
+							</li>
+							<li>
+								<span>시설 번호 : </span>
+								<span th:text="${lesson.facility.facilityTell}"></span>
+							</li>
+							<li>
+								<span>레슨 정원 : </span>
+								<span th:text="${lesson.lessonTotalMember}"></span>
+							</li>
+							<li>
+								<span>레슨 시작 날짜 : </span>
+								<span th:text="${lesson.lessonStartDate}"></span>
+							</li>
+							<li>
+								<span>시설 종료 날짜 : </span>
+								<span th:text="${lesson.lessonEndDate}"></span>
+							</li>
+
+							<li class="none-display" id="reservation-view">
+							<!-- 모달 값 제이쿼리로 넣기 -->
+								<span style="width: 80px;">예약 날짜:</span>
+								<div class="stock__checkbox">
+									
+										날짜
+										<input type="text" id="res-Date" name="bookingStartDate">
+										<br>
+										시간
+										<input type="text" id="res-Time" name="bookingStartTime">
+									
+								</div>
+							</li>
+							<li>
+								<button type="button" class="cart-btn">
+									주문하기
+								</button>
+							</li>
+						</ul>
+						
 					</div>
+					<div class="product__details__widget col-lg-4">
+						
+					</div>
+					
+					
 					<div class="col-lg-12">
 						<div class="product__details__tab">
 							<ul class="nav nav-tabs" role="tablist">
@@ -394,35 +412,21 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<div class='col-md-3 col-xs-4'>
-					    <div class="form-group">
-					        <div class="input-group date" id="datetimepicker1" data-target-input="nearest" style="width: 230px;">
-					            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="01/11/2020">
-					            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-					                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-					            </div>
-					        </div>
-					    </div>
+					<div class='col-md-3 col-xs-4 resDate'>
+					 	날짜 : <input type="date">
 					</div>
-					<div class='col-md-3 col-xs-4'>
-					    <div class="form-group">
-					        <div class="input-group date" id="datetimepicker2" data-target-input="nearest" style="width: 230px;">
-					            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" value="01/15/2020">
-					            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-					                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-					            </div>
-					        </div>
-					    </div>
+					<div class='col-md-3 col-xs-4 resTime'>
+						시간 : <input type="time">
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
+					<button type="button" class="btn btn-primary" 	data-dismiss="modal" id="regist">등록</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<script src="/resource/js/detailLessonForUser.js"></script>
+	<script th:src="@{/resource/js/lesson/detailLessonForUser.js}"></script>
 	</th:block>
 </html>

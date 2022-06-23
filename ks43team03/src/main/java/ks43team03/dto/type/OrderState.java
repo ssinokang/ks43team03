@@ -9,7 +9,7 @@ import org.apache.ibatis.type.MappedTypes;
 
 public enum OrderState implements CodeEnum{
 
-	ORDER("주문중"),COMPLETE("주문완료"), FAIL("주문실패"), CENCEL("주문취소");
+	ORDER("주문중"),COMPLETE("주문완료"), FAIL("주문실패"), CANCEL("주문취소");
 	
 	private String code;
 	
@@ -22,9 +22,9 @@ public enum OrderState implements CodeEnum{
 	public static OrderState getEnumByCode(String code) {
 		OrderState[] value = values();
 		return Arrays.stream(value)
-					.filter(e -> e.getCode().equalsIgnoreCase(code))
-					.findFirst()
-					.orElse(null);
+				.filter(e -> e.getCode().equalsIgnoreCase(code))
+				.findFirst()
+				.orElse(null);
 	}
 
 	@MappedTypes(OrderState.class)

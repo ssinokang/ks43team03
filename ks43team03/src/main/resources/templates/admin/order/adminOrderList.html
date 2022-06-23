@@ -96,9 +96,6 @@
 												<th class="column-title" style="display: table-cell;">주문시설 이름</th>
 												<th class="column-title" style="display: table-cell;">카테고리 </th>
 												<th class="column-title" style="display: table-cell;">상품가격</th>
-												<th class="column-title" style="display: table-cell;">남은 포인트</th>
-												<th class="column-title" style="display: table-cell;">포인트 사용내용</th>
-												<th class="column-title" style="display: table-cell;">결제금액</th>
 												<th class="column-title" style="display: table-cell;">주문일자</th>
 												<th class="column-title" style="display: table-cell;">주문상태</th>
 												<th class="column-title no-link last" style="display: table-cell;"><span
@@ -126,9 +123,6 @@
 												<td class=" " th:text="${order.facility.facilityNm}">땡떙체육관</td>
 												<td class=" " th:text="${order.goodsCtgCd}"> </td>
 												<td class=" " th:text="${order.orderPrice}"> <i class="success fa fa-long-arrow-up"></i></td>
-												<td class=" " th:text="${order.userPoint}"> </td>
-												<td class=" " th:text="${order.usedPoint}"></td>
-												<td class="a-right a-right " th:text="${order.orderPayPrice}"></td>
 												<td class=" " th:text="${order.orderRegDate}"></td>
 												<td class=" " th:text="${order.orderPayState}"></td>
 												<td class=" last"><a th:href="@{/admin/order/orderDetail(orderCd=${order.orderCd},goodsCtgCd=${order.goodsCtgCd})}">View</a>

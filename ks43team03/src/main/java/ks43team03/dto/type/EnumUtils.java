@@ -6,9 +6,9 @@ public class EnumUtils {
 
 	public static <E extends Enum<E>& CodeEnum> E getCodeEnum(Class<E> type, String code) {
 		return EnumSet.allOf(type)
-					  .stream()
-					  .filter(t -> t.getCode().equals(code))
-					  .findFirst()
-					  .orElse(null);
+				  .stream()
+				  .filter(t -> t.getCode().equals(code))
+				  .findFirst()
+				  .orElse(null);
 	}
 }

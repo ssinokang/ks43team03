@@ -10,7 +10,7 @@
 		<result column="goods_ctg_cd"  				property="goodsCtgCd"/>
 		<result column="sports_cd" 					property="sportsCd"/>
 		<result column="user_id" 					property="userId"/>
-		<result column="facility_goods_reg_date" 	property="facilityRegDate"/>
+		<result column="facility_goods_reg_date" 	property="facilityGoodsRegDate"/>
 		<result column="facility_goods_state" 		property="faclityGoodsState"/>
 		<association property="pass" javaType="Pass">
 			<id column="pass_cd" property="passCd"/>

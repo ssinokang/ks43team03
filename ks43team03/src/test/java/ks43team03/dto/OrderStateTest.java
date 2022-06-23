@@ -12,7 +12,7 @@ public class OrderStateTest {
 	@DisplayName("enumType변화 확인")
 	void enumTypeTest() {
 		System.out.println(OrderState.getEnumByCode("주문완료"));
-		enumTest(OrderState.CENCEL);
+		enumTest(OrderState.CANCEL);
 	}
 	
 	

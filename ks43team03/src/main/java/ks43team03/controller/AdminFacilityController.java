@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.dto.Area;
 import ks43team03.dto.AreaCity;
@@ -118,15 +118,24 @@ public class AdminFacilityController {
 	}
 	
 	/*시설등록처리*/
-	/* String sessionId = (String) session.getAttribute("SID") */
-	/* ,MultipartHttpServletRequest mhsr */
 	  @PostMapping("/addFacility") 
 	  public String addFacility(Facility facility
 			  					,@RequestParam(name="facilityCd", required = false) String facilityCd
+			  					,@RequestParam MultipartFile[] facilityImgFile, Model model
 			  					,HttpServletRequest request) {
 		  log.info("시설등록화면에서 입력한 data : {}", facility);
 		  
-		  adminFacilityService.addFacility(facility); 
+		  String serverName = request.getServerName();
+			String fileRealPath = "";
+			if("localhost".equals(serverName)) {				
+				fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
+				//fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+			}else {
+				fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+			}
+			
+			adminFacilityService.addFacility(facility, facilityImgFile, fileRealPath);
+			
 		  return "redirect:/adminFacility/adminFacilityListById"; 
 	  }
 

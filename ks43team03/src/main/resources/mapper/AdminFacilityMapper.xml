@@ -50,16 +50,20 @@
 		<result column="facility_approve_id"	property="facilityApproveId"/>
 		<result column="facility_approve_date"	property="facilityApproveDate"/>
 		<result column="facility_reg_date"		property="facilityRegDate"/>
-		</collection>	
+		</collection>
+		<collection property="tFile" ofType="TFile">
+			<id		column="file_cd"				property="fileCd"/>
+			<result	column="original_file_nm"		property="originalFileName"/>
+			<result	column="stored_file_path"		property="storedFilePath"/>
+			<result	column="file_size"				property="fileSize"/>
+			<result column="re_file_name"			property="reFileName"/>
+			<result	column="uploader_id"			property="uploaderId"/>
+			<result	column="upload_date"			property="uploadDate"/>
+			<result	column="updator_id"				property="updatorId"/>
+			<result	column="updated_date"			property="updatedDate"/>
+			<result	column="represent_img"		property="representImg"/>
+		</collection>
 	</resultMap>
-	
-	
-	
-	
-	
-	
-	
-			
 	
 		<select id="getSearchFacilityList" fetchSize="10" parameterType="String" resultMap="facilityResultMap">
 			/*시설검색*/

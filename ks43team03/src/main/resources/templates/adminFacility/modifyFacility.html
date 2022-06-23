@@ -250,7 +250,7 @@
 					<div class="form-group">
 						<div class="col-md-6 offset-md-3">
 							<button type="button" class="btn btn-primary" onclick="history.back(-1)">취소</button>
-							<button type="button" class="btn btn-danger"  th:if="${session.SLEVEL =='2' or session.SLEVEL =='3'}">삭제</button>
+							<button type="button" class="btn btn-danger"  th:if="${session.SLEVEL =='1'or session.SLEVEL =='2' or session.SLEVEL =='3'}">삭제</button>
 							<button type="button" class="btn btn-success" id="modifyButton"  th:if="${session.SLEVEL =='2' or session.SLEVEL =='3'}">수정</button>
 							<button type="submit" class="btn btn-info" id="saveButton" hidden="hidden">저장</button>
 						</div>

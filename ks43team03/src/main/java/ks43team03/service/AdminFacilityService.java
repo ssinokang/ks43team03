@@ -1,15 +1,16 @@
 package ks43team03.service;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.common.FileUtils;
 import ks43team03.dto.Area;
@@ -58,45 +59,32 @@ public class AdminFacilityService {
 	}
 
 	/* 시설등록 */
-	public int addFacility(Facility facility) {
-		/* facility.setUserId(sessionId); */
-		int result = adminFacilityMapper.addFacility(facility);
-
-		/*
-		 * if (Objects.nonNull(mhsr)) { FileUtils fu = new FileUtils(mhsr,
-		 * facility.getUserId()); List<Map<String, String>> dtoFileList =
-		 * fu.parseFileInfo(); // 1. t_file 테이블에 삽입 System.out.println(dtoFileList +
-		 * "LessonService/addLesson"); fileMapper.uploadFile(dtoFileList);
-		 * 
-		 *//***
+	public void addFacility(Facility facility, MultipartFile[] uploadfile, String fileRealPath) {
+		
+		//파일이 널이 아니라면
+		if (!ObjectUtils.isEmpty(uploadfile)) {
+			String uproaderId 	= facility.getUserId();
+	
+			/***
 			 * test code: start
 			 ***/
-		/*
-		 * 
-		 * //facilityGoodsMapper.getFacilityGoods(lesson.getLessonCd());
-		 * 
-		 *//***
+			
+			FileUtils fu = new FileUtils(uploadfile, uproaderId, fileRealPath);
+			List<Map<String, String>> dtoFileList = fu.parseFileInfo();
+			// 1. t_file 테이블에 삽입
+			System.out.println(dtoFileList + "AdminFacilityService/addFacility");
+			fileMapper.uploadFile(dtoFileList);
+			/***
 			 * test code: end
 			 ***/
-		/*
-		 * // 2. lesson 테이블에 삽입 //lessonMapper.addLesson(lesson);
-		 * System.out.println(facility + "AdminFacilityService/addFacility/Facility");
-		 * 
-		 * // 3. 릴레이션 테이블에 삽입
-		 * 
-		 * String facilityGoodsCd = "test"; for(Map<String, String> m : dtoFileList) {
-		 * m.put("facilityGoodsCd", facilityGoodsCd); fileMapper.uploadRelationFile(m);
-		 * }
-		 * 
-		 * 
-		 * 
-		 *//****************
-			 * * log 찍어보기 * *
-			 ****************//*
-								 * 
-								 * }
-								 */
-		return result;
+			// 2. facility 테이블에 삽입
+
+			System.out.println(facility + "AdminFacilityService/addFacility/facility");
+			adminFacilityMapper.addFacility(facility);
+
+	
+	    }
+
 	}
 
 	/* 아이디별상세정보조회 */

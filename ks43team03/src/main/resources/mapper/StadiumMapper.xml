@@ -42,6 +42,22 @@
 			<result column="night_price"			property="nightPrice"/>
 			<result column="hol_price"				property="holPrice"/>
 		</association>
+		<collection property="relFileWithGoods" ofType="Map">
+			<result	column="facility_goods_cd"	property="facilityGoodsCd"/>
+			<result	column="file_cd"			property="fileCd"/>
+		</collection>
+		<collection property="tFile" ofType="TFile">
+			<id		column="file_cd"				property="fileCd"/>
+			<result	column="original_file_nm"		property="originalFileName"/>
+			<result	column="stored_file_path"		property="storedFilePath"/>
+			<result	column="file_size"				property="fileSize"/>
+			<result column="re_file_name"			property="reFileName"/>
+			<result	column="uploader_id"			property="uploaderId"/>
+			<result	column="upload_date"			property="uploadDate"/>
+			<result	column="updator_id"				property="updatorId"/>
+			<result	column="updated_date"			property="updatedDate"/>
+			<result	column="represent_img"		property="representImg"/>
+		</collection>
 	</resultMap>
 	<resultMap type="stadiumPrice" id="stadiumPriceResultMap">
 			<id 	column="stadium_price_cd" 		property="stadiumPriceCd"/>

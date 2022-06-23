@@ -24,7 +24,7 @@ public class Facility {
 	private String facilityDetailAddr;
 	private String facilityRegDate;
 	
-
+	
 	private MainCtg mainCtg;
 	private FacilityUse facilityUse;
 	private Area area;
@@ -32,4 +32,9 @@ public class Facility {
 	private AreaCityTown areaCityTown;
 	private FacilityUser facilityUser;
 	private TFile tFile;
+	private Stadium stadium;
+	private Lesson lesson;
+	
+	
+	
 }

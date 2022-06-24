@@ -66,8 +66,10 @@ public class OrderController {
 	}
 	
 	
-	@GetMapping("/orders")
-	public String orders() {
+	
+	@GetMapping("/orders/{id}")
+	public String orders(@PathVariable("id") String userId) {
+		orderService.getOrdersByUser(userId);
 		return "order/회원한명주문리스트";
 	}
 	

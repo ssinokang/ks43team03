@@ -29,8 +29,16 @@ public class MainController {
 		
 		return "admin/addGoods";
 	}
+
+	
+	
+	@GetMapping("/cal")
+	public String cal() {
+		return "order/cal";
+
 	@GetMapping("/admin/ex")
 	public String ex() {
 		return "ex";
+
 	}
 }

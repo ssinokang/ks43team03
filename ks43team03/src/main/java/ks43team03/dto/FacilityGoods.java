@@ -6,7 +6,6 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 public class FacilityGoods {
 	
 	/**
@@ -19,7 +18,7 @@ public class FacilityGoods {
 	private String goodsCtgCd; //카테고리코드
 	private String sportsCd; //종목코드
 	private String userId; //등록자아이디
-	private String facilityRegDate; //등록날짜
+	private String facilityGoodsRegDate; //등록날짜
 	private String faclityGoodsState; //상품활성화상태
 
 	

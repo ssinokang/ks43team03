@@ -41,8 +41,7 @@
 										<th>안전점검 결과 첨부 파일</th>
 										<th>안전 점검일</th>
 										<th>안전 점검 등록일</th>
-										<th>수정</th>
-										<th>취소</th>										
+										<th>삭제</th>										
 									</tr>
 								</thead>
 								<tbody>
@@ -54,19 +53,16 @@
 										<td th:text="${l.safetyCheckDate}"></td>
 										<td th:text="${l.safetyCheckRegDate}"></td>
 										<td>
-											<a th:href="@{}">수정</a>
-										</td>
-										<td>
-											<a th:href="@{}">취소</a>
+											<a th:href="@{/safety/removeSafety(safetyCheckCd=${l.safetyCheckCd})}">삭제</a>
 										</td>										
 									</tr>
 									<tr th:unless="${not #lists.isEmpty(safetyList)}">
-										<td colspan="8">조회된 내용이 없습니다.</td>
+										<td colspan="7">조회된 내용이 없습니다.</td>
 									</tr>
 								</tbody>
 								<tfoot>
 									<tr>
-										<td colspan="8" style="text-align: center;">
+										<td colspan="7" style="text-align: center;">
 											<a th:href="@{/safety/safetyList}">[맨처음]</a>
 											<a th:if="${currentPage > 1}" th:href="@{/safety/safetyList(currentPage=${currentPage - 1})}">이전</a>
 											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">

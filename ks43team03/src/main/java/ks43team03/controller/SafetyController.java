@@ -1,6 +1,10 @@
 package ks43team03.controller;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +42,6 @@ public class SafetyController {
 	}
 	
 	
-	
 	// 안전점검 등록 페이지 이동
 	@GetMapping("/addSafety")
 	public String addSafety(Model model) {
@@ -56,7 +59,7 @@ public class SafetyController {
 		Map<String, Object> resultMap = safetyService.getSafetyList(currentPage);
 		resultMap.get("lastPage");
 		
-		model.addAttribute("title", "안전점검 등록 시설 목록");
+		model.addAttribute("title", "안전점검 등록 시설 조회");
 		model.addAttribute("resultMap", 		resultMap);
 		model.addAttribute("currentPage", 		currentPage);
 		model.addAttribute("safetyList", 		resultMap.get("safetyList"));
@@ -65,7 +68,128 @@ public class SafetyController {
 		model.addAttribute("endPageNum", 		resultMap.get("endPageNum"));
 		System.out.println(model + "model!!!!!!!!!!");
 		return "safety/safetyList";
-}	
+	}	
+	
+	//시설 관리자의 안전점검 등록 목록 조회
+	@GetMapping("/safetyListById")
+	public String getsafetyListById(Model model, HttpSession session) {
+		
+		String sessionId = (String) session.getAttribute("SID");
+		
+		log.info("회원 아이디 : {}", sessionId);
+		
+		if (Objects.isNull(sessionId)) {
+
+			return "safety/safetyListById";
+			
+		}		
+		
+		List<Safety> safetyListById = safetyService.getSafetyListById(sessionId);
+		
+		log.info("safetyListById 조회 : {}", safetyListById);
+		
+		model.addAttribute("title", "내 안전점검 등록 시설 조회");
+		model.addAttribute("safetyListById", safetyListById);
+		model.addAttribute("sessionId", sessionId);
+		
+		return "safety/safetyListById";
+	}
+	
+	
+	
+	//안전점검 등록 정보 수정 처리
+	@PostMapping("/modifySafety")
+	public String modifySafety(Safety safety
+			,Model model) {
+		log.info("안전점검 등록 정보 수정 폼 입력값 : {}", safety);
+		
+		safetyService.modifySafety(safety);
+		
+		return "redirect:/safety/addSafety";
+		
+	}
+	
+	//안전점검 등록 정보 수정 
+	@GetMapping("/modifySafety")
+	public String modifySafety(Model model
+							  ,@RequestParam(name="safetyCheckCd", required=false) String safetyCheckCd) {
+		
+		safetyService.getSafetyListById(safetyCheckCd);
+		
+		model.addAttribute("title", "안전점검 등록 정보 수정");
+		
+		return "safety/modifySafety";		
+		
+	}
+	
+	//안전점검 등록 정보 삭제
+	@GetMapping("/removeSafety")
+	public String removeSafety (Model model, Safety safety) {
+		
+		log.info("안전점검 등록 정보 삭제 :::: {}", safety);
+		
+		safetyService.removeSafety(safety);
+		
+		return "redirect:/safety/safetyList";
+	}
+
+	//시설 관리자의 안전점검 등록 정보 삭제
+	@GetMapping("/removeSafety2")
+	public String removeSafety2 (Model model, Safety safety) {
+		
+		log.info("시설 관리자의 안전점검 등록 정보 삭제 :::: {}", safety);
+		
+		safetyService.removeSafety2(safety);
+		
+		return "redirect:/safety/safetyListById";
+	}	
+	
+
+	// 관리자의 안전점검 결과 목록 조회(전체) 
+	@GetMapping("/safetyResultList")
+	public String getSafetyResultList(@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage
+			  ,Model model) {
+
+		Map<String, Object> resultMap = safetyService.getSafetyResultList(currentPage);
+		resultMap.get("lastPage");
+		
+		model.addAttribute("title", "안전점검 결과 목록 조회");
+		model.addAttribute("resultMap", 		resultMap);
+		model.addAttribute("currentPage", 		currentPage);
+		model.addAttribute("safetyList", 		resultMap.get("safetyList"));
+		model.addAttribute("lastPage", 			resultMap.get("lastPage"));
+		model.addAttribute("startPageNum", 		resultMap.get("startPageNum"));
+		model.addAttribute("endPageNum", 		resultMap.get("endPageNum"));
+		System.out.println(model + "model!!!!!!!!!!");
+		return "safety/safetyResultList";
+	}	
+	
+	//시설 관리자의 안전점검 결과 목록 조회 
+	@GetMapping("/safetyResultListById")
+	public String getSafetyResultListById(Model model, HttpSession session) {
+		
+		String sessionId = (String) session.getAttribute("SID");
+		
+		log.info("회원 아이디 : {}", sessionId);
+		
+		if (Objects.isNull(sessionId)) {
+
+			return "safety/safetyResultListById";
+			
+		}		
+		
+		List<Safety> safetyResultListById = safetyService.getSafetyResultListById(sessionId);
+		
+		log.info("safetyResultListById 조회 : {}", safetyResultListById);
+		
+		model.addAttribute("title", "내 안전점검 등록 시설 조회");
+		model.addAttribute("safetyResultListById", safetyResultListById);
+		model.addAttribute("sessionId", sessionId);
+		
+		return "safety/safetyResultListById";
+	}
+	
+	
 	
 	
 }

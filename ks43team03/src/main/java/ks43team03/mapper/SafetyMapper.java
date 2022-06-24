@@ -9,39 +9,40 @@ import org.apache.ibatis.annotations.Mapper;
 import ks43team03.dto.Safety;
 
 
-
 @Mapper
 public interface SafetyMapper {
 	
-	
-	//관리자의 안전점검 등록 목록 조회
-	
-	//시설 관리자의 안전점검 등록 목록 조회(페이징)					              
-	public List<Map<String, Object>> getSafetyListById(Map<String, Object> paramMap);	
-	
-	//시설 관리자의 안전점검 등록
+	//안전점검 등록
 	public int addSafety(Safety safety);
 
-
-	
-	
-	//안전점검 등록 시설 목록 조회(전체)(페이징)
+	//관리자의 안전점검 등록 시설 목록 조회(전체)(페이징)
 	public List<Map<String, Object>> getSafetyList(Map<String, Object> paramMap);	
 	
 	//안전점검 등록 시설 목록 총 row(튜플) 수
 	public int getSafetyListCount();	
 	
+	//시설 관리자의 안전점검 등록 목록 조회
+	public List<Safety> getSafetyListById(String userId);
 	
-	
-	//안전점검 등록 삭제
-	
-	//안전점검 수정
+	//안전점검 등록 정보 수정
 	public int modifySafety(Safety safety);
-	
-	//안전점검 결과 목록 조회
-	
-	//시설 관리자의 안전점검 결과 목록 조회 
 
+	//안전점검 등록 정보 삭제
+	public int removeSafety(Safety safety);
+
+	//시설 관리자의 안전점검 등록 정보 삭제
+	public int removeSafety2(Safety safety);
+	
+	
+	
+	//관리자의 안전점검 결과 목록 조회(전체)(페이징)
+	public List<Map<String, Object>> getSafetyResultList(Map<String, Object> paramMap);
+	
+	//안전점검 결과 목록 총 row(튜플) 수
+	public int getSafetyResultListCount();	
+
+	//시설 관리자의 안전점검 결과 목록 조회 
+	public List<Safety> getSafetyResultListById(String userId);
 
 	
 	

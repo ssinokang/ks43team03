@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.dto.Area;
 import ks43team03.dto.AreaCity;
@@ -22,6 +23,7 @@ import ks43team03.dto.AreaCityTown;
 import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityUse;
 import ks43team03.dto.MainCtg;
+import ks43team03.mapper.AdminFacilityMapper;
 import  ks43team03.service.AdminFacilityService;
 
 @Controller
@@ -31,9 +33,10 @@ public class AdminFacilityController {
 	private static final Logger log = LoggerFactory.getLogger(AdminFacilityController.class);
 
 	private final AdminFacilityService adminFacilityService;
-	
-	public AdminFacilityController(AdminFacilityService adminFacilityService) {
+	private final AdminFacilityMapper adminFacilityMapper;
+	public AdminFacilityController(AdminFacilityService adminFacilityService, AdminFacilityMapper adminFacilityMapper) {
 		this.adminFacilityService = adminFacilityService;
+		this.adminFacilityMapper = adminFacilityMapper;
 	}
 	
 	
@@ -103,30 +106,53 @@ public class AdminFacilityController {
 		List<FacilityUse> facilityUseList = adminFacilityService.getFacilityUseList();
 		List<MainCtg> mainCtgList = adminFacilityService.getMainCtgList();
 		List<Area> areaList = adminFacilityService.getAreaList();
-		List<AreaCity> areaCityList = adminFacilityService.getAreaCityList();
-		List<AreaCityTown> areaCityTownList = adminFacilityService.getAreaCityTownList();
+	
 		
 		model.addAttribute("title", "시설 수정");
 		model.addAttribute("facility", facility);	
 		model.addAttribute("facilityUseList", facilityUseList);	
 		model.addAttribute("mainCtgList", mainCtgList);
 		model.addAttribute("areaList", areaList);
-		model.addAttribute("areaCityList", areaCityList);
-		model.addAttribute("areaCityTownList", areaCityTownList);
 		
 		 return "adminFacility/modifyFacility"; 
 	}
 	
+	/*시도 코드에 해당하는 시군구 카테고리 목록 불러 오기*/
+	@PostMapping("/getCityCdList")
+	@ResponseBody
+	public List<AreaCity> getCityCdList(@RequestParam(value = "areaCd" , required = false) String areaCd){
+		log.info("cityCdList 데이터 :{}",areaCd);
+		return adminFacilityMapper.getAreaCityList(areaCd);
+	}
+	
+	/*시군구 코드에 해당하는 읍면동 카테고리 목록 불러 오기*/
+	@PostMapping("/getTownCdList")
+	@ResponseBody
+	public List<AreaCityTown> getTownCdList(@RequestParam(value = "cityCd" , required = false) String cityCd){
+		return adminFacilityMapper.getAreaCityTownList(cityCd);
+	}
+
+	
+	
 	/*시설등록처리*/
-	/* String sessionId = (String) session.getAttribute("SID") */
-	/* ,MultipartHttpServletRequest mhsr */
 	  @PostMapping("/addFacility") 
 	  public String addFacility(Facility facility
 			  					,@RequestParam(name="facilityCd", required = false) String facilityCd
+			  					,@RequestParam MultipartFile[] facilityImgFile, Model model
 			  					,HttpServletRequest request) {
 		  log.info("시설등록화면에서 입력한 data : {}", facility);
 		  
-		  adminFacilityService.addFacility(facility); 
+		  String serverName = request.getServerName();
+			String fileRealPath = "";
+			if("localhost".equals(serverName)) {				
+				fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
+				//fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+			}else {
+				fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+			}
+			
+			adminFacilityService.addFacility(facility, facilityImgFile, fileRealPath);
+			
 		  return "redirect:/adminFacility/adminFacilityListById"; 
 	  }
 
@@ -137,19 +163,20 @@ public class AdminFacilityController {
 		
 		List<MainCtg> mainCtgList = adminFacilityService.getMainCtgList();
 		List<Area> areaList = adminFacilityService.getAreaList();
-		List<AreaCity> areaCityList = adminFacilityService.getAreaCityList();
-		List<AreaCityTown> areaCityTownList = adminFacilityService.getAreaCityTownList();
 		List<FacilityUse> facilityUseList = adminFacilityService.getFacilityUseList();
 		
 		model.addAttribute("title", "시설 등록");
 		model.addAttribute("mainCtgList", mainCtgList);
 		model.addAttribute("areaList", areaList);
-		model.addAttribute("areaCityList", areaCityList);
-		model.addAttribute("areaCityTownList", areaCityTownList);
 		model.addAttribute("facilityUseList", facilityUseList);
 		
 		return "adminFacility/addFacility";
 	}
+	
+		
+	
+	
+	
 	
 	//시설등록자가 본인시설조회
 	@GetMapping("/adminFacilityListById")

@@ -1,5 +1,8 @@
 package ks43team03.dto;
 
+import java.util.List;
+import java.util.Map;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,8 +22,11 @@ public class Stadium {
 	private String facilityStadiumDetail;
 	
 	
-	private Facility facility;
-	private Sports sports;
-	private StadiumPrice stadiumPrice;
-	
+	private Facility 					facility;
+	private Sports 						sports;
+	private StadiumPrice 				stadiumPrice;
+	private FacilityGoods 				facilityGoods;
+	private List<Map<String, String>> 	relFileWithGoods;
+	private List<TFile> 				tFile;
+	private BookingDto 					booking;
 }

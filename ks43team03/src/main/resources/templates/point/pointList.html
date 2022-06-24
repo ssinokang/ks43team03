@@ -1,45 +1,75 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
-<meta charset="UTF-8">
-<title>pointList</title>
-</head>
-<body>
-	<h1>pointList</h1>
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default.html}">
+	  	<!-- 사용자 정의 title -->
+	<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+	</th:block>
+	 	 
+	<th:block layout:fragment="customContents">
 	
-	<table border="1">
-			<thead>
-				<tr>
-					<th>게시판 코드</th>
-					<th>게시판 카테고리 코드</th>
-					<th>게시글 작성자 아이디</th>
-					<th>게시글 제목</th>
-					<th>게시글 내용</th>
-					<th>게시글 첨부파일</th>
-					<th>게시글 등록일</th>
-					<th>게시글 조회수</th>
-					<th>게시글 댓글 수</th>
-					<th>게시판 게시글 상태</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:if="${not #lists.isEmpty(boardList)}" th:each="l : ${boardList}">
-					<td th:text="${l.boardPostCd}"></td>
-					<td th:text="${l.boardCtgCd}"></td>
-					<td th:text="${l.userId}"></td>
-					<td th:text="${l.boardPostTitle}"></td>
-					<td th:text="${l.boardPostContent}"></td>
-					<td th:text="${l.boardPostFile}"></td>
-					<td th:text="${l.boardPostDate}"></td>
-					<td th:text="${l.boardPostViews}"></td>
-					<td th:text="${l.boardPostNum}"></td>
-					<td th:text="${l.boardPostState}"></td>
-				</tr>
-				<tr th:unless="${not #lists.isEmpty(boardList)}">
-					<td colspan="9">조회된 내용이 없습니다.</td>
-				</tr>
-			</tbody>
-		</table>
-</body>
+		<!-- Breadcrumb Begin -->
+	    <div class="breadcrumb-option">
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-lg-12">
+	                    <div class="breadcrumb__links">
+	                        <a href="./index"><i class="fa fa-home"></i> Home</a>
+	                        <span>point</span>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+		<!-- Breadcrumb End -->
+	
+		<section class="shop-cart spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="shop__cart__table">
+							<table class="table">
+								<thead>
+									<tr>
+										<th id="event_detail">이벤트 내용</th>
+										<th id="apply_point_amount">적립 금액</th>
+										<th id="apply_date">적용 날짜</th>
+									</tr>
+								</thead>
+								<tbody id="boardBody">
+									<tr th:if="${not #lists.isEmpty(pointList)}" th:each="l : ${pointList}">
+										<input type="hidden" th:value="${l.applyPointGroupCd}">
+										<input type="hidden" th:value="${l.userId}">
+										<td th:text="${l.eventDetail}"></td>
+										<td th:text="${l.applyPointAmount}"></td>
+										<td th:text="${l.applyDate}"></td>
+									</tr>
+									<tr style="text-align: center;">
+										<td>총 포인트</td>
+										<td id="totalPoint"></td>
+									</tr>
+									<tr th:unless="${not #lists.isEmpty(pointList)}">
+										<td colspan="3">조회된 내용이 없습니다.</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+	</th:block>
+	
+	  <!-- 사용자 정의 Js 파일-->
+	<th:block layout:fragment="customJs">
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+		
+		<script>
+			
+		</script>
+		
+	</th:block>
+	
 </html>

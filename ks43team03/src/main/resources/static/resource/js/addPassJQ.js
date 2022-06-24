@@ -151,4 +151,8 @@ $(function() {
 			alert("더이상 지울 수 없습니다.");
 		}
 	});
+	
+	$goodsCtgVal = $('#goodsCtg').attr('data-goodsCtgCd');
+	console.log($goodsCtgVal);
+	$('#goodsCtg option[value=' + $goodsCtgVal + ']').attr('selected', 'selected');
 });

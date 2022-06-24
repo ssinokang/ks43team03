@@ -10,37 +10,39 @@
 	<!-- 사용자 정의 Js 파일 -->
 	<th:block layout:fragment="customJs">
 	<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>	
-	<script>
-		$(function() {
-			function validationCheck(data) {
-				if (typeof data == 'undefined' || data == '' || data == null) {
-					return false;
-				}
-				return true;
-			}	
-			/* 유효성 검사 */
-			$('#loginBtn').click(function(){
-				var isSubmit = true;
-				var inputObj = $('#loginForm').find('input');
-				
-				$.each(inputObj, function(){
-					var inputId 	= $(this).attr('id');
-					var inputData 	= $(this).val();
-					var result 		= validationCheck(inputData);
-					
-					// 사용자가 입력하지 않은 경우
-					if(!result){
-						alert('아이디를 입력해주세요.');
-						$(this).focus();
-						isSubmit = false;
+		<script>
+			$(function() {
+				function validationCheck(data) {
+					if (typeof data == 'undefined' || data == '' || data == null) {
 						return false;
 					}
-				});
+					return true;
+				}	
+				/* 로그인 유효성 검사 */
+				$('#loginBtn').click(function(){
+					var isSubmit = true;
+					var inputObj = $('#loginForm').find('input');
 					
+					$.each(inputObj, function(){
+						var inputId 	= $(this).attr('id');
+						var inputLabel	= $('label[for="' + inputId + '"]').text();
+						var inputData 	= $(this).val();
+						var result 		= validationCheck(inputData);
+						
+						// 사용자가 입력하지 않은 경우
+						if(!result){
+							alert(inputLabel + '를 입력해주세요.');
+							$(this).focus();
+							isSubmit = false;
+							return false;
+						}
+					});
+						
 					if(isSubmit) $('#loginForm').submit();
+						
 				});
 			});
-	</script>
+		</script>
 	</th:block>	
 	
 	<!-- 사용자 정의 contents -->

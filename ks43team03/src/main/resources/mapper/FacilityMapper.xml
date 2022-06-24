@@ -44,8 +44,121 @@
 			<result  column="area_cd" 			property="areaCd"/>
 			<result  column="town_nm" 			property="townNm"/>
 		</association>	
+		<collection property="stadium" javaType="Stadium">
+			<id column="facility_stadium_cd" 			property="facilityStadiumCd"/>
+			<result column="facility_goods_cd" 			property="facilityGoodsCd"/>
+			<result column="facility_cd" 				property="facilityCd"/>
+			<result column="goods_ctg_cd" 				property="goodsCtgCd"/>
+			<result column="sports_cd" 					property="sportsCd"/>
+			<result column="user_id" 					property="userId"/>
+			<result column="facility_stadium_nm" 		property="facilityStadiumNm"/>
+			<result column="facility_stadium_reg_date"	property="facilityStadiumRegDate"/>
+			<result column="facility_stadium_detail"	property="facilityStadiumDetail"/>
+		</collection>
+		<collection property="lesson" javaType="Lesson">
+			<id 	column="lesson_cd" 				property="lessonCd"/>
+			<result column="lesson_division" 		property="lessonDivision"/>
+			<result column="facility_goods_cd" 		property="facilityGoodsCd"/>
+			<result column="facility_cd" 			property="facilityCd"/>
+			<result column="goods_ctg_cd" 			property="goodsCtgCd"/>
+			<result column="sports_cd" 				property="sportsCd"/>
+			<result column="user_id" 				property="userId"/>
+			<result column="lesson_nm" 				property="lessonName"/>
+			<result column="lesson_detail" 			property="lessonDetail"/>		
+			<result column="lesson_total_member" 	property="lessonTotalMember"/>		
+	 		<result column="lesson_member" 			property="lessonMember"/>		 
+			<result column="lesson_start_date" 		property="lessonStartDate"/>		
+			<result column="lesson_end_date" 		property="lessonEndDate"/>		
+			<result column="lesson_price" 			property="lessonPrice"/>		
+			<result column="lesson_reg_date" 		property="lessonRegDate"/>		
+			<result column="lesson_state" 			property="lessonState"/>		
+		</collection>
+		<collection property="facilityUser" 	javaType="FacilityUser">
+			<id column="facility_cd"				property="facilityCd"/>
+			<result column="user_id"				property="userId"/>
+			<result column="facility_user_level"	property="facilityUserLevel"/>
+			<result column="facility_approve_state"	property="facilityApproveState"/>
+			<result column="facility_approve_id"	property="facilityApproveId"/>
+			<result column="facility_approve_date"	property="facilityApproveDate"/>
+			<result column="facility_reg_date"		property="facilityRegDate"/>
+		</collection>
 	</resultMap>
 	
+	
+	<select id="isUserCheck" parameterType="String" resultType="boolean">
+		/*시설에 가입한 회원 체크*/
+		SELECT
+			if(COUNT(1) = 1,0,1)
+		FROM
+		 	facility_user
+		WHERE 
+			user_id = #{userId} AND facility_cd = #{facilityCd};
+	</select>
+	
+	
+	
+	<insert id="addFacilityUser" parameterType="FacilityUser">
+		INSERT INTO facility_user
+			(facility_cd
+			,user_id
+			,facility_user_level
+			,facility_approve_state
+			,facility_reg_date
+			) VALUES (
+			#{facilityCd}
+			,#{userId}
+			,#{facilityUserLevel}
+			,'N'
+			,CURDATE());
+	</insert>
+	
+	
+	
+	
+	<select id="getStadiumList" resultType="Stadium">
+	/*시설내 구장 목록*/
+		SELECT 
+			facility_stadium_cd			AS facilityStadiumCd
+			,facility_goods_cd			AS facilityGoodsCd
+			,facility_cd				AS facilityCd
+			,goods_ctg_cd 				AS goodsCtgCd
+			,sports_cd 					AS sportsCd
+			,user_id 					AS userId
+			,facility_stadium_nm 		AS facilityStadiumNm
+			,facility_stadium_reg_date	AS facilityStadiumRegDate
+			,facility_stadium_detail 	AS facilityStadiumDetail
+		FROM 
+			facility_stadium
+		WHERE 
+			facility_cd = #{facilityCd};
+	</select>
+	
+	<select id="getLessonList" resultType="Lesson">
+	/*시설내 레슨 목록*/
+		SELECT 
+			lesson_cd 				AS lessonCd
+			,lesson_division 		AS lessonDivision
+			,facility_goods_cd	 	AS facilityGoodsCd
+			,facility_cd 			AS facilityCd
+			,goods_ctg_cd 			AS goodsCtgCd
+			,sports_cd 				AS sportsCd
+			,user_id 				AS sportsCd 	
+			,sports_nm 				AS userId 
+			,lesson_nm 				AS lessonName 
+			,lesson_detail 			AS lessonDetail
+			,lesson_total_member	AS lessonTotalMember 
+			,lesson_member 			AS lessonMember
+			,lesson_start_date	 	AS lessonStartDate
+			,lesson_end_date 		AS lessonEndDate
+			,lesson_price 			AS lessonPrice
+			,lesson_reg_date	 	AS lessonRegDate
+			,lesson_state 			AS lessonState
+		FROM 
+			lesson
+		WHERE 
+			facility_cd = #{facilityCd};
+	</select>
+
 
 	<select id="getFacilityInfoByCd" resultType="Facility" resultMap="facilityResultMap">
 		/*시설상세정보조회*/
@@ -118,6 +231,12 @@
 				,facility_reg_date	AS facilityRegDate
 			FROM 
 				facility 
+				
+			<trim prefix="WHERE" prefixOverrides="AND /OR ">
+		   		<if test="mainCtgCd != null and mainCtgCd != '' ">
+		   			main_ctg_cd = #{mainCtgCd}
+		   		</if>
+	   		</trim>
 			LIMIT #{startRow}, #{rowPerPage};	
 		</select>
 	

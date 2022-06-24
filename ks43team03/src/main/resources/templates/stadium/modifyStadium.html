@@ -127,7 +127,9 @@
 					<div class="form-group">
 						<div class="col-md-6 offset-md-3" th:if="${not #lists.isEmpty(stadium)}" th:each="l:${stadium}">
 							<button type="reset" class="btn btn-primary">취소</button>
-							<button type="submit" id="modifyStadiumBtn" class="btn btn-success">등록</button>
+							<a th:href="@{/stadium/modifyStadiumPrice(facilityStadiumCd=${l.facilityStadiumCd})}" >										
+								<input type="button" id="modifyStadiumBtn" class="btn btn-success" value="다음">
+							</a>
 						</div>
 					</div>
 				</div>

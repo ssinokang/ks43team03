@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ks43team03.service.AdminFacilityService;
 
+
 @Controller
 public class MainController {
 	
@@ -38,9 +39,14 @@ public class MainController {
 	 *임시 addGoods 컨트롤러  
 	 ***/
 	@GetMapping("/admin/addGoods")
-	public String addGoods() {
+	public String addGoods(@RequestParam(name="goodsCtgCd", required = false) String goodsCtgCd,
+					Model model) {
+		
+		model.addAttribute("goodsCtgCd", goodsCtgCd);
+		
 		return "admin/addGoods";
 	}
+
 	
 	/**
 	 * 임시 map 컨트롤러
@@ -67,5 +73,16 @@ public class MainController {
 		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
 		model.addAttribute("title", "전체 시설 목록 조회");
 		return "map/map2";
+  }
+	
+	
+	@GetMapping("/cal")
+	public String cal() {
+		return "order/cal";
+  }
+	@GetMapping("/admin/ex")
+	public String ex() {
+		return "ex";
+
 	}
 }

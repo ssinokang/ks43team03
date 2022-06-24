@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.ResponseGoods;
+import ks43team03.exception.NotFoundGoodsException;
 import ks43team03.mapper.FacilityGoodsMapper;
 
 @Service
@@ -42,7 +43,11 @@ public class FacilityGoodsService {
 	
 	// 상폼하나 조회 
 	public ResponseGoods getFacilityGoodsCd(String facilityGoodsCd) {
-		FacilityGoods facilityGoods = facilityGoodsMapper.getFacilityGoodsCd(facilityGoodsCd);
+		FacilityGoods facilityGoods = facilityGoodsMapper.getFacilityGoodsCd(facilityGoodsCd)
+					.orElseThrow(()-> {
+						throw new NotFoundGoodsException("조회한 상품이 없습니다.");
+					});
+		
 		String categoryCode = facilityGoods.getGoodsCtgCd();
 		ResponseGoods responceGoods = getFacilityGoodsCd(facilityGoodsCd,categoryCode);
 
@@ -69,6 +74,8 @@ public class FacilityGoodsService {
 			price = facilityGoods.getPass().getPassPrice();
 		}else if("stadium".equals(categoryCode)) {
 			
+		}else {
+			throw new NotFoundGoodsException("조회하신 상품이 없습니다.");
 		}
 		
 		return ResponseGoods.builder()

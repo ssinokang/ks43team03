@@ -39,6 +39,9 @@ public interface BoardMapper {
 	// 게시글 답글 삭제 
 	public int removeComment(String boardCommentCode);
 	
+	// 게시글 답글 전체 삭제
+	public int removeCommentByPostCd(String boardPostCd);
+	
 	// 게시글 삭제
 	public int removeBoard(String boardPostCd);
 

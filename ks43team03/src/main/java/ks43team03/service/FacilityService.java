@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks43team03.dto.Facility;
+import ks43team03.dto.FacilityUser;
+import ks43team03.dto.Lesson;
+import ks43team03.dto.Stadium;
 import ks43team03.mapper.FacilityMapper;
 
 
@@ -25,7 +28,36 @@ public class FacilityService {
 		this.facilityMapper = facilityMapper;
 	}
 
+	
+	/*시설 가입 중복 체크*/
+	public boolean isUserCheck(String userId, String facilityCd) {
+		boolean result = facilityMapper.isUserCheck(userId, facilityCd);
+		return result;
+	}
+	
+	
+	
+	/*시설에 회원 가입*/
+	public int addFacilityUser(FacilityUser facilityUser) {
+		int result = facilityMapper.addFacilityUser(facilityUser);
+		
+		return result;
+	}
+	
+	
+	/*시설 내 구장 목록*/
+	public List<Stadium> getStadiumList(String facilityCd) {
+		List<Stadium> stadiumList = facilityMapper.getStadiumList(facilityCd);
 
+		return stadiumList;
+	}
+	
+	/*시설 내 레슨 목록*/
+	public List<Lesson> getLessonList(String facilityCd) {
+		List<Lesson> lessonList = facilityMapper.getLessonList(facilityCd);
+
+		return lessonList;	
+		}
 	
 	/*시설 상세 정보 조회*/
 	public Facility getFacilityDetail(String facilityCd) {

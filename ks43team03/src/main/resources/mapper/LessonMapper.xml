@@ -24,7 +24,7 @@
 		<association property="sports" javaType="Sports">
 			<id 	column="sports_cd"	property="sportsCd"/>
 			<result column="sports_nm" 	property="sportsName"/>
-		</association> 
+		</association>
 		<association property="facility" javaType="Facility">
 			<id 	column="facility_cd" 		property="facilityCd"/>
 			<result column="main_ctg_cd"		property="mainCtgCd"/>
@@ -167,7 +167,7 @@
 				   on
 				   f.town_cd = act.town_cd
 				WHERE
-		      	l.lesson_cd = 'lesson_008') AS lesson_sub
+		      	l.lesson_cd = #{lessonCd}) AS lesson_sub
 				LEFT JOIN
 				(SELECT
 					rfwg.facility_goods_cd
@@ -183,10 +183,10 @@
 					,tf.represent_img
 				FROM
 					rel_file_with_goods AS rfwg
-				   INNER JOIN
-				   t_file	AS tf
-				   on
-				   tf.file_cd = rfwg.flie_cd
+					INNER JOIN
+				    t_file	AS tf
+				    on
+				    tf.file_cd = rfwg.flie_cd
 				WHERE
 					tf.deleted_yn != 'Y') AS lesson_file
 				on
@@ -358,7 +358,8 @@
 			tf.deleted_yn != 'Y') AS lesson_file
 		on
 		lesson_file.facility_goods_cd = lesson_sub.facility_goods_cd
-	   		
+		GROUP BY
+			lesson_sub.facility_goods_cd
 	   	<trim prefix="WHERE" prefixOverrides="AND /OR ">
 	   		<if test="facility.mainCtgCd != null and facility.mainCtgCd != '' ">
 	   			lesson_sub.main_ctg_cd = #{facility.mainCtgCd}

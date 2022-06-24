@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Pass;
+import ks43team03.service.FacilityGoodsService;
 
 @Controller
 @RequestMapping("/pass")
@@ -18,12 +19,24 @@ public class PassController {
 	
 	private static final Logger log = LoggerFactory.getLogger(PassController.class);
 
+	private final FacilityGoodsService facilityGoodsService;
+	
+	public PassController(FacilityGoodsService facilityGoodsService) {
+		this.facilityGoodsService = facilityGoodsService;
+	}
+	
 	
 	@GetMapping("/addPass")
 	public String addPass() {
 		
 		return "pass/adminAddPass";
 	}
+
+	@PostMapping("/addPass")
+	public String addPass(Pass pass) {
+		return null;
+	}
+	
 	
 	@GetMapping("/addPass2")
 	public String addPass2() {

@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.dto.Facility;
+import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;
 import ks43team03.service.StadiumService;
@@ -135,13 +137,27 @@ public class StadiumController {
 	
 	/*구장등록 처리*/
 	@PostMapping("/addStadium") 
-	public String addStadium(Stadium stadium
+	public String addStadium(FacilityGoods facilityGoods
+							,Stadium stadium
 							,@RequestParam(name="facilityStadiumCd", required = false) String facilityStadiumCd
+							,@RequestParam MultipartFile[] stadiumImgFile, Model model
 							,HttpServletRequest request) {
+		stadium.setFacilityGoods(facilityGoods);
 		log.info("구장등록화면에서 입력한 data : {}", stadium);
 		
-		stadiumService.addStadium(stadium); 
-		return "redirect:/stadium/addStadiumPrice"; 
+		String serverName = request.getServerName();
+		String fileRealPath = "";
+		if("localhost".equals(serverName)) {				
+			fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
+			//fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}else {
+			fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}
+		
+		stadiumService.addStadium(stadium, stadiumImgFile, fileRealPath);
+		
+		return "redirect:/stadium/addStadiumPrice?" + "facilityStadiumCd="+ stadium.getFacilityStadiumCd();
+		
 	}
 	
 	

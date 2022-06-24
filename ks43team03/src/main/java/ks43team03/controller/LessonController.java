@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.AreaCity;
 import ks43team03.dto.AreaCityTown;
 import ks43team03.dto.Facility;
+import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Lesson;
 import ks43team03.dto.Sports;
 import ks43team03.service.LessonService;
@@ -46,7 +45,7 @@ public class LessonController {
 		model.addAttribute("lesson", lesson);
 		model.addAttribute("title" , "상품상세보기");
 		
-		log.info("lesson : {}", lesson);
+		log.info("model : {}", model);
 		
 		return "lesson/detailLessonForUser";
 	}
@@ -149,9 +148,5 @@ public class LessonController {
 		return "redirect:/lesson/facilityLessonList?" + "facilityCd="+ lesson.getFacilityCd();
 		
 	}
-	@GetMapping("/addLesson")
-	public String addLesson(Model model) {
-		model.addAttribute("title", "레슨등록");
-		return "lesson/addLesson";
-	}
+
 }

@@ -127,17 +127,33 @@
 					결제수단
 				</div>
 			</div>
-			<div class="row form-group">
-				<div class="col-sm-2">
-					<label for="order-price">결제금액</label>
-				</div>
-				<div class="col-sm-5">
-					<input type="text" name="orderPayPrice" class="form-control" id="order-price">
-				</div>
-
-
+			<div class="row">
+				<table class="table table-bordered">
+					<tr>
+						<td style="width: 16.66%">결제수단</td>
+						<td style="width: 83.33%">
+							<div class="col-sm-8">
+								<div class="row">
+									<div class="col-sm-3 ">
+										<label for="card"> 
+											<input type="radio" name="method" class="form-control btn btn-primary" id="card">카드
+										</label>
+									</div>
+									<div class="col-sm-3 ">
+										<label for="virtual">
+											<input type="radio" name="method" class="form-control btn btn-primary" id="virtual">가상계좌
+										</label>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>총 결제 금액</td>
+						<td><input type="text" class="form-control col-sm-4" id="order-price" disabled></td>
+					</tr>
+				</table>
 			</div>
-
 			<br />
 			<br />
 			<div class="row">
@@ -157,6 +173,9 @@
 
 		const userId = document.querySelector('input[name="userId"]');
 		const facilityGoodsCd = document.querySelector('input[name="facilityGoodsCd"]');
+
+		//주문 폼
+		const orderForm = document.querySelector('#orderForm');
 
 		//포인트 사용후 총결제금액 
 		let sumPay = document.querySelector('#sum-pay');
@@ -217,7 +236,6 @@
 
 		$('#pay-btn').click(function(){
 
-			
 			const data = {
 				userId : $('input[name="userId"]').val(),
 				facilityGoodsCd : $('input[name="facilityGoodsCd"]').val()

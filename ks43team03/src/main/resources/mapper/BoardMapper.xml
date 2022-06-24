@@ -92,8 +92,8 @@
 			, #{boardPostFile}
 			, NOW()
 			, #{boardPostViews}
-			, #{boardPostCommentNum}
-			, #{boardPostCommentState});
+			, 0
+			, 'N');
 	</insert>
 	
 	<!-- 게시글 답글 등록 -->
@@ -120,11 +120,11 @@
 	<!-- 게시글 카테고리 조회 -->
 	<select id="getBoardSubCtgCd" parameterType="String" resultMap="BoardCtgCdResultMap">
 		SELECT 
-			board_sub_ctg_cd
-			, board_ctg_nm
-			, board_ctg_reg_date
+			bc.board_sub_ctg_cd
+			, bc.board_ctg_nm
+			, bc.board_ctg_reg_date
 		FROM 
-			board_ctg;
+			board_ctg AS bc;
 	</select>
 	
 	<!-- 게시글 조회수 업데이트 -->
@@ -135,6 +135,25 @@
 			board_post_views = board_post_views+1
 		WHERE 
 			board_post_cd = #{boardPostCd};
+	</update>
+	
+	<!-- 게시글 수정 -->
+	<update id="modifyBoard" parameterType="Board">
+		UPDATE 
+			board_post
+		SET
+			board_post_cd=#{boardPostCd},
+			board_ctg_cd=#{boardCtgCd},
+			user_id=#{userId},
+			board_post_title=#{boardPostTitle},
+			board_post_content=#{boardPostContent},
+			board_post_file=#{boardPostFile},
+			board_post_date=NOW(),
+			board_post_views=#{boardPostViews},
+			board_post_comment_number=0,
+			board_post_state='N'
+		WHERE 
+			board_post_cd=#{boardPostCd};
 	</update>
 	
 	<!-- 게시글 답글 리스트 조회 -->
@@ -166,12 +185,27 @@
 	</delete>
 	
 	<!-- 게시글 삭제 -->
+	<delete id="removeCommentByPostCd" parameterType="String">
+		/* 게시글에 등록되있는 댓글 모두 삭제 */
+		DELETE 
+			bc
+		FROM 
+			board_post AS bp
+			INNER JOIN 
+			board_post_comment AS bc
+			ON 
+			bp.board_post_cd = bc.board_post_cd
+		WHERE
+			bc.board_post_cd = #{boardPostCd};
+	</delete>
 	<delete id="removeBoard" parameterType="String">
+		/* 게시글 삭제 */
 		DELETE
 		FROM
 			board_post
 		WHERE
 			board_post_cd = #{boardPostCd};
 	</delete>
+
 	
 </mapper>

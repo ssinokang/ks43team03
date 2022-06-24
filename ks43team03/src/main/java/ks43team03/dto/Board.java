@@ -21,4 +21,5 @@ public class Board {
 	private char  	boardPostState;
 	
 	private BoardComment boardComment;
+	private BoardCtgCd boardSubCtgCd;
 }

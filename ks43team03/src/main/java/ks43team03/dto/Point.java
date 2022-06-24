@@ -1,7 +1,5 @@
 package ks43team03.dto;
 
-import java.util.Date;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -25,12 +23,12 @@ public class Point {
 	//total_point
 	private String applyPointGroupCd;
 	private int totalPoint;
-	private Date pointUpdateDate;
+	private String pointUpdateDate;
 	
 	//apply_point
 	private String applyPointCd;
 	private String eventDetail;
 	private int applyPointAmount;
-	private Date applyDate;
+	private String applyDate;
 	
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ksmart42.khtour.mapper.PointMapper">
+<mapper namespace="ks43team03.mapper.PointMapper">
 	<resultMap	type="Point" 					id="pointResultMap">
 		<!-- apply_point 누적 포인트 내역 -->
 		<id 	column="apply_point_cd" 		property="applyPointCd" />
@@ -15,6 +15,23 @@
 		<result column="total_point"			property="totalPoint" />			
 		<result column="point_update_date"		property="pointUpdateDate" />			
 	</resultMap>
+	<resultMap	type="PointGet" 				id="pointGetResultMap">
+		<!-- user_get_point 포인트 적립 이벤트 -->
+		<id 	column="user_get_point_cd"		property="userGetPointCd"/>
+		<result	column="point_apply_date_cd" 	property="pointGetCd" />
+		<result	column="user_id" 				property="userId" />
+		<result	column="point_get_cd" 			property="pointGetCd" />
+		<result	column="get_point" 				property="getPoint" />
+		<result	column="point_event_date" 		property="pointEventDate" />
+		<result	column="get_point_date" 		property="getPointDate" />
+		<result	column="point_end_date" 		property="pointEndDate" />
+		<result	column="get_state" 				property="getState" />
+		<!-- point_get 포인트 적립 분류 -->
+		<result	column="point_cd" 				property="pointCd" />
+		<result	column="point_get_detail" 		property="pointGetDetail" />
+		<result	column="point_end_days" 		property="pointEndDays" />
+		<result	column="point_get_reg_date" 	property="pointGetRegDate" />
+	</resultMap>
 	
 	<!-- 회원 포인트 조회 -->
 	<select id="getPointList" parameterType="String" resultMap="pointResultMap">
@@ -25,13 +42,18 @@
 			, a.apply_date
 			,t.total_point
 		FROM 
-			total_point AS t
-		INNER JOIN
 			apply_point AS a
+		INNER JOIN
+			total_point AS t
 		ON
 			t.user_id = a.user_id
 		WHERE 
-			t.user_id = #{userId};
+			a.user_id = #{userId};
 	</select>
-
+	
+	<!-- 회원 포인트 적립 -->
+	<update id="pointGet">
+		
+	</update>
+	
 </mapper>

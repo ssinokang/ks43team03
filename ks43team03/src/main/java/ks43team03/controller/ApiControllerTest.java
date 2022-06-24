@@ -24,7 +24,7 @@ public class ApiControllerTest {
 
 	private static final Logger log = LoggerFactory.getLogger(ApiControllerTest.class);
 
-	@PostMapping("/api/pass")
+	@PostMapping("/api/goods")
 	public FacilityGoods addGoodsCode(@RequestBody FacilityGoods facilityGoods) {
 
 		log.info("facilityGoods : {}", facilityGoods);

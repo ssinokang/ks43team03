@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.ResponseGoods;
 import ks43team03.dto.User;
 import ks43team03.service.FacilityGoodsService;

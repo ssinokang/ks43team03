@@ -20,7 +20,7 @@ public interface CommonMapper {
 	 * SELECT
 			case
 			when COUNT(o.order_cd) = 0 
-			then 'order_1'
+			then 'order_cd_1'
 			else
 				CONCAT('order_cd','_',MAX(CAST(SUBSTRING_INDEX(o.order_cd,'_',-1) AS UNSIGNED))+1)
 			END

@@ -125,15 +125,15 @@ public class AdminFacilityService {
 	}
 
 	/* 시군구 조회 */
-	public List<AreaCity> getAreaCityList() {
-		List<AreaCity> areaCityList = adminFacilityMapper.getAreaCityList();
+	public List<AreaCity> getAreaCityList(String areaCd) {
+		List<AreaCity> areaCityList = adminFacilityMapper.getAreaCityList(areaCd);
 
 		return areaCityList;
 	}
 
 	/* 읍면동 조회 */
-	public List<AreaCityTown> getAreaCityTownList() {
-		List<AreaCityTown> areaCityTownList = adminFacilityMapper.getAreaCityTownList();
+	public List<AreaCityTown> getAreaCityTownList(String cityCd) {
+		List<AreaCityTown> areaCityTownList = adminFacilityMapper.getAreaCityTownList(cityCd);
 
 		return areaCityTownList;
 	}

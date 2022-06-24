@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 
 import ks43team03.dto.Facility;
+import ks43team03.dto.FacilityUser;
 import ks43team03.dto.Lesson;
 import ks43team03.dto.Stadium;
 
@@ -14,6 +15,12 @@ import ks43team03.dto.Stadium;
 @Mapper
 public interface FacilityMapper {
 
+	//시설에 가입한 회원 체크
+	public boolean isUserCheck(String userId, String facilityCd);
+	
+	//시설에 회원 가입
+	public int addFacilityUser(FacilityUser facilityUser);
+	
 	//시설 페이지 내에서 보여줄 구장 목록
 	public List<Stadium> getStadiumList(String facilityCd);
 	

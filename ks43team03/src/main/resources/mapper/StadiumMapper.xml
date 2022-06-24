@@ -58,6 +58,19 @@
 			<result	column="updated_date"			property="updatedDate"/>
 			<result	column="represent_img"		property="representImg"/>
 		</collection>
+		<collection property="booking" ofType="BookingDto">
+			<id		column="booking_cd"				property="bookingCd"/>
+			<result	column="facility_cd"			property="facilityCd"/>
+			<result	column="facility_goods_cd"		property="facilityGoodsCd"/>
+			<result	column="user_id"				property="userId"/>
+			<result column="goods_ctg_cd"			property="goodsCtgCd"/>
+			<result	column="booking_date"			property="bookingDate"/>
+			<result	column="booking_start_time"		property="bookingStartTime"/>
+			<result	column="booking_end_time"		property="bookingEndTime"/>
+			<result	column="booking_state"			property="bookingState"/>
+			<result	column="booking_price"			property="bookingPrice"/>
+			<result	column="booking_reg_date"		property="bookingRegDate"/>
+		</collection>
 	</resultMap>
 	<resultMap type="stadiumPrice" id="stadiumPriceResultMap">
 			<id 	column="stadium_price_cd" 		property="stadiumPriceCd"/>
@@ -69,6 +82,24 @@
 	</resultMap>
 	
 	
+	<select id="getBookingList" parameterType="BookingDto">
+		SELECT 
+			booking_cd 			AS bookingCd
+		 	,facility_cd 		AS facilityCd
+			,facility_goods_cd 	AS facilityGoodsCd
+			,user_id 			AS userId
+			,goods_ctg_cd 		AS goodsCtgCd
+			,booking_date 		AS bookingDate
+			,booking_start_time AS bookingStartTime
+			,booking_end_time	AS bookingEndTime
+			,booking_state 		AS bookingState
+			,booking_pricea 	AS bookingPrice
+			,booking_reg_date	AS bookingRegDate
+		FROM 
+			booking
+		WHERE
+			facility_goods_cd = #{facilityGoodsCd};
+	</select>
 	
 	
 	<select id="getStadiumInfoByCd" parameterType="String" resultMap="stadiumResultMap">

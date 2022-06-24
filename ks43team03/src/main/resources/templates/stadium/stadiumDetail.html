@@ -75,7 +75,6 @@
                         </div>
                         <p th:text="${l.facility.facilityNm}" style="font-size : large; margin: 0px;" ></p>
                         <p th:text="${l.facility.facilityAddr} + ' ' +${l.facility.facilityDetailAddr}" style="font-size : medium; margin: 0px;" ></p>
-                        <p th:text="${l.facility.facilityTell}" style="font-size:medium;"></p>
                         <div class="product__details__button">
                             <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> 회원등록</a> 
                             <ul>
@@ -92,28 +91,38 @@
 	                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">구장예약</a>
 	                            </li>
 	                            <li class="nav-item">
-	                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
+	                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">위치안내</a>
 	                            </li>
 	                            <li class="nav-item">
-	                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( 2 )</a>
+	                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">후기</a>
 	                            </li>
 	                        </ul>
 	                        <div class="tab-content">
 	                            <div class="tab-pane active" id="tabs-1" role="tabpanel">	           
-	                                <section class="checkout spad">
+	                                <section class="checkout spad" style="padding-top: 20px;">
 								        <div class="container">
 								            <form action="#" class="checkout__form">
 								                <div class="row">
-								                    <div class="col-lg-8">
-								                        <h5>구장예약</h5>
+								                    <div class="col-lg-8" style="padding-bottom: 25px;">
+								                        <h5>구장정보</h5>
 								                        <div class="row">
 								                            <div class="col-lg-6 col-md-6 col-sm-6">
 								                                <div class="checkout__form__input">
 									                                <p th:text="${l.facilityStadiumDetail}"></p>
 								                                </div>
 								                                <div class="checkout__form__input">
-									                                <p th:text="${l.facilityStadiumDetail}"></p>
+									                                 <p th:text="${l.facility.facilityTell}"></p>
 								                                </div>
+								                            </div>
+								                       </div>
+								                    </div>
+								                    <div class="col-lg-8">
+								                        <h5>구장예약</h5>
+								                        <div class="row">
+								                       </div>
+								                        <div class="row">
+								                            <div class="col-lg-12 col-md-8 col-sm-6">
+								                                <input type="date" class="form-control" name="reservationStadium">
 								                            </div>
 								                       </div>
 								                    </div>

@@ -339,12 +339,15 @@
 		</select>
 
 		<select id="getAreaCityList" resultType="AreaCity">
+			/*시도 기준 시군군 정보 조회*/
 			SELECT 
-				city_cd	AS cityCd
+				city_cd		AS cityCd
 				,area_cd	AS areaCd
 				,city_nm	AS cityNm
 			FROM
-				area_city;
+				area_city
+			WHERE
+				area_cd = #{areaCd};
 		</select>
 		
 		<select id="getAreaCityTownList" resultType="AreaCityTown">
@@ -354,7 +357,9 @@
 				,city_cd	AS cityCd
 				,town_nm	AS townNm
 			FROM
-				area_city_town;
+				area_city_town
+			WHERE
+				city_cd = #{cityCd};
 		</select>
 </mapper> 
   

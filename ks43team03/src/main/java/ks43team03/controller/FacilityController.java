@@ -9,10 +9,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ks43team03.dto.Facility;
+import ks43team03.dto.FacilityUser;
 import ks43team03.dto.Lesson;
 import ks43team03.dto.Stadium;
 import ks43team03.service.FacilityService;
@@ -28,6 +31,36 @@ public class FacilityController {
 		this.facilityService = facilityService;
 	}
 
+	
+	/*시설 가입 중복 체크*/
+	@PostMapping("/userCheck")
+	@ResponseBody
+	public boolean isUserCheck(@RequestParam(value = "userId") String userId
+							 , @RequestParam(value = "facilityCd") String facilityCd) {
+		boolean userCheck = false;
+		
+		boolean result = facilityService.isUserCheck(userId, facilityCd);
+		if(result) userCheck = true;
+		
+		return userCheck;
+	}
+	
+	
+	/*시설에 회원 가입*/
+	@PostMapping("/addFacilityUser")
+	public String addFacilityUser(FacilityUser facilityUser) {
+	 facilityService.addFacilityUser(facilityUser);
+		
+		return "redirect:/facility/facilityDetail";
+	}
+	
+	/*시설에 회원가입*/
+	@GetMapping("/addFacilityUser")
+	public String addFacilityUser() {
+		
+		return"facility/facilityDetail";
+	}
+	
 	
 	/* 시설 상세 조회*/
 

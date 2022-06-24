@@ -73,10 +73,47 @@
 			<result column="lesson_reg_date" 		property="lessonRegDate"/>		
 			<result column="lesson_state" 			property="lessonState"/>		
 		</collection>
-		
-		
-		
+		<collection property="facilityUser" 	javaType="FacilityUser">
+			<id column="facility_cd"				property="facilityCd"/>
+			<result column="user_id"				property="userId"/>
+			<result column="facility_user_level"	property="facilityUserLevel"/>
+			<result column="facility_approve_state"	property="facilityApproveState"/>
+			<result column="facility_approve_id"	property="facilityApproveId"/>
+			<result column="facility_approve_date"	property="facilityApproveDate"/>
+			<result column="facility_reg_date"		property="facilityRegDate"/>
+		</collection>
 	</resultMap>
+	
+	
+	<select id="isUserCheck" parameterType="String" resultType="boolean">
+		/*시설에 가입한 회원 체크*/
+		SELECT
+			if(COUNT(1) = 1,0,1)
+		FROM
+		 	facility_user
+		WHERE 
+			user_id = #{userId} AND facility_cd = #{facilityCd};
+	</select>
+	
+	
+	
+	<insert id="addFacilityUser" parameterType="FacilityUser">
+		INSERT INTO facility_user
+			(facility_cd
+			,user_id
+			,facility_user_level
+			,facility_approve_state
+			,facility_reg_date
+			) VALUES (
+			#{facilityCd}
+			,#{userId}
+			,#{facilityUserLevel}
+			,'N'
+			,CURDATE());
+	</insert>
+	
+	
+	
 	
 	<select id="getStadiumList" resultType="Stadium">
 	/*시설내 구장 목록*/
@@ -196,9 +233,9 @@
 				facility 
 				
 			<trim prefix="WHERE" prefixOverrides="AND /OR ">
-	   		<if test="mainCtgCd != null and mainCtgCd != '' ">
-	   			main_ctg_cd = #{mainCtgCd}
-	   		</if>
+		   		<if test="mainCtgCd != null and mainCtgCd != '' ">
+		   			main_ctg_cd = #{mainCtgCd}
+		   		</if>
 	   		</trim>
 			LIMIT #{startRow}, #{rowPerPage};	
 		</select>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="ks43team03.mapper.PassMapper">
+ 	<resultMap type="Pass" id="PassResultMap">
+ 		<id column="pass_cd" property="passCd"/>
+		<result column="facility_goods_cd" property="facilityGoodsCd"/>
+		<result column="facility_cd" property="facilityCd"/>
+		<result column="goods_ctg_cd" property="goodsCtgCd"/>
+		<result column="user_id" property="userId"/>
+		<result column="pass_nm" property="passNm"/>
+		<result column="pass_unit" property="passUnit"/>
+		<result column="pass_price" property="passPrice"/>
+		<result column="pass_state" property="passState"/>
+		<result column="pass_reg_date" property="passRegDate"/>
+		<result column="pass_end_days" property="passEndDate"/>
+ 	</resultMap>
+ 	
+ 	
+ 	<insert id="addPass" parameterType="Pass">
+ 	
+ 		<selectKey keyProperty="passCd" resultType="String" order="BEFORE">
+		 select
+			case
+			when COUNT(p.pass_cd) = 0 
+			then 'pass_cd_1'
+			else
+				CONCAT('pass_cd_',MAX(CAST(SUBSTRING_INDEX(p.pass_cd,'_',-1) AS UNSIGNED))+1)
+			end
+		FROM
+			facility_pass AS p
+ 		</selectKey>
+	 	INSERT INTO facility_pass
+		(
+			 pass_cd
+			,facility_goods_cd
+			,facility_cd
+			,goods_ctg_cd
+			,user_id
+			,pass_nm
+			,pass_reg_date
+			,pass_unit
+			,pass_price
+			,pass_state
+			,pass_end_days
+		)
+		VALUES (
+			 #{passCd}
+			,#{facilityGoodsCd}
+			,#{facilityCd}
+			,#{goodsCtgCd}
+			,#{userId}
+			,#{passNm}
+			, NOW()
+			,#{passUnit}
+			,#{passPrice}
+			,'Y'
+			,#{passEndDate}
+		)
+ 	</insert>
+ </mapper>

@@ -1,11 +1,12 @@
 package ks43team03.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter @Setter
-@ToString
+@AllArgsConstructor
 public class Pass{
 	
 	private String passCd;	
@@ -20,6 +21,22 @@ public class Pass{
 	private String passRegDate;
 	private int passEndDate;
 	
+	//sportscd
+	private String sportsCd;
+	
+	
+	public Pass() {}
+	
+	@Builder
+	public FacilityGoods toFacilityGoods() {
+		return FacilityGoods.builder()
+					.facilityCd(facilityCd)
+					.userId(userId)
+					.goodsCtgCd(goodsCtgCd)
+					.sportsCd(sportsCd)
+					.build();
+					
+	}
 	
 	
 	

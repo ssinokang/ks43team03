@@ -15,8 +15,8 @@ $("#type_filter").select2({
 
 //datetimepicker
 $("#edit-start, #edit-end").datetimepicker({
-    format: 'YYYY-MM-DD HH'
+    format: 'HH'
 });
 $("#editLesson-start, #editLesson-end").datetimepicker({
-    format: 'YYYY-MM-DD HH'
+    format: 'HH'
 });

@@ -1,5 +1,7 @@
 package ks43team03.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,11 @@ public class PassService {
 		passMapper.addPass(pass);
 		
 		return facilityGoods.getFacilityGoodsCd();
+	}
+	
+	
+	public List<Pass> getPassAll(){
+		return passMapper.getPassAll();
 	}
 	
 	

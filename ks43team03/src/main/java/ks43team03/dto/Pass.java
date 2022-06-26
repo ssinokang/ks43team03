@@ -24,6 +24,8 @@ public class Pass{
 	//sportscd
 	private String sportsCd;
 	
+	private Facility facility;
+	
 	
 	public Pass() {}
 	

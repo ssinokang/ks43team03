@@ -9,6 +9,7 @@
 
 	<!-- 사용자 정의 js 선언 -->
 	<th:block layout:fragment="customJs">
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
 		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9c5dbc5a281ccc90ee278e75316bee9c&libraries=services,clusterer,drawing"></script>
 	</th:block>
 
@@ -71,7 +72,7 @@
 									<td th:text ="${l.get('townNm')}"></td>
 									<td th:text ="${l.get('facilityUseNm')}"></td>
 									<td th:text ="${l.get('userId')}"></td>
-									<td th:text ="${l.get('facilityNm')}"></td>
+									<td th:text ="${l.get('facilityNm')}" class="placeName"></td>
 									<td th:text ="${l.get('facilityAddr')}" class="placeAddr"></td>
 									<td th:text ="${l.get('facilityTell')}"></td>
 									<td th:text ="${l.get('businessNum')}"></td>
@@ -119,55 +120,145 @@
 		</div>
 
 		<script>
-		// 마커를 담을 배열입니다
-		var markers = [];
-		var placeAddrText = [];
-		var placeAddr = document.querySelectorAll('.placeAddr');
+		// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
+		var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 		
-		
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-			mapOption = {
-				center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-				level: 3 // 지도의 확대 레벨
-			};  
-		
-		// 지도를 생성합니다    
-		var map = new kakao.maps.Map(mapContainer, mapOption); 
-		
-		// 주소-좌표 변환 객체를 생성합니다
-		var geocoder = new kakao.maps.services.Geocoder();
+		// 시설 주소 목록
+		var placeAddrText = [],
+			placeNameText = [],
+			placeAddr = document.querySelectorAll('.placeAddr'),
+			placeName = document.querySelectorAll('.placeName');
 		
 		
 		for(var i = 0; i<placeAddr.length; i++){
 			
 			placeAddrText.push(placeAddr[i].innerText);
+			placeNameText.push(placeName[i].innerText);
+			
+		}
+		
+		console.log(placeNameText);
+		console.log(placeAddrText);
+		
+		// 지도를 생성합니다
+		var map = new kakao.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
+	        center : new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표 
+	        level : 14 // 지도의 확대 레벨 
+	    });
+		
+		// 마커 클러스터러를 생성합니다 
+		var clusterer = new kakao.maps.MarkerClusterer({
+			map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+			averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+			minLevel: 10 // 클러스터 할 최소 지도 레벨 
+		});
+		
+		// 주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
+		
+		// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
+		// 인포윈도우에 장소명을 표시합니다
+		function displayInfowindow(marker, title) {
+			var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
+
+			infowindow.setContent(content);
+			infowindow.open(map, marker);
+		}
+		
+		for(var i=0; i<placeAddrText.length; i++){
+			
 			
 			// 주소로 좌표를 검색합니다
 			geocoder.addressSearch(placeAddrText[i], function(result, status) {
-			
-				console.log(result[i]);
+				
+				console.log(result[0]);
+				
 				// 정상적으로 검색이 완료됐으면 
 				if (status === kakao.maps.services.Status.OK) {
 			
-					var coords = new kakao.maps.LatLng(result[i].y, result[i].x);
+					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					
+					console.log('coords : ' + coords);
+					
+					// 결과값으로 받은 위치를 마커로 표시합니다
+					// 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
+					var marker = new kakao.maps.Marker({
+						position: coords
+					});
+					
+					// 마커와 검색결과 항목에 mouseover 했을때
+					// 해당 장소에 인포윈도우에 장소명을 표시합니다
+					// mouseout 했을 때는 인포윈도우를 닫습니다
+					(function(marker, title) {
+						kakao.maps.event.addListener(marker, 'mouseover', function() {
+							displayInfowindow(marker, title);
+						});
+
+						kakao.maps.event.addListener(marker, 'mouseout', function() {
+							infowindow.close();
+						});
+	
+					})(marker, placeNameText[i]);
+					
+					clusterer.addMarker(marker);
+					
+					console.log(clusterer);
+					
+				}
+			});
+		}
 			
+		/* // LatLngBounds 객체 생성
+		var bounds = new kakao.maps.LatLngBounds();
+			
+		//주소로 foreach 구문
+		placeAddrText.forEach(function(addr, index){
+			
+			console.log(addr);
+			
+			// 주소로 좌표를 검색합니다
+			geocoder.addressSearch(addr, function(result, status) {
+				
+				console.log(result);
+				
+				// 정상적으로 검색이 완료됐으면 
+				if (status === kakao.maps.services.Status.OK) {
+			
+					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					
+					console.log('coords : ' + coords);
+					
+					// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+					// LatLngBounds 객체에 좌표를 추가합니다
+					bounds.extend(coords);
+					
 					// 결과값으로 받은 위치를 마커로 표시합니다
 					var marker = new kakao.maps.Marker({
 						map: map,
 						position: coords
 					});
 			
-					// 인포윈도우로 장소에 대한 설명을 표시합니다
-					var infowindow = new kakao.maps.InfoWindow({
-						content: '<div style="width:150px;text-align:center;padding:6px 0;">마바사종합체육관</div>'
-					});
-					infowindow.open(map, marker);
-			
-					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-					map.setCenter(coords);
+					// 마커와 검색결과 항목에 mouseover 했을때
+					// 해당 장소에 인포윈도우에 장소명을 표시합니다
+					// mouseout 했을 때는 인포윈도우를 닫습니다
+					(function(marker, title) {
+						kakao.maps.event.addListener(marker, 'mouseover', function() {
+							displayInfowindow(marker, title);
+						});
+
+						kakao.maps.event.addListener(marker, 'mouseout', function() {
+							infowindow.close();
+						});
+	
+					})(marker, result[0].address_name);
+					
+					clusterer.addMarkers(marker);
+					
+					// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+					map.setBounds(bounds);
 				}
-			});    
-		}
+			});
+		}); */
 		
 		</script>
 

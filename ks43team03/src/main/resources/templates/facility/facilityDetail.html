@@ -8,6 +8,54 @@
    <title th:text="${title}"></title>
 </th:block>
 
+<!-- 사용자 정의 Js 파일-->
+<th:block layout:fragment="customJs">
+	<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+ 	
+	<script>
+		 $(function(){
+			var $addForm = $('#addForm');
+			function validationCheck(data1, date2){
+				if((typeof data1 == 'undefined' || data1 == '' || data1 == null) 
+						&& (typeof data2 == 'undefined' || data2 == '' || data2 == null)){
+					return false;
+				}
+				return true;
+			}
+			
+			$addForm.on('click','#addBtn',function(){
+				
+				var facilityCd = $('input[name="facilityCd"]').val();
+				var userId = $('input[name="userId"]').val();
+				console.log(facilityCd);
+				console.log(userId);
+				
+				var vCheck = validationCheck(facilityCd, userId);
+				console.log(vCheck);
+				
+				if(vCheck){
+					$.ajax({
+						 url: '/facility/userCheck'
+						,type: 'POST'
+						,data: {'facilityCd' : facilityCd, 'userId' : userId}
+						,dataType: 'json'
+						,success: function(data){
+							console.log(data);
+							if(data){
+								alert("시설 승인 후 이용가능합니다.")
+								$addForm.attr('action','/facility/addFacilityUser').submit();
+							}else{
+								alert("이미 가입된 시설입니다.");
+							}
+						}
+					});
+				}
+			})
+		});
+	</script>
+ 
+</th:block>
+
 
 
 <th:block layout:fragment="customContents">
@@ -27,10 +75,6 @@
         </div>
   	</th:block>
     </div>
-
-
-
-
 
 <!-- Product Details Section Begin -->
     <section class="product-details spad">
@@ -74,10 +118,9 @@
                             <i class="fa fa-star"></i>
                         </div>
                         
-                        <p th:text="${l.facilityAddr} + ' ' +${l.facilityDetailAddr}" style="font-size : medium; margin: 0px;" ></p>
-                        <p th:text="${l.facilityTell}" style="font-size:medium;"></p>
-                        <div class="product__details__button">
-                            <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> 회원등록</a> 
+                        <p th:text="${l.facilityAddr}" style="font-size : medium; margin: 0px;" ></p>
+                        <div class="product__details__button" style="margin-top: 20px;">
+                            <a data-toggle="modal" data-target="#addModal" class="cart-btn"><span class="icon_bag_alt"></span>시설가입</a> 
                             <ul>
                                 <li><a th:href="@{/boomk/addBoomk(facilityCd=${l.facilityCd},userId=${session.SID})}"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
@@ -90,27 +133,122 @@
                     <div class="product__details__tab">
 	                        <ul class="nav nav-tabs" role="tablist">
 	                            <li class="nav-item">
-	                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
+	                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">상세정보</a>
 	                            </li>
 	                            <li class="nav-item">
-	                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
+	                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">위치안내</a>
 	                            </li>
 	                            <li class="nav-item">
-	                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( 2 )</a>
+	                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">게시판</a>
+	                            </li>
+	                            <li class="nav-item">
+	                                <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">후기</a>
 	                            </li>
 	                        </ul>
 	                        <div class="tab-content">
 	                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
-	                                <h6>Description</h6>
-	                                <p></p>
+	                                <h6>상세정보</h6>
+	                                <p>상세정보추가</p>
+	                                <p class="fa fa-phone"> 전화번호</p>
+	                                <p style="border-bottom: 1px solid #e1e1e1; padding-bottom: 20px;"  th:text="${l.facilityTell}"></p>	                                
+		                                <h6>구장</h6>		                                                
+	                               		<section class="trend spad" style="border-bottom: 1px solid #e1e1e1; padding: 10px; margin-bottom: 10px;">
+									    <div class="container">
+									        <div class="row">
+				                               	<th:block th:if="${not #lists.isEmpty(stadiumList)}" th:each="l : ${stadiumList}">
+									            <div class="col-lg-6 col-md-6 col-sm-12">
+									                <div class="trend__content">				
+									                    <div class="trend__item">
+									                        <div class="trend__item__pic">
+									                            <img src="">
+									                        </div>
+									                        <div class="trend__item__text">
+									                            <h6 ><a th:href="@{/stadium/stadiumDetail(facilityStadiumCd=${l.facilityStadiumCd})}" th:text="${l.facilityStadiumNm}" style="color: black;"></a></h6>
+									                            <div class="rating">
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                            </div>
+									                        </div>
+									                    </div>
+									                </div>
+									            </div>
+			                               	</th:block>
+									        </div>
+									    </div>
+									</section>
+	                                <h6>레슨</h6>
+	                                <section class="trend spad" style="border-bottom: 1px solid #e1e1e1; padding: 10px; margin-bottom: 10px;">
+									    <div class="container">
+									        <div class="row">
+				                               	<th:block th:if="${not #lists.isEmpty(lessonList)}" th:each="l : ${lessonList}">
+									            <div class="col-lg-6 col-md-6 col-sm-12">
+									                <div class="trend__content">				
+									                    <div class="trend__item">
+									                        <div class="trend__item__pic">
+									                            <img src="">
+									                        </div>
+									                        <div class="trend__item__text">
+									                            <h6 ><a th:href="@{/lesson/detailLessonForUser(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}" style="color: black;"></a></h6>
+									                            <div class="rating">
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                            </div>
+									                        </div>
+									                    </div>
+									                </div>
+									            </div>
+			                               	</th:block>
+									        </div>
+									    </div>
+									</section>                               
 	                            </div>
 	                            <div class="tab-pane" id="tabs-2" role="tabpanel">
-	                                <h6>Specification</h6>
-	                                <p></p>
+	                                <h6>위치정보</h6>
+	                                <p th:text="${l.facilityAddr} + ' ' + ${l.facilityDetailAddr}" ></p>
+	                                <p>지도</p>
 	                            </div>
 	                            <div class="tab-pane" id="tabs-3" role="tabpanel">
-	                                <h6>Reviews ( 2 )</h6>
+	                                <h6>게시판</h6>
 	                                <p></p>
+	                            </div>
+	                            <div class="tab-pane" id="tabs-4" role="tabpanel">
+							    <section class="blog-details spad">
+							        <div class="container">
+							            <div class="row">
+							                <div class="col-lg-8 col-md-8">
+							                    <div class="blog__details__content">
+							                        <div class="blog__details__comment">
+							                            <h5>3 Comment</h5>
+							                            <a href="#" class="leave-btn">후기등록</a>
+							                            <div class="blog__comment__item">
+							                                <div class="blog__comment__item__pic">
+							                                    <img src="img/blog/details/comment-1.jpg" alt="">
+							                                </div>
+							                                <div class="blog__comment__item__text">
+							                                    <h6>Brandon Kelley</h6>
+							                                    <p>Duis voluptatum. Id vis consequat consetetur dissentiet, ceteros commune perpetua
+							                                    mei et. Simul viderer facilisis egimus tractatos splendi.</p>
+							                                    <ul>
+							                                        <li><i class="fa fa-clock-o"></i> Seb 17, 2019</li>
+							                                        <li><i class="fa fa-heart-o"></i> 12</li>
+							                                        <li><i class="fa fa-share"></i> 1</li>
+							                                    </ul>
+							                                </div>
+							                            </div>
+							                        </div>
+							                    </div>
+							                </div>
+							            </div>
+							        </div>
+							    </section>
+
+	                             
 	                            </div>
 	                        </div>
                    	 	</div>
@@ -149,6 +287,52 @@
     </section>
     <!-- Product Details Section End -->
 
+	<!-- Modal -->
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<form id="addForm" method="post">
+			<div class="modal-dialog" role="document">
+		 		<div class="modal-content">
+					<div class="modal-header">
+						<th:block th:if="${not #lists.isEmpty(facilityDetail)}" th:each="l : ${facilityDetail}">
+							<h5 class="modal-title" id="facilityCd" th:value="${l.facilityCd}" th:text="${l.facilityNm}"></h5>
+							<input type="hidden" class="form-control" name="facilityCd" readonly="readonly" th:value="${l.facilityCd}">
+						</th:block>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group row">
+							<div class="col-md-9 col-sm-9">
+								<label class="control-label" for="userLevel">권한을 선택해주세요</label>
+								<input type="hidden" class="form-control" name="userId" readonly="readonly" th:value="${session.SID}">
+							</div>
+							<div class="col-md-9 col-sm-9" style="padding-top: 5px;">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="facilityUserLevel" id="inlineRadio1" value="일반회원" checked>
+									<label class="form-check-label" for="inlineRadio1">일반회원</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="facilityUserLevel" id="inlineRadio2" value="트레이너">
+									<label class="form-check-label" for="inlineRadio2">트레이너</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="facilityUserLevel" id="inlineRadio2" value="대리인">
+									<label class="form-check-label" for="inlineRadio2">대리인</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="form-group">
+							<button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
+							<button type="button" class="btn btn-info" id="addBtn">가입</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
 
 
 

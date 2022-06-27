@@ -127,8 +127,11 @@
 		/* 회원 정보 변경 */
 		UPDATE user
 		<trim prefix="SET" prefixOverrides=",">
+			<if test="userLevel != null and userLevel != ''">
+				user_level			= #{userLevel}
+			</if>
 			<if test="userPw != null and userPw != ''">
-				user_password		= #{userPw}
+				,user_password		= #{userPw}
 			</if>
 			<if test="userName != null and userName != ''">
 				,user_nm			= #{userName}
@@ -214,8 +217,13 @@
 			,u.user_reg_date
 			,u.user_post_num
 			,u.user_detail_addr
+			,l.level_nm
 		FROM 
 			user as u
+			INNER JOIN
+			user_level AS l
+			on
+			u.user_level = l.`level`
 		WHERE 
 			user_id = #{userId};
 	</select>

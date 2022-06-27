@@ -31,6 +31,32 @@ public class TrainerService {
 	}
 	
 	/**
+	 * 자격증 코드로 자격증 조회
+	 */
+	public TrainerProfile getTrainerLicenseByTrainerLicenseCd(String trainerLicenseCd) {
+		
+		Map<String, String> paramMap = new HashMap<String,String>();
+		paramMap.put("trainerLicenseCd", trainerLicenseCd);
+		
+		TrainerProfile trainerLicense = trainerMapper.getTrainerLicenseInfoByMap(paramMap);
+		
+		return trainerLicense;
+	}
+	
+	/**
+	 * 경력 코드로 경력 조회
+	 */
+	public TrainerProfile getTrainerCareerByTrainerCareerCd(String trainerCareerCd) {
+		
+		Map<String, String> paramMap = new HashMap<String,String>();
+		paramMap.put("trainerCareerCd", trainerCareerCd);
+		
+		TrainerProfile trainerCareer = trainerMapper.getTrainerCareerInfoByMap(paramMap);
+		
+		return trainerCareer;
+	}
+	
+	/**
 	 * 트레이너 프로필 수정
 	 */
 	public int modifyTrainerProfile(TrainerProfile trainerProfile) {
@@ -41,11 +67,27 @@ public class TrainerService {
 	}
 	
 	/**
+	 * 유저 아이디로 트레이너 프로필 조회
+	 */
+	public TrainerProfile getTrainerProfileByUserId(String userId) {
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("userId", userId);
+		
+		TrainerProfile trainerProfile = trainerMapper.getTrainerProfileInfoByMap(paramMap);
+		
+		return trainerProfile;
+	}
+	
+	/**
 	 * 트레이너 코드로 트레이너 프로필 조회
 	 */
 	public TrainerProfile getTrainerProfileByTrainerCd(String trainerCd) {
 		
-		TrainerProfile	trainerProfile	= trainerMapper.getTrainerProfileInfoByTrainerCd(trainerCd);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("trainerCd", trainerCd);
+		
+		TrainerProfile	trainerProfile	= trainerMapper.getTrainerProfileInfoByMap(paramMap);
 		
 		return trainerProfile;
 	}
@@ -57,10 +99,14 @@ public class TrainerService {
 	 */
 	public Map<String, Object> getTrainerInfoByTrainerCd(String trainerCd) {
 		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("trainerCd", trainerCd);
+		
+		TrainerProfile	trainerProfile	= trainerMapper.getTrainerProfileInfoByMap(paramMap);
+		TrainerProfile	trainerCareer	= trainerMapper.getTrainerCareerInfoByMap(paramMap);
+		TrainerProfile	trainerLicense	= trainerMapper.getTrainerLicenseInfoByMap(paramMap);
+		
 		Map<String, Object> trainerMap = new HashMap<String, Object>();
-		TrainerProfile	trainerProfile	= trainerMapper.getTrainerProfileInfoByTrainerCd(trainerCd);
-		TrainerProfile	trainerCareer	= trainerMapper.getTrainerCareerInfoByTrainerCd(trainerCd);
-		TrainerProfile	trainerLicense	= trainerMapper.getTrainerLicenseInfoByTrainerCd(trainerCd);
 		
 		trainerMap.put("trainerProfile",	trainerProfile);
 		trainerMap.put("trainerCareer",		trainerCareer);
@@ -116,12 +162,20 @@ public class TrainerService {
 		User user = userMapper.getUserInfoById(userId);
 		
 		int userLevel = Integer.parseInt(user.getUserLevel());
+		
 		// User맴버에서 권한 변경
-		if(userLevel > 4) trainerMapper.modifyUserLevel(userId);
+		if(userLevel > 4) {
+			user.setUserLevel("4");
+			userMapper.modifyUser(user);
+		}
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("userId", userId);
 		
 		//트레이너 코드 등록된 트레이너 정보 조회
-		trainerProfile = trainerMapper.getTrainerProfileInfoByUserId(userId);
+		trainerProfile	= trainerMapper.getTrainerProfileInfoByMap(paramMap);
 		
+		//반환할 트레이너 코드
 		String trainerCd = trainerProfile.getTrainerCd();
 		
 		return trainerCd;

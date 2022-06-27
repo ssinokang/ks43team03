@@ -7,15 +7,15 @@
 			<ul class="nav side-menu">
 				<li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
 					<ul class="nav child_menu">
-						<li><a th:href="@{/}">관리자 페이지</a></li>
-						<li><a th:href="@{/admin}">사용자 페이지</a></li>
+						<li><a th:href="@{/}">사용자 페이지</a></li>
+						<li><a th:href="@{/admin}">관리자 페이지</a></li>
 					</ul>
 				</li>
 				<li><a><i class="facility"></i> 시설관리!(정다운) <span class="fa fa-chevron-down"></span></a>
 					<ul class="nav child_menu">
 						<li><a th:href="@{/adminFacility/addFacility}">시설등록</a></li>
 						<li><a th:href="@{/adminFacility/adminFacilityList}">전체시설목록</a></li>
-						<li><a th:href="@{/adminFacility/adminFacilityListById}">시설목록</a></li>
+						<li><a th:href="@{/adminFacility/adminFacilityListById}">시설목록(시설관리자)</a></li>
 					</ul>
 				</li>
 				<li><a><i class="fa fa-table"></i> 레슨관리!(김선원) <span class="fa fa-chevron-down"></span></a>
@@ -27,27 +27,30 @@
 				</li>
 				<li><a><i class="fa fa-bar-chart-o"></i> 이용권관리#(위찬복) <span class="fa fa-chevron-down"></span></a>
 					<ul class="nav child_menu">
-						<li><a href="chartjs.html">Chart JS</a></li>
-						<li><a href="chartjs2.html">Chart JS2</a></li>
-						<li><a href="morisjs.html">Moris JS</a></li>
-						<li><a href="echarts.html">ECharts</a></li>
-						<li><a href="other_charts.html">Other Charts</a></li>
+						<li><a th:href="@{/pass/addPass}">이용권</a></li>
+						<li><a th:href="@{/pass/admin/passList}">전체이용권(관리자)목록</a></li>
+						<li><a th:href="@{/pass/passList}">이용권(시설관리자)목록</a></li>
 					</ul>
 				</li>
 				<li><a><i class="fa fa-clone"></i> 구장관리!(정다운) <span class="fa fa-chevron-down"></span></a>
 					<ul class="nav child_menu">
-						<li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
-						<li><a href="fixed_footer.html">Fixed Footer</a></li>
+						<li><a th:href="@{/stadium/addStadium}">구장등록</a></li>
+						<li><a th:href="@{/stadium/adminStadiumList}">전체구장목록</a></li>
+						<li><a th:href="@{/stadium/adminStadiumListByCd}">구장목록(시설관리자)</a></li>
 					</ul>
 				</li>
-				<li><a><i class="fa fa-edit"></i> 안전점검#(김지혜) <span class="fa fa-chevron-down"></span></a>
+				<li><a><i class="fa fa-medkit"></i> 안전점검!(김지혜) <span class="fa fa-chevron-down"></span></a>
 					<ul class="nav child_menu">
-						<li><a href="form.html">General Form</a></li>
-						<li><a href="form_advanced.html">Advanced Components</a></li>
-						<li><a href="form_validation.html">Form Validation</a></li>
-						<li><a href="form_wizards.html">Form Wizard</a></li>
-						<li><a href="form_upload.html">Form Upload</a></li>
-						<li><a href="form_buttons.html">Form Buttons</a></li>
+						<li><a th:href="@{/safety/addSafety}">안전점검 등록!</a></li>
+						<li><a th:href="@{/safety/safetyList}">안전점검 등록 전체 시설 목록</a></li>
+						<li><a th:href="@{/safety/safetyListById}">안전점검 등록 시설 목록(시설관리자)</a></li>
+						<li><a th:href="@{/safety/safetyResultList}">전체 시설 안전점검 결과 목록#</a></li>
+						<li><a th:href="@{/safety/safetyResultListById}">시설 안전점검 결과 목록#(시설관리자)</a></li>
+					</ul>
+				</li>
+				<li><a><i class="fa fa-medkit"></i> 주문목록<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a th:href="@{/admin/order/orderList}">주문리스트!</a></li>
 					</ul>
 				</li>
 			</ul>

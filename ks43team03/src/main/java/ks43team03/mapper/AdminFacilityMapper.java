@@ -18,9 +18,9 @@ public interface AdminFacilityMapper {
 
 	
 	//시설 검색
-	public List<Facility> getSearchFacilityList(String searchKey, String searchValue);
+	public List<Map<String, Object>> getSearchFacilityList(Map<String, Object> paramMap);
 	
-	//아이디별 시설 정보 조회
+	//아이디별 시설 목록 조회
 	public List<Facility> getAdminFacilityListById(String userId);
 	
 	//판매자가 등록한 시설삭제
@@ -36,10 +36,10 @@ public interface AdminFacilityMapper {
 	public List<Area> getAreaList();
 	
 	//시군구 조회
-	public List<AreaCity> getAreaCityList();
+	public List<AreaCity> getAreaCityList(String areaCd);
 	
 	//읍면동 조회
-	public List<AreaCityTown> getAreaCityTownList();
+	public List<AreaCityTown> getAreaCityTownList(String cityCd);
 	
 	//시설카테고리조회
 	public List<MainCtg> getMainCtgList();

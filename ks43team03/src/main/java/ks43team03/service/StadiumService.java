@@ -1,5 +1,6 @@
 package ks43team03.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,10 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import ks43team03.common.FileUtils;
 import ks43team03.dto.Facility;
+import ks43team03.dto.Sports;
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;
+import ks43team03.mapper.FacilityGoodsMapper;
 import ks43team03.mapper.FileMapper;
 import ks43team03.mapper.StadiumMapper;
 
@@ -21,11 +27,14 @@ public class StadiumService {
 	
 	private static final Logger log = LoggerFactory.getLogger(StadiumService.class);
 	private final StadiumMapper stadiumMapper;
-	private final FileMapper fileMapper;
+	private final FileMapper   fileMapper;
+	private final FacilityGoodsMapper facilityGoodsMapper;
 	
-	public StadiumService(StadiumMapper stadiumMapper, FileMapper fileMapper) {
+	
+	public StadiumService(StadiumMapper stadiumMapper, FileMapper fileMapper,  FacilityGoodsMapper facilityGoodsMapper) {
 		this.stadiumMapper = stadiumMapper;
 		this.fileMapper = fileMapper;
+		this.facilityGoodsMapper = facilityGoodsMapper;
 	}
 	
 	
@@ -117,10 +126,49 @@ public class StadiumService {
 	}
 	
 	/*구장등록*/
-	public int addStadium(Stadium stadium) {
-		/* facility.setUserId(sessionId); */
-		int result = stadiumMapper.addStadium(stadium);
-		return result;
+	public void addStadium(Stadium stadium, MultipartFile[] uploadfile, String fileRealPath) {
+		//파일이 널이 아니라면
+		if (!ObjectUtils.isEmpty(uploadfile)) {
+			String uproaderId 		= stadium.getUserId();
+			String facilityGoodsCd;
+			
+			facilityGoodsMapper.addFacilityGoods(stadium.getFacilityGoods());
+			facilityGoodsCd = stadium.getFacilityGoods().getFacilityGoodsCd();
+			
+			/***
+			 * test code: start
+			 ***/
+			
+			FileUtils fu = new FileUtils(uploadfile, uproaderId, fileRealPath);
+			List<Map<String, String>> dtoFileList = fu.parseFileInfo();
+			// 1. t_file 테이블에 삽입
+			System.out.println(dtoFileList + "StadiumService/addStadium");
+			fileMapper.uploadFile(dtoFileList);
+			/***
+			 * test code: end
+			 ***/
+			// 2. stadium 테이블에 삽입
+			System.out.println(stadium + "StadiumService/addStadium/stadium");
+			stadiumMapper.addStadium(stadium);
+			
+			// 3. 릴레이션 테이블에 삽입
+			List<Map<String, String>> relationFileList = new ArrayList<>();
+			for(Map<String, String> m : dtoFileList) {
+				m.put("facilityGoodsCd", facilityGoodsCd);
+				relationFileList.add(m);
+			}
+			System.out.println(relationFileList);
+			fileMapper.uploadRelationFile(relationFileList);
+			
+			
+			
+			/****************
+			 *				*
+			 *  log 찍어보기	*
+			 * 				*
+			 ****************/
+			
+	    }
 	}
 	
 	/*아이디별 시설 조회*/
@@ -131,12 +179,18 @@ public class StadiumService {
 		log.info("서비스", userId);
 		
 		return facilityListById;
-		
 	}
 	
-	/*시설 내 구장 조회*/
-	public List<Stadium> getAdminStadiumListByCd(String facilityCd) {
-		List<Stadium> adminStadiumListByCd = stadiumMapper.getAdminStadiumListByCd(facilityCd);
+	/*종목 조회*/
+	public List<Sports> getSportsList(){
+		List<Sports> sportsList = stadiumMapper.getSportsList();
+		return sportsList;
+	}
+	
+	
+	/*본인 시설 내 구장 조회*/
+	public List<Stadium> getAdminStadiumListByCd(String userId) {
+		List<Stadium> adminStadiumListByCd = stadiumMapper.getAdminStadiumListByCd(userId);
 		log.info("서비스", adminStadiumListByCd);
 		return adminStadiumListByCd;
 		

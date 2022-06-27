@@ -5,7 +5,9 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks43team03.dto.BookingDto;
 import ks43team03.dto.Facility;
+import ks43team03.dto.Sports;
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;
 
@@ -15,6 +17,10 @@ import ks43team03.dto.StadiumPrice;
 @Mapper
 public interface StadiumMapper {
 
+	
+	//구장 예약 확인
+	public List<BookingDto> getBookingList(String facilityGoodsCd);
+	
 	//회원이 구장 상세정보 조회 
 	public Stadium getStadiumInfoByCd(String facilityStadiumCd);
 	
@@ -42,8 +48,11 @@ public interface StadiumMapper {
 	//아이디로 시설 조회
 	public List<Facility> getFacilityListById(String userId);
 	
-	//시설 내 구장 정보 조회
-	public List<Stadium> getAdminStadiumListByCd(String facilityCd);
+	//종목 조회
+	public List<Sports> getSportsList();	
+	
+	//본인 시설 내 구장 정보 조회
+	public List<Stadium> getAdminStadiumListByCd(String userId);
 	
 	//구장 테이블 총 row(튜플) 수
 	public int getStadiumCount();

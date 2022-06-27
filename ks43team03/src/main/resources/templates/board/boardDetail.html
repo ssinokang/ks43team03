@@ -13,9 +13,25 @@
 			.form-group{margin-top: 30px;}
 		</style>
 	</th:block>
-	
+		
 	<th:block layout:fragment="customContents">
 	 
+	<!-- Breadcrumb Begin -->
+	    <div class="breadcrumb-option">
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-lg-12">
+	                    <div class="breadcrumb__links">
+	                        <a th:href="@{/}"><i class="fa fa-home"></i> Home</a>
+	                        <a th:href="@{/board/boardList}">게시판</a>
+	                        <span th:text="${board.boardPostTitle}"></span>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	 <!-- Breadcrumb End -->
+	
 		<section class="board-details spad">
 			<div class="container">
 				<div class="row">
@@ -42,7 +58,11 @@
 								</div>
 							</div>
 							<div class="board__details__desc">
-								<p th:text="${board.boardPostContent}"></p>
+								<p th:text="${board.boardPostContent}" id="boardPostContent"></p>
+							</div>
+							<div class="board__details__desc">
+								<p>첨부파일</p>
+								<p th:value="${board.boardPostFile}" id="boardPostFile"></p>
 							</div>
 							
 							<!-- detail end -->
@@ -126,12 +146,14 @@
 									<div class="board__comment__item__text" th:each="c : ${boardCommentList}">
 										<h6 th:text="${c.userId}"></h6>
 										<p th:text="${c.boardPostContentDetail}"></p>
-										<ul>
+										<ul style="margin-bottom: 20px;">
 											<li id="removeComment">
 												<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="#CA1515" class="bi bi-trash3" viewBox="0 0 16 16">
 												  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
 												</svg>
-													삭제
+													<a th:href="@{/board/removeComment(boardPostCommentCd=${c.boardPostCommentCd},boardPostCd=${c.boardPostCd})}">
+														삭제
+													</a>
 											</li>
 										</ul>
 									</div>
@@ -205,13 +227,13 @@
 								</div>
 							</div>
 							<div style="float: left; width: 50%">
-								<a th:href="@{/board/modifyBoard}">
-									<button type="button" class="site-btn" style="margin-top: 20px;">수정하기</button>
+								<a class="site-btn" style="margin-top: 20px;" th:href="@{/board/modifyBoard(boardPostCd=${board.boardPostCd})}">
+									수정하기
 								</a>
 							</div>
 							<div style="float: left; width: 50%">
-								<a>
-									<button type="button" class="site-btn" style="margin-top: 20px;">삭제하기</button>
+								<a class="site-btn" style="margin-top: 20px;" th:href="@{/board/removeBoard(boardPostCd=${board.boardPostCd})}">
+									삭제하기
 								</a>
 							</div>
 						</div>
@@ -220,81 +242,10 @@
 			</div>
 		</section>
 		<!-- board Details Section End -->
+		
+		<!-- 사용자 정의 js -->
+		<script type="text/javascript" th:src="@{/resource/js/boardJs.js}"></script>
+		
 	 </th:block>
-	
-	 <!-- 사용자 정의 Js 파일-->
-	<th:block layout:fragment="customJs">
-		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
-		<script >
-			// 답글 작성
-			/* function saveBtn(){
-				var boardPostContentDetail = $('#boardPostContentDetail').val();
-				var boardPostCd = $('#boardPostCd').val();
-				var boardCtgCd = $('#boardCtgCd').val();
-				var obj = {"boardPostContentDetail":boardPostContentDetail,
-							"boardPostCd":boardPostCd,
-							"boardCtgCd":boardCtgCd};
-				console.log(boardCtgCd);
-				console.log(boardPostCd);
-				console.log(obj);
-				$.ajax({
-					type: 'POST',
-					url: '/board/boardDetail', 
-					contentType: "application/json",
-					data: JSON.stringify(obj),
-					success: function() {
-					      location.href('')
-					}
-				});
-			} */
-			
-			
-			
-			// 답글 삭제
-			/* $(function(){
-				var $removeComment = $('#removeComment');
-				
-				function validationCheck(data){
-					if(typeof data == 'undefined' || data == '' || data == null){
-						return false;
-					}
-					return true;
-				}
-				
-				$removeComment.on('click','#removeComment',function(){
-					console.log('test');
-					
-					var userId = $('input[name="userId"]').val();
-					var userPw = $('input[name="userPw"]').val();
-					
-					console.log(userId);
-					console.log(userPw);
-					
-					var vCheck = validationCheck(userPw);
-					
-					if(vCheck){
-						$.ajax({
-							 url: '/user/pwCheck'
-							,type: 'POST'
-							,data: {'userId' : userId, 'userPw' : userPw}
-							,dataType: 'json'
-							,success: function(data){
-								console.log(data);
-								// 아이디 중복이 발생 않은 경우(회원가입 O) 입력하는 요소는 활성화
-								if(data){
-									$removeComment.attr('action','/board/boardDetail').submit();
-								}else{
-									alert("비밀번호가 일치하지 않습니다.");
-								}
-							}
-						});
-					}else{
-						alert("비밀번호를 입력해주세요.");
-					}
-				});
-			}); */
-			
-		</script>
-	</th:block>
 	
 </html>

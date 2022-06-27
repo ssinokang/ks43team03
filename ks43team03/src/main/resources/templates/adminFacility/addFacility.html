@@ -90,6 +90,84 @@
 			
 			if(isSubmit) $('#addFacilityForm').submit();
 		});
+			var fileInput = 1;
+			var maxFileNum = 4;
+			var minFileNum = 0;
+			//추가
+			$('#plus-button').on('click', function() {
+				if(fileInput < maxFileNum) {
+					var newLi = $(this).parent().clone(true);
+					newLi.children('.facility-img').val('');
+					$(this).parent().parent().append(newLi);
+					
+					fileInput++;
+				} else {
+					alert("최대 올릴 수 있는 이미지의 개수는 4개입니다.");
+				}
+			});
+			//제거
+			$('#minus-button').on('click', function() {
+				if(fileInput > 0) {
+					$(this).parent().remove()
+					
+					fileInput--;
+				} else {
+					alert("더이상 지울 수 없습니다.");
+				}
+			});
+			 $(document).on('change',"#areaCd", function(e) {
+			
+				var areaCd = $('select[name="areaCd"]').val();
+				console.log(areaCd);
+			    $.ajax({
+			        url : '/adminFacility/getCityCdList',
+			        type : 'post',
+			        data : {
+			            'areaCd' : areaCd
+			        },
+			        dataType : 'json',
+			        success : function(data) {
+			            console.log(JSON.stringify(data));
+			            console.log(data.length);
+			            var txt1='<option value="none">::  지 역(시 군 구) 선 택   ::</option>';
+			                for(var i =0;i<data.length;i++)
+			                {
+			              	  txt1 +='<option value="'+data[i].cityCd+'" '    +'>' + data[i].cityNm +"</option>";
+			                }
+			                console.log(txt1);
+			                $('#areaCityCd').empty();
+			                $('#areaCityCd').append(txt1);
+			                $('#areaCityCd').niceSelect('update');
+			                
+			            }
+			    });
+			}); 
+			 $(document).on('change',"#areaCityCd", function(e) {
+					var cityCd = $('select[name="cityCd"]').val();
+					console.log(cityCd);
+				    $.ajax({
+				        url : '/adminFacility/getTownCdList',
+				        type : 'post',
+				        data : {
+				            'cityCd' : cityCd
+				        },
+				        dataType : 'json',
+				        success : function(data) {
+				            console.log(JSON.stringify(data));
+				            console.log(data.length);
+				            var txt1='<option value="none">::  지 역(읍 면 동) 선 택   ::</option>';
+				                for(var i =0;i<data.length;i++)
+				                {
+				              	  txt1 +='<option value="'+data[i].townCd+'" '    +'>' + data[i].townNm +"</option>";
+				                }
+				                console.log(txt1);
+				                $('#areaCityTownCd').empty();
+				                $('#areaCityTownCd').append(txt1);
+				                $('#areaCityTownCd').niceSelect('update');
+				                
+				            }
+				    });
+				}); 
 	});
 	
 	</script>		
@@ -143,11 +221,11 @@
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
-			<form id="addFacilityForm" th:action="@{/adminFacility/addFacility}" method="post">
+			<form id="addFacilityForm" data-parsley-validate class="form-horizontal form-label-left" th:action="@{/adminFacility/addFacility}" method="post" enctype="multipart/form-data" name="multiPart">
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityCd">시설대표코드 <span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityCd" data-validate-minmax="10,100" required='required'></div>
+					<input class="form-control" type="text" name="facilityCd" value = "gg_30511750_05" data-validate-minmax="10,100" required='required'></div>
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="mainCtgCd">시설카테고리<span class="required">*</span></label>
@@ -173,17 +251,12 @@
 					<div class="col-md-2 col-sm-2">
 					<select class="form-control" name="cityCd" id="areaCityCd" data-validate-length-range="5,15">
 						<option value=""> ::  지 역(시 군 구) 선 택   ::</option>
-						<th:block th:if="${not #lists.isEmpty(areaCityList)}" th:each="l:${areaCityList}">
-							<option th:value="${l.cityCd}">[[${l.cityNm}]]</option>
-						</th:block>
+						
 					</select>
 					</div>
 					<div class="col-md-2 col-sm-2">
 					<select class="form-control" name="townCd"  id="areaCityTownCd" data-validate-length-range="5,15" >
 						<option value=""> ::  지 역(읍 면 동) 선 택   ::</option>
-						<th:block th:if="${not #lists.isEmpty(areaCityTownList)}" th:each="l:${areaCityTownList}">
-							<option th:value="${l.townCd}">[[${l.townNm}]]</option>
-						</th:block>
 					</select>
 					</div>
 				</div>
@@ -237,6 +310,19 @@
 					<div class="col-md-6 col-sm-6">
 					<input class="form-control" type="text" name="businessNum" required='required' data-validate-length-range="8,20" /></div>
 				</div>
+				 <div class="item form-group">
+					<div class="col-form-label col-md-3 col-sm-3 label-align" id="facility-img-label">시설 사진 
+					</div>
+					<div class="col-md-6 col-sm-6 ">
+						<ul class="facility-file-line" style="list-style: none;">
+							<li>
+								<input type="file" id="facilityImgFile"  class=" facility-img" name="facilityImgFile" accept="image/*" required multiple>
+								<button id="plus-button">플러스</button>
+								<button id="minus-button">마이너스</button>
+							</li>
+						</ul>
+					</div>
+				</div>
 				<div class="ln_solid">
 					<div class="form-group">
 						<div class="col-md-6 offset-md-3">
@@ -254,11 +340,4 @@
 
 	  
 	  
-				<!-- <div class="item form-group">
-					<label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonImgFile">시설 사진 
-					</label>
-					<div class="col-md-6 col-sm-6 ">
-						<input type="file" id="lessonImgFile"  name="facilityImgFile" multiple="multiple">
-					</div>
-				</div> -->
 </html>

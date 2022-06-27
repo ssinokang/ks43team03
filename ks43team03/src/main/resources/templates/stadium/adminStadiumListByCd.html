@@ -38,16 +38,14 @@
 									<th class="column-title">시설명</th>
 									<th class="column-title">구장명</th>
 									<th class="column-title">종목</th>
-									<th class="column-title">등록자 아이디</th>
 									<th class="column-title">주중가</th>
 									<th class="column-title">야간가</th>
 									<th class="column-title">공휴일가</th>
 									<th class="column-title">구장상세정보</th>
 									<th class="column-title">등록 일자</th>
 									<th class="column-titleno-link last"><span class="nobr">정보수정</span></th>
-									<th class="column-titleno-link last"><span class="nobr">단가수정</span></th>
 									<th class="column-titleno-link last"><span class="nobr">삭제</span></th>
-									<th class="bulk-actions" colspan="7">
+									<th class="bulk-actions" colspan="8">
 										<a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
 									</th>
 								</tr>
@@ -60,7 +58,6 @@
 									<td th:text ="${l.facility.facilityNm}"></td>
 									<td th:text ="${l.facilityStadiumNm}"></td>
 									<td th:text ="${l.sports.sportsName}"></td>
-									<td th:text ="${l.userId}"></td>
 									<td th:text ="${l.stadiumPrice.dayPrice}"></td>
 									<td th:text ="${l.stadiumPrice.nightPrice}"></td>
 									<td th:text ="${l.stadiumPrice.holPrice}"></td>
@@ -70,14 +67,11 @@
 										<a th:href="@{/stadium/modifyStadium(facilityStadiumCd=${l.facilityStadiumCd})}">수정</a>
 									</td>
 									<td>
-										<a th:href="@{/stadium/modifyStadiumPrice(facilityStadiumCd=${l.facilityStadiumCd})}">수정</a>
-									</td>
-									<td>
 										<a href="#">삭제</a>
 									</td>
 								</tr>
 								<tr th:unless="${not #lists.isEmpty(adminStadiumListByCd)}">
-									<td colspan="9">조회된 내용이 없습니다.</td>
+									<td colspan="10">조회된 내용이 없습니다.</td>
 								</tr>
 							</tbody>
 						</table>

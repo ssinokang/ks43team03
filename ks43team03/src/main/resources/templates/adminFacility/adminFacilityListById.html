@@ -35,17 +35,14 @@
 									<th><input type="checkbox" id="check-all" class="flat">
 									</th>
 									<th class="column-title">시설 카테고리</th>
-									<th class="column-title">시도 행정지역</th>
-									<th class="column-title">시군구 행정지역</th>
-									<th class="column-title">읍면동 행정지역</th>
+									<th class="column-title">지역(시도)</th>
+									<th class="column-title">지역(시군구)</th>
+									<th class="column-title">지역(읍면동)</th>
 									<th class="column-title">시설용도</th>
 									<th class="column-title">시설명</th>
-									<th class="column-title">시설 상세주소</th>
-									<th class="column-title">시설전화번호</th>
-									<th class="column-title">사업자등록번호</th>
-									<th class="column-title">시설 등록 일자</th>
-									<th class="column-titleno-link last" th:if="${session.SLEVEL =='2' or session.SLEVEL =='3'}"><span class="nobr">수정</span></th>
-									<th class="column-titleno-link last" th:if="${session.SLEVEL =='2' or session.SLEVEL =='3'}"><span class="nobr">삭제</span></th>
+									<th class="column-title">전화번호</th>
+									<th class="column-title">시설등록일자</th>
+									<th class="column-title">상세정보</th>
 									<th class="bulk-actions" colspan="7"><a class="antoo"
 										style="color: #fff; font-weight: 500;">Bulk Actions ( <span
 											class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
@@ -62,15 +59,12 @@
 									<td th:text="${l.areaCityTown.townNm}"></td>
 									<td th:text="${l.facilityUse.facilityUseNm}"></td>
 									<td th:text="${l.facilityNm}"></td>
-									<td th:text="${l.facilityAddr}"></td>
 									<td th:text="${l.facilityTell}"></td>
-									<td th:text="${l.businessNum}"></td>
 									<td th:text="${l.facilityRegDate}"></td>
-									<td th:if="${session.SLEVEL =='2' or session.SLEVEL =='3'}"><a
-										th:href="@{/adminFacility/modifyFacility(facilityCd=${l.facilityCd})}" >수정</a>
-									</td>
-									<td th:if="${session.SLEVEL =='2' or session.SLEVEL =='3'}"><a
-										th:href="@{/adminFacility/removeFacility(facilityCd=${l.facilityCd})}">삭제</a>
+									<td>
+										<a th:href="@{/adminFacility/modifyFacility(facilityCd=${l.facilityCd})}" >										
+											<input type="button" value="상세조회">
+										</a>
 									</td>
 								</tr>
 								<tr th:unless="${not #lists.isEmpty(adminFacilityListById)}">

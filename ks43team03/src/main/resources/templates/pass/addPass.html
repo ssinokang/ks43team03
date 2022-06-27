@@ -13,7 +13,7 @@
 
 	<div class="page-title">
 		<div class="title_left">
-			<h3>상품등록</h3>
+			<h3>이용권등록</h3>
 		</div>
 		<div class="title_right">
 			<div class="col-md-5 col-sm-5  form-group pull-right top_search">
@@ -35,32 +35,27 @@
 		<div class="col-md-12 col-sm-12 ">
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>상품등록 <small>different form elements</small></h2>
+					<h2>이용권등록 <small>different form elements</small></h2>
 
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
 					<br>
-					<form th:action="@{/pass/addPass2}" method="post"  id="pass-form" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+					<form th:action="@{/pass/addPass}" method="post"  id="pass-form" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
 						<br>
 						<div class="item form-group">
 							<label for="facilityCd" class="col-form-label col-md-3 col-sm-3 label-align">시설대표코드<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
 								<input type="text" class="form-control" id="facilityCd" data-parsley-id="5"
-									name="facilityCd">
+									name="facilityCd" value="ss_35011770_03">
 							</div>
 						</div>
 						<div class="item form-group">
 							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">카테고리<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
-								<select class="custom-select" id="goodsCtg" name="goodsCdCtgCd">
-									<option>::상품 카테고리를 선택해주세요</option>
-									<option value="lesson">레슨</option>
-									<option value="pass">이용권</option>
-									<option value="stadium">대관</option>
-								</select>
+								<input type="text" name="goodsCtgCd" value="pass">
 							</div>
 						</div>
 						<div class="item form-group">
@@ -82,35 +77,35 @@
 							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">아이디<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" data-parsley-id="5" name="userId">
+								<input type="text" class="form-control" data-parsley-id="5" name="userId" value="id002">
 							</div>
 						</div>
 						<div class="item form-group">
 							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">이용권명<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" data-parsley-id="5" name="passNm">
+								<input type="text" class="form-control" data-parsley-id="5" name="passNm" value="헬스장 이용권">
 							</div>
 						</div>
 						<div class="item form-group">
 							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">단위<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" data-parsley-id="5" name="passUnit">
+								<input type="text" class="form-control" data-parsley-id="5" name="passUnit" value="20">
 							</div>
 						</div>
 						<div class="item form-group">
 							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">이용권단가<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" data-parsley-id="5" name="passPrice">
+								<input type="text" class="form-control" data-parsley-id="5" name="passPrice" value="30000">
 							</div>
 						</div>
 						<div class="item form-group">
 							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">유효일수<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" data-parsley-id="5" name="passEndDate">
+								<input type="text" class="form-control" data-parsley-id="5" name="passEndDate" value="365">
 							</div>
 						</div>
 						
@@ -135,7 +130,7 @@
 
 	<script>
 		const passBtn = document.querySelector('#pass-btn');
-		const goodsCtg = document.querySelector('#goodsCtg');
+		const goodsCtg = document.querySelector('input[name="goodsCtgCd"]');
 		const passForm = document.querySelector('#pass-form');
 		passBtn.addEventListener('click',(e)=>{
 			console.log(e.currentTarget);

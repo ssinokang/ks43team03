@@ -94,7 +94,7 @@
 	<th:block layout:fragment="customContents">
 	
 		<!-- Breadcrumb Begin -->
-		<div class="breadcrumb-option" th:fragment="breadcrumbFragment">
+		<div class="breadcrumb-option">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
@@ -116,7 +116,17 @@
 			<h4>로그인이 필요한 서비스입니다.</h4>
 		</div>
 		<div class="container" th:unless="${#strings.isEmpty(session.SID)}">
-			<h4>[[${user.userName}]]<small>님의 마이페이지</small></h4>
+			<h4 style="display: inline;">[[${user.userName}]]<small>님의 마이페이지</small></h4>
+			<th:block th:if="${user.userLevel eq '4'}">
+				<a th:href="@{/trainer/modifyTrainer}">
+					<button class="btn btn-info">트레이너 정보 수정</button>
+				</a>
+			</th:block>
+			<th:block th:unless="${user.userLevel eq '4'}">
+				<a th:href="@{/trainer/addTrainer}">
+					<button class="btn btn-info">트레이너 등록</button>
+				</a>
+			</th:block>
 			<div class="clearfix"></div>
 			<form th:action="@{/user/modifyUser}" method="post">
 				<table class="table table-bordered">
@@ -145,10 +155,10 @@
 								</div>
 								<div class="form-group row">
 									<div class="col-md-2 col-sm-2">
-										<label class="control-label" for="userLevel">권한</label>
+										<label class="control-label" for="levelName">권한</label>
 									</div>
 									<div class="col-md-7 col-sm-7">
-										<input type="text" class="form-control" name="userLevel" th:value="${user.userLevel}" readonly="readonly">
+										<input type="text" class="form-control" name="levelName" th:value="${user.levelInfo.levelName}" readonly="readonly">
 									</div>
 								</div>
 								<div class="form-group row">

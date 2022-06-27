@@ -16,8 +16,8 @@
 	            <div class="row">
 	                <div class="col-lg-12">
 	                    <div class="breadcrumb__links">
-	                        <a href="./index"><i class="fa fa-home"></i> Home</a>
-	                        <a href="./index">게시판</a>
+	                        <a th:href="@{/}"><i class="fa fa-home"></i> Home</a>
+	                        <a th:href="@{/board/boardList}">게시판</a>
 	                        <span>게시글 작성</span>
 	                    </div>
 	                </div>
@@ -36,7 +36,7 @@
 						</h6>
 					</div>
 				</div>
-				<form th:action="@{/board/addBoard}" class="checkout__form" method="post">
+				<form th:action="@{/board/addBoard}" class="checkout__form" method="post" id="addBoardForm">
 					<div class="row">
 						<div class="col-lg-8">
 							<h5>작성란</h5>
@@ -67,7 +67,7 @@
 										<p>제목
 											<span>*</span>
 										</p>
-										<input type="text" th:value="${board.boardPostTitle}" name="boardPostTitle">
+										<input type="text" th:value="${board.boardPostTitle}" name="boardPostTitle" id="boardPostTitle">
 									</div>
 								</div>
 								<div class="col-lg-12">
@@ -111,7 +111,7 @@
 								</div>
 							</div>
 							<div class="text-right">
-								<button type="submit" class="site-btn" style="margin-top: 20px;">
+								<button type="submit" class="site-btn" id="addBoardBtn" style="margin-top: 20px;">
 									작성하기
 								</button>
 							</div>
@@ -120,6 +120,9 @@
 				</form>
 			</div>
 		</section>
+	
+		<!-- 사용자 정의 js -->
+		<script type="text/javascript" th:src="@{/resource/js/boardJs.js}"></script>
+		
 	</th:block>
-
 </html>

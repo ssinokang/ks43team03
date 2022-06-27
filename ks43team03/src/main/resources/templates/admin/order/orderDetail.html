@@ -82,8 +82,8 @@
 									<input type="hidden" th:value="${order.facilityGoodsCd}">
 									<input type="hidden" th:value="${order.facility.facilityCd}">
 									<input type="hidden" th:value="${order.goodsCtgCd}">
-								
-									<table class="table table-hover">
+									<div class="col-sm-6 col-lg-6 offset-3">
+										<table class="table table-hover">
 										<tbody>
 											<tr>
 												<th class="col-sm-2 col-lg-2">주문 회원 아이디 </th>
@@ -125,70 +125,11 @@
 												<th class="col-sm-2 col-lg-2">판매자 회원 아이디</th>
 												<td class="col-sm-10 col-lg-10" th:text="${order.facilityGoods.userId}">hi</td>
 											</tr>
-											<tr>
-												<th class="col-sm-2 col-lg-2">등록날짜</th>
-												<td class="col-sm-10 col-lg-10" th:text="${order.facilityGoods.facilityGoodsRegDate}">hi
-												</td>
-											</tr>
-											<!-- 레슨 주문 상세 정보 -->
-											<th:block th:if="${#strings.equals(order.goodsCtgCd,'lesson')}">
-												<tr>
-													<th class="col-sm-2 col-lg-2">레슨명</th>
-													<td class="col-sm-10 col-lg-10" th:text="${order.facilityGoods.lesson.lessonName}">hi
-													</td>
-												</tr>
-												<tr>
-													<th class="col-sm-2 col-lg-2">레슨 상세정보</th>
-													<td class="col-sm-10 col-lg-10" th:text="${order.facilityGoods.lesson.lessonDetail}">hi
-													</td>
-												</tr>
-												<tr>
-													<th class="col-sm-2 col-lg-2">레슨 가격</th>
-													<td class="col-sm-10 col-lg-10" th:text="${order.facilityGoods.lesson.lessonPrice}">hi
-													</td>
-												</tr>
-											</th:block>
-											<!-- 대관 주문 상세 정보 -->
-											<th:block th:if="${#strings.equals(order.goodsCtgCd,'stadium')}">
-												<tr>
-													<th class="col-sm-2 col-lg-2">대관 장소명</th>
-													<td class="col-sm-10 col-lg-10" th:text="${order.facilityGoods.stadium.facilityStadiumNm}">hi
-													</td>
-												</tr>
-												<tr>
-													<th class="col-sm-2 col-lg-2">대관 상세정보</th>
-													<td class="col-sm-10 col-lg-10" th:text="${order.facilityGoods.stadium.facilityStadiumDetail}">hi
-													</td>
-												</tr>
-											</th:block>
-											<!-- 이용권 주문 상세 정보 -->
-											<th:block th:if="${#strings.equals(order.goodsCtgCd,'pass')}">
-												<tr>
-													<th class="col-sm-2 col-lg-2">이용권명</th>
-													<td class="col-sm-10 col-lg-10" th:text="${order.facilityGoods.pass.passNm}">hi
-													</td>
-												</tr>
-												<tr>
-													<th class="col-sm-2 col-lg-2">이용가능 수</th>
-													<td class="col-sm-10 col-lg-10" th:text="${order.facilityGoods.pass.passUnit}">hi
-													</td>
-												</tr>
-												<tr>
-													<th class="col-sm-2 col-lg-2">이용권 가격</th>
-													<td class="col-sm-10 col-lg-10" th:text="${order.facilityGoods.pass.passPrice}">hi
-													</td>
-												</tr>
-											</th:block>
-											<tr>
-												<th class="col-sm-2 col-lg-2">시설명</th>
-												<td class="col-sm-10 col-lg-10" th:text="${order.facility.facilityNm}">hi</td>
-											</tr>
-											<tr>
-												<th class="col-sm-2 col-lg-2">시설연락처</th>
-												<td class="col-sm-10 col-lg-10" th:text="${order.facility.facilityTell}">hi</td>
-											</tr>
+									
 										</tbody>
 									</table>
+									</div>
+									
 								</div>
 								<div class="row">
 									<div class="col-md-6 col-sm-6 offset-md-4">

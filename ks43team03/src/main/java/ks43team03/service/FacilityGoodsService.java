@@ -11,6 +11,7 @@ import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.ResponseGoods;
 import ks43team03.exception.NotFoundGoodsException;
 import ks43team03.mapper.FacilityGoodsMapper;
+import ks43team03.mapper.FacilityMapper;
 
 @Service
 @Transactional
@@ -20,10 +21,11 @@ public class FacilityGoodsService {
 	private static final Logger log = LoggerFactory.getLogger(FacilityGoodsService.class);
 
 	private final FacilityGoodsMapper facilityGoodsMapper;
+	private final FacilityMapper facilityMapper;
 	
-	
-	public FacilityGoodsService(FacilityGoodsMapper facilityGoodsMapper) {
+	public FacilityGoodsService(FacilityGoodsMapper facilityGoodsMapper,FacilityMapper facilityMapper) {
 		this.facilityGoodsMapper = facilityGoodsMapper;
+		this.facilityMapper = facilityMapper;
 	}
 	
 
@@ -36,6 +38,10 @@ public class FacilityGoodsService {
 	
 	public String addGoodsCode(FacilityGoods facilityGoods) {
 		log.info("addPass에서 받은 값 : {}", facilityGoods);
+		// 시설조회
+		
+		//있다면 상품코드 생성 
+		
 		facilityGoodsMapper.addFacilityGoods(facilityGoods);
 		return facilityGoods.getFacilityGoodsCd();
 		

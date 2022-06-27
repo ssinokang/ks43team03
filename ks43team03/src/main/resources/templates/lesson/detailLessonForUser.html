@@ -541,8 +541,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="num : ${#numbers.sequence(1,9)}" class="col-sm-1">
-								<td>
+							<tr>
+								<td th:each="num : ${#numbers.sequence(1,9)}" class="col-sm-1">
 									[[${num * 2 + 4}]]~[[${num * 2 + 6}]]
 								</td>
 							</tr>

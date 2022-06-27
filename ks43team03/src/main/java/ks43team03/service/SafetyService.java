@@ -8,8 +8,12 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import ks43team03.common.FileUtils;
 import ks43team03.dto.Safety;
+import ks43team03.mapper.FileMapper;
 import ks43team03.mapper.SafetyMapper;
 
 
@@ -19,21 +23,53 @@ import ks43team03.mapper.SafetyMapper;
 public class SafetyService {
 	
 	private final SafetyMapper safetyMapper;
+	private final FileMapper fileMapper;	
 	
-	public SafetyService(SafetyMapper safetyMapper) {
+	public SafetyService(SafetyMapper safetyMapper, FileMapper fileMapper) {
 		this.safetyMapper = safetyMapper;
+		this.fileMapper = fileMapper;		
 	}
 
 	/**
 	 * 안전점검 등록
 	 */
+	public void addSafety(Safety safety, MultipartFile[] uploadfile, String fileRealPath) {
+		
+		//파일이 널이 아니라면
+		if (!ObjectUtils.isEmpty(uploadfile)) {
+			String uproaderId 	= safety.getUserId();
 	
+			/***
+			 * test code: start
+			 ***/
+			
+			FileUtils fu = new FileUtils(uploadfile, uproaderId, fileRealPath);
+			List<Map<String, String>> dtoFileList = fu.parseFileInfo();
+			// 1. t_file 테이블에 삽입
+			System.out.println(dtoFileList + "SafetyService/addSafety");
+			fileMapper.uploadFile(dtoFileList);
+			/***
+			 * test code: end
+			 ***/
+			// 2. safety 테이블에 삽입
+
+			System.out.println(safety + "SafetyService/addSafety/safety");
+			safetyMapper.addSafety(safety);
+
+	
+	    }
+
+	}	
+	
+	
+	/*
 	public int addSafety(Safety safety) {
 		
 		int result = safetyMapper.addSafety(safety);
 		
 		return result;
 	}
+	*/
 
 	/**
 	 * 관리자의 안전점검 등록 시설 목록 조회(전체) 

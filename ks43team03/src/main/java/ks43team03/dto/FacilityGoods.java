@@ -1,5 +1,6 @@
 package ks43team03.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -29,5 +30,17 @@ public class FacilityGoods {
 	private Facility facility;
 	
 	private Sports sports;
+	
+	
+	public FacilityGoods() {}
+	
+	
+	@Builder
+	public FacilityGoods(String facilityCd, String goodsCtgCd,String userId, String sportsCd) {
+		this.facilityCd = facilityCd;
+		this.goodsCtgCd = goodsCtgCd;
+		this.userId = userId;
+		this.sportsCd = sportsCd;
+	}
 	
 }

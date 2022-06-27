@@ -13,17 +13,25 @@
 	<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
  	
 	<script>
-		/* $(function(){
+		 $(function(){
 			var $addForm = $('#addForm');
+			function validationCheck(data1, date2){
+				if((typeof data1 == 'undefined' || data1 == '' || data1 == null) 
+						&& (typeof data2 == 'undefined' || data2 == '' || data2 == null)){
+					return false;
+				}
+				return true;
+			}
 			
 			$addForm.on('click','#addBtn',function(){
 				
-				var facilityCd = $('#facilityCd').val();
+				var facilityCd = $('input[name="facilityCd"]').val();
 				var userId = $('input[name="userId"]').val();
 				console.log(facilityCd);
 				console.log(userId);
 				
-				var vCheck = validationCheck(facilitycd, userId);
+				var vCheck = validationCheck(facilityCd, userId);
+				console.log(vCheck);
 				
 				if(vCheck){
 					$.ajax({
@@ -34,19 +42,16 @@
 						,success: function(data){
 							console.log(data);
 							if(data){
-								$removeForm.attr('action','/user/removeUser').submit();
+								alert("시설 승인 후 이용가능합니다.")
+								$addForm.attr('action','/facility/addFacilityUser').submit();
 							}else{
-								alert("비밀번호가 일치하지 않습니다.");
+								alert("이미 가입된 시설입니다.");
 							}
 						}
 					});
 				}
-				
-				
-				
 			})
 		});
-	 */
 	</script>
  
 </th:block>
@@ -213,8 +218,37 @@
 	                                <p></p>
 	                            </div>
 	                            <div class="tab-pane" id="tabs-4" role="tabpanel">
-	                                <h6>후기</h6>
-	                                <p></p>
+							    <section class="blog-details spad">
+							        <div class="container">
+							            <div class="row">
+							                <div class="col-lg-8 col-md-8">
+							                    <div class="blog__details__content">
+							                        <div class="blog__details__comment">
+							                            <h5>3 Comment</h5>
+							                            <a href="#" class="leave-btn">후기등록</a>
+							                            <div class="blog__comment__item">
+							                                <div class="blog__comment__item__pic">
+							                                    <img src="img/blog/details/comment-1.jpg" alt="">
+							                                </div>
+							                                <div class="blog__comment__item__text">
+							                                    <h6>Brandon Kelley</h6>
+							                                    <p>Duis voluptatum. Id vis consequat consetetur dissentiet, ceteros commune perpetua
+							                                    mei et. Simul viderer facilisis egimus tractatos splendi.</p>
+							                                    <ul>
+							                                        <li><i class="fa fa-clock-o"></i> Seb 17, 2019</li>
+							                                        <li><i class="fa fa-heart-o"></i> 12</li>
+							                                        <li><i class="fa fa-share"></i> 1</li>
+							                                    </ul>
+							                                </div>
+							                            </div>
+							                        </div>
+							                    </div>
+							                </div>
+							            </div>
+							        </div>
+							    </section>
+
+	                             
 	                            </div>
 	                        </div>
                    	 	</div>
@@ -260,7 +294,8 @@
 		 		<div class="modal-content">
 					<div class="modal-header">
 						<th:block th:if="${not #lists.isEmpty(facilityDetail)}" th:each="l : ${facilityDetail}">
-						<h5 class="modal-title" id="facilityCd" th:value="${l.facilityCd}" th:text="${l.facilityNm}"></h5>
+							<h5 class="modal-title" id="facilityCd" th:value="${l.facilityCd}" th:text="${l.facilityNm}"></h5>
+							<input type="hidden" class="form-control" name="facilityCd" readonly="readonly" th:value="${l.facilityCd}">
 						</th:block>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
@@ -270,19 +305,19 @@
 						<div class="form-group row">
 							<div class="col-md-9 col-sm-9">
 								<label class="control-label" for="userLevel">권한을 선택해주세요</label>
-								<input type="text" class="form-control" name="userId" readonly="readonly" th:value="${session.SID}" hidden="hidden">
+								<input type="hidden" class="form-control" name="userId" readonly="readonly" th:value="${session.SID}">
 							</div>
 							<div class="col-md-9 col-sm-9" style="padding-top: 5px;">
 								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="userLevel" id="inlineRadio1" value="일반회원" checked>
+									<input class="form-check-input" type="radio" name="facilityUserLevel" id="inlineRadio1" value="일반회원" checked>
 									<label class="form-check-label" for="inlineRadio1">일반회원</label>
 								</div>
 								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="userLevel" id="inlineRadio2" value="트레이너">
+									<input class="form-check-input" type="radio" name="facilityUserLevel" id="inlineRadio2" value="트레이너">
 									<label class="form-check-label" for="inlineRadio2">트레이너</label>
 								</div>
 								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="userLevel" id="inlineRadio2" value="대리인">
+									<input class="form-check-input" type="radio" name="facilityUserLevel" id="inlineRadio2" value="대리인">
 									<label class="form-check-label" for="inlineRadio2">대리인</label>
 								</div>
 							</div>

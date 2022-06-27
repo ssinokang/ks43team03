@@ -38,10 +38,63 @@ public class AdminFacilityService {
 	
 
 	/* 시설 검색 */
-	public List<Facility> getSearchFacilityList(String searchKey, String searchValue) {
-		List<Facility> searchFacilityList = adminFacilityMapper.getSearchFacilityList(searchKey, searchValue);
-		return searchFacilityList;
+	public Map<String, Object> getSearchFacilityList(String searchKey, String searchValue, int currentPage) {
+		int rowPerPage = 10;
 
+		double rowCount = adminFacilityMapper.getFacilityCount();
+
+		int lastPage = (int) Math.ceil(rowCount / rowPerPage);
+
+		int startRow = (currentPage - 1) * rowPerPage;
+
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+
+		paramMap.put("startRow",	startRow);
+		paramMap.put("rowPerPage",	rowPerPage);
+		paramMap.put("searchKey",	searchKey);
+		paramMap.put("searchValue",	searchValue);
+
+		int startPageNum = 1;
+		int endPageNum = 10;
+
+		if (lastPage > 10) {
+			if (currentPage >= 6) {
+				startPageNum = currentPage - 4;
+				endPageNum = currentPage + 5;
+
+				if (endPageNum >= lastPage) {
+					startPageNum = lastPage - 9;
+					endPageNum = lastPage;
+				}
+			}
+		} else {
+			endPageNum = lastPage;
+		}
+
+		log.info("paramMap : {}", paramMap);
+
+		List<Map<String, Object>> adminFacilityList = adminFacilityMapper.getSearchFacilityList(paramMap);
+
+		if (adminFacilityList != null) {
+			// 향상된 for문
+			for (Map<String, Object> facility : adminFacilityList) {
+				String mainCtgCd = facility.get("mainCtgCd").toString();
+				if (mainCtgCd != null) {
+					if ("gg".equals(mainCtgCd)) {
+						facility.put("mainCtgCd", "공공시설");
+					} else if ("ss".equals(mainCtgCd)) {
+						facility.put("mainCtgCd", "사설시설");
+					}
+				}
+			}
+
+		}
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("lastPage", lastPage);
+		resultMap.put("adminFacilityList", adminFacilityList);
+		resultMap.put("startPageNum", startPageNum);
+		resultMap.put("endPageNum", endPageNum);
+		return resultMap;
 	}
 
 	/* 시설 삭제 */

@@ -29,4 +29,5 @@ public class Stadium {
 	private List<Map<String, String>> 	relFileWithGoods;
 	private List<TFile> 				tFile;
 	private BookingDto 					booking;
+	private FacilityUser 				facilityUser;
 }

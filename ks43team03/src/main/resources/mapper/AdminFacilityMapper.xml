@@ -65,19 +65,22 @@
 		</collection>
 	</resultMap>
 	
-		<select id="getSearchFacilityList" fetchSize="10" parameterType="String" resultMap="facilityResultMap">
+		<select id="getSearchFacilityList" fetchSize="10" parameterType="map" resultType="map">
 			/*시설검색*/
 			SELECT
-				f.facility_cd
-				,fu.facility_use_nm
-				,a.area_nm
-				,ac.city_nm
-				,act.town_nm
-				,f.user_id
-				,f.facility_nm
-				,f.facility_address
-				,f.facility_detail_addr
-				,f.facility_reg_date
+				f.facility_cd 			AS facilityCd
+				,f.main_ctg_cd 			AS mainCtgCd
+				,fu.facility_use_nm 	AS facilityUseNm
+				,a.area_nm 				AS areaNm
+				,ac.city_nm				AS cityNm
+				,act.town_nm 			AS townNm
+				,f.user_id 				AS userId
+				,f.facility_nm 			AS facilityNm
+ 				,f.facility_address 	AS facilityAddr
+				,f.facility_detail_addr AS facilityDetailAddr
+				,f.facility_tell 		AS facilityTell
+				,f.business_number		AS businessNum
+				,f.facility_reg_date 	AS facilityRegDate
 			FROM
 				facility AS f
 				INNER JOIN 
@@ -95,13 +98,13 @@
 				INNER join
 				facility_use AS fu
 				ON 
-				f.facility_use_cd = fu.facility_use_cd;
+				f.facility_use_cd = fu.facility_use_cd
 			<trim prefix="WHERE" prefixOverrides="AND |OR ">
 				<if test="searchValue != null and searchValue != ''">
-					${searchKey} LIKE CONCAT('%', #{searchValue}, '%');
+					${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
 				</if>
 			</trim>
-		
+			LIMIT #{startRow}, #{rowPerPage};
 		</select>
 
 

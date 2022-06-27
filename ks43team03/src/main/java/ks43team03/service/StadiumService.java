@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.common.FileUtils;
 import ks43team03.dto.Facility;
+import ks43team03.dto.Sports;
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;
 import ks43team03.mapper.FacilityGoodsMapper;
@@ -178,12 +179,18 @@ public class StadiumService {
 		log.info("서비스", userId);
 		
 		return facilityListById;
-		
 	}
 	
-	/*시설 내 구장 조회*/
-	public List<Stadium> getAdminStadiumListByCd(String facilityCd) {
-		List<Stadium> adminStadiumListByCd = stadiumMapper.getAdminStadiumListByCd(facilityCd);
+	/*종목 조회*/
+	public List<Sports> getSportsList(){
+		List<Sports> sportsList = stadiumMapper.getSportsList();
+		return sportsList;
+	}
+	
+	
+	/*본인 시설 내 구장 조회*/
+	public List<Stadium> getAdminStadiumListByCd(String userId) {
+		List<Stadium> adminStadiumListByCd = stadiumMapper.getAdminStadiumListByCd(userId);
 		log.info("서비스", adminStadiumListByCd);
 		return adminStadiumListByCd;
 		

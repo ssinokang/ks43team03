@@ -92,14 +92,13 @@
 					<input class="form-control" type="text" name="facilityStadiumCd" data-validate-minmax="10,100" required='required'></div>
 				</div>
 				<div class="field item form-group">
-					<label class="col-form-label col-md-3 col-sm-3  label-align" for="sportsCd" >종목<span class="required">*</span></label>
+					<label class="col-form-label col-md-3 col-sm-3  label-align" for="sportsCd">종목<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-						<select class="select2_single form-control" tabindex="-1" name="sportsCd" >
-							<option value = "">::종목 선택::</option>
-							<option value="sp01">축구</option>
-							<option value="sp02">테니스</option>
-						 	<option value="sp03">배드민턴</option>
-							<option value="sp04">헬스</option>
+						<select class="select2_single form-control" tabindex="-1" name="sportsCd" id="sportsCd" required="required">
+							<option value = "">:: 종목 선택 ::</option>
+							<th:block th:if="${not #lists.isEmpty(sportsList)}" th:each="l:${sportsList}">
+							<option th:value="${l.sportsCd}">[[${l.sportsName}]]</option>
+						</th:block>
 						</select>
 					</div>
 				</div>

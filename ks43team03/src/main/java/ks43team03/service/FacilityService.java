@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityUser;
 import ks43team03.dto.Lesson;
+import ks43team03.dto.Review;
 import ks43team03.dto.Stadium;
 import ks43team03.mapper.FacilityMapper;
 
@@ -28,6 +29,12 @@ public class FacilityService {
 		this.facilityMapper = facilityMapper;
 	}
 
+	
+	/*시설 후기*/
+	public List<Review> getReviewList(String facilityCd){
+		List<Review> reviewList = facilityMapper.getReviewList(facilityCd);
+		return reviewList;
+	}
 	
 	/*시설 가입 중복 체크*/
 	public boolean isUserCheck(String userId, String facilityCd) {

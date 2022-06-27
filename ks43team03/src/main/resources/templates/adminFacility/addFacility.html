@@ -97,7 +97,7 @@
 			$('#plus-button').on('click', function() {
 				if(fileInput < maxFileNum) {
 					var newLi = $(this).parent().clone(true);
-					newLi.children('.lesson-img').val('');
+					newLi.children('.facility-img').val('');
 					$(this).parent().parent().append(newLi);
 					
 					fileInput++;
@@ -116,7 +116,7 @@
 				}
 			});
 			 $(document).on('change',"#areaCd", function(e) {
-				console.log("이거 되나?medium");
+			
 				var areaCd = $('select[name="areaCd"]').val();
 				console.log(areaCd);
 			    $.ajax({

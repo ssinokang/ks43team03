@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityUser;
 import ks43team03.dto.Lesson;
+import ks43team03.dto.Review;
 import ks43team03.dto.Stadium;
 import ks43team03.service.FacilityService;
 
@@ -31,6 +32,7 @@ public class FacilityController {
 		this.facilityService = facilityService;
 	}
 
+	
 	
 	/*시설 가입 중복 체크*/
 	@PostMapping("/userCheck")
@@ -51,7 +53,7 @@ public class FacilityController {
 	public String addFacilityUser(FacilityUser facilityUser) {
 	 facilityService.addFacilityUser(facilityUser);
 		
-		return "redirect:/facility/facilityDetail";
+		return "redirect:/facility/facilityDetail?"+"facilityCd=" +facilityUser.getFacilityCd();
 	}
 	
 	/*시설에 회원가입*/
@@ -72,12 +74,13 @@ public class FacilityController {
 			log.info(facilityCd);
 			List<Stadium> stadiumList = facilityService.getStadiumList(facilityCd);
 			List<Lesson> lessonList = facilityService.getLessonList(facilityCd);
-			
+			List<Review> reviewList = facilityService.getReviewList(facilityCd);
 			
 			model.addAttribute("title", "시설 상세 정보");
 			model.addAttribute("facilityDetail", facilityDetail);
 			model.addAttribute("stadiumList", stadiumList);
 			model.addAttribute("lessonList", lessonList);
+			model.addAttribute("reviewList", reviewList);
 			
 			return "facility/facilityDetail";
 			

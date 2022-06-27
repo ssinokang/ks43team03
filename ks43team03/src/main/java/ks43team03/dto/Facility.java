@@ -34,7 +34,7 @@ public class Facility {
 	private TFile tFile;
 	private Stadium stadium;
 	private Lesson lesson;
-	
+	private Review review;
 	
 	
 }

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityGoods;
+import ks43team03.dto.Sports;
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;
 import ks43team03.service.StadiumService;
@@ -48,7 +49,7 @@ public class StadiumController {
 	
 	
 	
-	/*회원이 구장 조회*/
+	/*회원이 구장 리스트 조회*/
 	@GetMapping("/stadiumList")
 	public String getStadiumList(Model model
 			,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage){
@@ -74,7 +75,7 @@ public class StadiumController {
 		log.info("구장단가 수정 화면에서 입력한 data : {}", stadiumPrice);
 		
 		stadiumService.modifyStadiumPrice(stadiumPrice); 
-		return "redirect:/stadium/adminStadiumListByCd"; 
+		return "redirect:/stadium/adminStadiumListById"; 
 	}
 	
 	
@@ -83,10 +84,13 @@ public class StadiumController {
 	public String modifyStadiumPrice(@RequestParam(name="facilityStadiumCd", required=false) String facilityStadiumCd
 								,Model model) {
 		StadiumPrice stadiumPrice = stadiumService.getAdminStadiumPriceInfoByCd(facilityStadiumCd);
+		List<Sports> sportsList = stadiumService.getSportsList();
+
 		log.info("구장 단가 수정 화면");
 		
 		model.addAttribute("title", "구장 단가 수정");
 		model.addAttribute("stadiumPrice",stadiumPrice);
+		model.addAttribute("sportsList", sportsList);
 		
 		return "stadium/modifyStadiumPrice";
 	}
@@ -107,8 +111,11 @@ public class StadiumController {
 			,Model model) {
 		Stadium stadium = stadiumService.getAdminStadiumInfoByCd(facilityStadiumCd);
 		
+		List<Sports> sportsList = stadiumService.getSportsList();
+
 		model.addAttribute("title", "구장 수정");
 		model.addAttribute("stadium",stadium);
+		model.addAttribute("sportsList",sportsList);
 		
 		return "stadium/modifyStadium";
 	}
@@ -129,8 +136,9 @@ public class StadiumController {
 	/*구장 단가 등록 화면*/
 	@GetMapping("/addStadiumPrice")
 	public String addStadiumPrice(Model model) {
-	
+		List<Sports> sportsList = stadiumService.getSportsList();
 		model.addAttribute("title", "구장 등록");
+		model.addAttribute("sportsList", sportsList);
 		
 		return "stadium/addStadiumPrice";
 	}
@@ -169,11 +177,13 @@ public class StadiumController {
 		String sessionId = (String) session.getAttribute("SID");
 		
 		List<Facility> facilityListById = stadiumService.getFacilityListById(sessionId);
+		List<Sports> sportsList = stadiumService.getSportsList();
 		log.info("컨트롤러", facilityListById);
 		log.info("컨트롤러", sessionId);
 		
 		model.addAttribute("title", "구장 등록");
 		model.addAttribute("facilityListById", facilityListById);
+		model.addAttribute("sportsList", sportsList);
 		
 		
 		return "stadium/addStadium";
@@ -181,15 +191,15 @@ public class StadiumController {
 	
 	
 	
-	//시설 내 구장 조회
+	//본인 시설 내 구장 조회
 	@GetMapping("/adminStadiumListByCd")
-	public String getAdminStadiumListByCd(Model model
-			 ,@RequestParam(name="facilityCd", required = false) String facilityCd) {
+	public String getAdminStadiumListById(Model model
+										,HttpSession session) {
 		
-		facilityCd = "gg_35011750_02";
-		log.info("구장조회 시설코드 : {}", facilityCd);
+		String sessionId = (String) session.getAttribute("SID");
+		log.info("구장조회 아이디 : {}", sessionId);
 		
-		List<Stadium> adminStadiumListByCd = stadiumService.getAdminStadiumListByCd(facilityCd);
+		List<Stadium> adminStadiumListByCd = stadiumService.getAdminStadiumListByCd(sessionId);
 		model.addAttribute("title", "시설 내 구장 정보");
 		model.addAttribute("adminStadiumListByCd", adminStadiumListByCd);
 		log.info("컨드롤러", adminStadiumListByCd);

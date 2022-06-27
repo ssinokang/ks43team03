@@ -18,7 +18,7 @@ public interface AdminFacilityMapper {
 
 	
 	//시설 검색
-	public List<Facility> getSearchFacilityList(String searchKey, String searchValue);
+	public List<Map<String, Object>> getSearchFacilityList(Map<String, Object> paramMap);
 	
 	//아이디별 시설 목록 조회
 	public List<Facility> getAdminFacilityListById(String userId);

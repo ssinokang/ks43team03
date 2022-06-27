@@ -6,9 +6,15 @@
   <th:block layout:fragment="customTitle">
      <title th:text="${title}"></title>
   </th:block>
-
+	
+	<!-- 사용자 정의 css 선언 -->
+	<th:block layout:fragment="customCss">
+		<link rel="stylesheet" th:href="@{/resource/css/mapOverlay.css}" type="text/css">
+	</th:block>
+	
 	<!-- 사용자 정의 js 선언 -->
 	<th:block layout:fragment="customJs">
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
 		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9c5dbc5a281ccc90ee278e75316bee9c&libraries=services,clusterer,drawing"></script>
 	</th:block>
 
@@ -35,70 +41,13 @@
 				<div class="x_content">
 					<div th:include="/adminFacility/adminFaciliySearch :: searchFacilityFragment"></div>	
 					<div class="table-responsive">
-						<table class="table table-striped jambo_table bulk_action table-bordered">
-							<thead>
-								<tr class="headings">
-									<th>
-										<input type="checkbox" id="check-all" class="flat">
-									</th>
-									<th class="column-title">시설대표코드 </th>
-									<th class="column-title">시설 카테고리</th>
-									<th class="column-title">시도 행정지역</th>
-									<th class="column-title">시군구 행정지역</th>
-									<th class="column-title">읍면동 행정지역</th>
-									<th class="column-title">시설용도</th>
-									<th class="column-title">시설주 아이디</th>
-									<th class="column-title">시설명</th>
-									<th class="column-title">시설 상세주소</th>
-									<th class="column-title">시설전화번호</th>
-									<th class="column-title">사업자등록번호</th>
-									<th class="column-title">시설 등록 일자</th>
-									<th class="column-titleno-link last"><span class="nobr">삭제</span></th>
-									<th class="bulk-actions" colspan="7">
-										<a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:if="${not #lists.isEmpty(adminFacilityList)}" th:each="l:${adminFacilityList}">
-									<td class="a-center ">
-										<input type="checkbox" class="flat" name="table_records">
-									</td>
-									<td th:text ="${l.get('facilityCd')}"></td>
-									<td th:text ="${l.get('mainCtgCd')}"></td>
-									<td th:text ="${l.get('areaNm')}"></td>
-									<td th:text ="${l.get('cityNm')}"></td>
-									<td th:text ="${l.get('townNm')}"></td>
-									<td th:text ="${l.get('facilityUseNm')}"></td>
-									<td th:text ="${l.get('userId')}"></td>
-									<td th:text ="${l.get('facilityNm')}"></td>
-									<td th:text ="${l.get('facilityAddr')}" class="placeAddr"></td>
-									<td th:text ="${l.get('facilityTell')}"></td>
-									<td th:text ="${l.get('businessNum')}"></td>
-									<td th:text ="${l.get('facilityRegDate')}"></td>
-									<td>
-										<a th:href="@{/adminFacility/removeFacility(facilityCd=${l.facilityCd})}">삭제</a>
-									</td>
-								</tr>
-								<tr th:unless="${not #lists.isEmpty(adminFacilityList)}">
-									<td colspan="9">조회된 내용이 없습니다.</td>
-								</tr>
-							</tbody>
-							<tfoot>
-								<tr>
-									<td colspan="14" style="text-align: center;">
-										<a th:href="@{/adminFacility/adminFacilityList}">[맨처음]</a>
-										<a th:if="${currentPage > 1}" th:href="@{/adminFacility/adminFacilityList(currentPage=${currentPage - 1})}">[이전]</a>
-										<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">
-											<label th:if="${currentPage eq num}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></label>
-											<a th:unless="${currentPage eq num}" th:href="@{/adminFacility/adminFacilityList(currentPage=${num})}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></a>
-										</th:block>
-										<a th:if="${currentPage < lastPage}" th:href="@{/adminFacility/adminFacilityList(currentPage=${currentPage + 1})}">[다음]</a>
-										<a th:href="@{/adminFacility/adminFacilityList(currentPage=${lastPage})}">[마지막]</a>
-									</td>
-								</tr>
-							</tfoot>
-						</table>
+						
+						<th:block th:if="${not #lists.isEmpty(adminFacilityList)}" th:each="l:${adminFacilityList}">
+							<input type="hidden" th:value ="${l.facilityAddr}" class="placeAddr">
+							<input type="hidden" th:value ="${l.facilityNm}" class="placeName">
+							<input type="hidden" th:value ="${l.facilityCd}" class="placeCode">
+						</th:block>
+						
 					</div>
 				</div>
 			</div>
@@ -106,69 +55,17 @@
 	</div>
 
 	
-	
-		<div class="container">
-			<p style="margin-top:-12px">
-				<em class="link">
-					<a href="javascript:void(0);" onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
-						혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요.
-					</a>
-				</em>
-			</p>
-			<div id="map" style="width:100%;height:350px;"></div>
-		</div>
+	<div>
+		<p style="margin-top:-12px">
+			<em class="link">
+				<a href="javascript:void(0);" onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
+					혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요.
+				</a>
+			</em>
+		</p>
+		<div id="map" style="width:50%;height:350px;"></div>
+	</div>
 
-		<script>
-		// 마커를 담을 배열입니다
-		var markers = [];
-		var placeAddrText = [];
-		var placeAddr = document.querySelectorAll('.placeAddr');
-		
-		
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-			mapOption = {
-				center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-				level: 3 // 지도의 확대 레벨
-			};  
-		
-		// 지도를 생성합니다    
-		var map = new kakao.maps.Map(mapContainer, mapOption); 
-		
-		// 주소-좌표 변환 객체를 생성합니다
-		var geocoder = new kakao.maps.services.Geocoder();
-		
-		
-		for(var i = 0; i<placeAddr.length; i++){
-			
-			placeAddrText.push(placeAddr[i].innerText);
-			
-			// 주소로 좌표를 검색합니다
-			geocoder.addressSearch(placeAddrText[i], function(result, status) {
-			
-				console.log(result[i]);
-				// 정상적으로 검색이 완료됐으면 
-				if (status === kakao.maps.services.Status.OK) {
-			
-					var coords = new kakao.maps.LatLng(result[i].y, result[i].x);
-			
-					// 결과값으로 받은 위치를 마커로 표시합니다
-					var marker = new kakao.maps.Marker({
-						map: map,
-						position: coords
-					});
-			
-					// 인포윈도우로 장소에 대한 설명을 표시합니다
-					var infowindow = new kakao.maps.InfoWindow({
-						content: '<div style="width:150px;text-align:center;padding:6px 0;">마바사종합체육관</div>'
-					});
-					infowindow.open(map, marker);
-			
-					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-					map.setCenter(coords);
-				}
-			});    
-		}
-		
-		</script>
-
+	<script th:src="@{/resource/js/map.js}"></script>
+</th:block>
 </html>

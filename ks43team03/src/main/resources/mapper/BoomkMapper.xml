@@ -32,7 +32,7 @@
 
 <!-- id="boomkFacilityResultMap"와 resultMap="boomkFacilityResultMap"는 같아야 한다. -->
 	<select id="getBoomkList" parameterType="String" resultMap="boomkFacilityResultMap">
-		<!-- 아이디로  즐겨찾기 정보 조회 Y(즐겨찾기) 조회 -->
+		/*아이디로  즐겨찾기 정보 조회 Y(즐겨찾기) 조회*/
 		SELECT
 			 b.boomk_update_date
 			,b.user_id
@@ -54,7 +54,7 @@
 
 
 	<insert id="addBoomk" parameterType="Boomk">
-		<!-- 즐겨찾기 등록 -->
+		/*즐겨찾기 등록*/
 		INSERT INTO boomk_facility(
 			boomk_facility_cd, 
 			facility_cd, 
@@ -74,7 +74,7 @@
 	</insert>
 
 	<delete id="removeBoomk" parameterType="Boomk">
-		<!-- 즐겨찾기 삭제 -->	
+		/*즐겨찾기 삭제*/
 		DELETE 
 		FROM 
 			boomk_facility
@@ -111,7 +111,7 @@
 
 
 	<select id="getFacilityList" resultType="Facility"> <!-- resultMap="boomkFacilityResultMap" -->
-	/*시설전체조회*/
+		/*시설전체조회*/
 		SELECT 
 			facility_cd 		as facilityCd		
 			,main_ctg_cd 		as mainCtgCd	 	

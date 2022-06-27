@@ -30,7 +30,7 @@
 					<div class="col-sm-12 text-center"> <!-- text-center 텍스트 중앙정렬 -->
 						<div class="card-box table-responsive">
 							<p class="text-muted font-13 m-b-30">
-								자율안전점검 결과를 볼 수 있습니다.
+								자율안전점검 점검 결과를 볼 수 있습니다.
 							</p>
 							<table id="datatable" class="table table-striped jambo_table bulk_action table-bordered" style="width:100%">
 								<thead>
@@ -38,22 +38,20 @@
 										<th>등록자 아이디</th>
 										<th>등록자 이름</th>
 										<th>체육시설명</th>
-										<th>안전점검 결과 첨부 파일</th>
-										<th>안전 점검일</th>
-										<th>안전 점검 등록일</th>									
+										<th>점검 결과</th>
+										<th>점검 결과 등록일</th>								
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:if="${not #lists.isEmpty(safetyResultList)}" th:each="l:${safetyResultList}">
-<!-- 										<td th:text="${l.userId}"></td>
+										<td th:text="${l.userId}"></td>
 										<td th:text="${l.userName}"></td>
 										<td th:text="${l.facilityNm}"></td>
-										<td th:text="${l.safetyCheckFile}"></td>
-										<td th:text="${l.safetyCheckDate}"></td>
-										<td th:text="${l.safetyCheckRegDate}"></td>	 -->								
+										<td th:text="${l.safetyCheckResult}"></td>
+										<td th:text="${l.safetyResultRegDate}"></td>							
 									</tr>
 									<tr th:unless="${not #lists.isEmpty(safetyResultList)}">
-										<td colspan="6">조회된 내용이 없습니다.</td>
+										<td colspan="5">조회된 내용이 없습니다.</td>
 									</tr>
 								</tbody>
 								<tfoot>

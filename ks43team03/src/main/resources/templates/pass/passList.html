@@ -22,35 +22,30 @@
 											<tr class="headings">
 												
 												<th class="column-title" style="display: table-cell;">이용권 명</th>
-												<th class="column-title" style="display: table-cell;">이용권 시설</th>
-												<th class="column-title" style="display: table-cell;">이용권 등록자</th>
-												<th class="column-title" style="display: table-cell;">이용권 가격 </th>
+												<th class="column-title" style="display: table-cell;">이용권등록자</th>
+												<th class="column-title" style="display: table-cell;">이용권단위</th>
+												<th class="column-title" style="display: table-cell;">이용권 단가</th>
 												<th class="column-title" style="display: table-cell;">이용권 등록일자</th>
 												<th class="column-title" style="display: table-cell;">이용권 상태</th>
-												<th class="column-title no-link last" style="display: table-cell;"><span
-														class="nobr">상세보기</span>
-												</th>
-												<th class="bulk-actions" colspan="7" style="display: none;">
-													<a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions (
-														<span class="action-cnt">1 Records Selected</span> ) <i
-															class="fa fa-chevron-down"></i></a>
-												</th>
+												<th class="column-title" style="display: table-cell;">수정</th>
+												<th class="column-title" style="display: table-cell;">삭제</th>
 											</tr>
 										</thead>
 
 										<tbody>
 											<tr class="" th:if="${not #lists.isEmpty(passList)}" th:each="pass : ${passList}">
 												<td class=" " th:text="${pass.passNm}"></td>
-												<td class=" " th:text="${pass.facility.facilityNm}">땡떙체육관</td>
-												<td class=" " th:text="${pass.userId}"> </td>
+												<td class=" " th:text="${pass.userId}">땡떙체육관</td>
+												<td class=" " th:text="${pass.passUnit}"> </td>
 												<td class=" " th:text="${pass.passPrice}"> <i class="success fa fa-long-arrow-up"></i></td>
 												<td class=" " th:text="${pass.passRegDate}"></td>
 												<td class=" " th:text="${pass.passState}"></td>
-												<td><a class="btn btn-primary" th:href="@{/pass/admin/passDetail(passCd=${pass.passCd},facilityGoodsCd=${pass.facilityGoodsCd})}">상세보기</a>
-												</td>
+												<td><a class="btn btn-default" th:href="@{/pass/modifyPass(passCd=${pass.passCd},facilityGoodsCd=${pass.facilityGoodsCd},userId=${pass.userId})}">수정하기</a></td>
+												<td><a class="btn btn-default" th:href="@{/pass/removePass(passCd=${pass.passCd},facilityGoodsCd=${pass.facilityGoodsCd},userId=${pass.userId})}">삭제하기</a></td>
+												
 											</tr>
 											<tr th:unless="${not #lists.isEmpty(passList)}">
-												<td colspan="7">이용권내용이 아직없습니다.</td>
+												<td colspan="8">이용권을 등록해주세요.<button class="btn btn-primary" id="add-pass-btn" type="button">이용권등록</button> </td>
 											</tr>
 										</tbody>
 									</table>
@@ -60,7 +55,7 @@
 							</div>
 						</div>
 					</div>
-
+						
 	</th:block>
 
 </html>

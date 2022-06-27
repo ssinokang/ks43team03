@@ -103,5 +103,118 @@
 			facility AS f
 			on
 			p.facility_cd = f.facility_cd
+		WHERE
+			pass_state = 'Y'
  	</select>
+ 	
+ 	<select id="getPassDetail" parameterType="String" resultMap="PassResultMap">
+		SELECT
+			 p.pass_cd
+			,p.facility_goods_cd
+			,p.facility_cd
+			,p.goods_ctg_cd
+			,p.user_id
+			,p.pass_nm
+			,p.pass_reg_date
+			,p.pass_unit
+			,p.pass_price
+			,p.pass_state
+			,p.pass_end_days
+			,f.facility_cd
+			,f.facility_nm
+			,f.facility_address
+			,f.main_ctg_cd
+			,f.town_cd
+			,f.facility_use_cd
+			,f.facility_tell
+		FROM
+			facility_pass AS p
+			INNER join
+			facility AS f
+			on
+			p.facility_cd = f.facility_cd
+		WHERE
+			p.pass_cd = #{passCd}
+			and
+			p.facility_goods_cd = #{facilityGoodsCd}
+			AND
+			pass_state = 'Y'
+ 	</select>
+ 	
+ 	<select id="getPassListOfFacility" parameterType="String" resultMap="PassResultMap">
+	 	SELECT
+			 p.pass_cd
+			,p.facility_goods_cd
+			,p.facility_cd
+			,p.goods_ctg_cd
+			,p.user_id
+			,p.pass_nm
+			,p.pass_reg_date
+			,p.pass_unit
+			,p.pass_price
+			,p.pass_state
+			,p.pass_end_days
+		FROM
+			facility_pass AS p
+		WHERE
+			p.facility_cd=#{facilityCd}
+			AND
+			pass_state = 'Y'
+ 	</select>
+ 	
+ 	<select id="getPassByPassCd" parameterType="String" resultMap="PassResultMap">
+ 		SELECT
+			 p.pass_cd
+			,p.facility_goods_cd
+			,p.facility_cd
+			,p.goods_ctg_cd
+			,p.user_id
+			,p.pass_nm
+			,p.pass_reg_date
+			,p.pass_unit
+			,p.pass_price
+			,p.pass_state
+			,p.pass_end_days
+		FROM
+			facility_pass AS p
+		WHERE
+			p.pass_cd = #{passCd}
+			AND
+			pass_state = 'Y'
+ 	</select>
+ 	<update id="modifyPass" parameterType="Pass">
+		UPDATE 
+			facility_pass
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="userId != null and userId != ''">
+				user_id= #{userId}
+			</if>
+			<if test="passNm != null and passNm !=''">
+				,pass_nm=#{passNm} 
+			</if>
+			<if test="passUnit != null and passUnit !=''">
+				,pass_unit=#{passUnit} 
+			</if>
+			<if test="passPrice != null and passPrice !=''">
+				,pass_price=#{passPrice} 
+			</if>
+			<if test="passState != null and passState !=''">
+				,pass_state=#{passState} 
+			</if>
+			<if test="passEndDate != null and passEndDate !=''">
+				,pass_end_days=#{passEndDate} 
+			</if>
+		</trim>
+		WHERE 
+			pass_cd=#{passCd}
+ 	</update>
+ 	
+ 	<update id="removePass" parameterType="String">
+	 	UPDATE 
+			facility_pass
+		SET
+			pass_state='N'
+		WHERE 
+			pass_cd=#{passCd}
+ 	</update>
  </mapper>

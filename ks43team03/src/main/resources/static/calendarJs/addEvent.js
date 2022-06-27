@@ -17,7 +17,7 @@ var modifyBtnContainer = $('.modalBtnContainer-modifyEvent');
  *  새로운 일정 생성
  * ************** */
 
-var newEvent1 = function (start, end, eventType) {
+var newEvent = function (start, end, eventType) {
 
     $("#contextMenu").hide(); //메뉴 숨김
 

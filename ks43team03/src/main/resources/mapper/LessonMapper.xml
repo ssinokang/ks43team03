@@ -18,6 +18,10 @@
  		<result column="lesson_member" 			property="lessonMember"/>		 
 		<result column="lesson_start_date" 		property="lessonStartDate"/>		
 		<result column="lesson_end_date" 		property="lessonEndDate"/>		
+		<result column="lesson_start_time" 		property="lessonStartTime"/>		
+		<result column="lesson_end_time" 		property="lessonEndTime"/>
+		<result column="lesson_month"	 		property="lessonMonth"/>
+		<result column="lesson_week"	 		property="lessonWeek"/>
 		<result column="lesson_price" 			property="lessonPrice"/>		
 		<result column="lesson_reg_date" 		property="lessonRegDate"/>		
 		<result column="lesson_state" 			property="lessonState"/>		
@@ -41,17 +45,17 @@
 			<result column="facility_reg_date"	property="facilityRegDate"/>
 		</association>
 		<association property="areaCityTown" 	javaType="AreaCityTown">
-			<id 	column="town_cd" 	property="townCd"/>
-			<result column="city_cd" 	property="cityCd"/>
-			<result column="area_cd" 	property="areaCd"/>
-			<result column="town_nm" 	property="townNm"/>
+			<id 	column="town_cd" 			property="townCd"/>
+			<result column="city_cd" 			property="cityCd"/>
+			<result column="area_cd" 			property="areaCd"/>
+			<result column="town_nm" 			property="townNm"/>
 		</association>
 		<collection property="relFileWithGoods" ofType="Map">
 			<result	column="facility_goods_cd"	property="facilityGoodsCd"/>
 			<result	column="file_cd"			property="fileCd"/>
 		</collection>
 		<collection property="tFile" ofType="TFile">
-			<id		column="file_cd"				property="fileCd"/>
+			<id		column="file_cd"				property="fileCd"/>	
 			<result	column="original_file_nm"		property="originalFileName"/>
 			<result	column="stored_file_path"		property="storedFilePath"/>
 			<result	column="file_size"				property="fileSize"/>
@@ -114,6 +118,10 @@
 			,lesson_sub.lesson_member
 			,lesson_sub.lesson_start_date
 			,lesson_sub.lesson_end_date
+			,lesson_sub.lesson_start_time
+			,lesson_sub.lesson_end_time
+			,lesson_sub.lesson_month
+			,lesson_sub.lesson_week
 			,lesson_sub.lesson_price
 			,lesson_sub.facility_goods_cd
 			,lesson_sub.lesson_reg_date
@@ -153,7 +161,11 @@
 				  	,l.lesson_member
 				  	,l.lesson_start_date
 				  	,l.lesson_end_date
+				  	,l.lesson_start_time
+				  	,l.lesson_end_time
 				  	,l.lesson_price
+				  	,l.lesson_month
+				  	,l.lesson_week
 				  	,l.facility_goods_cd
 				  	,l.lesson_reg_date
 				FROM
@@ -209,6 +221,11 @@
 			,l.lesson_member
 			,l.lesson_start_date
 			,l.lesson_end_date
+			,l.lesson_start_time
+			,l.lesson_end_time
+			,l.lesson_month
+			,l.lesson_month
+			,l.lesson_week
 			,l.lesson_state
 			,l.lesson_reg_date
 			,s.sports_nm
@@ -232,13 +249,16 @@
 			,facility_cd
 			,goods_ctg_cd
 			,sports_cd
-			,sports_nm
 			,user_id
 			,lesson_nm
 			,lesson_detail
 			,lesson_total_member
 			,lesson_start_date
 			,lesson_end_date
+			,lesson_start_time
+			,lesson_end_time
+			,lesson_month
+			,lesson_week
 			,lesson_price
 			,lesson_reg_date
 		) VALUES (
@@ -248,13 +268,16 @@
 			,#{facilityCd}
 			,#{goodsCtgCd}
 			,#{sportsCd}
-			,#{sportsName}
 			,#{userId}
 			,#{lessonName}
 			,#{lessonDetail}
 			,#{lessonTotalMember}
 			,#{lessonStartDate}
 			,#{lessonEndDate}
+			,#{lessonStartTime}
+			,#{lessonEndTime}
+			,#{lessonMonth}
+			,#{lessonWeek}
 			,#{lessonPrice}
 			,NOW()
 		)
@@ -285,6 +308,10 @@
 	,lesson_sub.lesson_member
 	,lesson_sub.lesson_start_date
 	,lesson_sub.lesson_end_date
+	,lesson_sub.lesson_start_time
+	,lesson_sub.lesson_end_time
+	,lesson_sub.lesson_month
+	,lesson_sub.lesson_week
 	,lesson_sub.lesson_price
 	,lesson_sub.facility_goods_cd
 	,lesson_sub.lesson_reg_date
@@ -322,6 +349,10 @@
 		  	,l.lesson_member
 		  	,l.lesson_start_date
 		  	,l.lesson_end_date
+		  	,l.lesson_start_time
+		  	,l.lesson_end_time
+		  	,l.lesson_month
+		  	,l.lesson_week
 		  	,l.lesson_price
 		  	,l.facility_goods_cd
 		  	,l.lesson_reg_date

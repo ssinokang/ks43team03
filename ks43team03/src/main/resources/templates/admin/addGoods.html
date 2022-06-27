@@ -14,6 +14,9 @@
 	<th:block layout:fragment="customContents">
 	
 		<style>
+			*{
+			 list-style: none;
+			}
 			#lesson#pass#stadium {
 				padding-top: 20px;
 			}
@@ -27,6 +30,9 @@
 			}
 	
 			#stadium.none-display{
+				display: none;
+			}
+			#lessonNu.none-display {
 				display: none;
 			}
 		</style>
@@ -376,7 +382,7 @@
 								<div class="col-md-6 col-sm-6 ">
 									<ul class="lesson-file-line">
 										<li>
-											<input type="file" name="lessonImgFile" class="form-control lesson-img" accept="image/*" required multiple>
+											<input type="file" name="lessonImgFile" class="form-control newLine" accept="image/*" required multiple>
 											<button id="plus-button">플러스</button>
 											<button id="minus-button">마이너스</button>
 										</li>
@@ -396,9 +402,9 @@
 								</div>
 							</div>
 							<div class="item form-group">
-								<label class="col-form-label col-md-3 col-sm-3 label-align">Gender</label>
+								<label class="col-form-label col-md-3 col-sm-3 label-align">개인/단체</label>
 								<div class="col-md-6 col-sm-6 ">
-									<div id="gender" class="btn-group" data-toggle="buttons">
+									<div id="solo-party" class="btn-group" data-toggle="buttons">
 										<label class="btn btn-secondary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
 											<input type="radio" name="lessonDivision" value="단체" class="join-btn"> &nbsp; 단체레슨 &nbsp;
 										</label>
@@ -408,20 +414,43 @@
 									</div>
 								</div>
 							</div>
+							<div class="item form-group none-display" id="lessonNu">
+								<div class="col-md-6 col-sm-6 ">
+									월 :	<input type="number" class="form-control newLine" name="lessonMonth" id="lessonMonth">
+								</div>
+								<div class="col-md-6 col-sm-6 ">
+									주/횟수 : <input type="number" class="form-control newLine" name="lessonWeek">						
+								</div>
+							</div>
 							<div class="item form-group">
-								<label class="col-form-label col-md-3 col-sm-3 label-align">레슨 시작 시간<span class="required">*</span>
+								<label class="col-form-label col-md-3 col-sm-3 label-align">레슨 시작 날짜<span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 ">
 									<input type="date" class="form-control-file" name="lessonStartDate" id="lessonStartDate">
 								</div>
 							</div>
 							<div class="item form-group">
-								<label class="col-form-label col-md-3 col-sm-3 label-align">레슨 끝난 시간<span class="required">*</span>
+								<label class="col-form-label col-md-3 col-sm-3 label-align">레슨 끝난 날짜<span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 ">
 									<input type="date" class="form-control-file" name="lessonEndDate" id="lessonEndDate">
 								</div>
 							</div>
+							<div class="item form-group">
+								<label for = "lessonStartTime" class="col-form-label col-md-3 col-sm-3 label-align">레슨 시작 시간<span class="required">*</span>
+								</label>
+								<div class="col-md-6 col-sm-6 ">
+									<input type="time" class="form-control-file" name="lessonStartTime" id="lessonStartTime">
+								</div>
+							</div>
+							<div class="item form-group">
+								<label for = "lessonEndTime" class="col-form-label col-md-3 col-sm-3 label-align">레슨 끝난 시간<span class="required">*</span>
+								</label>
+								<div class="col-md-6 col-sm-6 ">
+									<input type="time" class="form-control-file" name="lessonEndTime" id="lessonEndTime">
+								</div>
+							</div>
+							
 							<div class="item form-group" >
 								<label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonPrice">수강료<span class="required">*</span>
 								</label>

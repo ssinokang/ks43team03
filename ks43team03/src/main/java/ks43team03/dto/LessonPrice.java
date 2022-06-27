@@ -7,8 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Sports {
-
-	private String sportsCd;
-	private String sportsName;
+public class LessonPrice {
+	private int lessonNumber;
+	private int lessonPrice;
 }

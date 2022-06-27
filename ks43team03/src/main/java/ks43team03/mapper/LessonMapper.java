@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import ks43team03.dto.Lesson;
+import ks43team03.dto.Sports;
 
 @Mapper
 public interface LessonMapper {

@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.common.FileUtils;
 import ks43team03.dto.Lesson;
+import ks43team03.dto.Sports;
+import ks43team03.mapper.CommonMapper;
 import ks43team03.mapper.FacilityGoodsMapper;
 import ks43team03.mapper.FileMapper;
 import ks43team03.mapper.LessonMapper;
@@ -25,11 +27,13 @@ public class LessonService {
 	private final LessonMapper lessonMapper;
 	private final FileMapper   fileMapper;
 	private final FacilityGoodsMapper facilityGoodsMapper;
+	private final CommonMapper commonMapper;
 	
-	public LessonService(LessonMapper lessonMapper, FileMapper fileMapper, FacilityGoodsMapper facilityGoodsMapper) {
+	public LessonService(LessonMapper lessonMapper, FileMapper fileMapper, FacilityGoodsMapper facilityGoodsMapper, CommonMapper commonMapper) {
 		this.lessonMapper = lessonMapper;
 		this.fileMapper	  = fileMapper;
 		this.facilityGoodsMapper = facilityGoodsMapper;
+		this.commonMapper		 = commonMapper;
 	}
 	
 	// 레슨 리스트 가져오기
@@ -133,5 +137,11 @@ public class LessonService {
 		System.out.println("_______________end   modifyLesson");
 		System.out.println("___________________________________________________");
 		return 0;
+	}
+
+	public List<Sports> getSportsList() {
+		System.out.println("___________LessonService/getSportsList_____________");
+		List<Sports> sportsList = commonMapper.getSportsList();
+		return sportsList;
 	}
 }

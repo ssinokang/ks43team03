@@ -96,7 +96,7 @@ public class FacilityGoodsService {
 	private ResponseGoods getFacilityGoodsLessonCd(FacilityGoods facilityGoods) {
 		return ResponseGoods.builder()
 				.facilityGoods(facilityGoods)
-				.price(facilityGoods.getLesson().getLessonPrice())
+				.price(Integer.parseInt(facilityGoods.getLesson().getLessonPrice()))
 				.build();
 	}
 	

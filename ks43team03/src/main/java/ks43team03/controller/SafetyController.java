@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.dto.Safety;
 import ks43team03.service.SafetyService;
@@ -29,6 +31,32 @@ public class SafetyController {
 	}
 
 	//안전점검 등록
+	  @PostMapping("/addSafety") 
+	  public String addSafety(Safety safety
+			  					,@RequestParam(name="safetyCheckCd", required = false) String safetyCheckCd
+			  					,@RequestParam MultipartFile[] safetyCheckFile, Model model
+			  					,HttpServletRequest request) {
+		  log.info("안전점검 등록화면에서 입력한 data : {}", safety);
+		  
+		  String serverName = request.getServerName();
+			String fileRealPath = "";
+			if("localhost".equals(serverName)) {				
+				fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
+				//fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+			}else {
+				fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+			}
+			
+			safetyService.addSafety(safety, safetyCheckFile, fileRealPath);
+			
+		  return "redirect:/safety/addSafety"; 
+	  }	
+	
+	
+	
+	
+	
+	/*
 	@PostMapping("/addSafety")
 	public String addSafety(Safety safety) {
 		
@@ -40,7 +68,7 @@ public class SafetyController {
 		
 		return "redirect:/safety/addSafety";
 	}
-	
+	*/
 	
 	// 안전점검 등록 페이지 이동
 	@GetMapping("/addSafety")
@@ -112,9 +140,10 @@ public class SafetyController {
 	//안전점검 등록 정보 수정 
 	@GetMapping("/modifySafety")
 	public String modifySafety(Model model
-							  ,@RequestParam(name="safetyCheckCd", required=false) String safetyCheckCd) {
+							  ,HttpSession session) {
 		
-		safetyService.getSafetyListById(safetyCheckCd);
+		String sessionId = (String) session.getAttribute("SID");
+		safetyService.getSafetyListById(sessionId);
 		
 		model.addAttribute("title", "안전점검 등록 정보 수정");
 		
@@ -156,7 +185,7 @@ public class SafetyController {
 		model.addAttribute("title", "안전점검 결과 목록 조회");
 		model.addAttribute("resultMap", 		resultMap);
 		model.addAttribute("currentPage", 		currentPage);
-		model.addAttribute("safetyList", 		resultMap.get("safetyList"));
+		model.addAttribute("safetyResultList", 	resultMap.get("safetyResultList"));
 		model.addAttribute("lastPage", 			resultMap.get("lastPage"));
 		model.addAttribute("startPageNum", 		resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum", 		resultMap.get("endPageNum"));

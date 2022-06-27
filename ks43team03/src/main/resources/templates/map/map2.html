@@ -6,7 +6,12 @@
   <th:block layout:fragment="customTitle">
      <title th:text="${title}"></title>
   </th:block>
-
+	
+	<!-- 사용자 정의 css 선언 -->
+	<th:block layout:fragment="customCss">
+		<link rel="stylesheet" th:href="@{/resource/css/mapOverlay.css}" type="text/css">
+	</th:block>
+	
 	<!-- 사용자 정의 js 선언 -->
 	<th:block layout:fragment="customJs">
 		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
@@ -36,70 +41,13 @@
 				<div class="x_content">
 					<div th:include="/adminFacility/adminFaciliySearch :: searchFacilityFragment"></div>	
 					<div class="table-responsive">
-						<table class="table table-striped jambo_table bulk_action table-bordered">
-							<thead>
-								<tr class="headings">
-									<th>
-										<input type="checkbox" id="check-all" class="flat">
-									</th>
-									<th class="column-title">시설대표코드 </th>
-									<th class="column-title">시설 카테고리</th>
-									<th class="column-title">시도 행정지역</th>
-									<th class="column-title">시군구 행정지역</th>
-									<th class="column-title">읍면동 행정지역</th>
-									<th class="column-title">시설용도</th>
-									<th class="column-title">시설주 아이디</th>
-									<th class="column-title">시설명</th>
-									<th class="column-title">시설 상세주소</th>
-									<th class="column-title">시설전화번호</th>
-									<th class="column-title">사업자등록번호</th>
-									<th class="column-title">시설 등록 일자</th>
-									<th class="column-titleno-link last"><span class="nobr">삭제</span></th>
-									<th class="bulk-actions" colspan="7">
-										<a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:if="${not #lists.isEmpty(adminFacilityList)}" th:each="l:${adminFacilityList}">
-									<td class="a-center ">
-										<input type="checkbox" class="flat" name="table_records">
-									</td>
-									<td th:text ="${l.get('facilityCd')}"></td>
-									<td th:text ="${l.get('mainCtgCd')}"></td>
-									<td th:text ="${l.get('areaNm')}"></td>
-									<td th:text ="${l.get('cityNm')}"></td>
-									<td th:text ="${l.get('townNm')}"></td>
-									<td th:text ="${l.get('facilityUseNm')}"></td>
-									<td th:text ="${l.get('userId')}"></td>
-									<td th:text ="${l.get('facilityNm')}" class="placeName"></td>
-									<td th:text ="${l.get('facilityAddr')}" class="placeAddr"></td>
-									<td th:text ="${l.get('facilityTell')}"></td>
-									<td th:text ="${l.get('businessNum')}"></td>
-									<td th:text ="${l.get('facilityRegDate')}"></td>
-									<td>
-										<a th:href="@{/adminFacility/removeFacility(facilityCd=${l.facilityCd})}">삭제</a>
-									</td>
-								</tr>
-								<tr th:unless="${not #lists.isEmpty(adminFacilityList)}">
-									<td colspan="9">조회된 내용이 없습니다.</td>
-								</tr>
-							</tbody>
-							<tfoot>
-								<tr>
-									<td colspan="14" style="text-align: center;">
-										<a th:href="@{/adminFacility/adminFacilityList}">[맨처음]</a>
-										<a th:if="${currentPage > 1}" th:href="@{/adminFacility/adminFacilityList(currentPage=${currentPage - 1})}">[이전]</a>
-										<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">
-											<label th:if="${currentPage eq num}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></label>
-											<a th:unless="${currentPage eq num}" th:href="@{/adminFacility/adminFacilityList(currentPage=${num})}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></a>
-										</th:block>
-										<a th:if="${currentPage < lastPage}" th:href="@{/adminFacility/adminFacilityList(currentPage=${currentPage + 1})}">[다음]</a>
-										<a th:href="@{/adminFacility/adminFacilityList(currentPage=${lastPage})}">[마지막]</a>
-									</td>
-								</tr>
-							</tfoot>
-						</table>
+						
+						<th:block th:if="${not #lists.isEmpty(adminFacilityList)}" th:each="l:${adminFacilityList}">
+							<input type="hidden" th:value ="${l.facilityAddr}" class="placeAddr">
+							<input type="hidden" th:value ="${l.facilityNm}" class="placeName">
+							<input type="hidden" th:value ="${l.facilityCd}" class="placeCode">
+						</th:block>
+						
 					</div>
 				</div>
 			</div>
@@ -107,159 +55,17 @@
 	</div>
 
 	
-	
-		<div class="container">
-			<p style="margin-top:-12px">
-				<em class="link">
-					<a href="javascript:void(0);" onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
-						혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요.
-					</a>
-				</em>
-			</p>
-			<div id="map" style="width:100%;height:350px;"></div>
-		</div>
+	<div>
+		<p style="margin-top:-12px">
+			<em class="link">
+				<a href="javascript:void(0);" onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
+					혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요.
+				</a>
+			</em>
+		</p>
+		<div id="map" style="width:50%;height:350px;"></div>
+	</div>
 
-		<script>
-		// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
-		var infowindow = new kakao.maps.InfoWindow({zIndex:1});
-		
-		// 시설 주소 목록
-		var placeAddrText = [],
-			placeNameText = [],
-			placeAddr = document.querySelectorAll('.placeAddr'),
-			placeName = document.querySelectorAll('.placeName');
-		
-		
-		for(var i = 0; i<placeAddr.length; i++){
-			
-			placeAddrText.push(placeAddr[i].innerText);
-			placeNameText.push(placeName[i].innerText);
-			
-		}
-		
-		console.log(placeNameText);
-		console.log(placeAddrText);
-		
-		// 지도를 생성합니다
-		var map = new kakao.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
-	        center : new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표 
-	        level : 14 // 지도의 확대 레벨 
-	    });
-		
-		// 마커 클러스터러를 생성합니다 
-		var clusterer = new kakao.maps.MarkerClusterer({
-			map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
-			averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
-			minLevel: 10 // 클러스터 할 최소 지도 레벨 
-		});
-		
-		// 주소-좌표 변환 객체를 생성합니다
-		var geocoder = new kakao.maps.services.Geocoder();
-		
-		// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-		// 인포윈도우에 장소명을 표시합니다
-		function displayInfowindow(marker, title) {
-			var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
-
-			infowindow.setContent(content);
-			infowindow.open(map, marker);
-		}
-		
-		for(var i=0; i<placeAddrText.length; i++){
-			
-			
-			// 주소로 좌표를 검색합니다
-			geocoder.addressSearch(placeAddrText[i], function(result, status) {
-				
-				console.log(result[0]);
-				
-				// 정상적으로 검색이 완료됐으면 
-				if (status === kakao.maps.services.Status.OK) {
-			
-					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-					
-					console.log('coords : ' + coords);
-					
-					// 결과값으로 받은 위치를 마커로 표시합니다
-					// 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
-					var marker = new kakao.maps.Marker({
-						position: coords
-					});
-					
-					// 마커와 검색결과 항목에 mouseover 했을때
-					// 해당 장소에 인포윈도우에 장소명을 표시합니다
-					// mouseout 했을 때는 인포윈도우를 닫습니다
-					(function(marker, title) {
-						kakao.maps.event.addListener(marker, 'mouseover', function() {
-							displayInfowindow(marker, title);
-						});
-
-						kakao.maps.event.addListener(marker, 'mouseout', function() {
-							infowindow.close();
-						});
-	
-					})(marker, placeNameText[i]);
-					
-					clusterer.addMarker(marker);
-					
-					console.log(clusterer);
-					
-				}
-			});
-		}
-			
-		/* // LatLngBounds 객체 생성
-		var bounds = new kakao.maps.LatLngBounds();
-			
-		//주소로 foreach 구문
-		placeAddrText.forEach(function(addr, index){
-			
-			console.log(addr);
-			
-			// 주소로 좌표를 검색합니다
-			geocoder.addressSearch(addr, function(result, status) {
-				
-				console.log(result);
-				
-				// 정상적으로 검색이 완료됐으면 
-				if (status === kakao.maps.services.Status.OK) {
-			
-					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-					
-					console.log('coords : ' + coords);
-					
-					// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-					// LatLngBounds 객체에 좌표를 추가합니다
-					bounds.extend(coords);
-					
-					// 결과값으로 받은 위치를 마커로 표시합니다
-					var marker = new kakao.maps.Marker({
-						map: map,
-						position: coords
-					});
-			
-					// 마커와 검색결과 항목에 mouseover 했을때
-					// 해당 장소에 인포윈도우에 장소명을 표시합니다
-					// mouseout 했을 때는 인포윈도우를 닫습니다
-					(function(marker, title) {
-						kakao.maps.event.addListener(marker, 'mouseover', function() {
-							displayInfowindow(marker, title);
-						});
-
-						kakao.maps.event.addListener(marker, 'mouseout', function() {
-							infowindow.close();
-						});
-	
-					})(marker, result[0].address_name);
-					
-					clusterer.addMarkers(marker);
-					
-					// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-					map.setBounds(bounds);
-				}
-			});
-		}); */
-		
-		</script>
-
+	<script th:src="@{/resource/js/map.js}"></script>
+</th:block>
 </html>

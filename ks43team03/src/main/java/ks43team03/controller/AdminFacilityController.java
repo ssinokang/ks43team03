@@ -45,28 +45,46 @@ public class AdminFacilityController {
 	/*검색*/
 	@PostMapping("/adminFacilityList")
 	public String getSearchFacilityList(@RequestParam(name="searchKey")String searchKey
-									 ,@RequestParam(name="searchValue", required = false)String searchValue
-									 ,Model model) {
+									   ,@RequestParam(name="searchValue", required = false)String searchValue
+									   ,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage
+									   ,Model model) {
 		
 		log.info("searchKey : {}", searchKey);
 		log.info("searchValue : {}", searchValue);
-		if("memberId".equals(searchKey)) {
-			searchKey = "m.m_id";
-		}else if("memberLevel".equals(searchKey)) {
-			searchKey = "m.m_level";
+		if("facilityNm".equals(searchKey)) {
+			searchKey = "f.facility_nm";
+		}else if("userId".equals(searchKey)) {
+			searchKey = "f.user_id";
 			
-		}else if("memberName".equals(searchKey)) {
-			searchKey = "m.m_name";
+		}else if("areaNm".equals(searchKey)) {
+			searchKey = "a.area_nm";
+			
+		}else if("cityNm".equals(searchKey)) {
+			searchKey = "ac.city_nm";
 			
 		}else {
-			searchKey = "m.m_email";
+			searchKey = "act.town_nm";
 			
 		}
-		List<Facility> searchFacilityList = adminFacilityService.getSearchFacilityList(searchKey, searchValue);
 		
-		if(searchFacilityList != null) model.addAttribute("searchFacilityList", searchFacilityList);
+		Map<String, Object> resultMap = adminFacilityService.getSearchFacilityList(searchKey, searchValue, currentPage);
 		
-		return "adminFacility/adminFacilityList";
+		log.info("resultMap : {}",resultMap);
+		
+		if(resultMap != null) {
+			
+		log.info("resultMap.get(\"adminFacilityList\") : {}",resultMap.get("adminFacilityList"));
+		
+		model.addAttribute("resultMap", 			resultMap);
+		model.addAttribute("currentPage", 			currentPage);
+		model.addAttribute("adminFacilityList",		resultMap.get("adminFacilityList"));
+		model.addAttribute("lastPage", 				resultMap.get("lastPage"));
+		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
+		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
+		model.addAttribute("title", "전체 시설 목록 조회");
+		
+		}
+		return "map/map2";
 	}
 	
 	

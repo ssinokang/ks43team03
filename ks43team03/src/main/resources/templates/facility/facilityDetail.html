@@ -8,10 +8,15 @@
    <title th:text="${title}"></title>
 </th:block>
 
+<!-- 사용자 정의 css 선언 -->
+	<th:block layout:fragment="customCss">
+		<link rel="stylesheet" th:href="@{/resource/css/mapOverlay.css}" type="text/css">
+	</th:block>
+
 <!-- 사용자 정의 Js 파일-->
 <th:block layout:fragment="customJs">
 	<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
- 	
+ 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9c5dbc5a281ccc90ee278e75316bee9c&libraries=services,clusterer,drawing"></script>
 	<script>
 		 $(function(){
 			var $addForm = $('#addForm');
@@ -212,43 +217,51 @@
 	                                <h6>위치정보</h6>
 	                                <p th:text="${l.facilityAddr} + ' ' + ${l.facilityDetailAddr}" ></p>
 	                                <p>지도</p>
+                             		<div class="x_content">
+										<div class="table-responsive">
+											<th:block th:if="${not #lists.isEmpty(facilityDetail)}" th:each="l:${facilityDetail}">
+												<input type="hidden" th:value ="${l.facilityAddr}" class="placeAddr">
+												<input type="hidden" th:value ="${l.facilityNm}" class="placeName">
+												<input type="hidden" th:value ="${l.facilityCd}" class="placeCode">
+											</th:block>
+										</div>
+									</div>
+	                                <div>
+										<p style="margin-top:-12px">
+											<em class="link">
+												<a href="javascript:void(0);" onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
+													혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요.
+												</a>
+											</em>
+										</p>
+										<div id="map" style="width:50%;height:350px;"></div>
+									</div>
 	                            </div>
 	                            <div class="tab-pane" id="tabs-3" role="tabpanel">
 	                                <h6>게시판</h6>
 	                                <p></p>
 	                            </div>
 	                            <div class="tab-pane" id="tabs-4" role="tabpanel">
-							    <section class="blog-details spad">
-							        <div class="container">
-							            <div class="row">
-							                <div class="col-lg-8 col-md-8">
-							                    <div class="blog__details__content">
-							                        <div class="blog__details__comment">
-							                            <h5>3 Comment</h5>
-							                            <a href="#" class="leave-btn">후기등록</a>
-							                            <div class="blog__comment__item">
-							                                <div class="blog__comment__item__pic">
-							                                    <img src="img/blog/details/comment-1.jpg" alt="">
-							                                </div>
-							                                <div class="blog__comment__item__text">
-							                                    <h6>Brandon Kelley</h6>
-							                                    <p>Duis voluptatum. Id vis consequat consetetur dissentiet, ceteros commune perpetua
-							                                    mei et. Simul viderer facilisis egimus tractatos splendi.</p>
-							                                    <ul>
-							                                        <li><i class="fa fa-clock-o"></i> Seb 17, 2019</li>
-							                                        <li><i class="fa fa-heart-o"></i> 12</li>
-							                                        <li><i class="fa fa-share"></i> 1</li>
-							                                    </ul>
-							                                </div>
-							                            </div>
-							                        </div>
-							                    </div>
-							                </div>
-							            </div>
-							        </div>
-							    </section>
-
-	                             
+	                            	<th:block th:if="${not #lists.isEmpty(reviewList)}" th:each="l:${reviewList}">
+							    	<div class="board__details__comment">
+			                            <h5>3 REVIEW</h5>
+			                            <a href="#" class="leave-btn">후기 등록</a>
+			                            <div class="board__comment__item">
+			                                <div class="board__comment__item__pic">
+			                                    <img src="img/board/details/comment-1.jpg" alt="">
+			                                </div>
+			                                <div class="board__comment__item__text">
+			                                    <h6 th:text="${l.userId}"></h6>
+			                                    <p th:text="${l.reviewDetail}"></p>
+			                                    <ul>
+			                                        <li><i class="fa fa-clock-o"></i> Seb 17, 2019</li>
+			                                        <li><i class="fa fa-heart-o"></i> 12</li>
+			                                        <li><i class="fa fa-share"></i> 1</li>
+			                                    </ul>
+			                                </div>
+			                            </div>
+									</div>
+									</th:block>
 	                            </div>
 	                        </div>
                    	 	</div>
@@ -336,7 +349,7 @@
 
 
 
-
+<script th:src="@{/resource/js/map.js}"></script>
 </th:block>	  
 	  
 </html>

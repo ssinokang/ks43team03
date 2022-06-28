@@ -3,8 +3,9 @@ $(function() {
 	var $stadium  = $('#stadium');
 	var $pass 	  = $('#pass');
 	var $lesson   = $('#lesson');
-	var $goodsCtg = $('#goodsCtg')
-
+	var $goodsCtg = $('#goodsCtg');
+	var $lessonNu = $('#lessonNu');
+	
 	var ctg = new Array();
 	
 	ctg.push($lesson);
@@ -126,7 +127,8 @@ $(function() {
 	/**
 	 *  다중 파일 업로드
 	 **/
-	var fileInput = 1;
+	var fileInput 	= 1;
+	var lessonInput = 1;
 	var maxFileNum = 4;
 	var minFileNum = 0;
 	//추가
@@ -143,7 +145,7 @@ $(function() {
 	});
 	//제거
 	$('#minus-button').on('click', function() {
-		if(fileInput > 0) {
+		if(fileInput > 1) {
 			$(this).parent().remove()
 			
 			fileInput--;
@@ -151,8 +153,19 @@ $(function() {
 			alert("더이상 지울 수 없습니다.");
 		}
 	});
+
 	
 	$goodsCtgVal = $('#goodsCtg').attr('data-goodsCtgCd');
 	console.log($goodsCtgVal);
 	$('#goodsCtg option[value=' + $goodsCtgVal + ']').attr('selected', 'selected');
+	
+
+    $('input:radio[name="lessonDivision"]').change(function() {
+        if ($(this).val() === '개인') {
+            $lessonNu.removeClass('none-display');
+        } else {
+        	$lessonNu.addClass('none-display');
+        }
+    });
+
 });

@@ -25,7 +25,12 @@ public class Lesson {
 	private String lessonMember;
 	private String lessonStartDate;
 	private String lessonEndDate;
-	private int    lessonPrice;
+	private String lessonStartTime;
+	private String lessonEndTime;
+	private String lessonNumber;
+	private String lessonMonth;
+	private String lessonWeek;
+	private String lessonPrice;
 	private String lessonRegDate;
 	private String lessonState;
 	

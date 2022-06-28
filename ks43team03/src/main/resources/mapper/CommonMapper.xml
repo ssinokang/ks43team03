@@ -16,4 +16,12 @@
 		FROM
 		      ${tableName}; 
   	</select>
-  </mapper>
+  	
+  	<select id="getSportsList" resultType="Sports">
+  		SELECT
+			sports_cd	as sportsCd
+			,sports_nm	as sportsName
+		FROM
+			sports
+	</select>
+</mapper>

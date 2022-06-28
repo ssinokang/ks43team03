@@ -63,15 +63,18 @@ public class LessonController {
 		log.info("areaCityTown : {}", areaCityTown);
 		log.info("sports : {}", sports);
 		
+		
+		
 		lesson.setAreaCityTown(areaCityTown);
 		lesson.setFacility(facility);
 		lesson.setAreaCity(areaCity);
 		lesson.setSports(sports);
 		
 		log.info("lesson : {}", lesson);
-		
+		List<Sports> sportsList	= lessonService.getSportsList();
 		List<Lesson> lessonList = lessonService.getLessonListForUser(lesson);
 		model.addAttribute("lessonList", lessonList);
+		model.addAttribute("sportsList", sportsList);
 		
 		log.info("lessonList : {}", lessonList);
 		return "lesson/lessonListforUser";
@@ -132,7 +135,7 @@ public class LessonController {
 		lesson.setFacilityGoods(facilityGoods);
 		log.info("LessonController addLesson/facilityGoods : {}", facilityGoods);
 		log.info("LessonController addLesson/lesson : {}", lesson);
-		log.info("LessonController addLesson/multipartHttpServletRequest : {}", lessonImgFile);
+		log.info("lesson : {}", lesson);
 		
 		String serverName = request.getServerName();
 		String fileRealPath = "";
@@ -145,7 +148,9 @@ public class LessonController {
 		
 		lessonService.addLesson(lesson, lessonImgFile, fileRealPath);
 		
+		
 		return "redirect:/lesson/facilityLessonList?" + "facilityCd="+ lesson.getFacilityCd();
+
 		
 	}
 

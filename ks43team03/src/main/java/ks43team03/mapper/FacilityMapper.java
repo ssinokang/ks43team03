@@ -16,6 +16,9 @@ import ks43team03.dto.Stadium;
 @Mapper
 public interface FacilityMapper {
 	
+	//시설 후기 갯수
+	public int getReviewCountByCd(String facilityCd);
+	
 	//시설 후기 
 	public List<Review> getReviewList(String facilityCd);
 

@@ -242,11 +242,10 @@
 	                                <p></p>
 	                            </div>
 	                            <div class="tab-pane" id="tabs-4" role="tabpanel">
-	                            	<th:block th:if="${not #lists.isEmpty(reviewList)}" th:each="l:${reviewList}">
 							    	<div class="board__details__comment">
-			                            <h5>3 REVIEW</h5>
+			                            <h5 th:text="${reviewCount} + ' REVIEW'"></h5>
 			                            <a href="#" class="leave-btn">후기 등록</a>
-			                            <div class="board__comment__item">
+			                            <div class="board__comment__item" th:if="${not #lists.isEmpty(reviewList)}" th:each="l:${reviewList}">
 			                                <div class="board__comment__item__pic">
 			                                    <img src="img/board/details/comment-1.jpg" alt="">
 			                                </div>
@@ -254,14 +253,16 @@
 			                                    <h6 th:text="${l.userId}"></h6>
 			                                    <p th:text="${l.reviewDetail}"></p>
 			                                    <ul>
-			                                        <li><i class="fa fa-clock-o"></i> Seb 17, 2019</li>
+			                                        <li><i class="fa fa-clock-o"></i><a th:text="${l.reviewRegDate}"></a></li>
 			                                        <li><i class="fa fa-heart-o"></i> 12</li>
 			                                        <li><i class="fa fa-share"></i> 1</li>
 			                                    </ul>
 			                                </div>
 			                            </div>
+										<div class="board__comment__item text-center" th:unless="${not #lists.isEmpty(reviewList)}" >
+											<a>후기가 없습니다.</a>
+										</div>
 									</div>
-									</th:block>
 	                            </div>
 	                        </div>
                    	 	</div>
@@ -300,7 +301,7 @@
     </section>
     <!-- Product Details Section End -->
 
-	<!-- Modal -->
+	<!-- 시설 가입 Modal -->
 	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<form id="addForm" method="post">
 			<div class="modal-dialog" role="document">

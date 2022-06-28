@@ -87,13 +87,33 @@
 			<result column="pay_cd"				property="payCd"/>
 			<result column="goods_ctg_cd"		property="goodsCtgCd"/>
 			<result column="user_id"			property="userId"/>
-			<result column="review_nm"			property="reviewNm"/>
 			<result column="review_detail"		property="reviewDetail"/>
 			<result column="review_score"		property="reviewScore"/>
 			<result column="review_reg_date"	property="reviewRegDate"/>
 		</collection>
 	</resultMap>
 	
+	<select id="getReviewCountByCd" resultType="int">
+		/*시설 별 리뷰 수*/
+		SELECT
+			COUNT(*)
+		FROM 
+			review AS r
+			INNER join
+			pay AS p
+			on
+			r.pay_cd = p.pay_cd
+			INNER join
+			goods_order AS o
+			on
+			p.order_cd = o.order_cd
+			INNER join
+			facility_goods AS fg
+			on
+			o.facility_goods_cd = fg.facility_goods_cd
+		WHERE
+			fg.facility_cd = #{facilityCd};
+	</select>
 	
 	<select id="getReviewList" resultType="Review">
 		SELECT
@@ -101,7 +121,6 @@
 			,r.pay_cd			AS payCd
 			,r.goods_ctg_cd		AS goodsCtgCd
 			,r.user_id			AS userId
-			,r.review_nm		AS reviewNm
 			,r.review_detail	AS reviewDetail
 			,r.review_score		AS reviewScore
 			,r.review_reg_date	AS reviewRegDate
@@ -120,8 +139,11 @@
 			facility_goods AS fg
 			on
 			o.facility_goods_cd = fg.facility_goods_cd
-		WHERE
-			fg.facility_cd = #{facilityCd};
+		<trim prefix="WHERE" prefixOverrides="AND /OR ">
+	   		<if test="facilityCd != null and facilityCd != '' ">
+	   			fg.facility_cd = #{facilityCd};
+	   		</if>
+	   	</trim>
 	</select>
 	
 	
@@ -271,13 +293,13 @@
 				,facility_reg_date	AS facilityRegDate
 			FROM 
 				facility 
-				
+			LIMIT #{startRow}, #{rowPerPage};	
 			<trim prefix="WHERE" prefixOverrides="AND /OR ">
 		   		<if test="mainCtgCd != null and mainCtgCd != '' ">
 		   			main_ctg_cd = #{mainCtgCd}
 		   		</if>
 	   		</trim>
-			LIMIT #{startRow}, #{rowPerPage};	
+				
 		</select>
 	
 	

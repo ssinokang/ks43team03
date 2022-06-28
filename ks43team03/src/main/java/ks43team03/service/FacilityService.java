@@ -29,6 +29,11 @@ public class FacilityService {
 		this.facilityMapper = facilityMapper;
 	}
 
+	/*시설후기갯수*/
+	public int getReviewCountByCd(String facilityCd) {
+		int reviewCount = facilityMapper.getReviewCountByCd(facilityCd);
+		return reviewCount;
+	}
 	
 	/*시설 후기*/
 	public List<Review> getReviewList(String facilityCd){
@@ -69,8 +74,8 @@ public class FacilityService {
 	/*시설 상세 정보 조회*/
 	public Facility getFacilityDetail(String facilityCd) {
 		Facility facilityDetail = facilityMapper.getFacilityInfoByCd(facilityCd);
-		
 
+		
 		return facilityDetail;
 	}
 	

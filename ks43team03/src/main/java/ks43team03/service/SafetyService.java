@@ -23,7 +23,7 @@ import ks43team03.mapper.SafetyMapper;
 public class SafetyService {
 	
 	private final SafetyMapper safetyMapper;
-	private final FileMapper fileMapper;	
+	private final FileMapper fileMapper;
 	
 	public SafetyService(SafetyMapper safetyMapper, FileMapper fileMapper) {
 		this.safetyMapper = safetyMapper;
@@ -55,7 +55,7 @@ public class SafetyService {
 
 			System.out.println(safety + "SafetyService/addSafety/safety");
 			safetyMapper.addSafety(safety);
-
+			
 	
 	    }
 
@@ -131,10 +131,18 @@ public class SafetyService {
 	 * 안전점검 등록 정보 수정
 	 */
 	
-	public void modifySafety(Safety safety) {
-		safetyMapper.modifySafety(safety);
+	public int modifySafety(Safety safety) {
+		return safetyMapper.modifySafety(safety);
 	}
 
+	/**
+	 * 안전점검 등록코드별 시설 수정
+	 */
+	
+	public Safety getSafetyInfoByCd(String safetyCheckCd) {
+		return safetyMapper.getSafetyInfoByCd(safetyCheckCd);
+	}	
+	
 	/**
 	 * 안전점검 등록 정보 삭제
 	 */
@@ -212,7 +220,9 @@ public class SafetyService {
 		List<Safety> getSafetyResultListById = safetyMapper.getSafetyResultListById(userId);
 		
 		return getSafetyResultListById;
-	}	
+	}
+
+	
 	
 	
 	

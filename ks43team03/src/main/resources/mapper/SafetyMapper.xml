@@ -13,39 +13,52 @@
 		<result column="safety_check_state"			property="safetyCheckState"/>
 	<!-- </resultMap> -->
 	
-	<association property="facility" javaType="Facility">
-		<id column="facility_cd"					property="facilityCd"/>
-		<result column="main_ctg_cd"				property="mainCtgCd"/>
-		<result column="facility_use_cd"			property="facilityUseCd"/>
-		<result column="town_cd"					property="townCd"/>
-		<result column="user_id"					property="userId"/>
-		<result column="facility_nm"				property="facilityNm"/>
-		<result column="facility_address"			property="facilityAddr"/>
-		<result column="facility_tell"				property="facilityTell"/>
-		<result column="business_number"			property="businessNum"/>
-		<result column="facility_reg_date"			property="facilityRegDate"/>
-		<result column="facility_post_num"			property="facilityPostNum"/>
-		<result column="facility_detail_addr"		property="facilityDetailAddr"/>
-		<result column="area_cd"					property="areaCd"/>
-		<result column="city_cd"					property="cityCd"/>			
-	</association>
-	
-	<association property="user" javaType="User">
-		<result column="user_level"			property="userLevel"/>
-		<result column="user_password"		property="userPw"/>
-		<result column="user_nm"			property="userName"/>
-		<result column="user_address"		property="userAddr"/>
-		<result column="user_birth"			property="userBirth"/>
-		<result column="user_email"			property="userEmail"/>
-		<result column="user_tell"			property="userTell"/>
-		<result column="user_gender"		property="userGender"/>
-		<result column="user_drop"			property="userDrop"/>
-		<result column="reg_path"			property="userRegPath"/>
-		<result column="user_terms"			property="userTerms"/>
-		<result column="user_reg_date"		property="userRegDate"/>
-		<result column="user_post_num"		property="userPostNum"/>
-		<result column="user_detail_addr"	property="userDetailAddr"/>
-	</association>
+		<association property="facility" javaType="Facility">
+			<id column="facility_cd"					property="facilityCd"/>
+			<result column="main_ctg_cd"				property="mainCtgCd"/>
+			<result column="facility_use_cd"			property="facilityUseCd"/>
+			<result column="town_cd"					property="townCd"/>
+			<result column="user_id"					property="userId"/>
+			<result column="facility_nm"				property="facilityNm"/>
+			<result column="facility_address"			property="facilityAddr"/>
+			<result column="facility_tell"				property="facilityTell"/>
+			<result column="business_number"			property="businessNum"/>
+			<result column="facility_reg_date"			property="facilityRegDate"/>
+			<result column="facility_post_num"			property="facilityPostNum"/>
+			<result column="facility_detail_addr"		property="facilityDetailAddr"/>
+			<result column="area_cd"					property="areaCd"/>
+			<result column="city_cd"					property="cityCd"/>			
+		</association>
+		
+		<association property="user" javaType="User">
+			<result column="user_level"			property="userLevel"/>
+			<result column="user_password"		property="userPw"/>
+			<result column="user_nm"			property="userName"/>
+			<result column="user_address"		property="userAddr"/>
+			<result column="user_birth"			property="userBirth"/>
+			<result column="user_email"			property="userEmail"/>
+			<result column="user_tell"			property="userTell"/>
+			<result column="user_gender"		property="userGender"/>
+			<result column="user_drop"			property="userDrop"/>
+			<result column="reg_path"			property="userRegPath"/>
+			<result column="user_terms"			property="userTerms"/>
+			<result column="user_reg_date"		property="userRegDate"/>
+			<result column="user_post_num"		property="userPostNum"/>
+			<result column="user_detail_addr"	property="userDetailAddr"/>
+		</association>
+		
+		<collection property="tFile" ofType="TFile">
+			<id		column="file_cd"				property="fileCd"/>
+			<result	column="original_file_nm"		property="originalFileName"/>
+			<result	column="stored_file_path"		property="storedFilePath"/>
+			<result	column="file_size"				property="fileSize"/>
+			<result column="re_file_name"			property="reFileName"/>
+			<result	column="uploader_id"			property="uploaderId"/>
+			<result	column="upload_date"			property="uploadDate"/>
+			<result	column="updator_id"				property="updatorId"/>
+			<result	column="updated_date"			property="updatedDate"/>
+			<result	column="represent_img"		property="representImg"/>
+		</collection>	
 	</resultMap>
 
 	<insert id="addSafety" parameterType="Safety">
@@ -62,7 +75,7 @@
 				 #{safetyCheckCd}
 				,#{userId}
 				,#{facilityCd}
-				,#{safetyCheckFile}
+				,'pdf'
 				,#{safetyCheckDate}
 				,NOW()
 				,'Y')		
@@ -118,15 +131,47 @@
 			c.user_id = #{session.SID};	
 	</select>	
 	
+	<select id="getSafetyInfoByCd" parameterType="String" resultMap="safetyCheckResultMap">
+		/*안전점검 등록코드별 시설 수정*/
+		SELECT 
+			c.safety_check_cd
+			,c.user_id
+			,c.facility_cd
+			,c.safety_check_file
+			,c.safety_check_date
+			,c.safety_check_reg_date
+			,c.safety_check_state
+		FROM 
+			safety_check AS c
+		WHERE 
+			c.safety_check_cd = #{safetyCheckCd};		
+	</select>	
+	
 	<update id="modifySafety" parameterType="Safety">	
 		/*안전점검 등록 정보 수정*/
-		UPDATE safety_check
+		UPDATE 
+			safety_check
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="safetyCheckCd != null and safetyCheckCd != ''">
+				safety_check_cd = #{safetyCheckCd}
+			</if>
+			<if test="facilityCd != null and facilityCd !=''">
+				,facility_cd = #{facilityCd} 
+			</if>
+			<if test="safetyCheckDate != null and safetyCheckDate !=''">
+				,safety_check_date = #{safetyCheckDate} 
+			</if>
+		</trim>
+		WHERE 
+			safety_check_cd=#{safetyCheckCd}		
+	
+	</update>
+<!-- 		UPDATE safety_check
 		SET
 			safety_check_file = #{safetyCheckFile},
 			safety_check_date = NOW(),
 			safety_check_reg_date = NOW()
-		WHERE safety_check_cd = #{safetyCheckCd};		
-	</update>
+		WHERE safety_check_cd = #{safetyCheckCd};	 -->	
 	
 	<delete id="removeSafety" parameterType="Safety">
 		/*안전점검 등록 정보 삭제*/

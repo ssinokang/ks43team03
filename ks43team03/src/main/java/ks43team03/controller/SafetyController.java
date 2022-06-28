@@ -34,7 +34,7 @@ public class SafetyController {
 	  @PostMapping("/addSafety") 
 	  public String addSafety(Safety safety
 			  					,@RequestParam(name="safetyCheckCd", required = false) String safetyCheckCd
-			  					,@RequestParam MultipartFile[] safetyCheckFile, Model model
+			  					,@RequestParam MultipartFile[] safetyFile, Model model
 			  					,HttpServletRequest request) {
 		  log.info("안전점검 등록화면에서 입력한 data : {}", safety);
 		  
@@ -47,7 +47,7 @@ public class SafetyController {
 				fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
 			}
 			
-			safetyService.addSafety(safety, safetyCheckFile, fileRealPath);
+			safetyService.addSafety(safety, safetyFile, fileRealPath);
 			
 		  return "redirect:/safety/addSafety"; 
 	  }	
@@ -127,8 +127,7 @@ public class SafetyController {
 	
 	//안전점검 등록 정보 수정 처리
 	@PostMapping("/modifySafety")
-	public String modifySafety(Safety safety
-			,Model model) {
+	public String modifySafety(Safety safety, Model model) {
 		log.info("안전점검 등록 정보 수정 폼 입력값 : {}", safety);
 		
 		safetyService.modifySafety(safety);
@@ -139,11 +138,14 @@ public class SafetyController {
 	
 	//안전점검 등록 정보 수정 
 	@GetMapping("/modifySafety")
-	public String modifySafety(Model model
-							  ,HttpSession session) {
+	public String modifySafety(@RequestParam(value = "userId" , required = false)String userId,
+							   @RequestParam(value="safetyCheckCd", required=false) String safetyCheckCd,
+							   Model model) {
 		
-		String sessionId = (String) session.getAttribute("SID");
-		safetyService.getSafetyListById(sessionId);
+		log.info("userId : {}", userId);
+		log.info("safetyCheckCd : {}", safetyCheckCd);
+		
+		safetyService.getSafetyInfoByCd(safetyCheckCd);
 		
 		model.addAttribute("title", "안전점검 등록 정보 수정");
 		

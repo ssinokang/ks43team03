@@ -11,7 +11,7 @@ public class OfferController {
 	
 	
 	
-	//== 구인 리스트 ==//
+	//== 구인 리스트 user ==//
 	@GetMapping("/offerList")
 	public String offerList(Model model) {
 		model.addAttribute("title", "트레이너가 즐겁게 일하도록");
@@ -20,7 +20,12 @@ public class OfferController {
 	}
 	
 	
-
+	//== 트레이너 구인 상세 페이지 user ==//
+	@GetMapping("/offerDetail")
+	public String offerDetail() {
+		
+		return "offer/offerDetail";
+	}
 	//== 구인 폼 ==//
 	
 	

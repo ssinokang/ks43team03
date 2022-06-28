@@ -119,7 +119,7 @@
 			<h4>로그인이 필요한 서비스입니다.</h4>
 		</div>
 		<div class="container" th:unless="${#strings.isEmpty(session.SID)}">
-			<form id="addTrainerForm" th:action="@{/trainer/addTrainer}" method="post">
+			<form id="addTrainerForm" th:action="@{/trainer/addTrainer}" method="post" enctype="multipart/form-data" name="multipart">
 				<div class="form-group row">
 					<label class="control-label col-md-3 col-sm-3" for="trainerNickname">닉네임
 						<span class="required">*</span>
@@ -143,11 +143,11 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-md-3 col-sm-3" for="trainerPicture">프로필 사진
+					<label class="control-label col-md-3 col-sm-3" for="trainerImgFile">프로필 사진
 						<span class="required">*</span>
 					</label>
 					<div class="col-md-9 col-sm-9 ">
-						<input type="text" class="form-control" name="trainerPicture" placeholder="원래는 사진 첨부 파일  그냥 img 입력 바람">
+						<input type="file" class="form-control" name="trainerImgFile">
 					</div>
 				</div>
 				<div class="form-group">

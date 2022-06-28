@@ -28,8 +28,6 @@ public class Lesson {
 	private String lessonStartTime;
 	private String lessonEndTime;
 	private String lessonNumber;
-	private String lessonMonth;
-	private String lessonWeek;
 	private String lessonPrice;
 	private String lessonRegDate;
 	private String lessonState;

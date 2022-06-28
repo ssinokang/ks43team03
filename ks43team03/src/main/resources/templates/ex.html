@@ -1,17 +1,104 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default.html}">
-	
-	<!-- 사용자 정의 contents -->
-	<th:block layout:fragment="customContents">
-	<!-- 이런식으로 넣으면 되겠죠? -->
-	<div th:replace="fragments/categories :: categoriesFragment"></div>
-	
-		<form th:action="@{/notification/subscribe(id='id001')}">
-			<button type="submit">전송</button>
-		</form>
-		<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-	</th:block>
+<div class="info_box">
+	<div class="detail_search_box clearfix">
+		<ul>
+			<li><label class="ti">자원분류</label>
+				<ul>
+					<li>
+						<label class="sr-only" for="searchSbclsCd">자원분류</label> 
+						<select class="wd100" name="searchSbclsCd" id="searchSbclsCd" title="자원분류 선택">
+							<option value="">자원분류 선택</option>
+							<option value="gg">공공</option>
+							<option value="ss">사설</option>
+						</select>
+					</li>
+				</ul>
+			</li>
+			<li><label class="ti">희망지역</label>
+				<ul>
+					<li><label class="sr-only" for="dtlSido">상세분류-시·도 선택</label>
+					<select class="wd100" name="sido" id="dtlSido" title="시·도 선택">
+							<option value="" selected="">시·도 선택</option>
+							<option value="11" selected="selected">서울특별시</option>
+							<option value="26">부산광역시</option>
+							<option value="28">인천광역시</option>
+							<option value="30">대전광역시</option>
+							<option value="29">광주광역시</option>
+							<option value="27">대구광역시</option>
+							<option value="31">울산광역시</option>
+							<option value="36">세종특별자치시</option>
+							<option value="41">경기도</option>
+							<option value="43">충청북도</option>
+							<option value="44">충청남도</option>
+							<option value="45">전라북도</option>
+							<option value="46">전라남도</option>
+							<option value="47">경상북도</option>
+							<option value="48">경상남도</option>
+							<option value="42">강원도</option>
+							<option value="50">제주특별자치도</option>
+					</select></li>
+					<li><label class="sr-only" for="dtlSigg">상세분류-시·군·구 선택</label>
+						<select class="wd100" name="sigungu" id="dtlSigg" title="시·군·구 선택"><option
+								value="" selected="">시·군·구 선택</option>
+							<option value="680">강남구</option>
+							<option value="740">강동구</option>
+							<option value="305">강북구</option>
+							<option value="500">강서구</option>
+							<option value="620">관악구</option>
+							<option value="215">광진구</option>
+							<option value="530">구로구</option>
+							<option value="545">금천구</option>
+							<option value="350">노원구</option>
+							<option value="320">도봉구</option>
+							<option value="230">동대문구</option>
+							<option value="590">동작구</option>
+							<option value="440">마포구</option>
+							<option value="410">서대문구</option>
+							<option value="650">서초구</option>
+							<option value="200">성동구</option>
+							<option value="290">성북구</option>
+							<option value="710">송파구</option>
+							<option value="470">양천구</option>
+							<option value="560">영등포구</option>
+							<option value="170">용산구</option>
+							<option value="380">은평구</option>
+							<option value="110">종로구</option>
+							<option value="140">중구</option>
+							<option value="260">중랑구</option>
+						</select>
+					</li>
+				</ul>
+			</li>
 
-</html>
+
+			<li class="rdo"><label class="ti">요금구분</label> <input
+				type="radio" name="searchFreeYn" id="searchFreeYn" value=""
+				title="전체" checked=""><label for="searchFreeYn">전체</label>&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="radio" name="searchFreeYn" id="searchFreeYn_Y"
+				value="Y" title="무료"> <label for="searchFreeYn_Y">무료</label>&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="radio" name="searchFreeYn" id="searchFreeYn_N"
+				value="N" title="유료"> <label for="searchFreeYn_N">유료</label>
+			</li>
+			<li class="rdo"><label class="ti">예약구분</label>
+				<input type="radio" name="searchIntnetRsrvPsblYn" id="searchIntnetRsrvPsblYn" value="" title="전체" checked="">
+				<label for="searchIntnetRsrvPsblYn">전체</label>
+				<input type="radio" name="searchIntnetRsrvPsblYn" id="searchIntnetRsrvPsblYn_Y" value="Y" title="실시간예약">
+				<label for="searchIntnetRsrvPsblYn_Y">실시간예약</label>
+				<input type="radio" name="searchIntnetRsrvPsblYn" id="searchIntnetRsrvPsblYn_N" value="N" title="문의예약">
+				<label for="searchIntnetRsrvPsblYn_N">문의예약</label>
+			</li>
+
+
+			<li><label class="ti" for="searchRsrcNm">시설명</label>
+				<div class="voiceRcg">
+					<input type="text" id="searchRsrcNm" name="searchRsrcNm"
+						class="w300" title="자원명 검색" maxlength="30" value="">
+					<!-- 상태에 따라 클래스명 변경   [ 디퐅트 = "mic_voice"   준비중 = "rdy" 인식중 = "act"] -->
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="search_btn taC mt5">
+		<a href="#" class="btn lg bg_blue" onclick="searchResourceList(0)"
+		   title="선택한 조건으로 상세검색을 실행합니다.">검색</a>
+	</div>
+</div>

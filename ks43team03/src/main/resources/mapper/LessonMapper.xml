@@ -20,8 +20,6 @@
 		<result column="lesson_end_date" 		property="lessonEndDate"/>		
 		<result column="lesson_start_time" 		property="lessonStartTime"/>		
 		<result column="lesson_end_time" 		property="lessonEndTime"/>
-		<result column="lesson_month"	 		property="lessonMonth"/>
-		<result column="lesson_week"	 		property="lessonWeek"/>
 		<result column="lesson_price" 			property="lessonPrice"/>		
 		<result column="lesson_reg_date" 		property="lessonRegDate"/>		
 		<result column="lesson_state" 			property="lessonState"/>		
@@ -120,8 +118,6 @@
 			,lesson_sub.lesson_end_date
 			,lesson_sub.lesson_start_time
 			,lesson_sub.lesson_end_time
-			,lesson_sub.lesson_month
-			,lesson_sub.lesson_week
 			,lesson_sub.lesson_price
 			,lesson_sub.facility_goods_cd
 			,lesson_sub.lesson_reg_date
@@ -164,8 +160,6 @@
 				  	,l.lesson_start_time
 				  	,l.lesson_end_time
 				  	,l.lesson_price
-				  	,l.lesson_month
-				  	,l.lesson_week
 				  	,l.facility_goods_cd
 				  	,l.lesson_reg_date
 				FROM
@@ -223,9 +217,6 @@
 			,l.lesson_end_date
 			,l.lesson_start_time
 			,l.lesson_end_time
-			,l.lesson_month
-			,l.lesson_month
-			,l.lesson_week
 			,l.lesson_state
 			,l.lesson_reg_date
 			,s.sports_nm
@@ -257,8 +248,6 @@
 			,lesson_end_date
 			,lesson_start_time
 			,lesson_end_time
-			,lesson_month
-			,lesson_week
 			,lesson_price
 			,lesson_reg_date
 		) VALUES (
@@ -276,8 +265,6 @@
 			,#{lessonEndDate}
 			,#{lessonStartTime}
 			,#{lessonEndTime}
-			,#{lessonMonth}
-			,#{lessonWeek}
 			,#{lessonPrice}
 			,NOW()
 		)
@@ -310,8 +297,6 @@
 	,lesson_sub.lesson_end_date
 	,lesson_sub.lesson_start_time
 	,lesson_sub.lesson_end_time
-	,lesson_sub.lesson_month
-	,lesson_sub.lesson_week
 	,lesson_sub.lesson_price
 	,lesson_sub.facility_goods_cd
 	,lesson_sub.lesson_reg_date
@@ -351,8 +336,6 @@
 		  	,l.lesson_end_date
 		  	,l.lesson_start_time
 		  	,l.lesson_end_time
-		  	,l.lesson_month
-		  	,l.lesson_week
 		  	,l.lesson_price
 		  	,l.facility_goods_cd
 		  	,l.lesson_reg_date
@@ -389,10 +372,8 @@
 			tf.deleted_yn != 'Y') AS lesson_file
 		on
 		lesson_file.facility_goods_cd = lesson_sub.facility_goods_cd
-		GROUP BY
-			lesson_sub.facility_goods_cd
 	   	<trim prefix="WHERE" prefixOverrides="AND /OR ">
-	   		<if test="facility.mainCtgCd != null and facility.mainCtgCd != '' ">
+	   		<if test="facility.mainCtgCd != null and facility.mainCtgCd != ''">
 	   			lesson_sub.main_ctg_cd = #{facility.mainCtgCd}
 	   		</if>
 	   		<if test="areaCity.cityCd != null and areaCity.cityCd != '' ">
@@ -405,6 +386,8 @@
 	   			lesson_sub.sports_cd = #{sports.sportsCd}
 	   		</if>
 	   	</trim>
+   			GROUP BY
+		lesson_sub.facility_goods_cd
 	</select>
 
 </mapper>

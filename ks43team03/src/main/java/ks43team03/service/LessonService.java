@@ -123,6 +123,9 @@ public class LessonService {
 	public List<Lesson> getLessonListForUser(Lesson lesson) {
 		System.out.println("___________________________________________________");
 		System.out.println("_______________start LessonService_________________");
+		System.out.println(lesson);
+
+		System.out.println("lesson.getFacility().getMainCtgCd()" + lesson.getFacility().getMainCtgCd());
 		List<Lesson> LessonListForUser = lessonMapper.getLessonListForUser(lesson);
 		
 		System.out.println("_______________end   LessonService_________________");

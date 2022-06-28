@@ -55,7 +55,7 @@
 											<span>*</span>
 										</p>
 										<select name="boardCtgCd" class="tip" id="ctg-select" style="margin-bottom: 25px;">
-											<option value="" disabled selected> :: 게시글 카테고리 선택 :: </option>
+											<option value="" id="chooseCtg"> :: 게시글 카테고리 선택 :: </option>
 											<th:block th:if="${not #lists.isEmpty(boardCtgCdList)}" th:each="nm : ${boardCtgCdList}" name="boardSubCtgCd">
 											    <option id="boardSubCtgCd" th:value="${nm.boardSubCtgCd}">[[${nm.boardCtgNm}]]</option>
 											</th:block>
@@ -75,15 +75,15 @@
 										<p>내용
 											<span>*</span>
 										</p>
-										<textarea class="form-control" style="min-height: 150px;" th:value="${board.boardPostContent}" name="boardPostContent"></textarea>
+										<textarea class="form-control" style="min-height: 150px;" th:value="${board.boardPostContent}" name="boardPostContent" id="boardPostContent"></textarea>
 									</div>
 								</div>
-								<div class="col-lg-12 col-md-12 col-sm-12">
+								<!-- <div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="checkout__form__input" style="margin-top: 20px;">
 										<p>첨부파일</p>
 										<input type="file" name="BoardPostImgFile" th:value="${board.boardPostFile}" class="form-control BoardPost-img" accept="image/*" required multiple>
 									</div>
-								</div>
+								</div> -->
 								
 							</div>
 						</div>
@@ -121,8 +121,46 @@
 			</div>
 		</section>
 	
-		<!-- 사용자 정의 js -->
-		<script type="text/javascript" th:src="@{/resource/js/boardJs.js}"></script>
-		
+		<!-- 사용자 정의 Js 파일-->
+		<th:block layout:fragment="customJs">
+			<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+			
+			<script>
+				$(function(){
+					function validationCheck(data){
+						if(typeof data == 'undefined' || data == '' || data == null){
+							return false;
+						}
+						return true;
+					}
+					
+					$('#addBoardBtn').click(function(){
+						var isSubmit = true;
+						
+						if($("select[name=boardCtgCd]").val() == ''){
+						    alert("카테고리를 선택해주세요.");
+						    isSubmit = false;
+						    return false;
+						}
+						if($("#boardPostTitle").val() == ""){
+						    alert("제목을 입력해주세요.");
+						    $("#boardPostTitle").focus();
+						    isSubmit = false;
+						    return false;
+						}
+						if($("#boardPostContent").val() == ""){
+						    alert("내용을 입력해주세요.");
+						    $("#boardPostContent").focus();
+						    isSubmit = false;
+						    return false;
+						}
+						
+						console.log('유효여부 폼전송할건지?' + isSubmit )
+						
+						if(isSubmit) $('#addBoardForm').submit();
+					});
+				});
+			</script>
+		</th:block>
 	</th:block>
 </html>

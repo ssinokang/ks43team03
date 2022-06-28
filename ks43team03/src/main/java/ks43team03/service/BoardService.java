@@ -1,5 +1,6 @@
 package ks43team03.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,11 +26,51 @@ public class BoardService {
 	private static final Logger log = LoggerFactory.getLogger(BoardService.class);
 	
 	/* 게시글 전체 목록 조회 */
-	public List<Board> getBoardList(Map<String, Object> paramMap) {
+	public Map<String, Object> getBoardList(int currentPage) {
 		System.out.println("------------------------게시글 전체목록 조회 서비스-----------------------------");
-		List<Board> boardList = boardMapper.getBoardList(paramMap);
+		
+		int rowPerPage = 9;
+
+		double rowCount = boardMapper.getBoardCount();
+
+		int lastPage = (int) Math.ceil(rowCount / rowPerPage);
+
+		int startRow = (currentPage - 1) * rowPerPage;
+
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+
+		paramMap.put("startRow", startRow);
+		paramMap.put("rowPerPage", rowPerPage);
+
+		int startPageNum = 1;
+		int endPageNum = 10;
+
+		if (lastPage > 10) {
+			if (currentPage >= 6) {
+				startPageNum = currentPage - 4;
+				endPageNum = currentPage + 5;
+
+				if (endPageNum >= lastPage) {
+					startPageNum = lastPage - 9;
+					endPageNum = lastPage;
+				}
+			}
+		} else {
+			endPageNum = lastPage;
+		}
+		
+		log.info("paramMap : {}", paramMap);
+		
+		List<Map<String, Object>> boardList = boardMapper.getBoardList(paramMap);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("lastPage", 		lastPage);
+		resultMap.put("boardList", 		boardList);
+		resultMap.put("startPageNum", 	startPageNum);
+		resultMap.put("endPageNum", 	endPageNum);
+		
 		System.out.println("------------------------게시글 전체목록 조회 서비스 끝-----------------------------");
-		return boardList;
+		return resultMap;
 	}
 
 	/* 게시글 코드로 상세 조회  */
@@ -46,6 +87,18 @@ public class BoardService {
 		List<BoardComment> boardCommentList = boardMapper.getBoardCommentList(boardPostCd); 
 		System.out.println("------------------------게시글 답글조회 서비스 끝-----------------------------");
 		return boardCommentList; 
+	}
+	
+	/* 게시글 답글수 업데이트 */
+	public int countComment(String boardPostCd) {
+		System.out.println("------------------------게시글 답글수 업데이트---------------------------");
+		return boardMapper.commentCountUpdate(boardPostCd);
+	}
+	
+	/* 게시글 답글수 삭제 업데이트 */
+	public int countCommentMinus(String boardPostCd) {
+		System.out.println("------------------------게시글 답글수 삭제 업데이트---------------------------");
+		return boardMapper.commentCountMinusUpdate(boardPostCd);
 	}
 	
 	/* 게시글 등록 */

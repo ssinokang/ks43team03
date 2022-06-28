@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ks43team03.dto.Board;
@@ -36,16 +33,22 @@ public class BoardController {
 
 	/* 게시글 전체 목록 조회 */
 	@GetMapping("/boardList")
-	public String getBoardList(Model model) {
+	public String getBoardList(Model model
+							,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
 		System.out.println("------------------------게시글 전체 목록 조회-----------------------------");
-		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+		Map<String, Object> resultMap =  boardService.getBoardList(currentPage);
+		
+		log.info("resultMap 받기 : {}", resultMap);
+		log.info("resultMap.get(\"boardList\") : {}",resultMap.get("boardList"));
 
-		List<Board> boardList = boardService.getBoardList(paramMap);
-
-		log.info("boardList 받기 : {}", boardList);
-
-		model.addAttribute("tltle", "게시글 목록 조회");
-		model.addAttribute("boardList", boardList);
+		model.addAttribute("title", 				"게시판");
+		model.addAttribute("resultMap", 			resultMap);
+		model.addAttribute("currentPage", 			currentPage);
+		model.addAttribute("boardList",				resultMap.get("boardList"));
+		model.addAttribute("lastPage", 				resultMap.get("lastPage"));
+		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
+		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
 		
 		System.out.println("------------------------게시글 전체 목록 조회 끝-----------------------------");
 
@@ -61,9 +64,8 @@ public class BoardController {
 		Board board = boardService.getBoardDetail(boardPostCd);
 		
 		List<BoardComment> boardCommentList = boardService.getBoardCommentList(boardPostCd);
-		
 		boardService.boardViewUpdate(boardPostCd);
-
+		
 		model.addAttribute("title", "게시글 상세보기");
 		model.addAttribute("board", board);
 		model.addAttribute("boardCommentList", boardCommentList);
@@ -141,15 +143,18 @@ public class BoardController {
 		return "board/modifyBoard";
 	}
 
-	/* 게시물 답글 등록 post */
+	/* 게시물 답글 등록 */
 	@PostMapping(value = "/addBoardComment", produces = "application/json")
-	public String addBoardComment(BoardComment boardComment, Board board, RedirectAttributes attr) {
+	public String addBoardComment(BoardComment boardComment, Board board, RedirectAttributes attr
+								,@RequestParam(name = "boardPostCd", required = false) String boardPostCd) {
 		System.out.println("------------------------게시글 답글 등록-----------------------------");
 		
 		attr.addAttribute("boardPostCd", boardComment.getBoardPostCd());
 		attr.addAttribute("boardPostContentDetail", boardComment.getBoardPostContentDetail());
+		
 		log.info("답글 : {}", boardComment.getBoardPostContentDetail());
 		
+		boardService.countComment(boardPostCd);
 		boardService.addBoardComment(boardComment);
 		System.out.println("------------------------게시글 답글 등록 끝-----------------------------");
 		
@@ -170,6 +175,8 @@ public class BoardController {
 		log.info("boardPostCd : {}", boardPostCd);
 		
 		attr.addAttribute("boardPostCd", boardPostCd);
+		
+		boardService.countCommentMinus(boardPostCd);
 		System.out.println("------------------------게시글 답글 삭제 끝-----------------------------");
 
 		return "redirect:/board/boardDetail";

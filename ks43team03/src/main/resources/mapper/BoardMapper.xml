@@ -31,20 +31,29 @@
 	</resultMap>
 	
 	<!-- 게시글 전체 조회 -->
-	<select id="getBoardList" parameterType="String" resultMap="boardResultMap">
+	<select id="getBoardList" parameterType="map" resultType="map" resultMap="boardResultMap">
 		SELECT
-			b.board_post_cd
-			,b.board_ctg_cd
-			,b.user_id
-			,b.board_post_title
-			,b.board_post_content
-			,b.board_post_file
-			,b.board_post_date
-			,b.board_post_views
-			,b.board_post_comment_number
-			,b.board_post_state
+			b.board_post_cd					
+			,b.board_ctg_cd					
+			,b.user_id						
+			,b.board_post_title				
+			,b.board_post_content			
+			,b.board_post_file				
+			,b.board_post_date				
+			,b.board_post_views				
+			,b.board_post_comment_number	
+			,b.board_post_state				
 		FROM
-			board_post AS b;
+			board_post AS b
+		LIMIT #{startRow}, #{rowPerPage};
+	</select>
+	
+	<!-- 게시글 총 튜플 수 -->
+	<select id="getBoardCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			board_post;
 	</select>
 	
 	<!-- 게시글 상세보기 -->
@@ -137,6 +146,21 @@
 			board_post_cd = #{boardPostCd};
 	</update>
 	
+	<!-- 게시글 댓글 수 업데이트 -->
+	<update id="commentCountUpdate" parameterType="String">
+		UPDATE
+			board_post AS p
+		SET
+			p.board_post_comment_number = ( SELECT
+												COUNT(*)
+											FROM
+												board_post_comment AS c
+											WHERE
+												c.board_post_cd = #{boardPostCd} ) +1
+		WHERE 
+			p.board_post_cd = #{boardPostCd};
+	</update>
+	
 	<!-- 게시글 수정 -->
 	<update id="modifyBoard" parameterType="Board">
 		UPDATE 
@@ -183,6 +207,21 @@
 		WHERE 
 			board_post_comment_cd = #{boardPostCommentCd};
 	</delete>
+	
+	<!-- 게시글 댓글 수 삭제 업데이트 -->
+	<update id="commentCountMinusUpdate" parameterType="String">
+		UPDATE
+			board_post AS p
+		SET
+			p.board_post_comment_number = ( SELECT
+												COUNT(*)
+											FROM
+												board_post_comment AS c
+											WHERE
+												c.board_post_cd = #{boardPostCd} )
+		WHERE 
+			p.board_post_cd = #{boardPostCd};
+	</update>
 	
 	<!-- 게시글 삭제 -->
 	<delete id="removeCommentByPostCd" parameterType="String">

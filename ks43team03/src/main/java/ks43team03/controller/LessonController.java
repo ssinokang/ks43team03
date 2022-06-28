@@ -130,7 +130,8 @@ public class LessonController {
 	public String addLesson(
 			FacilityGoods facilityGoods,
 			Lesson lesson,
-			@RequestParam MultipartFile[] lessonImgFile, Model model, 
+			@RequestParam MultipartFile[] lessonImgFile,
+			Model model, 
 			HttpServletRequest request) {
 		lesson.setFacilityGoods(facilityGoods);
 		log.info("LessonController addLesson/facilityGoods : {}", facilityGoods);

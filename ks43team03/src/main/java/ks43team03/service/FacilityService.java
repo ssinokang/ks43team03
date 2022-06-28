@@ -21,7 +21,7 @@ import ks43team03.mapper.FacilityMapper;
 @Transactional
 public class FacilityService {
 
-	private static final Logger log = LoggerFactory.getLogger(UserService.class);
+	private static final Logger log = LoggerFactory.getLogger(FacilityService.class);
 	
 	private final FacilityMapper facilityMapper;
 	

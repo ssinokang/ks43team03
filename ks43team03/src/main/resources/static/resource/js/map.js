@@ -145,6 +145,16 @@ placeAddrText.forEach(function(addr, index){
 			// 클러스터러에 마커를 추가합니다
 			clusterer.addMarker(marker);
 			
+			$('#mapTab').click(function (e) {
+				//a태그 눌러도 새로 이동되는 것을 막아 줌 , data-toggle="tab" 에선 클릭했을 때 상단으로 이동하는 것을 방지
+				//e.preventDefault()
+				//data-toggle="tab" 사용
+				//$(this).tab('show');
+				setTimeout(function(){
+					map.relayout();
+					map.setBounds(bounds);
+				}, 0);  
+			});
 		}
 	});
 });

@@ -8,10 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ks43team03.dto.Order;
 import ks43team03.dto.ResponseGoods;
+import ks43team03.dto.User;
 import ks43team03.dto.type.OrderState;
+import ks43team03.dto.type.PayType;
+import ks43team03.exception.NotFoundGoodsException;
 import ks43team03.exception.NotFoundOrderException;
 import ks43team03.mapper.CommonMapper;
 import ks43team03.mapper.OrderMapper;
+import ks43team03.mapper.UserMapper;
 
 @Service
 @Transactional
@@ -19,20 +23,52 @@ public class OrderService {
 
 	private final OrderMapper orderMapper;
 	private final CommonMapper commonMapper;
+	private final UserMapper userMapper;
+	
 	
 	private final static String COLUMN_NAME = "order_cd";
 	private final static String TABLE_NAME = "goods_order";
 	
 	
-	public OrderService(OrderMapper orderMapper,CommonMapper commonMapper) {
+	public OrderService(OrderMapper orderMapper,CommonMapper commonMapper,UserMapper userMapper) {
 		this.orderMapper = orderMapper;
 		this.commonMapper = commonMapper;
+		this.userMapper = userMapper;
 	}
 
 
 
 	//주문 하기
+	// toss 결제전에 주문내역을 넣는다.
 	public Order addOrder(Order.Request req, ResponseGoods goods) {
+		
+		String paytype = req.getPayType().getName();
+		String userId = req.getUserId();
+		int orderPayPrice = req.getOrderPayPrice();
+		
+		if(!paytype.equals("카드") && !paytype.equals("가상계좌")) {
+			
+		}
+		
+		if(orderPayPrice < 0 || orderPayPrice > req.getOrderPrice()) {
+			//exception
+		}
+		
+		// 상품정보있는지 없는지 체크 한다.
+		
+		
+		// 예외처리 
+		try {
+			User user = userMapper.getUserInfoById(userId);
+			if(user == null) {
+				// 예외 발생
+			}else {
+				// 있다면 포인트 내역 조회한다 
+			}
+		}catch(NotFoundGoodsException e){
+			
+		}
+		
 		
 		String code = commonMapper.createNewCode(COLUMN_NAME, TABLE_NAME);
 		Order order = createOrder(req, goods, code);

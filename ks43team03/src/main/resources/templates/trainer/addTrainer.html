@@ -70,20 +70,19 @@
 				/* 트레이너 등록 시 유효성 검사 */
 				$('#addTrainertBtn').click(function(){
 					var isSubmit = true;
-					var inputObj = $('#addTrainerForm').find('input');
+					var $trainerNickname = $('input[name="trainerNickname"]');
 					
-					$.each(inputObj, function(){
-						var inputData = $(this).val();
-						var result = validationCheck(inputData);
-						
-						// 사용자가 입력하지 않은 경우
-						if(!result){
-							alert('필수 항목입니다. 입력해주세요');
-							$(this).focus();
-							isSubmit = false;
-							return false;
-						}
-					});
+					console.log($trainerNickname.val());
+					
+					var result = validationCheck($trainerNickname.val());
+					
+					// 사용자가 입력하지 않은 경우
+					if(!result){
+						alert('필수 항목입니다. 입력해주세요');
+						$trainerNickname.focus();
+						isSubmit = false;
+						return false;
+					}
 					
 					console.log('유효여부 폼전송할건지?' + isSubmit );
 					
@@ -147,7 +146,7 @@
 						<span class="required">*</span>
 					</label>
 					<div class="col-md-9 col-sm-9 ">
-						<input type="file" class="form-control" name="trainerImgFile">
+						<input type="file" class="form-control" name="trainerImgFile"  accept="image/*" required multiple>
 					</div>
 				</div>
 				<div class="form-group">

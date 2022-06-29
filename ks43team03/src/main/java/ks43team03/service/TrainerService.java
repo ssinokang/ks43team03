@@ -174,8 +174,12 @@ public class TrainerService {
 		System.out.println(dtoFileList + "LessonService/addLesson");
         fileMapper.uploadFile(dtoFileList);
 		
-		// 트레이너 등록 - 트레이너 코드 생성됨
+		// 트레이너 등록 - 트레이너 코드 selectKey로 담아 줌
 		trainerMapper.addtrainer(trainerProfile);
+		log.info("add 이후 trainerProfile : {}", trainerProfile);
+		
+		String trainerCd = trainerProfile.getTrainerCd();
+		log.info("trainerCd : {}", trainerCd);
 		
 		// userId로 User 맴버 확인
 		User user = userMapper.getUserInfoById(userId);
@@ -188,24 +192,14 @@ public class TrainerService {
 			userMapper.modifyUser(user);
 		}
 		
-		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("userId", userId);
-		
-		//트레이너 코드 등록된 트레이너 정보 조회
-		trainerProfile	= trainerMapper.getTrainerProfileInfoByMap(paramMap);
-		
 		// 릴레이션 테이블에 삽입
-		/*List<Map<String, String>> relationFileList = new ArrayList<>();
+		List<Map<String, String>> relationFileList = new ArrayList<>();
 		for(Map<String, String> m : dtoFileList) {
-			m.put("facilityGoodsCd", facilityGoodsCd);
+			m.put("trainerCd", trainerCd);
 			relationFileList.add(m);
 		}
 		System.out.println(relationFileList);
-		fileMapper.uploadRelationFile(relationFileList);*/
-		
-		
-		//반환할 트레이너 코드
-		String trainerCd = trainerProfile.getTrainerCd();
+		fileMapper.uploadRelationFile(relationFileList);
 		
 		return trainerCd;
 	}

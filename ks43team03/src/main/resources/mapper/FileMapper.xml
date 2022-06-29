@@ -4,43 +4,58 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ks43team03.mapper.FileMapper">
-   <insert id="uploadFile" parameterType="List">
-      /*파일 업로드*/
-   INSERT INTO t_file (
-      file_cd            
-      ,original_file_nm   
-      ,stored_file_path   
-      ,file_size
-      ,re_file_name
-      ,uploader_id
-      ,upload_date    
-      ,represent_img  
-   ) VALUES
-      <foreach collection="list" item="item" separator=",">
-      (
-         #{item.fileCd}
-         ,#{item.originalFileName}
-         ,#{item.storedFilePath}
-         ,#{item.fileSize}
-         ,#{item.reFileName}
-         ,#{item.userId}
-         ,NOW()
-         ,#{item.representImg}
-      )
-      </foreach>
-   </insert>
-   <insert id="uploadRelationFile" parameterType="List">
-      /*릴레이션 테이블 삽입*/
-	INSERT INTO rel_file_with_goods
-	(
-		facility_goods_cd
-		,flie_cd   
-	) VALUES
-      <foreach collection="list" item="item" separator=",">
-      (
-         #{item.facilityGoodsCd}
-         ,#{item.fileCd}
-      )
-      </foreach>
-   </insert>
+	<insert id="uploadFile" parameterType="List">
+		/*파일 업로드*/
+		INSERT INTO t_file (
+			 file_cd            
+			,original_file_nm   
+			,stored_file_path   
+			,file_size
+			,re_file_name
+			,uploader_id
+			,upload_date    
+			,represent_img  
+		) VALUES
+		<foreach collection="list" item="item" separator=",">
+		(
+			 #{item.fileCd}
+			,#{item.originalFileName}
+			,#{item.storedFilePath}
+			,#{item.fileSize}
+			,#{item.reFileName}
+			,#{item.userId}
+			,NOW()
+			,#{item.representImg}
+		)
+		</foreach>
+	</insert>
+	<insert id="uploadRelationFile" parameterType="List">
+		/*릴레이션 테이블 삽입*/
+		INSERT INTO rel_file_with_goods
+		(
+			 facility_goods_cd
+			,flie_cd   
+		) VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+				 #{item.facilityGoodsCd}
+				,#{item.fileCd}
+			)
+		</foreach>
+	</insert>
+	
+	<insert id="uploadRelationFileWithTrainer" parameterType="List">
+		/* 트레이너, 파일 릴레이션 테이블 삽입*/
+		INSERT INTO rel_file_with_goods
+		(
+			 trainer_cd
+			,flie_cd   
+		) VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+				 #{item.trainerCd}
+				,#{item.fileCd}
+			)
+		</foreach>
+	</insert>
 </mapper>

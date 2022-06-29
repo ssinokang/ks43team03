@@ -1,5 +1,6 @@
 package ks43team03.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,25 +8,31 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import ks43team03.common.FileUtils;
 import ks43team03.dto.TrainerCareer;
 import ks43team03.dto.TrainerLicense;
 import ks43team03.dto.TrainerProfile;
 import ks43team03.dto.User;
+import ks43team03.mapper.FileMapper;
 import ks43team03.mapper.TrainerMapper;
 import ks43team03.mapper.UserMapper;
 
+@Transactional
 @Service
 public class TrainerService {
 	
 	
 	private static final Logger log = LoggerFactory.getLogger(TrainerService.class);
 
-	
+	private final FileMapper fileMapper;
 	private final TrainerMapper trainerMapper;
 	private final UserMapper userMapper;
 	
-	public TrainerService(TrainerMapper trainerMapper, UserMapper userMapper) {
+	public TrainerService(FileMapper fileMapper, TrainerMapper trainerMapper, UserMapper userMapper) {
+		this.fileMapper = fileMapper;
 		this.trainerMapper = trainerMapper;
 		this.userMapper = userMapper;
 	}
@@ -150,13 +157,29 @@ public class TrainerService {
 	
 	/**
 	 * 트레이너 등록 및 권한 변경 후 코드 반환
+	 * @param trainerProfile 
+	 * @param fileRealPath 
+	 * @param trainerImgFile 
 	 */
-	public String addtrainer(TrainerProfile trainerProfile) {
+	public String addtrainer(TrainerProfile trainerProfile, MultipartFile[] trainerImgFile, String fileRealPath) {
 		
-		// 트레이너 등록 - 트레이너 코드 생성됨
-		trainerMapper.addtrainer(trainerProfile);
-		
+		// uproaderId
 		String userId = trainerProfile.getUserId();
+		
+		//파일 업로드 위한 객체 생성 
+		FileUtils fu = new FileUtils(trainerImgFile, userId, fileRealPath);
+		List<Map<String, String>> dtoFileList = fu.parseFileInfo();
+		
+		// t_file 테이블에 삽입
+		System.out.println(dtoFileList + "LessonService/addLesson");
+        fileMapper.uploadFile(dtoFileList);
+		
+		// 트레이너 등록 - 트레이너 코드 selectKey로 담아 줌
+		trainerMapper.addtrainer(trainerProfile);
+		log.info("add 이후 trainerProfile : {}", trainerProfile);
+		
+		String trainerCd = trainerProfile.getTrainerCd();
+		log.info("trainerCd : {}", trainerCd);
 		
 		// userId로 User 맴버 확인
 		User user = userMapper.getUserInfoById(userId);
@@ -169,14 +192,14 @@ public class TrainerService {
 			userMapper.modifyUser(user);
 		}
 		
-		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("userId", userId);
-		
-		//트레이너 코드 등록된 트레이너 정보 조회
-		trainerProfile	= trainerMapper.getTrainerProfileInfoByMap(paramMap);
-		
-		//반환할 트레이너 코드
-		String trainerCd = trainerProfile.getTrainerCd();
+		// 릴레이션 테이블에 삽입
+		List<Map<String, String>> relationFileList = new ArrayList<>();
+		for(Map<String, String> m : dtoFileList) {
+			m.put("trainerCd", trainerCd);
+			relationFileList.add(m);
+		}
+		System.out.println(relationFileList);
+		fileMapper.uploadRelationFile(relationFileList);
 		
 		return trainerCd;
 	}

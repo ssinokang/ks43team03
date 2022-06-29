@@ -1,5 +1,6 @@
 package ks43team03.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import ks43team03.dto.AreaCityTown;
 import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Lesson;
+import ks43team03.dto.Search;
 import ks43team03.dto.Sports;
 import ks43team03.service.LessonService;
 
@@ -56,8 +58,8 @@ public class LessonController {
 			,AreaCity 	  areaCity
 			,AreaCityTown areaCityTown
 			,Sports 	  sports
-			,Model 		  model) {
-		
+			,Model 		  model
+			,String		  sv) {
 		log.info("facility : {}", facility);
 		log.info("areaCity : {}", areaCity);
 		log.info("areaCityTown : {}", areaCityTown);
@@ -70,9 +72,15 @@ public class LessonController {
 		lesson.setAreaCity(areaCity);
 		lesson.setSports(sports);
 		
+		Search search = new Search();
+		search.setSearchValue(sv);
+		
 		log.info("lesson : {}", lesson);
 		List<Sports> sportsList	= lessonService.getSportsList();
-		List<Lesson> lessonList = lessonService.getLessonListForUser(lesson);
+		HashMap<String, Object> lessonMap = new HashMap<>();
+		lessonMap.put("lesson", lesson);
+		lessonMap.put("search", search);
+		List<Lesson> lessonList = lessonService.getLessonListForUser(lessonMap);
 		model.addAttribute("lessonList", lessonList);
 		model.addAttribute("sportsList", sportsList);
 		

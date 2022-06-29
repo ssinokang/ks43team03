@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,8 +47,18 @@ public class LessonService {
 	//레슨 등록하기
 	public void addLesson(Lesson lesson, MultipartFile[] uploadfile, String fileRealPath) {
 		
+		System.out.println(uploadfile.toString());
+		
+		boolean fileCheck = true;
+		
+		for (MultipartFile multipartFile : uploadfile){
+			if(!multipartFile.isEmpty()) {
+				fileCheck = false;
+			}
+		}
 		//파일이 널이 아니라면
-		if (!ObjectUtils.isEmpty(uploadfile)) {
+		if (!fileCheck) {
+			System.out.println("파일 있음!!" + uploadfile + "파일있음!!");
 			String uproaderId 		= lesson.getUserId();
 			String facilityGoodsCd;
 			
@@ -100,6 +111,7 @@ public class LessonService {
 				relationFileList.add(m);
 			}
 			System.out.println(relationFileList);
+			
 			fileMapper.uploadRelationFile(relationFileList);
 			
 			
@@ -110,6 +122,10 @@ public class LessonService {
 			 * 				*
 			 ****************/
 			
+	    } else {
+			facilityGoodsMapper.addFacilityGoods(lesson.getFacilityGoods());
+			System.out.println(lesson + "LessonService/addLesson/lesson");
+			lessonMapper.addLesson(lesson);
 	    }
 	}
 
@@ -120,13 +136,13 @@ public class LessonService {
 		return lesson;
 	}
 
-	public List<Lesson> getLessonListForUser(Lesson lesson) {
+	public List<Lesson> getLessonListForUser(HashMap<String, Object> lessonMap) {
 		System.out.println("___________________________________________________");
 		System.out.println("_______________start LessonService_________________");
-		System.out.println(lesson);
+		System.out.println(lessonMap);
 
-		System.out.println("lesson.getFacility().getMainCtgCd()" + lesson.getFacility().getMainCtgCd());
-		List<Lesson> LessonListForUser = lessonMapper.getLessonListForUser(lesson);
+		
+		List<Lesson> LessonListForUser = lessonMapper.getLessonListForUser(lessonMap);
 		
 		System.out.println("_______________end   LessonService_________________");
 		System.out.println("___________________________________________________");

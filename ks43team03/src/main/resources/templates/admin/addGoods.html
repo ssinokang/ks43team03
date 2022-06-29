@@ -333,164 +333,163 @@
       </div>
    
       <!-- 레슨 등록 폼-->
-      <div class="row none-display" id="lesson">
-         <div class="col-md-12 col-sm-12 ">
-            <div class="x_panel">
-               <div class="x_title">
-                  <h2>레슨권 <small>different form elements</small></h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                     </li>
-                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                           aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                           <li><a class="dropdown-item" href="#">Settings 1</a>
-                           </li>
-                           <li><a class="dropdown-item" href="#">Settings 2</a>
-                           </li>
-                        </ul>
-                     </li>
-                     <li><a class="close-link"><i class="fa fa-close"></i></a>
-                     </li>
-                  </ul>
-                  <div class="clearfix"></div>
-               </div>
-               <div class="x_content">
-                  <br>
-                  <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" th:action="@{/lesson/addLesson}" enctype="multipart/form-data" name="multiPart"> <!--  enctype="multipart/form-data" name="mulP" --> 
-
-                     <div class="item form-group">
-                        <div class="col-md-6 col-sm-6 ">
-                        <!-- 후에 세션으로 받든 수정 할 것 -->
-                           <input type="hidden" name="facilityCd"       id="facilityCd-lesson">
-                           <input type="hidden" name="facilityGoodsCd" id="facilityGoodsCd-lesson">
-                           <input type="hidden" name="userId"          id="userId-lesson">
-                           <input type="hidden" name="goodsCtgCd"       id="goodsCtgCd-lesson">
-                           <input type="hidden" name="sportsCd"      id="sportsCd-lesson">
-                        </div>
-                     </div>
-                     <div class="item form-group">
-                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonNm">레슨 이름 <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 ">
-                           <input type="text" id="lessonNm" name="lessonName" required="required" class="form-control ">
-                        </div>
-                     </div>
-                     <div class="item form-group" style = "list-style:none;">
-                        <div class="col-form-label col-md-3 col-sm-3 label-align" id="lesson-img-label">레슨 사진</div>
-                        <div class="col-md-6 col-sm-6 ">
-                           <ul class="lesson-file-line">
-                              <li>
-                                 <input type="file" name="lessonImgFile" class="form-control newLine" accept="image/*" required multiple>
-                                 <button id="plus-button">플러스</button>
-                                 <button id="minus-button">마이너스</button>
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-                     <div class="item form-group">   
-                        <label for="lessonDetail" class="col-form-label col-md-3 col-sm-3 label-align">레슨 정보</label>
-                        <div class="col-md-6 col-sm-6 ">
-                           <input id="middle-name" class="form-control" type="text" name="lessonDetail">
-                        </div>
-                     </div>
-                     <div class="item form-group">
-                        <label for="lessonTotalMember" class="col-form-label col-md-3 col-sm-3 label-align">인원수</label>
-                        <div class="col-md-6 col-sm-6 ">
-                           <input id="middle-name" class="form-control" type="number" name="lessonTotalMember">
-                        </div>
-                     </div>
-                     <div class="item form-group">
-                        <label class="col-form-label col-md-3 col-sm-3 label-align">개인/단체</label>
-                        <div class="col-md-6 col-sm-6 ">
-                           <div id="solo-party" class="btn-group" data-toggle="buttons">
-                              <label class="btn btn-secondary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                 <input type="radio" name="lessonDivision" value="단체" class="join-btn"> &nbsp; 단체레슨 &nbsp;
-                              </label>
-                              <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                 <input type="radio" name="lessonDivision" value="개인" class="join-btn"> 개인 레슨
-                              </label>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="none-display" id="lessonNu">
-	                     <div class="item form-group">
-	                     	<label class="col-form-label col-md-3 col-sm-3 label-align">월 : 
-	
-	                        </label>
-	                        <div class="col-md-6 col-sm-6 ">
-	                           <input type="number" class="form-control newLine" name="lessonMonth" id="lessonMonth">
-	                        </div>
-	                    </div>
+	<div class="row none-display" id="lesson">
+		<div class="col-md-12 col-sm-12 ">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>레슨권 <small>different form elements</small></h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+						<li class="dropdown">
+                        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        		<i class="fa fa-wrench"></i>
+                        	</a>
+							<ul class="dropdown-menu" role="menu">
+								<li>
+									<a class="dropdown-item" href="#">Settings 1</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">Settings 2</a>
+								</li>
+							</ul>
+						</li>
+					<li>
+						<a class="close-link"><i class="fa fa-close"></i></a>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+				<div>
+				<div class="x_content">
+					<br>
+					<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" th:action="@{/lesson/addLesson}" enctype="multipart/form-data" name="multiPart"> <!--  enctype="multipart/form-data" name="mulP" --> 
+					
 						<div class="item form-group">
-	                        <label class="col-form-label col-md-3 col-sm-3 label-align">주/횟수 :
-	                        </label>
-	                        <div class="col-md-6 col-sm-6 "> 
-	                           <input type="number" class="form-control newLine" name="lessonWeek">                  
-	                        </div>
-	                     </div>
-                     </div>
-                     <div class="item form-group">
+						   <div class="col-md-6 col-sm-6 ">
+						   <!-- 후에 세션으로 받든 수정 할 것 -->
+						      <input type="hidden" name="facilityCd"       id="facilityCd-lesson">
+						      <input type="hidden" name="facilityGoodsCd" id="facilityGoodsCd-lesson">
+						      <input type="hidden" name="userId"          id="userId-lesson">
+						      <input type="hidden" name="goodsCtgCd"       id="goodsCtgCd-lesson">
+						      <input type="hidden" name="sportsCd"      id="sportsCd-lesson">
+						   </div>
+						</div>
+						<div class="item form-group">
+						   <label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonNm">레슨 이름 <span class="required">*</span>
+						   </label>
+						   <div class="col-md-6 col-sm-6 ">
+						      <input type="text" id="lessonNm" name="lessonName" required="required" class="form-control ">
+						   </div>
+						</div>
+						<div class="item form-group" style = "list-style:none;">
+							<div class="col-form-label col-md-3 col-sm-3 label-align" id="lesson-img-label">레슨 사진</div>
+							<div class="col-md-6 col-sm-6 ">
+								<ul class="lesson-file-line">
+								   <li>
+								      <input type="file" name="lessonImgFile" class="form-control newLine" accept="image/*">
+								      <button type= "button" id="plus-button">플러스</button>
+								      <button type= "button" id="minus-button">마이너스</button>
+								   </li>
+								</ul>
+							</div>
+						</div>
+						<div class="item form-group">   
+						   <label for="lessonDetail" class="col-form-label col-md-3 col-sm-3 label-align">레슨 정보</label>
+						   <div class="col-md-6 col-sm-6 ">
+						      <input id="middle-name" class="form-control" type="text" name="lessonDetail">
+						   </div>
+						</div>
+						<div class="item form-group">
+						   <label for="lessonTotalMember" class="col-form-label col-md-3 col-sm-3 label-align">인원수</label>
+						   <div class="col-md-6 col-sm-6 ">
+						      <input id="middle-name" class="form-control" type="number" name="lessonTotalMember">
+						   </div>
+						</div>
+						<div class="item form-group">
+						   <label class="col-form-label col-md-3 col-sm-3 label-align">개인/단체</label>
+						   <div class="col-md-6 col-sm-6 ">
+						      <div id="solo-party" class="btn-group" data-toggle="buttons">
+						         <label class="btn btn-secondary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+						            <input type="radio" name="lessonDivision" value="단체" class="join-btn"> &nbsp; 단체레슨 &nbsp;
+						         </label>
+						         <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+						            <input type="radio" name="lessonDivision" value="개인" class="join-btn"> 개인 레슨
+						         </label>
+						      </div>
+						   </div>
+						</div>
+						<div class="none-display" id="lessonNu">
+							<div class="item form-group">
+								<label class="col-form-label col-md-3 col-sm-3 label-align">월 : 
+							
+								</label>
+								<div class="col-md-6 col-sm-6 ">
+									<input type="number" class="form-control newLine" name="lessonMonth" id="lessonMonth">
+								</div>
+							</div>
+							<div class="item form-group">
+								<label class="col-form-label col-md-3 col-sm-3 label-align">주/횟수 :
+								</label>
+								<div class="col-md-6 col-sm-6 "> 
+								   <input type="number" class="form-control newLine" name="lessonWeek">                  
+								</div>
+							</div>
+						</div>
+						<div class="item form-group">
+							<label class="col-form-label col-md-3 col-sm-3 label-align">레슨 시작 날짜<span class="required">*</span>
+							
+							</label>
+							<div class="col-md-6 col-sm-6 ">
+							   <input type="date" class="form-control-file" name="lessonStartDate" id="lessonStartDate">
+							</div>
+						</div>
+						<div class="item form-group">
+						
+						   <label class="col-form-label col-md-3 col-sm-3 label-align">레슨 종료 날짜<span class="required">*</span>
+						
+						   </label>
+						   <div class="col-md-6 col-sm-6 ">
+						      <input type="date" class="form-control-file" name="lessonEndDate" id="lessonEndDate">
+						   </div>
+						</div>
+						<div class="item form-group">
+						
+						   <label for = "lessonStartTime" class="col-form-label col-md-3 col-sm-3 label-align">레슨 시작 시간<span class="required">*</span>
+						   </label>
+						   <div class="col-md-6 col-sm-6 ">
+						      <input type="time" class="form-control-file" name="lessonStartTime" id="lessonStartTime">
+						   </div>
+						</div>
+						<div class="item form-group">
+						   <label for = "lessonEndTime" class="col-form-label col-md-3 col-sm-3 label-align">레슨 끝난 시간<span class="required">*</span>
+						   </label>
+						   <div class="col-md-6 col-sm-6 ">
+						      <input type="time" class="form-control-file" name="lessonEndTime" id="lessonEndTime">
+						   </div>
+						</div>
+					               
+						<div class="item form-group" >
+						   <label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonPrice">수강료<span class="required">*</span>
+						   </label>
+						   <div class="col-md-6 col-sm-6 ">
+						      <input type="number" class="form-control-file" name="lessonPrice" id="lessonPrice">
+						   </div>
+						</div>				   
+				   <div class="ln_solid"></div>
+				   <div class="item form-group">
+				      <div class="col-md-6 col-sm-6 offset-md-3">
+				         <button class="btn btn-primary" type="button">Cancel</button>
+				         <button class="btn btn-primary" type="reset">Reset</button>
+				         <button type="submit" class="btn btn-success">등록</button>
+				      </div>
+				   </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
-                        <label class="col-form-label col-md-3 col-sm-3 label-align">레슨 시작 날짜<span class="required">*</span>
-
-                        </label>
-                        <div class="col-md-6 col-sm-6 ">
-                           <input type="date" class="form-control-file" name="lessonStartDate" id="lessonStartDate">
-                        </div>
-                     </div>
-                     <div class="item form-group">
-
-                        <label class="col-form-label col-md-3 col-sm-3 label-align">레슨 종료 날짜<span class="required">*</span>
-
-                        </label>
-                        <div class="col-md-6 col-sm-6 ">
-                           <input type="date" class="form-control-file" name="lessonEndDate" id="lessonEndDate">
-                        </div>
-                     </div>
-                     <div class="item form-group">
-
-                        <label for = "lessonStartTime" class="col-form-label col-md-3 col-sm-3 label-align">레슨 시작 시간<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 ">
-                           <input type="time" class="form-control-file" name="lessonStartTime" id="lessonStartTime">
-                        </div>
-                     </div>
-                     <div class="item form-group">
-                        <label for = "lessonEndTime" class="col-form-label col-md-3 col-sm-3 label-align">레슨 끝난 시간<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 ">
-                           <input type="time" class="form-control-file" name="lessonEndTime" id="lessonEndTime">
-                        </div>
-                     </div>
-                     
-                     <div class="item form-group" >
-                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonPrice">수강료<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 ">
-                           <input type="number" class="form-control-file" name="lessonPrice" id="lessonPrice">
-                        </div>
-                     </div>
-                     
-                     <div class="ln_solid"></div>
-                     <div class="item form-group">
-                        <div class="col-md-6 col-sm-6 offset-md-3">
-                           <button class="btn btn-primary" type="button">Cancel</button>
-                           <button class="btn btn-primary" type="reset">Reset</button>
-                           <button type="submit" class="btn btn-success">등록</button>
-                        </div>
-                     </div>
-                  </form>
-               </div>
-            </div>
-         </div>
-      </div>
-   
-   
-   
-   
-         <script type="text/javascript" th:src="@{/resource/js/addPassJQ.js}"></script>
+<script type="text/javascript" th:src="@{/resource/js/addPassJQ.js}"></script>
       
    </th:block>
 

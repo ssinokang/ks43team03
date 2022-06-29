@@ -53,24 +53,35 @@
 	</div>
 	
 	<form th:action="@{/lesson/lessonListForUser}" method="GET">
-		<div class="mx-auto mt-5 search-bar input-group mb-3">
-			공공/사설
-			<select name="mainCtgCd">
-				<option value="">:: 전체 ::</option>
-				<option value="gg">공공</option>
-				<option value="ss">사설</option>
-			</select>
-			종목
-			<select name="sportsCd">
-				<option value="">:: 전체 ::</option>
-				<th:block th:if="${not #lists.isEmpty(sportsList)}" th:each="s : ${sportsList}">
-					<option th:value="${s.sportsCd}">[[${s.sportsName}]]</option>
-				</th:block>
-				<th:block th:unless="${not #lists.isEmpty(lesson.sports)}">
-					<option>없음</option>
-				</th:block>
-			</select>
-			<input name="q" type="text" class="form-control rounded-pill" id="searchBar" placeholder="검색 또는 URL 입력" aria-label="Recipient's username" aria-describedby="button-addon2">
+		<div class="row">
+			<div class="mx-auto col-6 input-group">
+				<p class="col-2">
+					공공/사설 :
+				</p>
+				<select class="col-4" name="mainCtgCd">
+					<option value="">:: 전체 ::</option>
+					<option value="gg">공공</option>
+					<option value="ss">사설</option>
+				</select>
+				<p class="col-2">
+					종목 :
+				</p>
+				<select class="col-4" name="sportsCd">
+					<option value="">:: 전체 ::</option>
+					<th:block th:if="${not #lists.isEmpty(sportsList)}" th:each="s : ${sportsList}">
+						<option th:value="${s.sportsCd}">[[${s.sportsName}]]</option>
+					</th:block>
+					<th:block th:unless="${not #lists.isEmpty(lesson.sports)}">
+						<option>없음</option>
+					</th:block>
+				</select>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="mx-auto col-6 search-bar input-group">
+				<input name="sv" type="text" class="form-control rounded-pill" id="searchBar" placeholder="검색 또는 URL 입력" aria-label="Recipient's username" aria-describedby="button-addon2">
+			</div>
 		</div>
 	</form>
 	<section class="shop spad">
@@ -80,60 +91,94 @@
 				<div th:replace="fragments/shopLeftMenu :: shopLeftMenuFragment"></div>
 				<div class="col-lg-9 col-md-9">
 					<div class="row">
-						<div class="col-lg-4 col-md-6" th:if="${not #lists.isEmpty(lessonList)}" th:each="l : ${lessonList}">
-							<div class="product__item" th:if="${not #lists.isEmpty(l.tFile)}" th:each="t : ${l.tFile}">
-								<div th:if="${t.representImg == 'Y'}">
-									<div class="product__item__pic set-bg" th:data-setbg="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}"
-											style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
-										<div class="label new">New</div>
-										<ul class="product__hover">
-											<li><a href="img/shop/shop-1.jpg" class="image-popup"><span
-														class="arrow_expand"></span></a></li>
-											<li><a href="#"><span class="icon_heart_alt"></span></a></li>
-											<li><a href="#"><span class="icon_bag_alt"></span></a></li>
-										</ul>
-									</div>
-									<div class="product__item__text">
-										<h6><a th:href="@{/lesson/detailLessonForUser(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></h6>
-										<div class="rating">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
+						<th:block th:if="${not #lists.isEmpty(lessonList)}" th:each="l : ${lessonList}">
+							<div class="col-lg-4 col-md-6">
+								<th:block  th:if="${not #lists.isEmpty(l.tFile)}" th:each="t : ${l.tFile}">
+									<div class="product__item">
+										<div th:if="${t.representImg == 'Y'}">
+											<div class="product__item__pic set-bg" th:data-setbg="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}"
+													style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
+												<div class="label new">New</div>
+												<ul class="product__hover">
+													<li><a href="img/shop/shop-1.jpg" class="image-popup"><span
+																class="arrow_expand"></span></a></li>
+													<li><a href="#"><span class="icon_heart_alt"></span></a></li>
+													<li><a href="#"><span class="icon_bag_alt"></span></a></li>
+												</ul>
+											</div>
+											<div class="product__item__text">
+												<h6><a th:href="@{/lesson/detailLessonForUser(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></h6>
+												<div class="rating">
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+												</div>
+												<div class="product__price">$ [[${l.lessonPrice}]]</div>
+											</div>
 										</div>
-										<div class="product__price">$ [[${l.lessonPrice}]]</div>
+										<div th:unless="${t.representImg == 'Y'}">
+											<div>
+												<div class="product__item__pic set-bg"  th:data-setbg="@{/images/notImage.jfif}"
+													style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
+													<div class="label new">New</div>
+													<ul class="product__hover">
+														<li><a href="img/shop/shop-1.jpg" class="image-popup"><span
+																	class="arrow_expand"></span></a></li>
+														<li><a href="#"><span class="icon_heart_alt"></span></a></li>
+														<li><a href="#"><span class="icon_bag_alt"></span></a></li>
+													</ul>
+												</div>
+												
+												<div class="product__item__text">
+													<h6><a th:href="@{/lesson/detailLessonForUser(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></h6>
+													<div class="rating">
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+													</div>
+													<div class="product__price">$ [[${l.lessonPrice}]]</div>
+												</div>
+											</div>
+										</div>
 									</div>
-								</div>
-							</div>
-							<div th:unless="${not #lists.isEmpty(l.tFile)}" >
-								<div class="product__item__pic set-bg"  th:data-setbg="@{/images/notImage.jfif}"
-									style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
-									<div class="label new">New</div>
-									<ul class="product__hover">
-										<li><a href="img/shop/shop-1.jpg" class="image-popup"><span
-													class="arrow_expand"></span></a></li>
-										<li><a href="#"><span class="icon_heart_alt"></span></a></li>
-										<li><a href="#"><span class="icon_bag_alt"></span></a></li>
-									</ul>
-								</div>
-								
-								<div class="product__item__text">
-									<h6><a th:href="@{/lesson/detailLessonForUser(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></h6>
-									<div class="rating">
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
+								</th:block>
+								<th:block th:unless="${not #lists.isEmpty(l.tFile)}" >
+									<div>
+										<div class="product__item__pic set-bg"  th:data-setbg="@{/images/notImage.jfif}"
+											style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
+											<div class="label new">New</div>
+											<ul class="product__hover">
+												<li><a href="img/shop/shop-1.jpg" class="image-popup"><span
+															class="arrow_expand"></span></a></li>
+												<li><a href="#"><span class="icon_heart_alt"></span></a></li>
+												<li><a href="#"><span class="icon_bag_alt"></span></a></li>
+											</ul>
+										</div>
+										
+										<div class="product__item__text">
+											<h6><a th:href="@{/lesson/detailLessonForUser(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></h6>
+											<div class="rating">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+											</div>
+											<div class="product__price">$ [[${l.lessonPrice}]]</div>
+										</div>
 									</div>
-									<div class="product__price">$ [[${l.lessonPrice}]]</div>
-								</div>
+								</th:block>
 							</div>
-						</div>
-						<div class="col-lg-4 col-md-6" th:unless="${not #lists.isEmpty(lessonList)}">
-							<div style="text-align: center;">등록된 게시물이 없습니다.</div>
-						</div>
+						</th:block>
+						<th:block  th:unless="${not #lists.isEmpty(lessonList)}">
+							<div class="col-lg-4 col-md-6">
+								<div style="text-align: center;">등록된 게시물이 없습니다.</div>
+							</div>
+						</th:block>
 					</div>
 				</div>
 			</div>

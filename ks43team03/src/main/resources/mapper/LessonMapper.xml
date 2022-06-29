@@ -269,8 +269,8 @@
 			,NOW()
 		)
 	</insert>
-	<select id="getLessonListForUser" parameterType="Lesson" resultMap="lessonResultMap">
-	SELECT
+	<select id="getLessonListForUser" parameterType="Map" resultMap="lessonResultMap">
+	select
 	lesson_sub.town_cd
 	,lesson_sub.town_nm
 	,lesson_sub.area_cd
@@ -289,6 +289,7 @@
 	,lesson_sub.lesson_cd
 	,lesson_sub.lesson_division
 	,lesson_sub.sports_nm
+	,lesson_sub.sports_cd
 	,lesson_sub.lesson_nm
 	,lesson_sub.lesson_detail
 	,lesson_sub.lesson_total_member
@@ -328,6 +329,7 @@
 		  	,l.lesson_division
 		  	,l.user_id
 		  	,l.sports_nm
+		  	,l.sports_cd
 		  	,l.lesson_nm
 		  	,l.lesson_detail
 		  	,l.lesson_total_member
@@ -372,18 +374,22 @@
 			tf.deleted_yn != 'Y') AS lesson_file
 		on
 		lesson_file.facility_goods_cd = lesson_sub.facility_goods_cd
-	   	<trim prefix="WHERE" prefixOverrides="AND /OR ">
-	   		<if test="facility.mainCtgCd != null and facility.mainCtgCd != ''">
-	   			lesson_sub.main_ctg_cd = #{facility.mainCtgCd}
+		
+		<trim prefix="where " prefixOverrides="and">
+	   		<if test="lesson.facility.mainCtgCd != null and lesson.facility.mainCtgCd != ''">
+	   			and lesson_sub.main_ctg_cd = #{lesson.facility.mainCtgCd}
 	   		</if>
-	   		<if test="areaCity.cityCd != null and areaCity.cityCd != '' ">
-	   			lesson_sub.city_cd = #{areaCity.cityCd}
+	   		<if test="lesson.areaCity.cityCd != null and lesson.areaCity.cityCd != ''">
+	   			and lesson_sub.city_cd = #{lesson.areaCity.cityCd}
 	   		</if>
-	   		<if test="areaCityTown.townCd != null and areaCityTown.townCd != '' ">
-	   			lesson_sub.town_cd = #{areaTownCity.townCd}
+	   		<if test="lesson.areaCityTown.townCd != null and lesson.areaCityTown.townCd != ''">
+	   			and lesson_sub.town_cd = #{lesson.areaTownCity.townCd}
 	   		</if>
-	   		<if test="sports.sportsCd != null and sports.sportsCd != '' ">
-	   			lesson_sub.sports_cd = #{sports.sportsCd}
+	   		<if test="lesson.sports.sportsCd != null and lesson.sports.sportsCd != '' ">
+	   			and lesson_sub.sports_cd = #{lesson.sports.sportsCd}
+	   		</if>
+	   		<if test="search.searchValue != null and search.searchValue != '' ">		
+				and lesson_sub.lesson_nm LIKE CONCAT('%', #{search.searchValue}, '%')
 	   		</if>
 	   	</trim>
    			GROUP BY

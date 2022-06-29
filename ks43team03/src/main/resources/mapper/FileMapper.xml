@@ -46,7 +46,7 @@
 	
 	<insert id="uploadRelationFileWithTrainer" parameterType="List">
 		/* 트레이너, 파일 릴레이션 테이블 삽입*/
-		INSERT INTO rel_file_with_goods
+		INSERT INTO rel_file_with_trainer
 		(
 			 trainer_cd
 			,flie_cd   

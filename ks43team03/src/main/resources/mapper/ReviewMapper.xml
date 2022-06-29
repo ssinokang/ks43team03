@@ -13,6 +13,7 @@
 		<result column="review_detail"		property="reviewDetail"/>
 		<result column="review_score"		property="reviewScore"/>
 		<result column="review_reg_date"	property="reviewRegDate"/>
+		
 		<association property="facility" 		javaType="Facility">
 			<id 	column="facility_cd" 			property="facilityCd"/>
 			<result column="main_ctg_cd"			property="mainCtgCd"/>
@@ -31,18 +32,37 @@
 		</association>
 	</resultMap>
 
-		<select id="getAdminReviewListById" parameterType="Review">
+		<insert id="addReview" parameterType="Review">
+			INSERT INTO review
+				(review_cd
+				,pay_cd
+				,goods_ctg_cd
+				,user_id
+				,review_detail
+				,review_score
+				,review_reg_date
+				) VALUES (
+					#{reviewCd}
+					,#{payCd}
+					,#{goodsCtgCd}
+					,#{userId}
+					,#{reviewDetail}
+					,#{reviewScore}
+					,CURDATE())
+		</insert>
+
+		<select id="getAdminReviewListById" resultType="Review" resultMap="reviewResultMap">
 		/*시설관리자가 후기 조회*/
 		SELECT
-			r.review_cd			AS reviewCd
-			,r.pay_cd			AS payCd
-			,r.goods_ctg_cd		AS goodsCtgCd
-			,r.user_id			AS userId
-			,r.review_detail	AS reviewDetail
-			,r.review_score		AS reviewScore
-			,r.review_reg_date	AS reviewRegDate
-			,fg.facility_cd		AS facilityCd
-			,f.facility_nm		AS facilityNm
+			r.review_cd			
+			,r.pay_cd			
+			,r.goods_ctg_cd		
+			,r.user_id			
+			,r.review_detail	
+			,r.review_score		
+			,r.review_reg_date	
+			,fg.facility_cd		
+			,f.facility_nm	
 		FROM 
 			review AS r
 			INNER join
@@ -61,10 +81,16 @@
 			facility AS f
 			ON 
 			f.facility_cd = fg.facility_cd
+			LEFT join
+			facility_user AS fu
+			on
+			f.facility_cd = fu.facility_cd
 		WHERE
-			r.user_id = #{userId};
+			fu.user_id = #{userId} AND fu.facility_approve_state = 'Y'OR f.user_id = #{userId}
+		GROUP BY 
+			r.review_cd;
 	</select>
-
+	
 	
 	
 

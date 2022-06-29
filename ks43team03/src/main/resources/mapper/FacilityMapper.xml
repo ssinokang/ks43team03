@@ -20,6 +20,7 @@
 		<result column="facility_detail_addr" 	property="facilityDetailAddr"/>
 		<result column="area_cd"  				property="areaCd"/>
 		<result column="city_cd"  				property="cityCd"/>
+		<result column="facility_detail"  		property="facilityDetail"/>
 		<association property="mainCtg" 		javaType="MainCtg">
 			<id 	column="main_ctg_cd" 		property="mainCtgCd"/>
 			<result column="main_ctg_nm" 		property="mainCtgNm"/>
@@ -116,6 +117,7 @@
 	</select>
 	
 	<select id="getReviewList" resultType="Review">
+	/*리뷰조회*/
 		SELECT
 			r.review_cd			AS reviewCd
 			,r.pay_cd			AS payCd
@@ -238,6 +240,7 @@
 				,f.facility_tell
 				,f.business_number
 				,f.facility_reg_date
+				,f.facility_detail
 				
 			FROM
 				facility AS f
@@ -291,6 +294,7 @@
 				,facility_tell		AS facilityTell
 				,facility_post_num	AS businessNum
 				,facility_reg_date	AS facilityRegDate
+				,facility_detail  AS facilityDetail
 			FROM 
 				facility 
 			LIMIT #{startRow}, #{rowPerPage};	

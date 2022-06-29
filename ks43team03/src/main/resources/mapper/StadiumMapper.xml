@@ -46,7 +46,7 @@
 			<result	column="facility_goods_cd"	property="facilityGoodsCd"/>
 			<result	column="file_cd"			property="fileCd"/>
 		</collection>
-		<collection property="tFile" ofType="TFile">
+		<collection property="tFile"  ofType="TFile">
 			<id		column="file_cd"				property="fileCd"/>
 			<result	column="original_file_nm"		property="originalFileName"/>
 			<result	column="stored_file_path"		property="storedFilePath"/>
@@ -148,25 +148,25 @@
 	</select>
 	
 	
-	<select id="getStadiumList" parameterType="map" resultType="map">
+	<select id="getStadiumList" parameterType="map" resultType="map" resultMap="stadiumResultMap">
 	/*회원이 구장 조회*/
 		SELECT 
-			fs.facility_stadium_cd			AS facilityStadiumCd
-			,fs.facility_goods_cd 			AS facilityGoodsCd
-			,fs.facility_cd					AS facilityCd
-			,f.facility_nm					AS facilityNm
-			,fs.goods_ctg_cd				AS goodsCtgCd
-			,fs.sports_cd					AS sportsCd
-			,s.sports_nm 					AS sportsNm
-			,fs.user_id						AS userId
-			,fs.facility_stadium_nm			AS facilityStadiumNm
-			,fs.facility_stadium_reg_date	AS facilityStadiumRegDate
-			,fs.facility_stadium_detail		AS facilityStadiumDetail
-			,stadium_file.file_cd			AS fileCd
-			,stadium_file.re_file_name		AS reFileName
-			,stadium_file.original_file_nm	AS originalFileName
-			,stadium_file.stored_file_path	AS storedFilePath
-			,stadium_file.represent_img		AS representImg
+			fs.facility_stadium_cd			
+			,fs.facility_goods_cd 			
+			,fs.facility_cd					
+			,f.facility_nm					
+			,fs.goods_ctg_cd				
+			,fs.sports_cd					
+			,s.sports_nm 					
+			,fs.user_id						
+			,fs.facility_stadium_nm			
+			,fs.facility_stadium_reg_date	
+			,fs.facility_stadium_detail		
+			,stadium_file.file_cd			
+			,stadium_file.re_file_name		
+			,stadium_file.original_file_nm	
+			,stadium_file.stored_file_path	
+			,stadium_file.represent_img		
 		FROM 
 			facility_stadium AS fs
 			INNER join

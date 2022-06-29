@@ -23,6 +23,7 @@ public class Facility {
 	private String businessNum;
 	private String facilityDetailAddr;
 	private String facilityRegDate;
+	private String facilityDetail;
 	
 	
 	private MainCtg mainCtg;

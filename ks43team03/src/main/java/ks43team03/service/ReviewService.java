@@ -24,6 +24,16 @@ public class ReviewService {
 		this.reviewMapper = reviewMapper;
 	}
 	
+	
+	
+	/*사용자가 후기 등록*/
+	public int addReview(Review review) {
+		int result = reviewMapper.addReview(review);
+		
+		return result;
+	}
+	
+	
 	/*시설관리자가 후기 조회*/
 	public List<Review> getAdminReviewListById(String userId){
 		

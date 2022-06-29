@@ -99,6 +99,35 @@
 			$('#saveButton').removeAttr( "hidden" );
 			$(this).attr("hidden",true);
 		});
+
+		/**
+		 *  다중 파일 업로드
+		 **/
+		var fileInput = 1;
+		var maxFileNum = 4;
+		var minFileNum = 0;
+		//추가
+		$('#plus-button').on('click', function() {
+			if(fileInput < maxFileNum) {
+				var newLi = $(this).parent().clone(true);
+				newLi.children('.stadium-img').val('');
+				$(this).parent().parent().append(newLi);
+				
+				fileInput++;
+			} else {
+				alert("최대 올릴 수 있는 이미지의 개수는 4개입니다.");
+			}
+		});
+		//제거
+		$('#minus-button').on('click', function() {
+			if(fileInput > 1) {
+				$(this).parent().remove()
+				
+				fileInput--;
+			} else {
+				alert("더이상 지울 수 없습니다.");
+			}
+		});
 	});
 			
 		</script>
@@ -210,7 +239,7 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설주 아이디<span>*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="userId" th:value="${session.SID}"  data-validate-minmax="10,100" readonly="readonly"/></div>
+					<input class="form-control" type="text" name="userId" th:value="${facility.userId}"  data-validate-minmax="10,100" readonly="readonly"/></div>
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설명 <span class="required">*</span></label>
@@ -239,12 +268,30 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설전화번호<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityTell" th:value="${facility.facilityTell}" data-validate-linked='password' required='required' readonly="readonly" /></div>
+					<input class="form-control" type="text" name="facilityTell" th:value="${facility.facilityTell}" required='required' readonly="readonly" /></div>
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">사업자등록번호<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
 					<input class="form-control" type="text" name="businessNum" th:value="${facility.businessNum}" required='required' data-validate-length-range="8,20" readonly="readonly"/></div>
+				</div>
+				<div class="field item form-group">
+					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityDetail">상세정보 <span class="required">*</span></label>
+					<div class="col-md-6 col-sm-6">
+						<textarea class="form-control" rows="3" required="required" name="facilityDetail" readonly="readonly">[[${facility.facilityDetail}]]</textarea>
+					</div>				
+				</div>
+				<div class="item form-group">
+					<div class="col-form-label col-md-3 col-sm-3 label-align" id="stadium-img-label">구장 사진</div>
+					<div class="col-md-6 col-sm-6 ">
+						<ul class="stadium-file-line" style = "list-style:none;">
+							<li>
+								<input type="file" name="stadiumImgFile" class="stadium-img" accept="image/*" required multiple>
+								<button id="plus-button">플러스</button>
+								<button id="minus-button">마이너스</button>
+							</li>
+						</ul>
+					</div>
 				</div>
 				<div class="ln_solid">
 					<div class="form-group">

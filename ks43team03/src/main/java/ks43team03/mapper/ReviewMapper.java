@@ -11,6 +11,9 @@ import ks43team03.dto.Review;
 @Mapper
 public interface ReviewMapper {
 
+	//후기등록
+	public int addReview(Review review);
+	
 	//시설관리자가 본인 후기 조회
 	public List<Review> getAdminReviewListById(String userId);
 	

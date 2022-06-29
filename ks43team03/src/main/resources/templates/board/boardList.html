@@ -7,6 +7,26 @@
 		<title th:text="${title}"></title>
 	</th:block>
 	
+	<!-- 사용자 정의 css -->
+	<th:block layout:fragment="customCss">
+	    
+		<style>
+			.table{
+				text-align: center;
+			}
+			
+			#boardBody{
+				cursor: pointer;
+				
+			}
+			
+			#addBoardBtn{
+				padding-top: 20px;
+			}
+		</style>
+	</th:block>
+	
+	
 	<th:block layout:fragment="customContents">	
 		
 	<!-- Breadcrumb Begin -->
@@ -29,11 +49,10 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="shop__cart__table">
-							<table class="table">
+							<table class="table table-hover">
 								<thead>
 									<tr>
 										<th id="boardPostTitle">제목</th>
-										<th id="boardPostContent">내용</th>
 										<th id="boardPostDate">등록일</th>
 										<th id="boardPostViews">조회수</th>
 										<th id="boardPostCommentNum">댓글 수</th>
@@ -48,7 +67,6 @@
 									<tr th:if="${not #lists.isEmpty(boardList)}" th:each="l : ${boardList}">
 										<input type="hidden" th:value="${l.boardPostCd}">
 										<td th:text="${l.boardPostTitle}"></td>
-										<td th:text="${l.boardPostContent}"></td>
 										<td th:text="${l.boardPostDate}"></td>
 										<td th:text="${l.boardPostViews}"></td>
 										<td th:text="${l.boardPostCommentNum}"></td>
@@ -77,12 +95,12 @@
 			</div>
 			<!-- paging end -->
 			
-				<div class="row">
+				<div class="row" id="addBoardBtn">
 					<div class="col-lg-6 col-md-6 col-sm-6">
 						<div class="cart__btn update__btn">
 							<a th:href="@{/board/addBoard}" 
 							   th:if="${session.SLEVEL =='1'or session.SLEVEL =='2' or session.SLEVEL =='3' or session.SLEVEL =='4' or session.SLEVEL =='5'}">
-								<span class="icon_loading"></span>게시글 작성하기
+								게시글 작성하기
 							</a>
 						</div>
 					</div>

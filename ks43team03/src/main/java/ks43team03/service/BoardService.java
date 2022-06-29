@@ -7,6 +7,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ks43team03.dto.Board;
 import ks43team03.dto.BoardComment;
@@ -14,6 +15,7 @@ import ks43team03.dto.BoardCtgCd;
 import ks43team03.mapper.BoardMapper;
 
 @Service
+@Transactional
 public class BoardService {
 
 	public final BoardMapper boardMapper;
@@ -21,7 +23,6 @@ public class BoardService {
 	public BoardService(BoardMapper boardMapper) {
 		this.boardMapper = boardMapper;
 	}
-
 	
 	private static final Logger log = LoggerFactory.getLogger(BoardService.class);
 	
@@ -72,7 +73,7 @@ public class BoardService {
 		System.out.println("------------------------게시글 전체목록 조회 서비스 끝-----------------------------");
 		return resultMap;
 	}
-
+	
 	/* 게시글 코드로 상세 조회  */
 	public Board getBoardDetail(String boardPostCd) { 
 		System.out.println("------------------------게시글 상세조회 서비스-----------------------------");

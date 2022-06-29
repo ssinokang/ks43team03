@@ -79,7 +79,7 @@ function displayOverlay(marker, title, result, code) {
 					'				<div class="ellipsis">' + result.address_name + '</div>' + 
 					'				<div class="jibun ellipsis">(지번) ' + jibun + ' </div>' + 
 					'				<div class="jibun ellipsis">(우) ' + result.road_address.zone_no + ' </div>' + 
-					'				<div><a href="/adminFacility/modifyFacility?facilityCd=' + code +'" target="_blank" class="overlayLink">상세 보기</a></div>' + 
+					'				<div><a href="/facility/facilityDetail?facilityCd=' + code +'" target="_blank" class="overlayLink">상세 보기</a></div>' + 
 					'			</div>' + 
 					'		</div>' + 
 					'	</div>' +    

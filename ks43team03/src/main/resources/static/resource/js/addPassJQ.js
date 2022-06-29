@@ -1,10 +1,11 @@
 
 $(function() {
-	var $stadium  = $('#stadium');
-	var $pass 	  = $('#pass');
-	var $lesson   = $('#lesson');
-	var $goodsCtg = $('#goodsCtg');
-	var $lessonNu = $('#lessonNu');
+	var $stadium  	 = $('#stadium');
+	var $pass 	  	 = $('#pass');
+	var $lesson   	 = $('#lesson');
+	var $goodsCtg 	 = $('#goodsCtg');
+	var $lessonNu 	 = $('#lessonNu');
+	var $lessonPrice = $('#lessonPrice');
 	
 	var ctg = new Array();
 	
@@ -159,7 +160,6 @@ $(function() {
 	console.log($goodsCtgVal);
 	$('#goodsCtg option[value=' + $goodsCtgVal + ']').attr('selected', 'selected');
 	
-
     $('input:radio[name="lessonDivision"]').change(function() {
         if ($(this).val() === '개인') {
             $lessonNu.removeClass('none-display');
@@ -167,5 +167,7 @@ $(function() {
         	$lessonNu.addClass('none-display');
         }
     });
+    
+    
 
 });

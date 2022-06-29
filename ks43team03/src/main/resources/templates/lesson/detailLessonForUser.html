@@ -8,9 +8,11 @@
    <th:block layout:fragment="customContents">
    <!-- Product Details Section Begin -->
   
-   <section class="product-details spad" th:fragment="productDetailsFragment">
-      <div class="container">
-         <div class="row">
+
+	<section class="product-details spad" th:fragment="productDetailsFragment">
+		<div class="container">
+			<div class="row">
+
                <div class="product__details__text col-lg-12">
                   <h3>[[${lesson.lessonName}]]</h3>
                </div>
@@ -67,6 +69,7 @@
                         <td>레슨 종료 날짜</td>
                         <td th:text="${lesson.lessonEndDate}"></td>
                      </tr>
+
             </table>
          </div>
 
@@ -385,6 +388,7 @@
          </div>
       </div>
    </div>
+
 
          
 

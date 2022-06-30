@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
    layout:decorate="~{layout/adminDefault.html}">
-   <th:block layout:fragment="customJs">
-      <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+	<th:block layout:fragment="customJs">
+		<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+		
+	</th:block>
+   <th:block layout:fragment="customCss">
+      <link type="text/css" rel="stylesheet" th:href="@{/resource/js/timepicker/jquery.timepicker.css}" media=""/>
    </th:block>
    
    <!-- 사용자 정의 title -->
@@ -68,7 +72,7 @@
                </div>
                <div class="x_content">
                   <br>
-                  <form data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+                  <form data-parsley-validate="" class="form-horizontal form-label-left">
                      <br>
                      <div class="item form-group">
                         <label for="facilityCd" class="col-form-label col-md-3 col-sm-3 label-align">시설대표코드<span
@@ -333,7 +337,7 @@
       </div>
    
       <!-- 레슨 등록 폼-->
-	<div class="row none-display" id="lesson">
+<div class="row none-display" id="lesson">
 		<div class="col-md-12 col-sm-12 ">
 			<div class="x_panel">
 				<div class="x_title">
@@ -342,9 +346,9 @@
 						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 						</li>
 						<li class="dropdown">
-                        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        		<i class="fa fa-wrench"></i>
-                        	</a>
+	                       	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+	                       		<i class="fa fa-wrench"></i>
+	                       	</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
 									<a class="dropdown-item" href="#">Settings 1</a>
@@ -359,7 +363,6 @@
 					</li>
 				</ul>
 				<div class="clearfix"></div>
-				<div>
 				<div class="x_content">
 					<br>
 					<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" th:action="@{/lesson/addLesson}" enctype="multipart/form-data" name="multiPart"> <!--  enctype="multipart/form-data" name="mulP" --> 
@@ -382,115 +385,97 @@
 						   </div>
 						</div>
 						<div class="item form-group" style = "list-style:none;">
-							<div class="col-form-label col-md-3 col-sm-3 label-align" id="lesson-img-label">레슨 사진</div>
-							<div class="col-md-6 col-sm-6 ">
-								<ul class="lesson-file-line">
-								   <li>
-								      <input type="file" name="lessonImgFile" class="form-control newLine" accept="image/*">
-								      <button type= "button" id="plus-button">플러스</button>
-								      <button type= "button" id="minus-button">마이너스</button>
-								   </li>
-								</ul>
-							</div>
-						</div>
-						<div class="item form-group">   
-						   <label for="lessonDetail" class="col-form-label col-md-3 col-sm-3 label-align">레슨 정보</label>
-						   <div class="col-md-6 col-sm-6 ">
-						      <input id="middle-name" class="form-control" type="text" name="lessonDetail">
-						   </div>
-						</div>
-						<div class="item form-group">
-						   <label for="lessonTotalMember" class="col-form-label col-md-3 col-sm-3 label-align">인원수</label>
-						   <div class="col-md-6 col-sm-6 ">
-						      <input id="middle-name" class="form-control" type="number" name="lessonTotalMember">
-						   </div>
-						</div>
-						<div class="item form-group">
-						   <label class="col-form-label col-md-3 col-sm-3 label-align">개인/단체</label>
-						   <div class="col-md-6 col-sm-6 ">
-						      <div id="solo-party" class="btn-group" data-toggle="buttons">
-						         <label class="btn btn-secondary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-						            <input type="radio" name="lessonDivision" value="단체" class="join-btn"> &nbsp; 단체레슨 &nbsp;
-						         </label>
-						         <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-						            <input type="radio" name="lessonDivision" value="개인" class="join-btn"> 개인 레슨
-						         </label>
-						      </div>
-						   </div>
-						</div>
-						<div class="none-display" id="lessonNu">
-							<div class="item form-group">
-								<label class="col-form-label col-md-3 col-sm-3 label-align">월 : 
-							
-								</label>
+								<div class="col-form-label col-md-3 col-sm-3 label-align" id="lesson-img-label">레슨 사진</div>
 								<div class="col-md-6 col-sm-6 ">
-									<input type="number" class="form-control newLine" name="lessonMonth" id="lessonMonth">
+									<ul class="lesson-file-line">
+									   <li>
+									      <input type="file" name="lessonImgFile" class="form-control newLine" accept="image/*">
+									      <button type= "button" id="plus-button">플러스</button>
+									      <button type= "button" id="minus-button">마이너스</button>
+									   </li>
+									</ul>
 								</div>
+							</div>
+							<div class="item form-group">   
+							   <label for="lessonDetail" class="col-form-label col-md-3 col-sm-3 label-align">레슨 정보</label>
+							   <div class="col-md-6 col-sm-6 ">
+							      <input id="middle-name" class="form-control" type="text" name="lessonDetail">
+							   </div>
 							</div>
 							<div class="item form-group">
-								<label class="col-form-label col-md-3 col-sm-3 label-align">주/횟수 :
+							   <label for="lessonTotalMember" class="col-form-label col-md-3 col-sm-3 label-align">인원수</label>
+							   <div class="col-md-6 col-sm-6 ">
+							      <input id="middle-name" class="form-control" type="number" name="lessonTotalMember">
+							   </div>
+							</div>
+							<div class="item form-group">
+							   <label class="col-form-label col-md-3 col-sm-3 label-align">개인/단체</label>
+							   <div class="col-md-6 col-sm-6 ">
+							      <div id="solo-party" class="btn-group" data-toggle="buttons">
+							         <label class="btn btn-secondary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+							            <input type="radio" name="lessonDivision" value="단체" class="join-btn"> &nbsp; 단체레슨 &nbsp;
+							         </label>
+							         <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+							            <input type="radio" name="lessonDivision" value="개인" class="join-btn"> 개인 레슨
+							         </label>
+							      </div>
+							   </div>
+							</div>
+						
+							
+						 
+							
+							<div class="item form-group">
+								<label class="col-form-label col-md-3 col-sm-3 label-align">레슨 날짜<span class="required">*</span>
+								
 								</label>
-								<div class="col-md-6 col-sm-6 "> 
-								   <input type="number" class="form-control newLine" name="lessonWeek">                  
+								<div class="col-md-3 col-sm-3 ">
+								   <input type="date" class="form-control-file" name="lessonStartDate" id="lessonStartDate">
+								</div>
+								~
+								<div class="col-md-3 col-sm-3 ">
+							    	<input type="date" class="form-control-file" name="lessonEndDate" id="lessonEndDate">
 								</div>
 							</div>
-						</div>
-						<div class="item form-group">
-							<label class="col-form-label col-md-3 col-sm-3 label-align">레슨 시작 날짜<span class="required">*</span>
-							
-							</label>
-							<div class="col-md-6 col-sm-6 ">
-							   <input type="date" class="form-control-file" name="lessonStartDate" id="lessonStartDate">
+	
+							<div class="item form-group">
+								<label for = "lessonStartTime" class="col-form-label col-md-3 col-sm-3 label-align">레슨 시간<span class="required">*</span>
+								</label>
+								<div class="col-md-3 col-sm-3 ">
+								   <input type="text" name="START_TIME" id="START_TIME" value="" maxlength="10" class="setDatePicker">
+								</div>
+								~
+								<div class="col-md-3 col-sm-3 ">
+								   <input type="time" class="form-control-file" name="lessonEndTime" id="lessonEndTime">
+								</div>
 							</div>
-						</div>
-						<div class="item form-group">
-						
-						   <label class="col-form-label col-md-3 col-sm-3 label-align">레슨 종료 날짜<span class="required">*</span>
-						
-						   </label>
-						   <div class="col-md-6 col-sm-6 ">
-						      <input type="date" class="form-control-file" name="lessonEndDate" id="lessonEndDate">
-						   </div>
-						</div>
-						<div class="item form-group">
-						
-						   <label for = "lessonStartTime" class="col-form-label col-md-3 col-sm-3 label-align">레슨 시작 시간<span class="required">*</span>
-						   </label>
-						   <div class="col-md-6 col-sm-6 ">
-						      <input type="time" class="form-control-file" name="lessonStartTime" id="lessonStartTime">
-						   </div>
-						</div>
-						<div class="item form-group">
-						   <label for = "lessonEndTime" class="col-form-label col-md-3 col-sm-3 label-align">레슨 끝난 시간<span class="required">*</span>
-						   </label>
-						   <div class="col-md-6 col-sm-6 ">
-						      <input type="time" class="form-control-file" name="lessonEndTime" id="lessonEndTime">
-						   </div>
-						</div>
-					               
-						<div class="item form-group" >
-						   <label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonPrice">수강료<span class="required">*</span>
-						   </label>
-						   <div class="col-md-6 col-sm-6 ">
-						      <input type="number" class="form-control-file" name="lessonPrice" id="lessonPrice">
-						   </div>
-						</div>				   
-				   <div class="ln_solid"></div>
-				   <div class="item form-group">
-				      <div class="col-md-6 col-sm-6 offset-md-3">
-				         <button class="btn btn-primary" type="button">Cancel</button>
-				         <button class="btn btn-primary" type="reset">Reset</button>
-				         <button type="submit" class="btn btn-success">등록</button>
-				      </div>
-				   </div>
-				</form>
+	  
+							<div class="item form-group" >
+							   <label class="col-form-label col-md-3 col-sm-3 label-align" for="lessonPrice">수강료<span class="required">*</span>
+							   </label>
+							   <div class="col-md-6 col-sm-6 ">
+							      <input type="number" class="form-control-file" name="lessonPrice" id="lessonPrice">
+							   </div>
+							</div>				   
+							<div class="ln_solid"></div>
+							<div class="item form-group">
+								<div class="col-md-6 col-sm-6 offset-md-3">
+									<button class="btn btn-primary" type="button">Cancel</button>
+									<button class="btn btn-primary" type="reset">Reset</button>
+									<button type="submit" class="btn btn-success">등록</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
+
+<script type="text/javascript" th:src="@{/resource/js/timepicker/jquery.timepicker.min.js}"></script><!-- 타이머js -->
 <script type="text/javascript" th:src="@{/resource/js/addPassJQ.js}"></script>
       
-   </th:block>
+</th:block>
 
 </html>

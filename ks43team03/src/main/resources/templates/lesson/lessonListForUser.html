@@ -146,32 +146,7 @@
 												<div class="product__price">$ [[${l.lessonPrice}]]</div>
 											</div>
 										</div>
-										<div th:unless="${t.representImg == 'Y'}">
-											<div>
-												<div class="product__item__pic set-bg"  th:data-setbg="@{/images/notImage.jfif}"
-													style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
-													<div class="label new">New</div>
-													<ul class="product__hover">
-														<li><a href="img/shop/shop-1.jpg" class="image-popup"><span
-																	class="arrow_expand"></span></a></li>
-														<li><a href="#"><span class="icon_heart_alt"></span></a></li>
-														<li><a href="#"><span class="icon_bag_alt"></span></a></li>
-													</ul>
-												</div>
-												
-												<div class="product__item__text">
-													<h6><a th:href="@{/lesson/detailLessonForUser(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></h6>
-													<div class="rating">
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-													</div>
-													<div class="product__price">$ [[${l.lessonPrice}]]</div>
-												</div>
-											</div>
-										</div>
+										
 									</div>
 								</th:block>
 								<th:block th:unless="${not #lists.isEmpty(l.tFile)}" >

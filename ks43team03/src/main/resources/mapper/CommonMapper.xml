@@ -16,4 +16,29 @@
 		FROM
 		      ${tableName}; 
   	</select>
-  </mapper>
+  	
+  	<select id="getSportsList" resultType="Sports">
+  		SELECT
+			sports_cd	as sportsCd
+			,sports_nm	as sportsName
+		FROM
+			sports
+	</select>
+	<select id="getAreaCityList" parameterType="String" resultType="AreaCity">
+		SELECT
+			ac.city_cd		AS cityCd
+			,ac.area_cd		AS areaCd
+			,ac.city_nm		AS cityNm
+		FROM
+			area_city AS ac
+		WHERE
+			ac.area_cd = #{areaCd}
+	</select>
+	<select id="getAreaList" parameterType="String" resultType="Area">
+		SELECT
+			ac.area_cd		AS areaCd
+			,ac.area_nm		AS areaNm
+		FROM
+			area AS ac
+	</select>
+</mapper>

@@ -18,4 +18,5 @@ public class TrainerProfile {
 	private User user;
 	private List<TrainerCareer> trainerCareerList;
 	private List<TrainerLicense> trainerLicenseList;
+	private List<TFile> tFile;
 }

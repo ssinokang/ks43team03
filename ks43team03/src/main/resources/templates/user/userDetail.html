@@ -19,32 +19,11 @@
 		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
 		<!-- 주소검색 API -->
 		<script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
-		
+		<script th:src="@{/resource/js/searchAddr.js}"></script>	
 		<script>
-			function searchPostNum() {
-				/* 카카오 주소를 활용하여 회원 주소 검색 */
-				new daum.Postcode({
-					oncomplete: function(data) {
-		            	
-						var addr = '';
-						var extraAddr = ''; // 참고항목 변수
-	
-						//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-						if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-							addr = data.roadAddress;
-						} else { // 사용자가 지번 주소를 선택했을 경우(J)
-							addr = data.jibunAddress;
-						}
-						document.getElementById('userPostNum').value = data.zonecode;
-						document.getElementById('userAddr').value = addr;
-						// 커서를 상세주소 필드로 이동한다.
-						document.getElementById('userDetailAddr').focus();
-					}
-				}).open();
-			}
-			
-			
 			$(function(){
+				
+				/* 삭제 모달 비밀번호 체크 */
 				var $removeForm = $('#removeForm');
 				
 				function validationCheck(data){
@@ -86,6 +65,11 @@
 						alert("비밀번호를 입력해주세요.");
 					}
 				});
+				
+				/* 성별 db 값으로 체크 */
+				var userGender = $('div[data-gender]').attr('data-gender');
+				console.log(userGender);
+				$('input[value=' + userGender + ']').attr('checked', 'checked');
 			});
 		</script>
 	</th:block>
@@ -173,23 +157,13 @@
 									<div class="col-md-2 col-sm-2">
 										<label class="control-label" for="userGender">성별</label>
 									</div>
-									<div class="col-md-7 col-sm-7" th:if="${user.userGender eq '남'}">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="userGender" id="inlineRadio1" value="남" checked>
-											<label class="form-check-label" for="inlineRadio1">남</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="userGender" id="inlineRadio2" value="여">
-											<label class="form-check-label" for="inlineRadio2">여</label>
-										</div>
-									</div>
-									<div class="col-md-7 col-sm-7" th:unless="${user.userGender eq '남'}">
+									<div class="col-md-7 col-sm-7" th:data-gender="${user.userGender}">
 										<div class="form-check form-check-inline">
 											<input class="form-check-input" type="radio" name="userGender" id="inlineRadio1" value="남">
 											<label class="form-check-label" for="inlineRadio1">남</label>
 										</div>
 										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="userGender" id="inlineRadio2" value="여" checked>
+											<input class="form-check-input" type="radio" name="userGender" id="inlineRadio2" value="여">
 											<label class="form-check-label" for="inlineRadio2">여</label>
 										</div>
 									</div>
@@ -218,7 +192,7 @@
 										<input type="text" class="form-control" name="userPostNum" id="userPostNum" th:value="${user.userPostNum}" readonly>
 									</div>
 									<div class="col-md-4 col-sm-4">
-										<button type="button" class="btn btn-info" id="postNum" onclick="searchPostNum()">우편번호찾기</button>
+										<button type="button" class="btn btn-info" id="postNum" onclick="searchAddForm()">우편번호찾기</button>
 									</div>
 								</div>
 								<div class="form-group row">

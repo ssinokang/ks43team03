@@ -1,7 +1,9 @@
 package ks43team03.service;
 
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +44,7 @@ public class OrderService {
 	// toss 결제전에 주문내역을 넣는다.
 	public Order addOrder(Order.Request req, ResponseGoods goods) {
 		
-		String paytype = req.getPayType().getName();
+		String paytype = req.getPayType();
 		String userId = req.getUserId();
 		int orderPayPrice = req.getOrderPayPrice();
 		
@@ -86,6 +88,7 @@ public class OrderService {
 				.orderPrice(req.getOrderPrice())
 				.userId(req.getUserId())
 				.orderPayState(OrderState.ORDER.getCode())
+				.orderId(UUID.randomUUID().toString()+LocalDate.now())
 				.build();
 	}
 	

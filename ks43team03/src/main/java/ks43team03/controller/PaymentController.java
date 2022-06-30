@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -53,7 +54,8 @@ public class PaymentController {
     
     //private final String SECRET_KEY = " ";
     // TEST_SECRTE_KEY 노출 x
-    private final String SECRET_KEY = "TEST_SECRTE_KEY";
+    @Value("${test.secret.api.key}")
+    private String SECRET_KEY;
 
     @RequestMapping("/success")
     public String confirmPayment(

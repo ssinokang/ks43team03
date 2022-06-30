@@ -39,6 +39,18 @@
 			<result	column="trainer_license_file"		property="trainerLicenseFile"/>
 			<result	column="trainer_license_reg_date"	property="trainerLicenseRegDate"/>
 		</collection>
+		<collection property="tFile" ofType="TFile">
+			<id		column="file_cd"				property="fileCd"/>
+			<result	column="original_file_nm"		property="originalFileName"/>
+			<result	column="stored_file_path"		property="storedFilePath"/>
+			<result	column="file_size"				property="fileSize"/>
+			<result	column="uploader_id"			property="uploaderId"/>
+			<result	column="upload_date"			property="uploadDate"/>
+			<result	column="updator_id"				property="updatorId"/>
+			<result	column="updated_datetime"		property="updatedDate"/>
+			<result	column="represent_img"			property="representImg"/>
+			<result column="re_file_name"			property="reFileName"/>
+		</collection>
 	</resultMap>
 	
 	<update id="modifyTrainerProfile" parameterType="TrainerProfile">
@@ -132,14 +144,32 @@
 	</select>
 	
 	<select id="getTrainerList" parameterType="String" resultMap="trainerResultMap">
-		/*트레이너 리스트 */
+		/* 트레이너 리스트 */
 		SELECT
 			 t.trainer_cd
 			,t.user_id
 			,t.trainer_nicknm
 			,t.trainer_reg_date
+			,f.file_cd
+			,f.original_file_nm
+			,f.stored_file_path
+			,f.file_size
+			,f.uploader_id
+			,f.upload_date
+			,f.updator_id
+			,f.updated_datetime
+			,f.represent_img
+			,f.re_file_name
 		FROM
-			trainer_profile as t;
+			trainer_profile as t
+			INNER JOIN
+			rel_file_with_trainer AS r
+			on
+			t.trainer_cd = r.trainer_cd
+			INNER JOIN
+			t_file AS f
+			on
+			r.flie_cd = f.file_cd;
 	</select>
 	
 	<insert id="addTrainerLicense" parameterType="java.util.List">

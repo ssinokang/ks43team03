@@ -101,9 +101,9 @@ var calendar = $('#calendar').fullCalendar({
 
   },
 
-  /* ****************
-   *  일정 받아옴 
-   * ************** */
+  /*****************
+   *  일정 받아옴   *
+   *****************/
   events: function (start, end, timezone, callback) {
     $.ajax({
       type: "get",

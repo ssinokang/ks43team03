@@ -46,7 +46,7 @@
 			<result	column="facility_goods_cd"	property="facilityGoodsCd"/>
 			<result	column="file_cd"			property="fileCd"/>
 		</collection>
-		<collection property="tFile" ofType="TFile">
+		<collection property="tFile"  ofType="TFile">
 			<id		column="file_cd"				property="fileCd"/>
 			<result	column="original_file_nm"		property="originalFileName"/>
 			<result	column="stored_file_path"		property="storedFilePath"/>
@@ -113,6 +113,7 @@
 	
 	
 	<select id="getStadiumInfoByCd" parameterType="String" resultMap="stadiumResultMap">
+	/*구장대표코드로 구장 조회*/
 		SELECT 
 			fs.facility_stadium_cd
 			,fs.facility_goods_cd
@@ -133,6 +134,11 @@
 			,f.facility_detail_addr
 			,f.facility_nm
 			,f.facility_tell
+			,stadium_file.file_cd			
+			,stadium_file.re_file_name		
+			,stadium_file.original_file_nm	
+			,stadium_file.stored_file_path	
+			,stadium_file.represent_img		
 		FROM 
 			facility_stadium AS fs
 			INNER JOIN
@@ -143,30 +149,53 @@
 			facility AS f
 			on
 			fs.facility_cd = f.facility_cd
+			left join
+			 (SELECT
+				rfwg.facility_goods_cd 	
+				,tf.file_cd				
+				,tf.re_file_name		
+				,tf.original_file_nm	
+				,tf.stored_file_path	
+				,tf.file_size		
+				,tf.uploader_id			
+				,tf.upload_date		
+				,tf.updator_id			
+				,tf.updated_datetime	
+				,tf.represent_img		
+			FROM
+				rel_file_with_goods AS rfwg
+			   INNER JOIN
+			   t_file	AS tf
+			   on
+			   tf.file_cd = rfwg.flie_cd
+			WHERE
+				tf.deleted_yn != 'Y') AS stadium_file
+			on
+			fs.facility_goods_cd = stadium_file.facility_goods_cd
 		WHERE
 			fs.facility_stadium_cd =  #{facilityStadiumCd};
 	</select>
 	
 	
-	<select id="getStadiumList" parameterType="map" resultType="map">
+	<select id="getStadiumList" parameterType="map" resultType="map" resultMap="stadiumResultMap">
 	/*회원이 구장 조회*/
 		SELECT 
-			fs.facility_stadium_cd			AS facilityStadiumCd
-			,fs.facility_goods_cd 			AS facilityGoodsCd
-			,fs.facility_cd					AS facilityCd
-			,f.facility_nm					AS facilityNm
-			,fs.goods_ctg_cd				AS goodsCtgCd
-			,fs.sports_cd					AS sportsCd
-			,s.sports_nm 					AS sportsNm
-			,fs.user_id						AS userId
-			,fs.facility_stadium_nm			AS facilityStadiumNm
-			,fs.facility_stadium_reg_date	AS facilityStadiumRegDate
-			,fs.facility_stadium_detail		AS facilityStadiumDetail
-			,stadium_file.file_cd			AS fileCd
-			,stadium_file.re_file_name		AS reFileName
-			,stadium_file.original_file_nm	AS originalFileName
-			,stadium_file.stored_file_path	AS storedFilePath
-			,stadium_file.represent_img		AS representImg
+			fs.facility_stadium_cd			
+			,fs.facility_goods_cd 			
+			,fs.facility_cd					
+			,f.facility_nm					
+			,fs.goods_ctg_cd				
+			,fs.sports_cd					
+			,s.sports_nm 					
+			,fs.user_id						
+			,fs.facility_stadium_nm			
+			,fs.facility_stadium_reg_date	
+			,fs.facility_stadium_detail		
+			,stadium_file.file_cd			
+			,stadium_file.re_file_name		
+			,stadium_file.original_file_nm	
+			,stadium_file.stored_file_path	
+			,stadium_file.represent_img		
 		FROM 
 			facility_stadium AS fs
 			INNER join
@@ -215,9 +244,6 @@
 			</if>
 			<if test="sportsCd != null and sportsCd != ''">
 				sports_cd = 				#{sportsCd},
-			</if>
-			<if test="dayPrice != null and dayPrice != ''">
-				day_price = 				#{dayPrice},
 			</if>
 			<if test="dayPrice != null and dayPrice != ''">
 				day_price = 				#{dayPrice},

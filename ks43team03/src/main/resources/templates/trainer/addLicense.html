@@ -28,8 +28,8 @@
 				return true;
 			}
 		
-		/* 자격증 추가 시 유효성 검사 */
-		$('#addLicenseBtn').click(function(){
+			/* 자격증 추가 시 유효성 검사 */
+			$('#addLicenseBtn').click(function(){
 				var isSubmit = true;
 				var inputObj = $('#licenseUl').find('input');
 				
@@ -83,27 +83,10 @@
 			});
 			
 			
-			/*리스트 추가 삭제*/
-			$('#delLi').click(function(){
-				var licenseNum = $('#licenseUl li').length;
-				
-				if(licenseNum > 1){
-					$(this).parents('li').remove();
-				}
-			});
-			$('#addLi').click(function(){
-				var
-					 $clone = $(this).parents('li').clone(true)
-					,$inputClone = $clone.find('input');
-				
-				$.each($inputClone, function(){
-					$(this).val('');
-				});
-				
-				$(this).parents('ul').append($clone);
-			});
-		});
+		// 최대 li 개수
+		var maxLiNum = 50;
 		</script>
+		<script th:src="@{/resource/js/listUpdate.js}"></script>
 	</th:block>
 	
 	 
@@ -135,7 +118,7 @@
 			<span id="licenseNotice" style="color: red;">
 			</span>
 			<input type="hidden" class="form-control" name="trainerCd" th:value="${trainerCd}">
-			<ul class="list-group list-group-flush" id="licenseUl">
+			<ul class="list-group list-group-flush" id="plusUl">
 				<li class="list-group-item a">
 					<div class="row">
 						<div class="col-sm-3">

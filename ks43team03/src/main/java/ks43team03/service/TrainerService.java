@@ -171,7 +171,7 @@ public class TrainerService {
 		List<Map<String, String>> dtoFileList = fu.parseFileInfo();
 		
 		// t_file 테이블에 삽입
-		System.out.println(dtoFileList + "LessonService/addLesson");
+		log.info("LessonService/addLesson dtoFileList : {}", dtoFileList);
         fileMapper.uploadFile(dtoFileList);
 		
 		// 트레이너 등록 - 트레이너 코드 selectKey로 담아 줌
@@ -199,7 +199,7 @@ public class TrainerService {
 			relationFileList.add(m);
 		}
 		System.out.println(relationFileList);
-		fileMapper.uploadRelationFile(relationFileList);
+		fileMapper.uploadRelationFileWithTrainer(relationFileList);
 		
 		return trainerCd;
 	}

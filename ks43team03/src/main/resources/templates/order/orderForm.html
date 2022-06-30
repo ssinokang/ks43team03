@@ -10,6 +10,7 @@
 <!-- 사용자 정의 contents -->
 <th:block layout:fragment="customContents">
 	<!-- 이런식으로 넣으면 되겠죠? -->
+		<script src="https://js.tosspayments.com/v1"></script>
 	<div class="breadcrumb-option">
 		<div class="container">
 			<div class="row">
@@ -134,16 +135,13 @@
 						<td style="width: 83.33%">
 							<div class="col-sm-8">
 								<div class="row">
-									<div class="col-sm-3 ">
-										<label for="card"> 
-											<input type="radio" name="method" class="form-control btn btn-primary" id="card">카드
-										</label>
-									</div>
-									<div class="col-sm-3 ">
-										<label for="virtual">
-											<input type="radio" name="method" class="form-control btn btn-primary" id="virtual">가상계좌
-										</label>
-									</div>
+									<th:block th:each="pay : ${T(ks43team03.dto.type.PayType).values()}">
+										<div class="col-sm-3 ">
+											<label for="card"> 
+												<input type="radio" name="method" class="form-control btn btn-primary" th:text="${pay.name}" th:value="${pay.name}" >
+											</label>
+										</div>
+									</th:block>
 								</div>
 							</div>
 						</td>
@@ -234,9 +232,60 @@
 			return true;
 		}
 
-		$('#pay-btn').click(function(){
+		
+		const clientKey = "[[${@environment.getProperty('test.client.api.key')}]]";
+		const tossPayments = TossPayments(clientKey)
+		let orderId = 'order_' + new Date().getTime();
+		//[[${@environment.getProperty('kakao.authorize.redirect.url')}]]
+  
+
+		payBtn.addEventListener("click", function () {
+			let method = document.querySelector('input[name=method]:checked').value; // "카드" 혹은 "가상계좌"
 
 			const data = {
+				userId : $('input[name="userId"]').val(),
+				facilityGoodsCd : $('input[name="facilityGoodsCd"]').val(),
+				goodsCtgCd : $('input[name="goodsCtgCd"]').val(),
+				orderPrice : $('input[name="price"]').val(),
+				userPoint : $('input[name="userPoint"]').val(),
+				usedPoint : $('input[name="usedPoint"]').val(),
+				orderPayPrice : $('#sum-pay').val(),
+				payType : $('input[name=method]:checked').val()
+			};
+			
+			
+			console.log(data);
+			$.ajax({
+					type: 'POST',
+					url: '/order/addOrder',
+					dataType: 'JSON',
+					contentType: 'application/json; charset=utf-8',
+					data: JSON.stringify(data)
+				}).done(function (data) {
+					console.log(data);
+					//window.location.href = '/order/orderDetail/' + data.orderCd;
+					const paymentData = {
+						amount: 10,
+						orderId: data.orderId,
+						orderName: data.facilityGoodsCd,
+						customerName: data.usreId,
+						successUrl: window.location.origin + "/success",
+						failUrl: window.location.origin + "/fail",
+					};
+					if (method === '가상계좌') {
+						paymentData.virtualAccountCallbackUrl = window.location.origin + '/virtual-account/callback'
+					}
+
+						tossPayments.requestPayment(method, paymentData);
+				}).fail(function (error) {
+					console.log(error);
+				});
+			
+			
+    	});
+			
+			
+			/* const data = {
 				userId : $('input[name="userId"]').val(),
 				facilityGoodsCd : $('input[name="facilityGoodsCd"]').val()
 			}
@@ -254,9 +303,8 @@
                 }).fail(function (error) {
                     console.log(error);
                 });
+		 */
 		
-		
-		});
 
 		
 	</script>

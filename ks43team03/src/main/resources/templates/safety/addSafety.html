@@ -93,7 +93,7 @@
 				<div class="clearfix"></div>
 			</div>		
 			<div class="x_content">
-			<form id="addSafetyForm" th:action="@{/safety/addSafety}" method="post">
+			<form id="addSafetyForm" th:action="@{/safety/addSafety}" method="post" enctype="multipart/form-data" name="multiPart">
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="safetyCheckCd">안전점검 등록코드 <span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
@@ -112,7 +112,7 @@
 					<div class="col-md-6 col-sm-6 ">
 						<ul class="safety-file-line" style="list-style: none;">
 							<li>
-								<input type="file" id="safetyFile"  class="safety-file" name="safetyFile"  required multiple>
+								<input type="file" id="safetyFile"  class="safety-file" name="safetyFile" required multiple>
 								<button id="plus-button">플러스</button>
 								<button id="minus-button">마이너스</button>
 							</li>

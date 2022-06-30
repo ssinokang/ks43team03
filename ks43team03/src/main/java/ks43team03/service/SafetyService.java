@@ -33,12 +33,13 @@ public class SafetyService {
 	/**
 	 * 안전점검 등록
 	 */
-	public void addSafety(Safety safety, MultipartFile[] uploadfile, String fileRealPath) {
+	public void addSafety(Safety safety, MultipartFile[] uploadfile, String fileRealPath, Object oUserId) {
 		
 		//파일이 널이 아니라면
 		if (!ObjectUtils.isEmpty(uploadfile)) {
-			String uproaderId 	= safety.getUserId();
-	
+			String userId = String.valueOf(oUserId);
+			String uproaderId 	= userId;
+			safety.setUserId(userId);
 			/***
 			 * test code: start
 			 ***/

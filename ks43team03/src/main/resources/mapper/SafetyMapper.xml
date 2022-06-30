@@ -57,7 +57,7 @@
 			<result	column="upload_date"			property="uploadDate"/>
 			<result	column="updator_id"				property="updatorId"/>
 			<result	column="updated_date"			property="updatedDate"/>
-			<result	column="represent_img"		property="representImg"/>
+			<result	column="represent_img"			property="representImg"/>
 		</collection>	
 	</resultMap>
 
@@ -134,7 +134,7 @@
 	<select id="getSafetyInfoByCd" parameterType="String" resultMap="safetyCheckResultMap">
 		/*안전점검 등록코드별 시설 수정*/
 		SELECT 
-			c.safety_check_cd
+			 c.safety_check_cd
 			,c.user_id
 			,c.facility_cd
 			,c.safety_check_file
@@ -149,7 +149,7 @@
 	
 	<update id="modifySafety" parameterType="Safety">	
 		/*안전점검 등록 정보 수정*/
-		UPDATE 
+<!-- 		UPDATE 
 			safety_check
 		<trim prefix="SET" prefixOverrides=",">
 			<if test="safetyCheckCd != null and safetyCheckCd != ''">
@@ -163,15 +163,15 @@
 			</if>
 		</trim>
 		WHERE 
-			safety_check_cd=#{safetyCheckCd}		
+			safety_check_cd = #{safetyCheckCd}; -->		
 	
-	</update>
-<!-- 		UPDATE safety_check
+ 		UPDATE safety_check
 		SET
-			safety_check_file = #{safetyCheckFile},
-			safety_check_date = NOW(),
+			safety_check_date = #{safetyCheckDate},
 			safety_check_reg_date = NOW()
-		WHERE safety_check_cd = #{safetyCheckCd};	 -->	
+		WHERE 
+			safety_check_cd = #{safetyCheckCd};	 	
+	</update>
 	
 	<delete id="removeSafety" parameterType="Safety">
 		/*안전점검 등록 정보 삭제*/

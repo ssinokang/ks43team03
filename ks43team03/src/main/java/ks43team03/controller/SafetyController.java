@@ -35,7 +35,8 @@ public class SafetyController {
 	  public String addSafety(Safety safety
 			  					,@RequestParam(name="safetyCheckCd", required = false) String safetyCheckCd
 			  					,@RequestParam MultipartFile[] safetyFile, Model model
-			  					,HttpServletRequest request) {
+			  					,HttpServletRequest request
+			  					,HttpSession session) {
 		  log.info("안전점검 등록화면에서 입력한 data : {}", safety);
 		  
 		  String serverName = request.getServerName();
@@ -47,28 +48,10 @@ public class SafetyController {
 				fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
 			}
 			
-			safetyService.addSafety(safety, safetyFile, fileRealPath);
+			safetyService.addSafety(safety, safetyFile, fileRealPath, session.getAttribute("SID"));
 			
 		  return "redirect:/safety/addSafety"; 
 	  }	
-	
-	
-	
-	
-	
-	/*
-	@PostMapping("/addSafety")
-	public String addSafety(Safety safety) {
-		
-		log.info("안전점검 등록 시작");
-		
-		log.info("안전점검 등록에서 입력받은 데이터:{}", safety);		
-		
-		int result = safetyService.addSafety(safety);
-		
-		return "redirect:/safety/addSafety";
-	}
-	*/
 	
 	// 안전점검 등록 페이지 이동
 	@GetMapping("/addSafety")
@@ -132,7 +115,7 @@ public class SafetyController {
 		
 		safetyService.modifySafety(safety);
 		
-		return "redirect:/safety/addSafety";
+		return "redirect:/safety/safetyListById";
 		
 	}
 	
@@ -145,9 +128,10 @@ public class SafetyController {
 		log.info("userId : {}", userId);
 		log.info("safetyCheckCd : {}", safetyCheckCd);
 		
-		safetyService.getSafetyInfoByCd(safetyCheckCd);
+		Safety safetyInfoByCd = safetyService.getSafetyInfoByCd(safetyCheckCd);
 		
 		model.addAttribute("title", "안전점검 등록 정보 수정");
+		model.addAttribute("safetyInfoByCd", safetyInfoByCd);
 		
 		return "safety/modifySafety";		
 		
@@ -221,24 +205,20 @@ public class SafetyController {
 	}
 	
 	
-	
-	
 }
 	
+/*
+@PostMapping("/addSafety")
+public String addSafety(Safety safety) {
 	
+	log.info("안전점검 등록 시작");
 	
+	log.info("안전점검 등록에서 입력받은 데이터:{}", safety);		
 	
+	int result = safetyService.addSafety(safety);
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	return "redirect:/safety/addSafety";
+}
+*/
 	
 	

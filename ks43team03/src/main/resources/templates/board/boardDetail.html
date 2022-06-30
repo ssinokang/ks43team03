@@ -47,6 +47,29 @@
 				padding:5px 10px 10px 10px; 
 				border-bottom: solid 1px #E0E0E0;
 			}
+			
+			/* 파일 */
+			.uploadResult ul li span {color: white;}
+			.bigPictureWrapper {
+				position: absolute;
+				display: none;
+				justify-content: center;
+				align-items: center;
+				top: 0%;
+				width: 100%;
+				height: 100%;
+				z-index: 100;
+				background: rgba(255, 255, 255, 0.5);
+			}
+			.bigPicture {
+				position: relative;
+				display: flex;  //화면의 정중앙 배치
+				justify-content: center;  //가운데 정렬
+				align-items: center;
+			}
+			.bigPicture img {width: 600px;}
+
+			
 		</style>
 	</th:block>
 		
@@ -96,10 +119,15 @@
 							<div class="board__details__desc">
 								<p th:text="${board.boardPostContent}" id="boardPostContent"></p>
 							</div>
-							<!-- <div class="board__details__desc">
-								<p>첨부파일</p>
-								<p th:value="${board.boardPostFile}" id="boardPostFile"></p>
-							</div> -->
+							<div class="board__item__pic">
+								<div class="product__details__pic__left product__thumb nice-scroll">
+									<th:block th:if="${not #lists.isEmpty(board.tFile)}" th:each="t : ${board.tFile}">
+										<a class="pt" th:data-img="${t.representImg}">
+											<img th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="이미지를 불러올 수 없습니다.">
+										</a>
+									</th:block>
+								</div>
+							</div>
 							
 							<!-- detail end -->
 							 
@@ -291,6 +319,7 @@
 			 	
 			<script>
 				
+				/* 목록에서 해당 게시글 클릭시 이동 */
 				$(function(){
 					var $boardTr = $('#boardBody tr');
 
@@ -304,18 +333,6 @@
 					});
 				});
 				
-				/* $(function(){
-					$('#removeComment').click(function(){
-					    var result = confirm('삭제하시겠습니까?');
-					    
-					    if(result){
-							location.replace('@{/board/removeComment(boardPostCommentCd=${c.boardPostCommentCd},boardPostCd=${c.boardPostCd})}');
-					    }else{
-					    
-					    }
-					});
-						   
-				}); */
 				
 			</script> 
 		</th:block>

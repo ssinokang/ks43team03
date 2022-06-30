@@ -36,7 +36,7 @@
 						</h6>
 					</div>
 				</div>
-				<form th:action="@{/board/addBoard}" class="checkout__form" method="post" id="addBoardForm">
+				<form th:action="@{/board/addBoard}" class="checkout__form" method="post" id="addBoardForm" enctype="multipart/form-data" name="multipart">
 					<div class="row">
 						<div class="col-lg-8">
 							<h5>작성란</h5>
@@ -78,12 +78,12 @@
 										<textarea class="form-control" style="min-height: 150px;" th:value="${board.boardPostContent}" name="boardPostContent" id="boardPostContent"></textarea>
 									</div>
 								</div>
-								<!-- <div class="col-lg-12 col-md-12 col-sm-12">
+								<div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="checkout__form__input" style="margin-top: 20px;">
 										<p>첨부파일</p>
-										<input type="file" name="BoardPostImgFile" th:value="${board.boardPostFile}" class="form-control BoardPost-img" accept="image/*" required multiple>
+										<input type="file" name="boardImgFile" class="form-control BoardPost-img">
 									</div>
-								</div> -->
+								</div>
 								
 							</div>
 						</div>

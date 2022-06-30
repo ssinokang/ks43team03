@@ -9,11 +9,22 @@
 		<result column="user_id"					property="userId"/>
 		<result column="board_post_title"			property="boardPostTitle"/>
 		<result column="board_post_content"			property="boardPostContent"/>
-		<result column="board_post_file"			property="boardPostFile"/>
 		<result column="board_post_date"			property="boardPostDate"/>
 		<result column="board_post_comment_number"	property="boardPostCommentNum"/>
 		<result column="board_post_views"			property="boardPostViews"/>
 		<result column="board_post_state"			property="boardPostState"/>
+		<collection property="tFile" ofType="TFile">
+			<id		column="file_cd"				property="fileCd"/>
+			<result	column="original_file_nm"		property="originalFileName"/>
+			<result	column="stored_file_path"		property="storedFilePath"/>
+			<result	column="file_size"				property="fileSize"/>
+			<result column="re_file_name"			property="reFileName"/>
+			<result	column="uploader_id"			property="uploaderId"/>
+			<result	column="upload_date"			property="uploadDate"/>
+			<result	column="updator_id"				property="updatorId"/>
+			<result	column="updated_date"			property="updatedDate"/>
+			<result	column="represent_img"		property="representImg"/>
+		</collection>
 	</resultMap>
 	<resultMap type="BoardCtgCd" 					id="BoardCtgCdResultMap">
 		<id column="board_sub_ctg_cd"				property="boardSubCtgCd"/>
@@ -30,6 +41,7 @@
 		<result column="board_post_comment_state"	property="boardPostCommentState"/>
 	</resultMap>
 	
+	
 	<!-- 게시글 전체 조회 -->
 	<select id="getBoardList" parameterType="map" resultType="map" resultMap="boardResultMap">
 		SELECT
@@ -38,7 +50,6 @@
 			,b.user_id						
 			,b.board_post_title				
 			,b.board_post_content			
-			,b.board_post_file				
 			,b.board_post_date				
 			,b.board_post_views				
 			,b.board_post_comment_number	
@@ -58,24 +69,51 @@
 	
 	<!-- 게시글 상세보기 -->
 	<select id="getBoardDetail" parameterType="String" resultMap="boardResultMap">
-		SELECT
+		SELECT 
 			b.board_post_cd
-			,b.board_ctg_cd
-			,b.user_id
-			,b.board_post_title
-			,b.board_post_content
-			,b.board_post_file
-			,b.board_post_date
-			,b.board_post_views
-			,b.board_post_comment_number
-			,b.board_post_state
-		FROM
+			, b.board_ctg_cd
+			, b.user_id
+			, b.board_post_title
+			, b.board_post_content
+			, b.board_post_date
+			, b.board_post_views
+			, b.board_post_comment_number
+			, b.board_post_state
+			, sub.file_cd
+			, sub.original_file_nm
+			, sub.file_size
+			, sub.uploader_id
+			, sub.upload_date
+			, sub.updator_id
+			, sub.updated_datetime
+			, sub.represent_img
+			, sub.deleted_yn
+			, sub.re_file_name
+			, sub.board_post_cd
+		FROM 
 			board_post AS b
 		INNER JOIN
-			user AS u
-		ON
-			b.user_id = u.user_id
-		WHERE
+			(select
+				st.file_cd
+				, st.original_file_nm
+				, st.file_size
+				, st.uploader_id
+				, st.upload_date
+				, st.updator_id
+				, st.updated_datetime
+				, st.represent_img
+				, st.deleted_yn
+				, st.re_file_name
+				, sr.board_post_cd
+			from
+				t_file AS st
+			INNER join
+				rel_file_with_board AS sr
+			ON
+				st.file_cd = sr.file_cd) AS sub
+		on
+			sub.board_post_cd = b.board_post_cd
+		where
 			b.board_post_cd = #{boardPostCd};
 	</select>
 	
@@ -87,13 +125,12 @@
 			, user_id
 			, board_post_title
 			, board_post_content
-			, board_post_file
 			, board_post_date
 			, board_post_views
 			, board_post_comment_number
 			, board_post_state)
-		VALUES 
-			(sf_new_board_post_cd()
+		VALUES(
+			#{boardPostCd}	
 			, #{boardCtgCd}
 			, #{userId}
 			, #{boardPostTitle}
@@ -102,7 +139,11 @@
 			, NOW()
 			, #{boardPostViews}
 			, 0
-			, 'N');
+			, 'N')
+		
+		<selectKey keyProperty="boardPostCd" resultType="String" order="BEFORE">
+			SELECT sf_new_board_post_cd()
+		</selectKey>
 	</insert>
 	
 	<!-- 게시글 답글 등록 -->
@@ -171,7 +212,6 @@
 			user_id=#{userId},
 			board_post_title=#{boardPostTitle},
 			board_post_content=#{boardPostContent},
-			board_post_file=#{boardPostFile},
 			board_post_date=NOW(),
 			board_post_views=#{boardPostViews},
 			board_post_comment_number=0,

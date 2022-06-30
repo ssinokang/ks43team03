@@ -52,6 +52,10 @@
 		<result column="facility_approve_date"	property="facilityApproveDate"/>
 		<result column="facility_reg_date"		property="facilityRegDate"/>
 		</collection>
+		<collection property="relFileWithFacility" ofType="Map">
+			<result	column="facility_cd"	property="facilityCd"/>
+			<result	column="file_cd"			property="fileCd"/>
+		</collection>
 		<collection property="tFile" ofType="TFile">
 			<id		column="file_cd"				property="fileCd"/>
 			<result	column="original_file_nm"		property="originalFileName"/>
@@ -161,7 +165,7 @@
 					area_cd 		=	    #{areaCd},
 				</if>
 				<if test="cityCd != null and cityCd != ''">
-					city_cd = 				#{cityCd}
+					city_cd = 				#{cityCd},
 				</if>
 				<if test="facilityDetail != null and facilityDetail != ''">
 					facility_detail = 				#{facilityDetail}

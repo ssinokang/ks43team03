@@ -143,9 +143,10 @@
 			o.facility_goods_cd = fg.facility_goods_cd
 		<trim prefix="WHERE" prefixOverrides="AND /OR ">
 	   		<if test="facilityCd != null and facilityCd != '' ">
-	   			fg.facility_cd = #{facilityCd};
+	   			fg.facility_cd = #{facilityCd}
 	   		</if>
 	   	</trim>
+	   ORDER BY r.review_reg_date DESC;
 	</select>
 	
 	

@@ -119,18 +119,23 @@ public class AdminFacilityController {
 	public String modifyFacility(@RequestParam(value="facilityCd", required=false) String facilityCd
 								,Model model) {
 		
+		log.info("시설 수정 화면");
 		Facility facility = adminFacilityService.getAdminFacilityInfoByCd(facilityCd);
+		
 		
 		List<FacilityUse> facilityUseList = adminFacilityService.getFacilityUseList();
 		List<MainCtg> mainCtgList = adminFacilityService.getMainCtgList();
 		List<Area> areaList = adminFacilityService.getAreaList();
-	
+		List<AreaCity> cityList = adminFacilityMapper.getAreaCityList(facility.getAreaCd());
+		List<AreaCityTown> townList = adminFacilityMapper.getAreaCityTownList(facility.getCityCd());
 		
 		model.addAttribute("title", "시설 수정");
 		model.addAttribute("facility", facility);	
 		model.addAttribute("facilityUseList", facilityUseList);	
 		model.addAttribute("mainCtgList", mainCtgList);
 		model.addAttribute("areaList", areaList);
+		model.addAttribute("cityList", cityList);
+		model.addAttribute("townList", townList);
 		
 		 return "adminFacility/modifyFacility"; 
 	}

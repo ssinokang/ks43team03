@@ -75,7 +75,7 @@ public class StadiumController {
 		log.info("구장단가 수정 화면에서 입력한 data : {}", stadiumPrice);
 		
 		stadiumService.modifyStadiumPrice(stadiumPrice); 
-		return "redirect:/stadium/adminStadiumListById"; 
+		return "redirect:/stadium/adminStadiumListByCd"; 
 	}
 	
 	
@@ -98,10 +98,12 @@ public class StadiumController {
 	/*구장수정 처리*/
 	@PostMapping("/modifyStadium") 
 	public String modifyStadium(Stadium stadium) {
-		log.info("구장수정 처리 화면에서 입력한 data : {}", stadium);
 		
+		log.info("구장수정 처리 화면에서 입력한 data : {}", stadium);
+
 		stadiumService.modifyStadium(stadium); 
-		return "redirect:/stadium/modifyStadiumPrice"; 
+		
+		return "redirect:/stadium/modifyStadiumPrice?" + "facilityStadiumCd="+ stadium.getFacilityStadiumCd();
 	}
 	
 	
@@ -111,12 +113,13 @@ public class StadiumController {
 			,Model model) {
 		Stadium stadium = stadiumService.getAdminStadiumInfoByCd(facilityStadiumCd);
 		
+		log.info("구장수정 화면");
 		List<Sports> sportsList = stadiumService.getSportsList();
-
+	
 		model.addAttribute("title", "구장 수정");
 		model.addAttribute("stadium",stadium);
 		model.addAttribute("sportsList",sportsList);
-		
+		log.info("구장수정화면 끝");
 		return "stadium/modifyStadium";
 	}
 	

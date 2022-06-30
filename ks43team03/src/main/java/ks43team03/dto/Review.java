@@ -16,4 +16,6 @@ public class Review {
 	private String reviewDetail;
 	private String reviewScore;
 	private String reviewRegDate;
+	
+	private Facility facility;
 }

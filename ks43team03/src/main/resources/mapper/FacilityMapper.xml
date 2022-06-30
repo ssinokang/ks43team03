@@ -20,6 +20,7 @@
 		<result column="facility_detail_addr" 	property="facilityDetailAddr"/>
 		<result column="area_cd"  				property="areaCd"/>
 		<result column="city_cd"  				property="cityCd"/>
+		<result column="facility_detail"  		property="facilityDetail"/>
 		<association property="mainCtg" 		javaType="MainCtg">
 			<id 	column="main_ctg_cd" 		property="mainCtgCd"/>
 			<result column="main_ctg_nm" 		property="mainCtgNm"/>
@@ -87,21 +88,41 @@
 			<result column="pay_cd"				property="payCd"/>
 			<result column="goods_ctg_cd"		property="goodsCtgCd"/>
 			<result column="user_id"			property="userId"/>
-			<result column="review_nm"			property="reviewNm"/>
 			<result column="review_detail"		property="reviewDetail"/>
 			<result column="review_score"		property="reviewScore"/>
 			<result column="review_reg_date"	property="reviewRegDate"/>
 		</collection>
 	</resultMap>
 	
+	<select id="getReviewCountByCd" resultType="int">
+		/*시설 별 리뷰 수*/
+		SELECT
+			COUNT(*)
+		FROM 
+			review AS r
+			INNER join
+			pay AS p
+			on
+			r.pay_cd = p.pay_cd
+			INNER join
+			goods_order AS o
+			on
+			p.order_cd = o.order_cd
+			INNER join
+			facility_goods AS fg
+			on
+			o.facility_goods_cd = fg.facility_goods_cd
+		WHERE
+			fg.facility_cd = #{facilityCd};
+	</select>
 	
 	<select id="getReviewList" resultType="Review">
+	/*리뷰조회*/
 		SELECT
 			r.review_cd			AS reviewCd
 			,r.pay_cd			AS payCd
 			,r.goods_ctg_cd		AS goodsCtgCd
 			,r.user_id			AS userId
-			,r.review_nm		AS reviewNm
 			,r.review_detail	AS reviewDetail
 			,r.review_score		AS reviewScore
 			,r.review_reg_date	AS reviewRegDate
@@ -120,8 +141,12 @@
 			facility_goods AS fg
 			on
 			o.facility_goods_cd = fg.facility_goods_cd
-		WHERE
-			fg.facility_cd = #{facilityCd};
+		<trim prefix="WHERE" prefixOverrides="AND /OR ">
+	   		<if test="facilityCd != null and facilityCd != '' ">
+	   			fg.facility_cd = #{facilityCd}
+	   		</if>
+	   	</trim>
+	   ORDER BY r.review_reg_date DESC;
 	</select>
 	
 	
@@ -216,6 +241,7 @@
 				,f.facility_tell
 				,f.business_number
 				,f.facility_reg_date
+				,f.facility_detail
 				
 			FROM
 				facility AS f
@@ -269,15 +295,16 @@
 				,facility_tell		AS facilityTell
 				,facility_post_num	AS businessNum
 				,facility_reg_date	AS facilityRegDate
+				,facility_detail  AS facilityDetail
 			FROM 
 				facility 
-				
+			LIMIT #{startRow}, #{rowPerPage};	
 			<trim prefix="WHERE" prefixOverrides="AND /OR ">
 		   		<if test="mainCtgCd != null and mainCtgCd != '' ">
 		   			main_ctg_cd = #{mainCtgCd}
 		   		</if>
 	   		</trim>
-			LIMIT #{startRow}, #{rowPerPage};	
+				
 		</select>
 	
 	

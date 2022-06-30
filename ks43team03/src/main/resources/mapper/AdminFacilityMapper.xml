@@ -19,6 +19,7 @@
 		<result column="facility_detail_addr" 	property="facilityDetailAddr"/>
 		<result column="area_cd"  				property="areaCd"/>
 		<result column="city_cd"  				property="cityCd"/>
+		<result column="facility_detail"  		property="facilityDetail"/>
 		<association property="mainCtg" 		javaType="MainCtg">
 			<id 	column="main_ctg_cd" 		property="mainCtgCd"/>
 			<result column="main_ctg_nm" 		property="mainCtgNm"/>
@@ -51,6 +52,10 @@
 		<result column="facility_approve_date"	property="facilityApproveDate"/>
 		<result column="facility_reg_date"		property="facilityRegDate"/>
 		</collection>
+		<collection property="relFileWithFacility" ofType="Map">
+			<result	column="facility_cd"	property="facilityCd"/>
+			<result	column="file_cd"			property="fileCd"/>
+		</collection>
 		<collection property="tFile" ofType="TFile">
 			<id		column="file_cd"				property="fileCd"/>
 			<result	column="original_file_nm"		property="originalFileName"/>
@@ -81,6 +86,7 @@
 				,f.facility_tell 		AS facilityTell
 				,f.business_number		AS businessNum
 				,f.facility_reg_date 	AS facilityRegDate
+				,f.facility_detail		AS facilityDetail
 			FROM
 				facility AS f
 				INNER JOIN 
@@ -159,7 +165,10 @@
 					area_cd 		=	    #{areaCd},
 				</if>
 				<if test="cityCd != null and cityCd != ''">
-					city_cd = 				#{cityCd}
+					city_cd = 				#{cityCd},
+				</if>
+				<if test="facilityDetail != null and facilityDetail != ''">
+					facility_detail = 				#{facilityDetail}
 				</if>
 			</trim>	
 			WHERE 
@@ -183,6 +192,7 @@
 				,f.facility_tell
 				,f.business_number
 				,f.facility_reg_date
+				,f.facility_detail
 			FROM
 				facility AS f
 				INNER JOIN 
@@ -227,6 +237,7 @@
 				,facility_post_num	
 				,business_number	
 				,facility_reg_date
+				,facility_detail
 			FROM 
 				facility 
 			WHERE
@@ -252,6 +263,7 @@
 				,facility_detail_addr
 				,area_cd
 				,city_cd
+				,facility_detail
 				)VALUES (
 					#{facilityCd}
 					,#{mainCtgCd}
@@ -266,7 +278,8 @@
 					,#{facilityPostNum}
 					,#{facilityDetailAddr}
 					,#{areaCd}
-					,#{cityCd})
+					,#{cityCd}
+					,#{facilityDetail})
 		</insert>
 		
 		<select id="getFacilityCount" resultType="int">
@@ -294,6 +307,7 @@
 				,f.facility_tell 		AS facilityTell
 				,f.business_number		AS businessNum
 				,f.facility_reg_date 	AS facilityRegDate
+				,f.facility_detail		AS facilityDetail
 				
 			FROM
 				facility AS f

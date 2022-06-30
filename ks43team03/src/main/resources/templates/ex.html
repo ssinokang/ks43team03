@@ -1,1 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default.html}">
+	
+	<th:block layout:fragment="customJs">
+		<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+	</th:block>
+	<!-- 사용자 정의 contents -->
+	<th:block layout:fragment="customContents">
+	<!-- 이런식으로 넣으면 되겠죠? -->
+	<div th:replace="fragments/categories :: categoriesFragment"></div>
+	
+	
+		메인화면
+		<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+		
+		<input type="text" th:value="${session.SID}">
+		<button type="button" id="like">버튼</button>
+		
+		<script type="text/javascript" th:src="@{/resource/js/lesson/notification.js}"></script>
+	</th:block>
 
+</html>

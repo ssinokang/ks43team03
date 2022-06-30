@@ -24,6 +24,7 @@ public class NotificationController {
      */
     @GetMapping(value = "/subscribe", produces = "text/event-stream")
     public SseEmitter subscribe(@RequestParam(name = "id", required = false, defaultValue = "") String id,
+    							@RequestParam(name = "facilityCd", required = false, defaultValue = "") String facilityCd,
                                 @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) {
         return notificationService.subscribe(id, lastEventId);
     }

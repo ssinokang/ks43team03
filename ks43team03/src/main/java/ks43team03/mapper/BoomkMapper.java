@@ -18,11 +18,9 @@ public interface BoomkMapper {
 	//즐겨찾기 등록
 	public int addBoomk(Boomk boomk);
 	
-	
 	//즐겨찾기 삭제
 	public int removeBoomk(Boomk boomk);
-	
-	
+		
 	//즐겨찾기 취소 (N)
 	public int modifyBoomk(Boomk boomk);	
 	

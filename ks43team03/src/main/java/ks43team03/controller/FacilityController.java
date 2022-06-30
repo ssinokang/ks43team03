@@ -75,12 +75,15 @@ public class FacilityController {
 			List<Stadium> stadiumList = facilityService.getStadiumList(facilityCd);
 			List<Lesson> lessonList = facilityService.getLessonList(facilityCd);
 			List<Review> reviewList = facilityService.getReviewList(facilityCd);
+			int reviewCount = facilityService.getReviewCountByCd(facilityCd);
 			
 			model.addAttribute("title", "시설 상세 정보");
 			model.addAttribute("facilityDetail", facilityDetail);
 			model.addAttribute("stadiumList", stadiumList);
 			model.addAttribute("lessonList", lessonList);
 			model.addAttribute("reviewList", reviewList);
+			model.addAttribute("reviewCount", reviewCount);
+			
 			
 			return "facility/facilityDetail";
 			

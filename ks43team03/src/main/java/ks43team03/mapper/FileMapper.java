@@ -12,4 +12,9 @@ public interface FileMapper {
 
 	public void uploadRelationFile(List<Map<String, String>> relationFileList);
 	
+	// 트레이너, 파일 릴레이션 테이블 삽입
+	public void uploadRelationFileWithTrainer(List<Map<String, String>> relationFileList);
+	
+	// 게시판, 파일 릴레이션 테이블 삽입
+	public void uploadRelationFileWithBoard(List<Map<String, String>> relationFileList);
 }

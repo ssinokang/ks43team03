@@ -43,10 +43,10 @@ public class PassController {
 	@PostMapping("/addPass")
 	public String addPass(Pass pass) {
 		//
-		
+		log.info("goodsCtgCd : {}", pass.getFacilityGoodsCd());
 		
 		passService.addPass(pass);
-		return "redirect:/pass/adminPassList";
+		return "redirect:/pass/admin/passList";
 	}
 	
 	
@@ -188,10 +188,10 @@ public class PassController {
 	
 	
 	@PostMapping("/removePass")
-	public Pass removePass(@RequestBody String passCd) {
+	public boolean removePass(@RequestBody String passCd) {
 		
 		
-		return new Pass();
+		return false;
 	}
 	
 	

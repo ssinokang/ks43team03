@@ -13,7 +13,7 @@ import ks43team03.dto.BoardCtgCd;
 public interface BoardMapper {
 
 	//게시글 전체 목록 조회
-	public List<Board> getBoardList(Map<String, Object> paramMap);
+	public List<Map<String, Object>> getBoardList(Map<String, Object> paramMap);
 	
 	//게시글 코드로 상세 조회 
 	public Board getBoardDetail(String boardPostCd);
@@ -30,6 +30,12 @@ public interface BoardMapper {
 	// 게시글 조회수 업데이트 
 	public int boardViewUpdate(String boardPostCd);
 	
+	//게시글 답글수 업데이트
+	public int commentCountUpdate(String boardPostCd);
+	
+	//게시글 답글수 삭제 업데이트
+	public int commentCountMinusUpdate(String boardPostCd);
+	
 	// 게시글 답글 등록 
 	public int addBoardComment(BoardComment boardComment);
 	
@@ -45,4 +51,6 @@ public interface BoardMapper {
 	// 게시글 삭제
 	public int removeBoard(String boardPostCd);
 
+	// 게시글 테이블 총 row(튜플) 수
+	public int getBoardCount();
 }

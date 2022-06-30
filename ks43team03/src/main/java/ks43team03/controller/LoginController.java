@@ -79,4 +79,18 @@ public class LoginController {
 		model.addAttribute("title", "로그인");
 		return "login/login";
 	}
+	
+	@GetMapping("/loginId")
+	public String loginId(Model model) {
+		model.addAttribute("title", "아이디 찾기");
+		return "login/loginId";
+	}	
+	
+	@GetMapping("/loginPw")
+	public String loginPw(Model model) {
+		model.addAttribute("title", "비밀번호 찾기");
+		return "login/loginPw";
+	}	
+	
+	
 }

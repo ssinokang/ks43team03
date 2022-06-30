@@ -23,7 +23,7 @@ import ks43team03.mapper.SafetyMapper;
 public class SafetyService {
 	
 	private final SafetyMapper safetyMapper;
-	private final FileMapper fileMapper;	
+	private final FileMapper fileMapper;
 	
 	public SafetyService(SafetyMapper safetyMapper, FileMapper fileMapper) {
 		this.safetyMapper = safetyMapper;
@@ -33,12 +33,13 @@ public class SafetyService {
 	/**
 	 * 안전점검 등록
 	 */
-	public void addSafety(Safety safety, MultipartFile[] uploadfile, String fileRealPath) {
+	public void addSafety(Safety safety, MultipartFile[] uploadfile, String fileRealPath, Object oUserId) {
 		
 		//파일이 널이 아니라면
 		if (!ObjectUtils.isEmpty(uploadfile)) {
-			String uproaderId 	= safety.getUserId();
-	
+			String userId = String.valueOf(oUserId);
+			String uproaderId 	= userId;
+			safety.setUserId(userId);
 			/***
 			 * test code: start
 			 ***/
@@ -55,7 +56,7 @@ public class SafetyService {
 
 			System.out.println(safety + "SafetyService/addSafety/safety");
 			safetyMapper.addSafety(safety);
-
+			
 	
 	    }
 
@@ -131,10 +132,18 @@ public class SafetyService {
 	 * 안전점검 등록 정보 수정
 	 */
 	
-	public void modifySafety(Safety safety) {
-		safetyMapper.modifySafety(safety);
+	public int modifySafety(Safety safety) {
+		return safetyMapper.modifySafety(safety);
 	}
 
+	/**
+	 * 안전점검 등록코드별 시설 수정
+	 */
+	
+	public Safety getSafetyInfoByCd(String safetyCheckCd) {
+		return safetyMapper.getSafetyInfoByCd(safetyCheckCd);
+	}	
+	
 	/**
 	 * 안전점검 등록 정보 삭제
 	 */
@@ -212,7 +221,9 @@ public class SafetyService {
 		List<Safety> getSafetyResultListById = safetyMapper.getSafetyResultListById(userId);
 		
 		return getSafetyResultListById;
-	}	
+	}
+
+	
 	
 	
 	

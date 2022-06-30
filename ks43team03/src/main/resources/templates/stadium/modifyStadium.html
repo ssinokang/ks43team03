@@ -27,7 +27,7 @@
 				return true;
 			}
 			
-			/* 시설 등록시 유효성 검사 */
+			/*구장 등록시 유효성 검사 */
 			$('#modifyStadiumBtn').click(function(){
 				var isSubmit = true;
 				var inputObj = $('#modifyStadiumForm').find('input');
@@ -87,7 +87,7 @@
 					<input class="form-control" type="text" name="facilityGoodsCd" th:value="${stadium.facilityGoodsCd}" data-validate-minmax="10,100" required='required'></div>
 				</div>
 				<div class="field item form-group">
-					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityCd">시설대표코드 <span class="required">*</span></label>
+					<label class="col-form-label col-md-3 col-sm-3s  label-align" for="facilityCd">시설대표코드 <span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
 					<input class="form-control" type="text" name="facilityCd" th:value="${stadium.facilityCd}" data-validate-minmax="10,100" readonly="readonly"></div>
 				</div>
@@ -126,9 +126,7 @@
 					<div class="form-group">
 						<div class="col-md-6 offset-md-3" th:if="${not #lists.isEmpty(stadium)}" th:each="l:${stadium}">
 							<button type="reset" class="btn btn-primary">취소</button>
-							<a th:href="@{/stadium/modifyStadiumPrice(facilityStadiumCd=${l.facilityStadiumCd})}" >										
-								<input type="button" id="modifyStadiumBtn" class="btn btn-success" value="다음">
-							</a>
+							<button type="submit" id="modifyStadiumBtn" class="btn btn-success">다음</button>					
 						</div>
 					</div>
 				</div>

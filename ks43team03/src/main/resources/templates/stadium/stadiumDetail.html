@@ -8,6 +8,11 @@
    <title th:text="${title}"></title>
 </th:block>
 
+<!-- 사용자 정의 Js 파일-->
+<th:block layout:fragment="customJs">
+	<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+ 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9c5dbc5a281ccc90ee278e75316bee9c&libraries=services,clusterer,drawing"></script>
+</th:block>
 
 
 <th:block layout:fragment="customContents">
@@ -40,25 +45,17 @@
                 <div class="col-lg-6">
                     <div class="product__details__pic">
                         <div class="product__details__pic__left product__thumb nice-scroll">
-                            <a class="pt active" href="#product-1">
-                                <img src="img/product/details/thumb-1.jpg" alt="">
-                            </a>
-                            <a class="pt" href="#product-2">
-                                <img src="img/product/details/thumb-2.jpg" alt="">
-                            </a>
-                            <a class="pt" href="#product-3">
-                                <img src="img/product/details/thumb-3.jpg" alt="">
-                            </a>
-                            <a class="pt" href="#product-4">
-                                <img src="img/product/details/thumb-4.jpg" alt="">
-                            </a>
+                            <th:block th:if="${not #lists.isEmpty(l.tFile)}" th:each="t, i : ${l.tFile}">
+	                            <a class="pt active" th:data-img="${t.representImg}" th:href="@{#product-} + ${i.index+1}">
+	                                <img th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="">
+	                            </a>
+                            </th:block>
                         </div>
                         <div class="product__details__slider__content">
                             <div class="product__details__pic__slider owl-carousel">
-                                <img data-hash="product-1" class="product__big__img" src="img/product/details/product-1.jpg" alt="">
-                                <img data-hash="product-2" class="product__big__img" src="img/product/details/product-3.jpg" alt="">
-                                <img data-hash="product-3" class="product__big__img" src="img/product/details/product-2.jpg" alt="">
-                                <img data-hash="product-4" class="product__big__img" src="img/product/details/product-4.jpg" alt="">
+                            	<th:block th:if="${not #lists.isEmpty(l.tFile)}" th:each="t, i : ${l.tFile}">
+		                                <img th:data-hash="@{product-} + ${i.index+1}" class="product__big__img" th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="">
+		                        </th:block>
                             </div>
                         </div>
                     </div>
@@ -73,10 +70,12 @@
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                         </div>
-                        <p th:text="${l.facility.facilityNm}" style="font-size : large; margin: 0px;" ></p>
-                        <p th:text="${l.facility.facilityAddr} + ' ' +${l.facility.facilityDetailAddr}" style="font-size : medium; margin: 0px;" ></p>
+                        <div style="margin: 20px 0 70px 0;">
+	                        <h5 th:text="${l.facility.facilityNm}" style="margin-bottom: 10px;"></h5>
+	                        <p th:text="${l.facility.facilityAddr} + ' ' +${l.facility.facilityDetailAddr}" style="font-size : medium; margin: 0px;" ></p>
+                      	</div>
                         <div class="product__details__button">
-                            <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> 회원등록</a> 
+                            <a th:href="@{/facility/facilityDetail(facilityCd=${l.facilityCd})}" class="cart-btn"><span class="icon_bag_alt"></span> 시설방문</a> 
                             <ul>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
@@ -91,7 +90,7 @@
 	                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">구장예약</a>
 	                            </li>
 	                            <li class="nav-item">
-	                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">위치안내</a>
+	                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" id="mapTab">위치안내</a>
 	                            </li>
 	                            <li class="nav-item">
 	                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">후기</a>
@@ -160,8 +159,25 @@
 								    </section>
 	                            </div>
 	                            <div class="tab-pane" id="tabs-2" role="tabpanel">
-	                                <h6>Specification</h6>
-	                                <p></p>
+	                                <h6><i class="fa fa-map-marker"></i>위치정보</h6>
+	                                <p th:text="${l.facility.facilityAddr} + ' ' + ${l.facility.facilityDetailAddr}" ></p>
+                             		<div class="x_content">
+										<div class="table-responsive">
+												<input type="hidden" th:value ="${l.facility.facilityAddr}" class="placeAddr">
+												<input type="hidden" th:value ="${l.facility.facilityNm}" class="placeName">
+												<input type="hidden" th:value ="${l.facility.facilityCd}" class="placeCode">
+										</div>
+									</div>
+	                                <div>
+										<p style="margin-top:-12px">
+											<em class="link">
+												<a href="javascript:void(0);" onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
+													혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요.
+												</a>
+											</em>
+										</p>
+										<div id="map" style="width:100%; height:500px;"></div>
+									</div>
 	                            </div>
 	                            <div class="tab-pane" id="tabs-3" role="tabpanel">
 	                                <h6>Reviews ( 2 )</h6>
@@ -205,7 +221,7 @@
     <!-- Product Details Section End -->
 
 
-
+<script th:src="@{/resource/js/map.js}"></script>
 
 
 </th:block>	  

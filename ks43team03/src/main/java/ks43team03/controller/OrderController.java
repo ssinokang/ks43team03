@@ -33,7 +33,7 @@ public class OrderController {
 	
 	
 	@PostMapping("/addOrder")
-	public ResponseEntity<Order> addOrder(@RequestBody Order.Request req) {
+	/*public ResponseEntity<Order> addOrder(@RequestBody Order.Request req) {
 		
 		
 		log.info("데이터 userId 요청 : {}", req.getUserId());
@@ -45,7 +45,7 @@ public class OrderController {
 		 
 		
 		return ResponseEntity.ok(orderService.addOrder(req, responseGoods));
-	}
+	}*/
 	
 	
 	

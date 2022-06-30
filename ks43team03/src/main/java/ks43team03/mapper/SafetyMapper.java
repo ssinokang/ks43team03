@@ -26,7 +26,11 @@ public interface SafetyMapper {
 	
 	//안전점검 등록 정보 수정
 	public int modifySafety(Safety safety);
+	
+	//안전점검 등록코드별 시설 수정
+	public Safety getSafetyInfoByCd(String safetyCheckCd);
 
+	
 	//안전점검 등록 정보 삭제
 	public int removeSafety(Safety safety);
 

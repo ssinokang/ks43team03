@@ -1,5 +1,8 @@
 package ks43team03.dto;
 
+import java.util.List;
+import java.util.Map;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,6 +26,7 @@ public class Facility {
 	private String businessNum;
 	private String facilityDetailAddr;
 	private String facilityRegDate;
+	private String facilityDetail;
 	
 	
 	private MainCtg mainCtg;
@@ -31,7 +35,8 @@ public class Facility {
 	private AreaCity areaCity;
 	private AreaCityTown areaCityTown;
 	private FacilityUser facilityUser;
-	private TFile tFile;
+	private List<TFile> tFile;
+	private List<Map<String, String>> relFileWithFacility;
 	private Stadium stadium;
 	private Lesson lesson;
 	private Review review;

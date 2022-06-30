@@ -3,6 +3,7 @@ package ks43team03.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ks43team03.dto.TrainerCareer;
@@ -122,6 +124,8 @@ public class TrainerController {
 		
 		List<TrainerProfile> trainerList = trainerService.getTrainerList();
 		
+		log.info("trainerList : {}", trainerList);
+		
 		model.addAttribute("trainerList",	trainerList);
 		model.addAttribute("title",			"트레이너 리스트");
 		
@@ -200,11 +204,26 @@ public class TrainerController {
 	//트레이너 등록
 	@PostMapping("/addTrainer")
 	public String addTrainer(TrainerProfile trainerProfile
-							,RedirectAttributes reAttr) {
+							,RedirectAttributes reAttr
+							,@RequestParam MultipartFile[] trainerImgFile
+							,HttpServletRequest request) {
 		
 		log.info("trainerProfile : {}",trainerProfile);
 		
-		String trainerCd = trainerService.addtrainer(trainerProfile);
+		String serverName = request.getServerName();
+		String fileRealPath = "";
+		
+		if("localhost".equals(serverName)) {
+			// server 가 localhost 일때 접근
+			fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
+			System.out.println(System.getProperty("user.dir"));
+			//fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}else {
+			//배포용 주소
+			fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}
+		      
+		String trainerCd = trainerService.addtrainer(trainerProfile, trainerImgFile, fileRealPath);
 		log.info("trainerCd : {}",trainerCd);
 		
 		reAttr.addAttribute("trainerCd", trainerCd);

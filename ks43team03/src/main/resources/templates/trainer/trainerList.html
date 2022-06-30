@@ -60,41 +60,119 @@
 				<th:block th:if="${not #lists.isEmpty(trainerList)}" th:each="l : ${trainerList}">
 					<div class="col-lg-3 col-md-4 col-sm-6 mix women">
 						<div class="product__item">
-							<div class="product__item__pic set-bg" data-setbg="img/product/product-1.jpg">
-								<ul class="product__hover">
-									<li>
-										<a href="img/product/product-1.jpg" class="image-popup">
-											<span class="arrow_expand"></span>
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<span class="icon_heart_alt"></span>
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<span class="icon_bag_alt"></span>
-										</a>
-									</li>
-								</ul>
-							</div>
-							<div class="product__item__text">
-								<h6>
-									<a th:href="@{/trainer/trainerDetail(trainerCd=${l.trainerCd})}">Buttons tweed blazer</a>
-								</h6>
-								<div class="rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
+							<th:block th:if="${not #lists.isEmpty(l.tFile)}" th:each="t : ${l.tFile}">
+						
+								<th:block th:if="${t.representImg == 'Y'}">
+									<div class="product__item__pic set-bg" th:data-setbg="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}">
+										<ul class="product__hover">
+											<li>
+												<a th:href="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" class="image-popup">
+													<span class="arrow_expand"></span>
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													<span class="icon_heart_alt"></span>
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													<span class="icon_bag_alt"></span>
+												</a>
+											</li>
+										</ul>
+									</div>
+									<div class="product__item__text">
+										<h6>
+											<a th:href="@{/trainer/trainerDetail(trainerCd=${l.trainerCd})}">상세 보기</a>
+										</h6>
+										<div class="rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</div>
+										<div class="product__price">[[${l.trainerNickname}]]</div>
+									</div>
+								</th:block>
+								
+								<!-- <th:block  th:unless="${t.representImg == 'Y'}">
+									<div class="product__item__pic set-bg" th:data-setbg="@{/images/notImage.jfif}">
+										<ul class="product__hover">
+											<li>
+												<a th:href="@{/images/notImage.jfif}" class="image-popup">
+													<span class="arrow_expand"></span>
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													<span class="icon_heart_alt"></span>
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													<span class="icon_bag_alt"></span>
+												</a>
+											</li>
+										</ul>
+									</div>
+									<div class="product__item__text">
+										<h6>
+											<a th:href="@{/trainer/trainerDetail(trainerCd=${l.trainerCd})}">상세 보기</a>
+										</h6>
+										<div class="rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</div>
+										<div class="product__price">[[${l.trainerNickname}]]</div>
+									</div>
+								</th:block> -->
+								
+							</th:block>
+						
+							<th:block th:unless="${not #lists.isEmpty(l.tFile)}">
+								<div class="product__item__pic set-bg" th:data-setbg="@{/images/notImage.jfif}">
+									<ul class="product__hover">
+										<li>
+											<a th:href="@{/images/notImage.jfif}" class="image-popup">
+												<span class="arrow_expand"></span>
+											</a>
+										</li>
+										<li>
+											<a href="#">
+												<span class="icon_heart_alt"></span>
+											</a>
+										</li>
+										<li>
+											<a href="#">
+												<span class="icon_bag_alt"></span>
+											</a>
+										</li>
+									</ul>
 								</div>
-								<div class="product__price">[[${l.trainerNickname}]]</div>
-							</div>
+								<div class="product__item__text">
+									<h6>
+										<a th:href="@{/trainer/trainerDetail(trainerCd=${l.trainerCd})}">상세 보기</a>
+									</h6>
+									<div class="rating">
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+									</div>
+									<div class="product__price">[[${l.trainerNickname}]]</div>
+								</div>
+							</th:block>
 						</div>
 					</div>
+					
 				</th:block>
+				
 				<th:block th:unless="${not #lists.isEmpty(trainerList)}">
 					조회된 내용이 없습니다.
 				</th:block>

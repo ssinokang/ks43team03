@@ -71,27 +71,27 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="safetyCheckCd">안전점검 등록코드 <span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="safetyCheckCd" th:value="${safetyResultListById.safetyCheckCd}" readonly="readonly"/> <!-- th:value= "${safety.safetyCheckCd}" -->
+					<input class="form-control" type="text" name="safetyCheckCd" th:value="${safetyInfoByCd.safetyCheckCd}" readonly="readonly"/> 
 					</div>
-				</div>		
+				</div>													
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityCd">시설대표코드<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityCd"  readonly="readonly"/> <!-- th:value="${facility.facilityCd}" -->
+					<input class="form-control" type="text" name="facilityCd" th:value="${safetyInfoByCd.facilityCd}" readonly="readonly"/> 
 					</div>
 				</div>			
-				<div class="item form-group" style = "list-style:none;">
+<!-- 				<div class="field item form-group" style = "list-style:none;">
 					<div class="col-form-label col-md-3 col-sm-3 label-align" id="safety-File-label">안전점검 결과 첨부 파일<span class="required">*</span></div>
 					<div class="col-md-6 col-sm-6">
-					<input type="file" name="safetyCheckFile" class="safety-file" required multiple>			
+						<input type="file" name="safetyCheckFile" class="safety-file" th:value="${safetyFile}" required multiple>			
 					</div>
-				</div>				
-				<div class="item form-group">
+				</div>	 -->			
+				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3 label-align" for="safetyCheckDate">안전 점검일
 						<span class="required">*</span>
 					</label>
 					<div class="col-md-6 col-sm-6 ">
-						<input class="form-control" type="date" name="safetyCheckDate">
+						<input class="form-control" type="date" name="safetyCheckDate" th:value="${safetyInfoByCd.safetyCheckDate}">
 					</div>
 				</div>		
 				<div class="ln_solid">

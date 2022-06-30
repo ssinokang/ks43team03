@@ -18,6 +18,7 @@ public class Safety {
 	
 	private Facility facility;	
 	private User user;
+	private TFile tFile;
 }
  
 

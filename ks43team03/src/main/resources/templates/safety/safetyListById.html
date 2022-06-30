@@ -32,7 +32,7 @@
 							<p class="text-muted font-13 m-b-30">
 								자율안전점검 결과를 등록한 나의 시설을 볼 수 있습니다.
 							</p>
-							<table id="datatable" class="table table-striped jambo_table bulk_action table-bordered" style="width:100%">
+							<table id="datatable" class="table jambo_table bulk_action table-bordered" style="width:100%">
 								<thead>
 									<tr>
 										<th>체육시설명</th>
@@ -44,16 +44,16 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:if="${not #lists.isEmpty(safetyListById)}" th:each="l:${safetyListById}">
-										<td th:text="${l.facilityNm}"></td>
-										<td th:text="${l.safetyCheckFile}"></td>
-										<td th:text="${l.safetyCheckDate}"></td>
-										<td th:text="${l.safetyCheckRegDate}"></td>
+									<tr th:if="${not #lists.isEmpty(safetyListById)}" th:each="safety:${safetyListById}">
+										<td th:text="${safety.facilityNm}"></td>
+										<td th:text="${safety.safetyCheckFile}"></td>
+										<td th:text="${safety.safetyCheckDate}"></td>
+										<td th:text="${safety.safetyCheckRegDate}"></td>
 										<td>
-											<a th:href="@{/safety/modifySafety(safetyCheckCd=${l.safetyCheckCd})}">수정</a>
+											<a th:href="@{/safety/modifySafety(safetyCheckCd=${safety.safetyCheckCd},userId=${safety.userId})}">수정</a>
 										</td>
 										<td>
-											<a th:href="@{/safety/removeSafety2(safetyCheckCd=${l.safetyCheckCd})}">삭제</a>
+											<a th:href="@{/safety/removeSafety2(safetyCheckCd=${safety.safetyCheckCd})}">삭제</a>
 										</td>										
 									</tr>
 									<tr th:unless="${not #lists.isEmpty(safetyListById)}">

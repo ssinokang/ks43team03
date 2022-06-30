@@ -276,6 +276,7 @@
 	,lesson_sub.area_cd
 	,lesson_sub.facility_cd
 	,lesson_sub.main_ctg_cd
+	,lesson_sub.city_cd
 	,lesson_sub.facility_use_cd
 	,lesson_sub.user_id
 	,lesson_sub.facility_nm
@@ -285,7 +286,6 @@
 	,lesson_sub.facility_reg_date
 	,lesson_sub.facility_post_num
 	,lesson_sub.facility_detail_addr
-	,lesson_sub.area_cd
 	,lesson_sub.lesson_cd
 	,lesson_sub.lesson_division
 	,lesson_sub.sports_nm
@@ -314,6 +314,7 @@
 		(SELECT
 			act.town_cd
 			,act.town_nm
+			,act.city_cd
 			,f.facility_cd
 			,f.main_ctg_cd
 			,f.facility_use_cd

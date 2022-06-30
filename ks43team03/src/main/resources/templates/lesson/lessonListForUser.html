@@ -77,6 +77,34 @@
 				</select>
 			</div>
 		</div>
+		<div class="row">
+			<div class="mx-auto col-6 input-group">
+				<p class="col-2">
+					시/도
+				</p>
+				<select class="col-4" name="areaCd" id="area">
+					<option value="">:: 전체 ::</option>
+					<th:block th:if="${not #lists.isEmpty(areaList)}" th:each="a : ${areaList}">
+						<option th:value="${a.areaCd}">[[${a.areaNm}]]</option>
+					</th:block>
+					<th:block th:unless="${not #lists.isEmpty(areaList)}">
+						<option>없음</option>
+					</th:block>
+				</select>
+				<p class="col-2">
+					시/군/구 :
+				</p>
+				<select class="col-4" name="CityCd" id="areaCity">
+					<option value="">:: 전체 ::</option>
+					<th:block th:if="${not #lists.isEmpty(areaCityList)}" th:each="acl : ${areaCityList}">
+						<option th:value="${acl.cityCd}">[[${acl.cityNm}]]</option>
+					</th:block>
+					<th:block th:unless="${not #lists.isEmpty(areaCityList)}">
+						
+					</th:block>
+				</select>
+			</div>
+		</div>
 		
 		<div class="row">
 			<div class="mx-auto col-6 search-bar input-group">

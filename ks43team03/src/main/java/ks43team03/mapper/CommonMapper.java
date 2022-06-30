@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks43team03.dto.Area;
+import ks43team03.dto.AreaCity;
 import ks43team03.dto.Sports;
 
 @Mapper
@@ -37,4 +39,18 @@ public interface CommonMapper {
 	 *
 	 ****/
 	public List<Sports> getSportsList();
+	
+	/***
+	 * 
+	 * 어떤 도시의 시/군/구 가져오기
+	 * 
+	 ***/
+	
+	public List<AreaCity> getAreaCityList(String areaCd);
+	/****
+	 * 
+	 * 시/도 가져오기
+	 *
+	 ****/
+	public List<Area> getAreaList();
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import ks43team03.dto.Area;
 import ks43team03.dto.AreaCity;
 import ks43team03.dto.AreaCityTown;
 import ks43team03.dto.Facility;
@@ -22,6 +23,7 @@ import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Lesson;
 import ks43team03.dto.Search;
 import ks43team03.dto.Sports;
+import ks43team03.service.CommonService;
 import ks43team03.service.LessonService;
 
 @Controller
@@ -29,9 +31,10 @@ import ks43team03.service.LessonService;
 public class LessonController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	private final LessonService lessonService;
-	
-	public LessonController(LessonService lessonService) {
+	private final CommonService commonService;
+	public LessonController(LessonService lessonService, CommonService commonService) {
 		this.lessonService = lessonService;
+		this.commonService = commonService;
 	}
 	/**
 	 *  회원이 보는 레슨 리스트 
@@ -80,9 +83,13 @@ public class LessonController {
 		HashMap<String, Object> lessonMap = new HashMap<>();
 		lessonMap.put("lesson", lesson);
 		lessonMap.put("search", search);
+		
 		List<Lesson> lessonList = lessonService.getLessonListForUser(lessonMap);
+		List<Area> 	 areaList	= commonService.getAreaList();
+		
 		model.addAttribute("lessonList", lessonList);
 		model.addAttribute("sportsList", sportsList);
+		model.addAttribute("areaList", areaList);
 		
 		log.info("lessonList : {}", lessonList);
 		return "lesson/lessonListforUser";

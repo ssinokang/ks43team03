@@ -68,8 +68,9 @@
 				});
 				
 				/* 트레이너 등록 시 유효성 검사 */
-				$('#addTrainertBtn').click(function(){
-					var isSubmit = true;
+				$('#addTrainertBtn').click(function(e){
+					//e.preventDefault();
+					
 					var $trainerNickname = $('input[name="trainerNickname"]');
 					
 					console.log($trainerNickname.val());
@@ -80,16 +81,14 @@
 					if(!result){
 						alert('필수 항목입니다. 입력해주세요');
 						$trainerNickname.focus();
-						isSubmit = false;
 						return false;
 					}
-					
-					console.log('유효여부 폼전송할건지?' + isSubmit );
-					
-					if(isSubmit) $('#addTrainerForm').submit();
 				});
 			});
+			// 최대 li 개수
+			var maxLiNum = 4;
 			</script>
+			<script th:src="@{/resource/js/listUpdate.js}"></script>
 	</th:block>
 	
 	 
@@ -124,7 +123,7 @@
 						<span class="required">*</span>
 					</label>
 					<div class="col-md-6 col-sm-6">
-						<input type="text" class="form-control" id="trainerNickname" name="trainerNickname" placeholder="닉네임 입력">
+						<input type="text" class="form-control" id="trainerNickname" name="trainerNickname" placeholder="닉네임 입력" required>
 					</div>
 					<div class="col-md-3 col-sm-3">
 						<button type="button" class="btn-primary form-control" id="nicknameCheck">중복체크</button>
@@ -145,8 +144,14 @@
 					<label class="control-label col-md-3 col-sm-3" for="trainerImgFile">프로필 사진
 						<span class="required">*</span>
 					</label>
-					<div class="col-md-9 col-sm-9 ">
-						<input type="file" class="form-control" name="trainerImgFile"  accept="image/*" required multiple>
+					<div class="col-md-9 col-sm-9">
+						<ul id="plusUl">
+							<li>
+								<input type="file" class="form-control" name="trainerImgFile"  accept="image/*" required>
+								<button type="button" id="addLi">플러스</button>
+								<button type="button" id="delLi">마이너스</button>
+							</li>
+						</ul>
 					</div>
 				</div>
 				<div class="form-group">
@@ -154,7 +159,7 @@
 						<a th:href="@{/}">
 							<button type="button" id="cancleBtn" class="btn btn-primary">취소</button>
 						</a>
-						<button type="button" id="addTrainertBtn" class="btn btn-success" disabled="disabled">등록</button>
+						<button type="submit" id="addTrainertBtn" class="btn btn-success" disabled="disabled">등록</button>
 					</div>
 				</div>
 			</form>

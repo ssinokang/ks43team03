@@ -76,7 +76,7 @@ public class UserController {
 		return "redirect:/";
 	}
 	
-	//회원 비밀번호 확인
+	//회원 삭제 시 비밀번호 확인
 	@PostMapping("/pwCheck")
 	@ResponseBody
 	public boolean isPwCheck(@RequestParam(value = "userId") String userId
@@ -84,8 +84,8 @@ public class UserController {
 		
 		boolean pwCheck = false;
 		
-		log.info("패스워드중복체크 클릭시 요청받은 userId의 값: {}", userId);
-		log.info("패스워드중복체크 클릭시 요청받은 userPw의 값: {}", userPw);
+		log.info("패스워드체크 클릭시 요청받은 userId의 값: {}", userId);
+		log.info("패스워드체크 클릭시 요청받은 userPw의 값: {}", userPw);
 		
 		User userCheck = userService.getUserInfoById(userId);
 		

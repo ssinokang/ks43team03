@@ -60,9 +60,7 @@ public class PassService {
 	@Transactional(readOnly = true)
 	public Pass getPassDetail(String passCd, String facilityGoodsCd) {
 		Pass pass = passMapper.getPassDetail(passCd, facilityGoodsCd)
-				.orElseThrow(()->{
-					throw new NotFoundGoodsException("등록하신 이용권이 없습니다.");
-				});
+				.orElseThrow(()-> new NotFoundGoodsException("등록하신 이용권이 없습니다."));
 		
 		return pass;
 	}

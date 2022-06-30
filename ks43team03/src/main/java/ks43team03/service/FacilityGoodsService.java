@@ -50,9 +50,7 @@ public class FacilityGoodsService {
 	// 상폼하나 조회 
 	public ResponseGoods getFacilityGoodsCd(String facilityGoodsCd) {
 		FacilityGoods facilityGoods = facilityGoodsMapper.getFacilityGoodsCd(facilityGoodsCd)
-					.orElseThrow(()-> {
-						throw new NotFoundGoodsException("조회한 상품이 없습니다.");
-					});
+					.orElseThrow(()->  new NotFoundGoodsException("조회한 상품이 없습니다."));
 		
 		String categoryCode = facilityGoods.getGoodsCtgCd();
 		ResponseGoods responceGoods = getFacilityGoodsCd(facilityGoodsCd,categoryCode);

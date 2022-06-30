@@ -113,9 +113,7 @@ public class OrderService {
 	
 	//== 주문 상세 조회 ==//
 	public Order getOrderByCode(String orderCd) {
-		Order order = orderMapper.getOrderByCode(orderCd).orElseThrow(()->{
-			throw new NotFoundOrderException("주문한 내역이 없습니다.");
-		});
+		Order order = orderMapper.getOrderByCode(orderCd).orElseThrow(()-> new NotFoundOrderException("주문한 내역이 없습니다."));
 		return order;
 	}
 	

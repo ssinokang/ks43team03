@@ -48,7 +48,7 @@ public class FacilityGoodsService {
 	}
 	
 	// 상폼하나 조회 
-	public ResponseGoods getFacilityGoodsCd(String facilityGoodsCd) {
+	/*public ResponseGoods getFacilityGoodsCd(String facilityGoodsCd) {
 		FacilityGoods facilityGoods = facilityGoodsMapper.getFacilityGoodsCd(facilityGoodsCd)
 					.orElseThrow(()-> {
 						throw new NotFoundGoodsException("조회한 상품이 없습니다.");
@@ -58,7 +58,7 @@ public class FacilityGoodsService {
 		ResponseGoods responceGoods = getFacilityGoodsCd(facilityGoodsCd,categoryCode);
 
 		return responceGoods;
-	}
+	}*/
 	
 	
 	

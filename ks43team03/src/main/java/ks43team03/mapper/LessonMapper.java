@@ -1,10 +1,13 @@
 package ks43team03.mapper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import ks43team03.dto.Lesson;
+import ks43team03.dto.Sports;
 
 @Mapper
 public interface LessonMapper {
@@ -19,7 +22,7 @@ public interface LessonMapper {
 	public Lesson getLessonInfoByCd(String lessonCd);
 	
 	//
-	public List<Lesson> getLessonListForUser(Lesson lesosn);
+	public List<Lesson> getLessonListForUser(HashMap<String, Object> lessonMap);
 	
 	//레슨 수정하기
 	public int modifyLesson(Lesson lesson);

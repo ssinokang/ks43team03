@@ -1,10 +1,12 @@
 
 $(function() {
-	var $stadium  = $('#stadium');
-	var $pass 	  = $('#pass');
-	var $lesson   = $('#lesson');
-	var $goodsCtg = $('#goodsCtg')
-
+	var $stadium  	 = $('#stadium');
+	var $pass 	  	 = $('#pass');
+	var $lesson   	 = $('#lesson');
+	var $goodsCtg 	 = $('#goodsCtg');
+	var $lessonNu 	 = $('#lessonNu');
+	var $lessonPrice = $('#lessonPrice');
+	
 	var ctg = new Array();
 	
 	ctg.push($lesson);
@@ -36,7 +38,7 @@ $(function() {
 			} else {
 				$.ajax({
 					type: 'POST',
-					url: '/api/pass',
+					url: '/api/goods',
 					dataType: 'JSON',
 					contentType: 'application/json; charset=utf-8',
 					data: JSON.stringify(data)
@@ -126,7 +128,8 @@ $(function() {
 	/**
 	 *  다중 파일 업로드
 	 **/
-	var fileInput = 1;
+	var fileInput 	= 1;
+	var lessonInput = 1;
 	var maxFileNum = 4;
 	var minFileNum = 0;
 	//추가
@@ -143,7 +146,7 @@ $(function() {
 	});
 	//제거
 	$('#minus-button').on('click', function() {
-		if(fileInput > 0) {
+		if(fileInput > 1) {
 			$(this).parent().remove()
 			
 			fileInput--;
@@ -151,8 +154,32 @@ $(function() {
 			alert("더이상 지울 수 없습니다.");
 		}
 	});
+
 	
 	$goodsCtgVal = $('#goodsCtg').attr('data-goodsCtgCd');
 	console.log($goodsCtgVal);
 	$('#goodsCtg option[value=' + $goodsCtgVal + ']').attr('selected', 'selected');
+	
+    $('input:radio[name="lessonDivision"]').change(function() {
+        if ($(this).val() === '개인') {
+            $lessonNu.removeClass('none-display');
+        } else {
+        	$lessonNu.addClass('none-display');
+        }
+    });
+    
+    $(document).ready(function() {        												// INPUT 박스에 들어간 ID값을 적어준다.
+        $("#START_TIME,#END_TIME").timepicker({            
+				'minTime': '09:00am', 												// 조회하고자 할 시작 시간 ( 09시 부터 선택 가능하다. )
+	            'maxTime': '20:00pm', 												// 조회하고자 할 종료 시간 ( 20시 까지 선택 가능하다. )
+	            'timeFormat': 'H:i',
+	            'step': 30 															// 30분 단위로 지정. ( 10을 넣으면 10분 단위 )
+	    });
+        $(window).scroll(function(){
+	        $(".ui-timepicker-wrapper").hide();
+	    });
+	});
+    	
+    
+
 });

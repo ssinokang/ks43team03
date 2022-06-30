@@ -18,6 +18,8 @@
  		<result column="lesson_member" 			property="lessonMember"/>		 
 		<result column="lesson_start_date" 		property="lessonStartDate"/>		
 		<result column="lesson_end_date" 		property="lessonEndDate"/>		
+		<result column="lesson_start_time" 		property="lessonStartTime"/>		
+		<result column="lesson_end_time" 		property="lessonEndTime"/>
 		<result column="lesson_price" 			property="lessonPrice"/>		
 		<result column="lesson_reg_date" 		property="lessonRegDate"/>		
 		<result column="lesson_state" 			property="lessonState"/>		
@@ -41,17 +43,17 @@
 			<result column="facility_reg_date"	property="facilityRegDate"/>
 		</association>
 		<association property="areaCityTown" 	javaType="AreaCityTown">
-			<id 	column="town_cd" 	property="townCd"/>
-			<result column="city_cd" 	property="cityCd"/>
-			<result column="area_cd" 	property="areaCd"/>
-			<result column="town_nm" 	property="townNm"/>
+			<id 	column="town_cd" 			property="townCd"/>
+			<result column="city_cd" 			property="cityCd"/>
+			<result column="area_cd" 			property="areaCd"/>
+			<result column="town_nm" 			property="townNm"/>
 		</association>
 		<collection property="relFileWithGoods" ofType="Map">
 			<result	column="facility_goods_cd"	property="facilityGoodsCd"/>
 			<result	column="file_cd"			property="fileCd"/>
 		</collection>
 		<collection property="tFile" ofType="TFile">
-			<id		column="file_cd"				property="fileCd"/>
+			<id		column="file_cd"				property="fileCd"/>	
 			<result	column="original_file_nm"		property="originalFileName"/>
 			<result	column="stored_file_path"		property="storedFilePath"/>
 			<result	column="file_size"				property="fileSize"/>
@@ -114,6 +116,8 @@
 			,lesson_sub.lesson_member
 			,lesson_sub.lesson_start_date
 			,lesson_sub.lesson_end_date
+			,lesson_sub.lesson_start_time
+			,lesson_sub.lesson_end_time
 			,lesson_sub.lesson_price
 			,lesson_sub.facility_goods_cd
 			,lesson_sub.lesson_reg_date
@@ -153,6 +157,8 @@
 				  	,l.lesson_member
 				  	,l.lesson_start_date
 				  	,l.lesson_end_date
+				  	,l.lesson_start_time
+				  	,l.lesson_end_time
 				  	,l.lesson_price
 				  	,l.facility_goods_cd
 				  	,l.lesson_reg_date
@@ -209,6 +215,8 @@
 			,l.lesson_member
 			,l.lesson_start_date
 			,l.lesson_end_date
+			,l.lesson_start_time
+			,l.lesson_end_time
 			,l.lesson_state
 			,l.lesson_reg_date
 			,s.sports_nm
@@ -232,13 +240,14 @@
 			,facility_cd
 			,goods_ctg_cd
 			,sports_cd
-			,sports_nm
 			,user_id
 			,lesson_nm
 			,lesson_detail
 			,lesson_total_member
 			,lesson_start_date
 			,lesson_end_date
+			,lesson_start_time
+			,lesson_end_time
 			,lesson_price
 			,lesson_reg_date
 		) VALUES (
@@ -248,24 +257,26 @@
 			,#{facilityCd}
 			,#{goodsCtgCd}
 			,#{sportsCd}
-			,#{sportsName}
 			,#{userId}
 			,#{lessonName}
 			,#{lessonDetail}
 			,#{lessonTotalMember}
 			,#{lessonStartDate}
 			,#{lessonEndDate}
+			,#{lessonStartTime}
+			,#{lessonEndTime}
 			,#{lessonPrice}
 			,NOW()
 		)
 	</insert>
-	<select id="getLessonListForUser" parameterType="Lesson" resultMap="lessonResultMap">
-	SELECT
+	<select id="getLessonListForUser" parameterType="Map" resultMap="lessonResultMap">
+	select
 	lesson_sub.town_cd
 	,lesson_sub.town_nm
 	,lesson_sub.area_cd
 	,lesson_sub.facility_cd
 	,lesson_sub.main_ctg_cd
+	,lesson_sub.city_cd
 	,lesson_sub.facility_use_cd
 	,lesson_sub.user_id
 	,lesson_sub.facility_nm
@@ -275,16 +286,18 @@
 	,lesson_sub.facility_reg_date
 	,lesson_sub.facility_post_num
 	,lesson_sub.facility_detail_addr
-	,lesson_sub.area_cd
 	,lesson_sub.lesson_cd
 	,lesson_sub.lesson_division
 	,lesson_sub.sports_nm
+	,lesson_sub.sports_cd
 	,lesson_sub.lesson_nm
 	,lesson_sub.lesson_detail
 	,lesson_sub.lesson_total_member
 	,lesson_sub.lesson_member
 	,lesson_sub.lesson_start_date
 	,lesson_sub.lesson_end_date
+	,lesson_sub.lesson_start_time
+	,lesson_sub.lesson_end_time
 	,lesson_sub.lesson_price
 	,lesson_sub.facility_goods_cd
 	,lesson_sub.lesson_reg_date
@@ -301,6 +314,7 @@
 		(SELECT
 			act.town_cd
 			,act.town_nm
+			,act.city_cd
 			,f.facility_cd
 			,f.main_ctg_cd
 			,f.facility_use_cd
@@ -316,12 +330,15 @@
 		  	,l.lesson_division
 		  	,l.user_id
 		  	,l.sports_nm
+		  	,l.sports_cd
 		  	,l.lesson_nm
 		  	,l.lesson_detail
 		  	,l.lesson_total_member
 		  	,l.lesson_member
 		  	,l.lesson_start_date
 		  	,l.lesson_end_date
+		  	,l.lesson_start_time
+		  	,l.lesson_end_time
 		  	,l.lesson_price
 		  	,l.facility_goods_cd
 		  	,l.lesson_reg_date
@@ -358,22 +375,26 @@
 			tf.deleted_yn != 'Y') AS lesson_file
 		on
 		lesson_file.facility_goods_cd = lesson_sub.facility_goods_cd
-		GROUP BY
-			lesson_sub.facility_goods_cd
-	   	<trim prefix="WHERE" prefixOverrides="AND /OR ">
-	   		<if test="facility.mainCtgCd != null and facility.mainCtgCd != '' ">
-	   			lesson_sub.main_ctg_cd = #{facility.mainCtgCd}
+		
+		<trim prefix="where " prefixOverrides="and">
+	   		<if test="lesson.facility.mainCtgCd != null and lesson.facility.mainCtgCd != ''">
+	   			and lesson_sub.main_ctg_cd = #{lesson.facility.mainCtgCd}
 	   		</if>
-	   		<if test="areaCity.cityCd != null and areaCity.cityCd != '' ">
-	   			lesson_sub.city_cd = #{areaCity.cityCd}
+	   		<if test="lesson.areaCity.cityCd != null and lesson.areaCity.cityCd != ''">
+	   			and lesson_sub.city_cd = #{lesson.areaCity.cityCd}
 	   		</if>
-	   		<if test="areaCityTown.townCd != null and areaCityTown.townCd != '' ">
-	   			lesson_sub.town_cd = #{areaTownCity.townCd}
+	   		<if test="lesson.areaCityTown.townCd != null and lesson.areaCityTown.townCd != ''">
+	   			and lesson_sub.town_cd = #{lesson.areaTownCity.townCd}
 	   		</if>
-	   		<if test="sports.sportsCd != null and sports.sportsCd != '' ">
-	   			lesson_sub.sports_cd = #{sports.sportsCd}
+	   		<if test="lesson.sports.sportsCd != null and lesson.sports.sportsCd != '' ">
+	   			and lesson_sub.sports_cd = #{lesson.sports.sportsCd}
+	   		</if>
+	   		<if test="search.searchValue != null and search.searchValue != '' ">		
+				and lesson_sub.lesson_nm LIKE CONCAT('%', #{search.searchValue}, '%')
 	   		</if>
 	   	</trim>
+   			GROUP BY
+		lesson_sub.facility_goods_cd
 	</select>
 
 </mapper>

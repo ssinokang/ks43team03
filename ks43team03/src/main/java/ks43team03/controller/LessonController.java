@@ -1,5 +1,6 @@
 package ks43team03.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,12 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import ks43team03.dto.Area;
 import ks43team03.dto.AreaCity;
 import ks43team03.dto.AreaCityTown;
 import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Lesson;
+import ks43team03.dto.Search;
 import ks43team03.dto.Sports;
+import ks43team03.service.CommonService;
 import ks43team03.service.LessonService;
 
 @Controller
@@ -27,9 +31,10 @@ import ks43team03.service.LessonService;
 public class LessonController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	private final LessonService lessonService;
-	
-	public LessonController(LessonService lessonService) {
+	private final CommonService commonService;
+	public LessonController(LessonService lessonService, CommonService commonService) {
 		this.lessonService = lessonService;
+		this.commonService = commonService;
 	}
 	/**
 	 *  회원이 보는 레슨 리스트 
@@ -56,22 +61,35 @@ public class LessonController {
 			,AreaCity 	  areaCity
 			,AreaCityTown areaCityTown
 			,Sports 	  sports
-			,Model 		  model) {
-		
+			,Model 		  model
+			,String		  sv) {
 		log.info("facility : {}", facility);
 		log.info("areaCity : {}", areaCity);
 		log.info("areaCityTown : {}", areaCityTown);
 		log.info("sports : {}", sports);
+		
+		
 		
 		lesson.setAreaCityTown(areaCityTown);
 		lesson.setFacility(facility);
 		lesson.setAreaCity(areaCity);
 		lesson.setSports(sports);
 		
-		log.info("lesson : {}", lesson);
+		Search search = new Search();
+		search.setSearchValue(sv);
 		
-		List<Lesson> lessonList = lessonService.getLessonListForUser(lesson);
+		log.info("lesson : {}", lesson);
+		List<Sports> sportsList	= lessonService.getSportsList();
+		HashMap<String, Object> lessonMap = new HashMap<>();
+		lessonMap.put("lesson", lesson);
+		lessonMap.put("search", search);
+		
+		List<Lesson> lessonList = lessonService.getLessonListForUser(lessonMap);
+		List<Area> 	 areaList	= commonService.getAreaList();
+		
 		model.addAttribute("lessonList", lessonList);
+		model.addAttribute("sportsList", sportsList);
+		model.addAttribute("areaList", areaList);
 		
 		log.info("lessonList : {}", lessonList);
 		return "lesson/lessonListforUser";
@@ -127,12 +145,13 @@ public class LessonController {
 	public String addLesson(
 			FacilityGoods facilityGoods,
 			Lesson lesson,
-			@RequestParam MultipartFile[] lessonImgFile, Model model, 
+			@RequestParam MultipartFile[] lessonImgFile,
+			Model model, 
 			HttpServletRequest request) {
 		lesson.setFacilityGoods(facilityGoods);
 		log.info("LessonController addLesson/facilityGoods : {}", facilityGoods);
 		log.info("LessonController addLesson/lesson : {}", lesson);
-		log.info("LessonController addLesson/multipartHttpServletRequest : {}", lessonImgFile);
+		log.info("lesson : {}", lesson);
 		
 		String serverName = request.getServerName();
 		String fileRealPath = "";
@@ -145,7 +164,9 @@ public class LessonController {
 		
 		lessonService.addLesson(lesson, lessonImgFile, fileRealPath);
 		
+		
 		return "redirect:/lesson/facilityLessonList?" + "facilityCd="+ lesson.getFacilityCd();
+
 		
 	}
 

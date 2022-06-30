@@ -76,7 +76,7 @@
 										<p>내용
 											<span>*</span>
 										</p>
-										<textarea class="form-control" style="min-height: 150px;" th:text="${board.boardPostContent}" name="boardPostContent"></textarea>
+										<textarea class="form-control" style="min-height: 150px;" th:text="${board.boardPostContent}" name="boardPostContent" id="boardPostContent"></textarea>
 									</div>
 								</div>
 								<!-- <div class="col-lg-12 col-md-12 col-sm-12">
@@ -113,7 +113,7 @@
 								</div>
 							</div>
 							<div class="text-right">
-								<button type="submit" class="site-btn" style="margin-top: 20px;" id="modifyButton">
+								<button type="submit" class="site-btn" style="margin-top: 20px;" id="modifyButton" th:if="${session.SID == board.userId}">
 									작성하기
 								</button>
 							</div>
@@ -123,9 +123,47 @@
 			</div>
 		</section>
 		
-		<!-- 사용자 정의 js -->
-		<script type="text/javascript" th:src="@{/resource/js/boardJs.js}"></script>
-		
+		<!-- 사용자 정의 Js 파일-->
+		<th:block layout:fragment="customJs">
+			<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+			
+			<script>
+				$(function(){
+					function validationCheck(data){
+						if(typeof data == 'undefined' || data == '' || data == null){
+							return false;
+						}
+						return true;
+					}
+					
+					$('#modifyButton').click(function(){
+						var isSubmit = true;
+						
+						if($("select[name=boardCtgCd]").val() == ''){
+						    alert("카테고리를 선택해주세요.");
+						    isSubmit = false;
+						    return false;
+						}
+						if($("#boardPostTitle").val() == ""){
+						    alert("제목을 입력해주세요.");
+						    $("#boardPostTitle").focus();
+						    isSubmit = false;
+						    return false;
+						}
+						if($("#boardPostContent").val() == ""){
+						    alert("내용을 입력해주세요.");
+						    $("#boardPostContent").focus();
+						    isSubmit = false;
+						    return false;
+						}
+						
+						console.log('유효여부 폼전송할건지?' + isSubmit )
+						
+						if(isSubmit) $('#addBoardForm').submit();
+					});
+				});
+			</script>
+		</th:block>
 	</th:block>
 	
 </html>

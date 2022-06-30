@@ -45,12 +45,12 @@ public class FacilityGoodsController {
 		facilityGoodsCd = "ss_35011600_04_pass_11";
 		userId = "id002";
 		User user = userService.getUserInfoById(userId);
-		ResponseGoods facilityGoods = facilityGoodsService.getFacilityGoodsCd(facilityGoodsCd);
+		//ResponseGoods facilityGoods = facilityGoodsService.getFacilityGoodsCd(facilityGoodsCd);
 
 		
 		model.addAttribute("title", "결제 페이지");
 		model.addAttribute("user", user);
-		model.addAttribute("goods", facilityGoods);
+		//model.addAttribute("goods", facilityGoods);
 		
 		return "order/orderForm";
 	}

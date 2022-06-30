@@ -92,7 +92,7 @@ public class LessonController {
 		model.addAttribute("areaList", areaList);
 		
 		log.info("lessonList : {}", lessonList);
-		return "lesson/lessonListforUser";
+		return "lesson/lessonListForUser";
 	}
 	/**
 	 * 레슨 상세 조회 

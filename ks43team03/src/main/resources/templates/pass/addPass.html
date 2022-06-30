@@ -7,9 +7,6 @@
 <!-- 사용자 정의 contents -->
 <th:block layout:fragment="customContents">
 
-	<style>
-	</style>
-
 
 	<div class="page-title">
 		<div class="title_left">
@@ -35,7 +32,7 @@
 		<div class="col-md-12 col-sm-12 ">
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>이용권등록 <small>different form elements</small></h2>
+					<h2>이용권등록</h2>
 
 					<div class="clearfix"></div>
 				</div>
@@ -47,23 +44,19 @@
 							<label for="facilityCd" class="col-form-label col-md-3 col-sm-3 label-align">시설대표코드<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" id="facilityCd" data-parsley-id="5"
-									name="facilityCd" value="ss_35011770_03">
+								<input type="text" class="form-control pass-input" id="facilityCd" data-parsley-id="5"
+									name="facilityCd" value="ss_35011770_03" required/>
 							</div>
 						</div>
-						<div class="item form-group">
-							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">카테고리<span
-									class="required">*</span></label>
-							<div class="col-md-6 col-sm-6">
-								<input type="text" name="goodsCtgCd" value="pass">
-							</div>
-						</div>
+						
+								<input type="hidden" class="form-control pass-input" name="goodsCtgCd" value="pass" required/>
+							
 						<div class="item form-group">
 							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">종목<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
-								<select class="custom-select" id="sportCtg" name="sportsCd">
-									<option>:: 시설에서 운영하는 종목을 선택해주세요::</option>
+								<select class="custom-select pass-input" id="sportCtg" name="sportsCd" required>
+									<option value="">:: 시설에서 운영하는 종목을 선택해주세요::</option>
 									<option value="sp01">축구</option>
 									<option value="sp02">수영</option>
 									<option value="sp03">배드민턴</option>
@@ -77,35 +70,35 @@
 							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">아이디<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" data-parsley-id="5" name="userId" value="id002">
+								<input type="text" class="form-control pass-input" data-parsley-id="5" name="userId" value="id002" required/>
 							</div>
 						</div>
 						<div class="item form-group">
 							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">이용권명<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" data-parsley-id="5" name="passNm" value="헬스장 이용권">
+								<input type="text" class="form-control pass-input" data-parsley-id="5" name="passNm" value="헬스장 이용권" required/>
 							</div>
 						</div>
 						<div class="item form-group">
 							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">단위<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" data-parsley-id="5" name="passUnit" value="20">
+								<input type="text" class="form-control pass-input" data-parsley-id="5" name="passUnit" value="20" required/>
 							</div>
 						</div>
 						<div class="item form-group">
 							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">이용권단가<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" data-parsley-id="5" name="passPrice" value="30000">
+								<input type="text" class="form-control pass-input" data-parsley-id="5" name="passPrice" value="30000" required/>
 							</div>
 						</div>
 						<div class="item form-group">
 							<label for="" class="col-form-label col-md-3 col-sm-3 label-align">유효일수<span
 									class="required">*</span></label>
 							<div class="col-md-6 col-sm-6">
-								<input type="text" class="form-control" data-parsley-id="5" name="passEndDate" value="365">
+								<input type="text" class="form-control pass-input" data-parsley-id="5" name="passEndDate" value="365" required/>
 							</div>
 						</div>
 						
@@ -113,8 +106,8 @@
 					<div class="ln_solid"></div>
 						<div class="item form-group">
 							<div class="col-md-6 col-sm-6 offset-md-3">
-								<button id="pass-btn" class="btn btn-success" type="button">등록</button>
-								<button type="button" class="btn btn-primary">취소하기</button>
+								<button id="pass-btn" class="btn btn-success pass-button" type="button">등록</button>
+								<button type="button" class="btn btn-primary pass-button">취소하기</button>
 							</div>
 						</div>
 				</div>
@@ -129,15 +122,37 @@
 
 
 	<script>
+
 		const passBtn = document.querySelector('#pass-btn');
 		const goodsCtg = document.querySelector('input[name="goodsCtgCd"]');
 		const passForm = document.querySelector('#pass-form');
-		passBtn.addEventListener('click',(e)=>{
-			console.log(e.currentTarget);
-			console.log(goodsCtg.value);
-			passForm.submit();
+
+		const inputs = document.querySelectorAll('.pass-input');
+		
+		passBtn.addEventListener('click', e =>{
+			let flag = true;
+			inputs.forEach(event => {
+				if(event.value == null || event.value  == ''|| event.value.trim()===''){
+					//event.focus();
+					event.focus();
+					e.preventDefault();
+					flag = false;
+					return flag;
+				}
+			});
+			submitCheck(flag);
+			
 			
 		});
+
+
+		const submitCheck = (val) =>{
+			if(val){
+				passForm.submit();
+			}else{
+				alert('등록이 안된 폼이 있습니다.');
+			}
+		}
 	</script>
 </th:block>
 

@@ -124,6 +124,8 @@ public class TrainerController {
 		
 		List<TrainerProfile> trainerList = trainerService.getTrainerList();
 		
+		log.info("trainerList : {}", trainerList);
+		
 		model.addAttribute("trainerList",	trainerList);
 		model.addAttribute("title",			"트레이너 리스트");
 		

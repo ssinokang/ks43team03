@@ -23,7 +23,6 @@
 				} 
 				
 				$('#loginIdBtn').click(function(){
-					console.log('zz');
 					var userEmail = $('input[name="userEmail"]').val();
 					console.log(userEmail);
 					var vCheck = validationCheck(userEmail);
@@ -31,16 +30,15 @@
 						$.ajax({
 							type: 'POST',
 							url: '/loginId',
-							dataType: 'JSON',
 							data: {
 								'userEmail': userEmail
 							},
 						}).done(function(data){
 							console.log(data);
 							if(data){
-								alert('성공')
+								alert("아이디는 " + data + " 입니다.")
 							}else{
-								alert('실패');
+								alert('등록된 이메일이 아닙니다.');
 							}
 						}).fail(function(){
 							alert('데이터 응답 실패');

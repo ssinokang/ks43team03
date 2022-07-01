@@ -254,12 +254,14 @@ public class UserService {
 		return user;
 	}
 	
+	/**
+	 * 아이디 찾기
+	 */
 	
-	public boolean isEmailCheck(String userEmail) {
-		
-		//String result = userMapper.isEmailCheck(userEmail);
-		boolean result = userMapper.isEmailCheck(userEmail);
-		
+	public String isEmailCheck(String userEmail) {
+
+		String result = userMapper.isEmailCheck(userEmail);
+
 		return result;
 	}
 	

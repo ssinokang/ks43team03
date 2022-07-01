@@ -249,7 +249,7 @@
 			user_login;	
 	</select>	
 	
-	<select id="isEmailCheck" parameterType="String" resultType="boolean">
+	<select id="isEmailCheck" parameterType="String" resultType="String">
 		/*이메일로 아이디 찾기*/
 		SELECT 
 			user_id

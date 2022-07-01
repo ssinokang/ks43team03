@@ -45,7 +45,5 @@ public interface UserMapper {
 	public User getUserInfoById(String userId);
 	
 	//회원 아이디 찾기
-	//public String isEmailCheck(String userEmail);
-	
-	public boolean isEmailCheck(String userEmail);
+	public String isEmailCheck(String userEmail);
 }

@@ -86,14 +86,15 @@ public class LoginController {
 	
 	@PostMapping("/loginId")
 	@ResponseBody
-	public boolean isEmailCheck(@RequestParam(name = "userEmail" , required = false) String userEmail) {
-		boolean emailCheck = false;
+	public String isEmailCheck(@RequestParam(name = "userEmail" , required = false) String userEmail) {
+		
 		log.info("아이디 찾기 클릭시 요청받은 userEmail의 값: {}", userEmail);
 		
-		boolean result = userService.isEmailCheck(userEmail);
-		if(result) emailCheck = true;
+		String result = userService.isEmailCheck(userEmail);
+		System.out.println("!!! : "+ result);
+
 		
-		return emailCheck;
+		return result;
 	}
 	
 	

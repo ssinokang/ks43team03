@@ -31,7 +31,7 @@
 			/* 자격증 추가 시 유효성 검사 */
 			$('#addLicenseBtn').click(function(){
 				var isSubmit = true;
-				var inputObj = $('#licenseUl').find('input');
+				var inputObj = $('#plusUl').find('input');
 				
 				$.each(inputObj, function(){
 					var inputData = $(this).val();
@@ -52,7 +52,7 @@
 				if(isSubmit){
 					var trainerLicenseList = [];
 					
-					var licenseNum = $('#licenseUl li').length;
+					var licenseNum = $('#plusUl li').length;
 					
 					console.log(licenseNum);
 					
@@ -62,7 +62,6 @@
 						
 						trainerLicense.trainerCd = $('input[name="trainerCd"]').val()
 						trainerLicense.trainerLicense = $('input[name="trainerLicense"]').eq(i).val()
-						trainerLicense.trainerLicenseFile = $('input[name="trainerLicenseFile"]').eq(i).val()
 						
 						trainerLicenseList.push(trainerLicense);
 					}

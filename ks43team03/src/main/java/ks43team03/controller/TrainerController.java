@@ -150,13 +150,32 @@ public class TrainerController {
 	//자격증 등록
 	@ResponseBody
 	@PostMapping("/addLicense")
-	public boolean addLicense(@RequestBody List<TrainerLicense> trainerLicenseList) {
+	public boolean addLicense(@RequestBody List<TrainerLicense> trainerLicenseList
+							 ,@RequestParam(value = "trainerCd") String trainerCd
+							 ,@RequestParam MultipartFile[] trainerLicenseFile
+							 ,HttpSession session
+							 ,HttpServletRequest request) {
 		
 		boolean addLicenseCheck = false;
 		
+		String userId = (String)session.getAttribute("SID");
+		
 		log.info("trainerLicenseList : {}",trainerLicenseList);
 		
-		int result = trainerService.addTrainerLicense(trainerLicenseList);
+		String serverName = request.getServerName();
+		String fileRealPath = "";
+		
+		if("localhost".equals(serverName)) {
+			// server 가 localhost 일때 접근
+			fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
+			System.out.println(System.getProperty("user.dir"));
+			//fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}else {
+			//배포용 주소
+			fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}
+		
+		int result = trainerService.addTrainerLicense(trainerLicenseList, trainerCd, userId, trainerLicenseFile, fileRealPath);
 		
 		if(result>0) addLicenseCheck = true;
 		
@@ -177,15 +196,33 @@ public class TrainerController {
 	//경력 등록
 	@ResponseBody
 	@PostMapping("/addCareer")
-	public boolean addCareer(@RequestBody List<TrainerCareer> trainerCareerList) {
+	public boolean addCareer(@RequestBody List<TrainerCareer> trainerCareerList
+							,@RequestParam MultipartFile[] trainerCareerFile
+							,HttpSession session
+							,HttpServletRequest request) {
 		
 		boolean addCareerCheck = false;
 		
+		String userId = (String)session.getAttribute("SID");
+		
 		log.info("trainerCareerList : {}",trainerCareerList);
 		
-		int result = trainerService.addTrainerCareer(trainerCareerList);
+		String serverName = request.getServerName();
+		String fileRealPath = "";
 		
-		if(result > 0) addCareerCheck = true;
+		if("localhost".equals(serverName)) {
+			// server 가 localhost 일때 접근
+			fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
+			System.out.println(System.getProperty("user.dir"));
+			//fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}else {
+			//배포용 주소
+			fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}
+		
+		//int result = trainerService.addTrainerCareer(trainerCareerList, trainerCd, userId, trainerCareerFile, fileRealPath);
+		
+		//if(result > 0) addCareerCheck = true;
 		
 		return addCareerCheck;
 	}

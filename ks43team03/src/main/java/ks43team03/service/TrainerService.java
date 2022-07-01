@@ -136,7 +136,16 @@ public class TrainerService {
 	/**
 	 * 트레이너 자격증 등록
 	 */
-	public int addTrainerLicense(List<TrainerLicense> trainerLicenseList) {
+	public int addTrainerLicense(List<TrainerLicense> trainerLicenseList, String trainerCd, String userId
+								,MultipartFile[] trainerLicenseFile, String fileRealPath) {
+		
+		//파일 업로드 위한 객체 생성 
+		FileUtils fu = new FileUtils(trainerLicenseFile, userId, fileRealPath);
+		List<Map<String, String>> dtoFileList = fu.parseFileInfo();
+		
+		// t_file 테이블에 삽입
+		log.info("LessonService/addLesson dtoFileList : {}", dtoFileList);
+        fileMapper.uploadFile(dtoFileList);
 		
 		int result = trainerMapper.addTrainerLicense(trainerLicenseList);
 		log.info("result : {}", result);
@@ -147,7 +156,8 @@ public class TrainerService {
 	/**
 	 * 트레이너 경력 등록
 	 */
-	public int addTrainerCareer(List<TrainerCareer> trainerCareerList) {
+	public int addTrainerCareer(List<TrainerCareer> trainerCareerList, String trainerCd, String userId
+							   ,MultipartFile[] trainerCareerFile, String fileRealPath) {
 		
 		int result = trainerMapper.addTrainerCareer(trainerCareerList);
 		log.info("result : {}", result);

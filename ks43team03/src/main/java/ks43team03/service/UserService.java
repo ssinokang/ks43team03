@@ -253,4 +253,17 @@ public class UserService {
 
 		return user;
 	}
+	
+	
+	public boolean isEmailCheck(String userEmail) {
+		
+		//String result = userMapper.isEmailCheck(userEmail);
+		boolean result = userMapper.isEmailCheck(userEmail);
+		
+		return result;
+	}
+	
+	
+	
+	
 }

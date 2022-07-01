@@ -7,6 +7,54 @@
 		<title th:text="${title}"></title>
 	</th:block>	  
 	
+	<!-- 사용자 정의 Js 파일-->
+	<th:block layout:fragment="customJs">	
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+		<script>
+		
+		/*이메일로 아이디 찾기*/
+			$(function(){
+				
+				function validationCheck(data){
+					if(typeof data == 'undefined' || data == '' || data == null){
+						return false;
+					}
+					return true;
+				} 
+				
+				$('#loginIdBtn').click(function(){
+					console.log('zz');
+					var userEmail = $('input[name="userEmail"]').val();
+					console.log(userEmail);
+					var vCheck = validationCheck(userEmail);
+					if(vCheck){
+						$.ajax({
+							type: 'POST',
+							url: '/loginId',
+							dataType: 'JSON',
+							data: {
+								'userEmail': userEmail
+							},
+						}).done(function(data){
+							console.log(data);
+							if(data){
+								alert('성공')
+							}else{
+								alert('실패');
+							}
+						}).fail(function(){
+							alert('데이터 응답 실패');
+						});
+					}
+					
+				});
+				
+			});
+		</script>
+		
+		
+	</th:block>
+			
 	<!-- 사용자 정의 contents -->
 	<th:block layout:fragment="customContents">
 	
@@ -18,20 +66,20 @@
 					<h5 class="text-dark" style="margin-top: 20px;">아이디 찾기</h5>
 				</div>		
 			<div class="card-body">			
-				<div class="form-group row">
+<!-- 				<div class="form-group row">
 					<label class="col-form-label col-sm-3" for="userName">이름</label> 
 					<div class="col-sm-9">
 						<input class="form-control" type="text" name="userName" id="userName" value="홍길동" />
 					</div>
 				</div>
-				
+				 -->
 				<div class="form-group row">
-					<label class="col-form-label col-sm-3" for="userPw">이메일</label> 
+					<label class="col-form-label col-sm-3" for="userEmail">이메일</label> 
 					<div class="col-sm-9">
 						<input class="form-control" type="email" name="userEmail" id="userEmail" value="id001@email.com" />
 					</div>
 				</div>
-				<button class="btn btn btn-primary btn-lg col-md-12" type="submit" id="loginIdBtn">찾기</button>
+				<button class="btn btn btn-primary btn-lg col-md-12" type="button" id="loginIdBtn">찾기</button>
 <!-- 				<span class="text-dark">회원가입을 하시겠습니까?
 					<a th:href="@{/user/addUser}">회원 가입</a>
 				</span> -->
@@ -44,6 +92,7 @@
 		</div>
 		</form>
 	</div>		
+
 		
 		<!-- <div th:if="${result != null}"> -->
 		<div th:if="${not #strings.isEmpty(result)}">

@@ -19,7 +19,7 @@
 					return true;
 				}	
 				/* 로그인 유효성 검사 */
-				$('#loginBtn').click(function(){
+				$('#loginPwBtn').click(function(){
 					var isSubmit = true;
 					var inputObj = $('#loginForm').find('input');
 					
@@ -69,7 +69,7 @@
 						<input class="form-control" type="text" name="userTell" id="userTell" value="010-1111-1111" />
 					</div>
 				</div>
-				<button class="btn btn btn-primary btn-lg col-md-12" type="submit" id="loginBtn">찾기</button>
+				<button class="btn btn btn-primary btn-lg col-md-12" type="button" id="loginPwBtn">찾기</button>
 <!-- 				<span class="text-dark">회원가입을 하시겠습니까?
 					<a th:href="@{/user/addUser}">회원 가입</a>
 				</span> -->

@@ -4,12 +4,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ks43team03.dto.User;
 import ks43team03.service.UserService;
@@ -17,7 +19,7 @@ import ks43team03.service.UserService;
 @Controller
 public class LoginController {
 	
-
+	private static final Logger log = LoggerFactory.getLogger(LoginController.class);
 	
 	private final UserService userService;
 	
@@ -79,6 +81,24 @@ public class LoginController {
 		model.addAttribute("title", "로그인");
 		return "login/login";
 	}
+	
+	//아이디 찾기
+	
+	@PostMapping("/loginId")
+	@ResponseBody
+	public boolean isEmailCheck(@RequestParam(name = "userEmail" , required = false) String userEmail) {
+		boolean emailCheck = false;
+		log.info("아이디 찾기 클릭시 요청받은 userEmail의 값: {}", userEmail);
+		
+		boolean result = userService.isEmailCheck(userEmail);
+		if(result) emailCheck = true;
+		
+		return emailCheck;
+	}
+	
+	
+	
+	
 	
 	@GetMapping("/loginId")
 	public String loginId(Model model) {

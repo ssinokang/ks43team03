@@ -14,6 +14,11 @@
  	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9c5dbc5a281ccc90ee278e75316bee9c&libraries=services,clusterer,drawing"></script>
 </th:block>
 
+<!-- 사용자 정의 css 선언 -->
+	<th:block layout:fragment="customCss">
+		<link rel="stylesheet" th:href="@{/resource/css/mapOverlay.css}" type="text/css">
+	</th:block>
+
 
 <th:block layout:fragment="customContents">
 

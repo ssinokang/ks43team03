@@ -29,7 +29,7 @@ public interface StadiumMapper {
 	
 	//구장 단가 수정 
 	public int modifyStadiumPrice(StadiumPrice stadiumPrice);
-	
+
 	//구장코드별 구장 단가 상세정보조회
 	public StadiumPrice getAdminStadiumPriceInfoByCd(String facilityStadiumCd);
 	

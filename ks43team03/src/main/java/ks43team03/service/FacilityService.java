@@ -60,7 +60,8 @@ public class FacilityService {
 	/*시설 내 구장 목록*/
 	public List<Stadium> getStadiumList(String facilityCd) {
 		List<Stadium> stadiumList = facilityMapper.getStadiumList(facilityCd);
-
+		
+		log.info("stadiumList", stadiumList);
 		return stadiumList;
 	}
 	

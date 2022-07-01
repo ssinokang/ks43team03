@@ -77,6 +77,8 @@ public class FacilityController {
 			List<Review> reviewList = facilityService.getReviewList(facilityCd);
 			int reviewCount = facilityService.getReviewCountByCd(facilityCd);
 			
+			log.info("구장목록  : {}", stadiumList);
+			
 			model.addAttribute("title", "시설 상세 정보");
 			model.addAttribute("facilityDetail", facilityDetail);
 			model.addAttribute("stadiumList", stadiumList);

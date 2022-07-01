@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.common.FileUtils;
 import ks43team03.dto.Facility;
+import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Sports;
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;

@@ -162,11 +162,34 @@
 									    <div class="container">
 									        <div class="row">
 				                               	<th:block th:if="${not #lists.isEmpty(stadiumList)}" th:each="l : ${stadiumList}">
-									            <div class="col-lg-6 col-md-6 col-sm-12">
+									            <div class="col-lg-6 col-md-6 col-sm-12" th:if="${not #lists.isEmpty(l.tFile)}" th:each=" t : ${l.tFile}">
+												<div th:if="${t.representImg == 'Y'}">
 									                <div class="trend__content">				
 									                    <div class="trend__item">
-									                        <div class="trend__item__pic">
-									                            <img src="">
+									                        <div class="trend__item__pic set-bg" th:data-setbg="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}"
+																										style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
+																<img style="width: 90px;" th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="">
+									                        </div>
+									                        <div class="trend__item__text">
+									                            <h6 ><a th:href="@{/stadium/stadiumDetail(facilityStadiumCd=${l.facilityStadiumCd})}" th:text="${l.facilityStadiumNm}" style="color: black;"></a></h6>
+									                            <div class="rating">
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                            </div>
+									                        </div>
+									                    </div>
+									                </div>
+									            </div>
+									            </div>
+									            <div class="col-lg-6 col-md-6 col-sm-12" th:unless="${not #lists.isEmpty(l.tFile)}">
+									                <div class="trend__content">				
+									                    <div class="trend__item">
+									                        <div class="trend__item__pic set-bg " th:data-setbg="@{/images/notImage.jfif}"
+																											style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
+																
 									                        </div>
 									                        <div class="trend__item__text">
 									                            <h6 ><a th:href="@{/stadium/stadiumDetail(facilityStadiumCd=${l.facilityStadiumCd})}" th:text="${l.facilityStadiumNm}" style="color: black;"></a></h6>
@@ -184,17 +207,40 @@
 			                               	</th:block>
 									        </div>
 									    </div>
-									</section>
-	                                <h6>레슨</h6>
-	                                <section class="trend spad" style="border-bottom: 1px solid #e1e1e1; padding: 10px; margin-bottom: 10px;">
+										</section>
+		                                <h6>레슨</h6>		                                                
+	                               		<section class="trend spad" style="border-bottom: 1px solid #e1e1e1; padding: 10px; margin-bottom: 10px;">
 									    <div class="container">
 									        <div class="row">
 				                               	<th:block th:if="${not #lists.isEmpty(lessonList)}" th:each="l : ${lessonList}">
-									            <div class="col-lg-6 col-md-6 col-sm-12">
+									            <div class="col-lg-6 col-md-6 col-sm-12" th:if="${not #lists.isEmpty(l.tFile)}" th:each=" t : ${l.tFile}">
+												<div th:if="${t.representImg == 'Y'}">
 									                <div class="trend__content">				
 									                    <div class="trend__item">
-									                        <div class="trend__item__pic">
-									                            <img src="">
+									                        <div class="trend__item__pic set-bg" th:data-setbg="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}"
+																										style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
+																<img style="width: 90px;" th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="">
+									                        </div>
+									                        <div class="trend__item__text">
+									                            <h6 ><a th:href="@{/lesson/detailLessonForUser(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}" style="color: black;"></a></h6>
+									                            <div class="rating">
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                                <i class="fa fa-star"></i>
+									                            </div>
+									                        </div>
+									                    </div>
+									                </div>
+									            </div>
+									            </div>
+									            <div class="col-lg-6 col-md-6 col-sm-12" th:unless="${not #lists.isEmpty(l.tFile)}">
+									                <div class="trend__content">				
+									                    <div class="trend__item">
+									                        <div class="trend__item__pic set-bg " th:data-setbg="@{/images/notImage.jfif}"
+																											style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
+																
 									                        </div>
 									                        <div class="trend__item__text">
 									                            <h6 ><a th:href="@{/lesson/detailLessonForUser(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}" style="color: black;"></a></h6>
@@ -212,7 +258,8 @@
 			                               	</th:block>
 									        </div>
 									    </div>
-									</section>                               
+									</section>
+                         
 	                            </div>
 	                            <div class="tab-pane" id="tabs-2" role="tabpanel">
 	                                <h6><i class="fa fa-map-marker"></i>위치정보</h6>

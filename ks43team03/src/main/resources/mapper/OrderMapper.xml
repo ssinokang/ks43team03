@@ -92,17 +92,17 @@
 	select CONCAT('order_cd','_',max(CAST(substring(order_cd,9)+1 AS DECIMAL))) AS order_code FROM goods_order	<< 처음에 값이 없으면 null이됨.		
 				-->
 	<insert id="addOrder" parameterType="Order">
-		<!-- <selectKey keyProperty="orderCd" resultType="String" order="BEFORE">
+		<selectKey keyProperty="orderCd" resultType="String" order="BEFORE">
 		SELECT
 			case
 			when COUNT(o.order_cd) = 0 
 			then 'order_1'
 			else
-				CONCAT('order_',MAX(CAST(SUBSTRING_INDEX(o.order_cd,'_',-1) AS UNSIGNED))+1)
+				CONCAT('order_cd_',MAX(CAST(SUBSTRING_INDEX(o.order_cd,'_',-1) AS UNSIGNED))+1)
 			END
 		FROM
 			goods_order AS o							
-		</selectKey> -->
+		</selectKey>
 		
 		INSERT INTO goods_order
 		(

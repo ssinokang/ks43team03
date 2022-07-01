@@ -17,78 +17,71 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.client.ResponseErrorHandler;
-import org.springframework.web.client.RestTemplate;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ks43team03.dto.Payload;
+import ks43team03.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 public class PaymentController {
 	
-    private final RestTemplate restTemplate = new RestTemplate();
+	private final PaymentService paymentService;
+	
+	public PaymentController(PaymentService paymentService) {
+		this.paymentService = paymentService;
+	}
+	
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    @PostConstruct
-    private void init() {
-        restTemplate.setErrorHandler(new ResponseErrorHandler() {
-            @Override
-            public boolean hasError(ClientHttpResponse response) {
-                return false;
-            }
-
-            @Override
-            public void handleError(ClientHttpResponse response) {
-            }
-        });
-    }
-    
-    //private final String SECRET_KEY = " ";
-    // TEST_SECRTE_KEY 노출 x
-    @Value("${test.secret.api.key}")
-    private String SECRET_KEY;
-
-    @RequestMapping("/success")
+    @GetMapping("/success")
     public String confirmPayment(
             @RequestParam String paymentKey, @RequestParam String orderId, @RequestParam Long amount,
             Model model) throws Exception {
+    	try {
+    		paymentService.addPay(amount, orderId, paymentKey);
+    		String result = paymentService.confirmPayment(paymentKey, orderId, amount);
+    		model.addAttribute("orderId", result);
+    		return "success";
+    	}catch(Exception e) {
+    		e.getStackTrace();
+    		return "fail";
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Basic " + Base64.getEncoder().encodeToString((SECRET_KEY + ":").getBytes()));
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        log.info("headers data : {}", headers);
-
-        Map<String, String> payloadMap = new HashMap<>();
-        payloadMap.put("orderId", orderId);
-        payloadMap.put("amount", String.valueOf(amount));
-        log.info("payloadMap data : {}", payloadMap);
-        HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(payloadMap), headers);
-
-        ResponseEntity<JsonNode> responseEntity = restTemplate.postForEntity(
-                "https://api.tosspayments.com/v1/payments/" + paymentKey, request, JsonNode.class);
-        log.info("responseEntity data : {}", responseEntity);
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            JsonNode successNode = responseEntity.getBody();
-            log.info("JsonNode successNode data : {}", successNode);
-            model.addAttribute("orderId", successNode.get("orderId").asText());
-            String secret = successNode.get("secret").asText(); 
-            return "success";
-        } else {
-            JsonNode failNode = responseEntity.getBody();
-            log.info("JsonNode failNode data : {}", failNode);
-            model.addAttribute("message", failNode.get("message").asText());
-            model.addAttribute("code", failNode.get("code").asText());
-            return "fail";
-        }
+    	}
+    	
+    	
+    	
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.set("Authorization", "Basic " + Base64.getEncoder().encodeToString((SECRET_KEY + ":").getBytes()));
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        log.info("headers data : {}", headers);
+//
+//        Map<String, String> payloadMap = new HashMap<>();
+//        payloadMap.put("orderId", orderId);
+//        payloadMap.put("amount", String.valueOf(amount));
+//        log.info("payloadMap data : {}", payloadMap);
+//        HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(payloadMap), headers);
+//
+//        ResponseEntity<JsonNode> responseEntity = restTemplate.postForEntity(
+//                "https://api.tosspayments.com/v1/payments/" + paymentKey, request, JsonNode.class);
+//        log.info("responseEntity data : {}", responseEntity);
+//        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+//            JsonNode successNode = responseEntity.getBody();
+//            log.info("JsonNode successNode data : {}", successNode);
+//            model.addAttribute("orderId", successNode.get("orderId").asText());
+//            String secret = successNode.get("secret").asText(); 
+//            return "success";
+//        } else {
+//            JsonNode failNode = responseEntity.getBody();
+//            log.info("JsonNode failNode data : {}", failNode);
+//            model.addAttribute("message", failNode.get("message").asText());
+//            model.addAttribute("code", failNode.get("code").asText());
+//            return "fail";
+//        }
     }
 
     @RequestMapping("/fail")

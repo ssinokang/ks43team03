@@ -70,12 +70,13 @@ public class FacilityGoodsService {
 	private ResponseGoods getFacilityGoodsCd(String failityGoodscd, String categoryCode) {
 		int price = 0;
 		FacilityGoods facilityGoods = null;
-
+		String goodsName = null;
 		if("lesson".equals(categoryCode)) {
 
 		}else if("pass".equals(categoryCode)) {
 			facilityGoods = facilityGoodsMapper.getFacilityGoodsPassCd(failityGoodscd);
 			price = facilityGoods.getPass().getPassPrice();
+			goodsName = facilityGoods.getPass().getPassNm();
 		}else if("stadium".equals(categoryCode)) {
 			
 		}else {
@@ -85,6 +86,7 @@ public class FacilityGoodsService {
 		return ResponseGoods.builder()
 				.facilityGoods(facilityGoods)
 				.price(price)
+				.goodsName(goodsName)
 				.build();
 	}
 	

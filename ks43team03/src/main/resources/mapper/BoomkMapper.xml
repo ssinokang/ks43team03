@@ -85,9 +85,9 @@
 	</delete>
 
 
-
+<!-- 
 	<update id="modifyBoomk" parameterType="Boomk">
-		<!-- 즐겨찾기 취소 Y(즐겨찾기)->N(즐겨찾기 취소) -->		
+		즐겨찾기 취소 Y(즐겨찾기)->N(즐겨찾기 취소)		
 		UPDATE boomk_facility	
 		SET 
 			boomk_facility_state = 'N', boomk_update_date = NOW()
@@ -99,7 +99,7 @@
 
 
 	<update id="modifyBoomk2" parameterType="Boomk">
-		<!-- 즐겨찾기 추가 Y(즐겨찾기)-->
+		즐겨찾기 추가 Y(즐겨찾기)
 		UPDATE boomk_facility	
 		SET 
 			boomk_facility_state = 'Y', boomk_update_date = NOW()
@@ -108,26 +108,7 @@
 		AND 
 			facility_cd = #{facilityCd};	
 	</update>
-
-
-	<select id="getFacilityList" resultType="Facility"> <!-- resultMap="boomkFacilityResultMap" -->
-		/*시설전체조회*/
-		SELECT 
-			facility_cd 		as facilityCd		
-			,main_ctg_cd 		as mainCtgCd	 	
-			,area_cd 			as areaCd			
-			,city_cd			as cityCd	
-			,town_cd			as townCd
-			,facility_use_cd	as facilityUseCd
-			,user_id			as userId
-			,facility_nm		as facilityNm
-			,facility_address	as facilityAddr
-			,facility_tell		as facilityTell
-			,facility_post_num	as facilityPostNum
-			,business_number	as businessNum
-			,facility_reg_date  as facilityRegDate
-		FROM 
-			facility 
-	</select>  
+ -->
+ 
   
 </mapper>  

@@ -22,13 +22,12 @@ public interface BoomkMapper {
 	public int removeBoomk(Boomk boomk);
 		
 	//즐겨찾기 취소 (N)
-	public int modifyBoomk(Boomk boomk);	
+	//public int modifyBoomk(Boomk boomk);	
 	
 	//즐겨찾기 추가 (Y)
-	public int modifyBoomk2(Boomk boomk);	
+	//public int modifyBoomk2(Boomk boomk);	
 	
-	//시설 조회
-	public List<Facility> getFacilityList();
+
 
 
 	

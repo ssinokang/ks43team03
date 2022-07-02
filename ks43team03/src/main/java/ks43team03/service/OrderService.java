@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,17 +26,18 @@ import ks43team03.mapper.UserMapper;
 public class OrderService {
 
 	private final OrderMapper orderMapper;
-	private final CommonMapper commonMapper;
 	private final UserMapper userMapper;
 	
 	
-	private final static String COLUMN_NAME = "order_cd";
-	private final static String TABLE_NAME = "goods_order";
+	private static final Logger log = LoggerFactory.getLogger(OrderService.class);
+
+	
+//	private final static String COLUMN_NAME = "order_cd";
+//	private final static String TABLE_NAME = "goods_order";
 	
 	
-	public OrderService(OrderMapper orderMapper,CommonMapper commonMapper,UserMapper userMapper) {
+	public OrderService(OrderMapper orderMapper,UserMapper userMapper) {
 		this.orderMapper = orderMapper;
-		this.commonMapper = commonMapper;
 		this.userMapper = userMapper;
 	}
 
@@ -44,9 +47,14 @@ public class OrderService {
 	// toss 결제전에 주문내역을 넣는다.
 	public Order addOrder(Order.Request req, ResponseGoods goods) {
 		
-		String paytype = req.getPayType();
+		log.info("요청 데이터의 PayType : {}", req.getPayType());
+		
+		String paytype = req.getPayType().getName();
 		String userId = req.getUserId();
 		int orderPayPrice = req.getOrderPayPrice();
+		
+		
+		
 		
 		if(!paytype.equals("카드") && !paytype.equals("가상계좌")) {
 			
@@ -72,23 +80,23 @@ public class OrderService {
 		}
 		
 		
-		String code = commonMapper.createNewCode(COLUMN_NAME, TABLE_NAME);
-		Order order = createOrder(req, goods, code);
+		//String code = commonMapper.createNewCode(COLUMN_NAME, TABLE_NAME);
+		Order order = createOrder(req, goods );
 		orderMapper.addOrder(order);
+		order.setPayName(paytype);
 		return order;
 	}
 
 	
-	private Order createOrder(Order.Request req, ResponseGoods goods,String code) {
+	private Order createOrder(Order.Request req, ResponseGoods goods) {
 		return Order.builder()
-				.orderCd(code)
 				.facilityGoodsCd(goods.getFacilityGoods().getFacilityGoodsCd())
 				.goodsCtgCd(goods.getFacilityGoods().getGoodsCtgCd())
 				.orderPayPrice(req.getOrderPayPrice())
 				.orderPrice(req.getOrderPrice())
 				.userId(req.getUserId())
+				.goodsName(req.getGoodsName())
 				.orderPayState(OrderState.ORDER.getCode())
-				.orderId(UUID.randomUUID().toString()+LocalDate.now())
 				.build();
 	}
 	

@@ -36,6 +36,8 @@ public class OrderController {
 	/*public ResponseEntity<Order> addOrder(@RequestBody Order.Request req) {
 		
 		
+		log.info("화면에서 받은 데이터 : {}", req.getGoodsName());
+		
 		log.info("데이터 userId 요청 : {}", req.getUserId());
 		log.info("데이터 facilityGoodsCd 요청 : {}", req.getFacilityGoodsCd());
 		

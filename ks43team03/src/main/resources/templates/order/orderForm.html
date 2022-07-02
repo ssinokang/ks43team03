@@ -61,7 +61,7 @@
 			<input type="hidden" name="userId" th:value="${user.userId}">
 			<input type="hidden" name="facilityGoodsCd" th:value="${goods.facilityGoods.facilityGoodsCd}">
 			<input type="hidden" name="goodsCtgCd" th:value="${goods.facilityGoods.goodsCtgCd}">
-
+			<input type="hidden" name="goodsName" th:value="${goods.goodsName}"> 
 			<div class="row">
 				<table class="table table-bordered">
 					<tr>
@@ -138,7 +138,7 @@
 									<th:block th:each="pay : ${T(ks43team03.dto.type.PayType).values()}">
 										<div class="col-sm-3 ">
 											<label for="card"> 
-												<input type="radio" name="method" class="form-control btn btn-primary" th:text="${pay.name}" th:value="${pay.name}" >
+												<input type="radio" name="method" class="form-control btn btn-primary" th:text="${pay.name}" th:value="${pay}" >
 											</label>
 										</div>
 									</th:block>
@@ -166,70 +166,82 @@
 		const pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자
 		const pattern_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; // 한글체크
 		//버튼 
-		const payBtn = document.querySelector('#pay-btn');
-		const pointBtn = document.querySelector('#point-btn');
+		const payBtn = $('#pay-btn'); //document.querySelector('#pay-btn');
+		const pointBtn = $('#point-btn'); //document.querySelector('#point-btn');
 
-		const userId = document.querySelector('input[name="userId"]');
-		const facilityGoodsCd = document.querySelector('input[name="facilityGoodsCd"]');
+		const userId = $('input[name=userId]'); //document.querySelector('input[name="userId"]');
+		const facilityGoodsCd = $('input[name=facilityGoodsCd]'); //document.querySelector('input[name="facilityGoodsCd"]');
 
 		//주문 폼
-		const orderForm = document.querySelector('#orderForm');
+		const orderForm = $('#orderForm');  //document.querySelector('#orderForm');
 
 		//포인트 사용후 총결제금액 
-		let sumPay = document.querySelector('#sum-pay');
+		let sumPay = $('#sum-pay'); //document.querySelector('#sum-pay')
 
 		//결제금액 
-		let orderPrice = document.querySelector('#order-price');
+		let orderPrice = $('#order-price'); //document.querySelector('#order-price');
 
 		//사용포인트
-		let usedPoint = document.querySelector('#usedPoint');
+		let usedPoint = $('#usedPoint'); //document.querySelector('#usedPoint');
 		//남은 포인트
-		let remPoint = document.querySelector('#remPoint');
+		let remPoint = $('#remPoint'); //document.querySelector('#remPoint');
 		//사용자의 포인트
-		let userPoint = document.querySelector('#userPoint');
+		let userPoint =  $('#userPoint'); //document.querySelector('#userPoint');
 		//상품가격
-		let price = document.querySelector('input[name="price"]');
+		let price = $('input[name="price"]'); //document.querySelector('input[name="price"]');
+		
+		let tempPoint = userPoint.val();
 
-		//사용포인트 값
-		let usedPointValue = 0;
-		//남은 포인트 값
-		let remPointValue = 0;
-		//사용자의 포인트 값
-		let userPointValue = 0;
-
-		pointBtn.addEventListener('click', e =>{
-			usedPointValue = usedPoint.value;
-			remPointValue = Number(remPoint.value);
+		pointBtn.click(function(){
+			let usedPointValue = usedPoint.val();
+			let rem = Number(tempPoint);
 			if(pattern_num.test(usedPointValue) && !pattern_eng.test(usedPointValue) && !pattern_kor.test(usedPointValue) && !pattern_spc.test(usedPointValue)){
-				usedPointValue = Number(usedPoint.value);
-				if(pointValidation(Number(usedPointValue))){
-					console.log('포인트 validation 통과 체크');
-					
-					remPoint.value = remPointValue - usedPointValue;
-					sumPay.value = Number(price.value) - Number(usedPointValue);
-					orderPrice.value = Number(price.value) - Number(usedPointValue)
-					
-					
 				
-					return;
-				}
+				// 포인트 초과및 사용포인트 계산
+				// 첫번재 , 두번째 회원포인트 남은포인트 사용포인트
+				let goodsPrice = Number(price.val());
+				
+				
+				pointAndPriceValidation(goodsPrice, rem, Number(usedPointValue));
+			
 			}else{
 				alert('숫자를 입력하십시오.');
 				return;
 			}
 		});
 			
+		
+		
+		
 
 
-
-		function pointValidation(data){
-			console.log(data);
-			console.log(remPoint);
-			if(data < 0){
-				alert('사용하실 포인트의 형식에 맞지않습니다.');
-				return false;
+		function pointAndPriceValidation(price, rem, used){
+			console.log(price, rem , used);
+			//console.log(remPoint);
+			if(used < 0 ){
+				alert('0보다 큰 숫자를 입력해주세요');
+				return;
 			}
-			return true;
+			
+			
+			if(rem < used){
+				alert('사용한 포인트가 보유한 포인트보다 많이 사용하였습니다.')
+				return;
+			}
+			
+			if(used > price){
+				used = price; 
+				orderPrice.val(0);
+				sumPay.val(0);
+				remPoint.val(rem - used);
+				usedPoint.val(userPoint.val() - remPoint.val());
+			}else{
+				remPoint.val(rem - used);
+				//price = order - used;
+				orderPrice.val(price - used);
+				sumPay.val(price - used);
+			}
+			
 		}
 
 		
@@ -239,18 +251,19 @@
 		//[[${@environment.getProperty('kakao.authorize.redirect.url')}]]
   
 
-		payBtn.addEventListener("click", function () {
+		payBtn.click(function(){
 			let method = document.querySelector('input[name=method]:checked').value; // "카드" 혹은 "가상계좌"
 
 			const data = {
-				userId : $('input[name="userId"]').val(),
-				facilityGoodsCd : $('input[name="facilityGoodsCd"]').val(),
-				goodsCtgCd : $('input[name="goodsCtgCd"]').val(),
-				orderPrice : $('input[name="price"]').val(),
-				userPoint : $('input[name="userPoint"]').val(),
-				usedPoint : $('input[name="usedPoint"]').val(),
-				orderPayPrice : $('#sum-pay').val(),
-				payType : $('input[name=method]:checked').val()
+					userId : $('input[name="userId"]').val(),
+					facilityGoodsCd : $('input[name="facilityGoodsCd"]').val(),
+					goodsCtgCd : $('input[name="goodsCtgCd"]').val(),
+					orderPrice : $('input[name="price"]').val(),
+					goodsName : $('input[name="goodsName"]').val(),
+					userPoint : $('input[name="userPoint"]').val(),
+					usedPoint : $('input[name="usedPoint"]').val(),
+					orderPayPrice : $('#sum-pay').val(),
+					payType : $('input[name=method]:checked').val()
 			};
 			
 			
@@ -264,11 +277,13 @@
 				}).done(function (data) {
 					console.log(data);
 					//window.location.href = '/order/orderDetail/' + data.orderCd;
+					let method = data.payName;
 					const paymentData = {
-						amount: 10,
-						orderId: data.orderId,
-						orderName: data.facilityGoodsCd,
+						amount: data.orderPayPrice,
+						orderId: data.orderCd,
+						orderName: data.goodsName,
 						customerName: data.usreId,
+						method : data.payName,
 						successUrl: window.location.origin + "/success",
 						failUrl: window.location.origin + "/fail",
 					};
@@ -284,26 +299,15 @@
 			
     	});
 			
+		const checkPayAndOrder(data){
 			
-			/* const data = {
-				userId : $('input[name="userId"]').val(),
-				facilityGoodsCd : $('input[name="facilityGoodsCd"]').val()
+			for(value in data){
+				if(typeof 'undefinded' == value || value == '' || value == null){
+					return true;
+				}
+				return false;
 			}
-
-			console.log(data);
-			$.ajax({
-                    type: 'POST',
-                    url: 'http://localhost:80/order/addOrder',
-                    dataType: 'JSON',
-                    contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify(data)
-                }).done(function (data) {
-                    alert("결제가 완료 되었습니다.", data);
-                    window.location.href = '/order/orderDetail/' + data.orderCd;
-                }).fail(function (error) {
-                    console.log(error);
-                });
-		 */
+		}
 		
 
 		

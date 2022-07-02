@@ -7,6 +7,8 @@ import lombok.Getter;
 @Builder
 public class ResponseGoods {
 	private FacilityGoods facilityGoods;
+	
+	private String goodsName;
 	private int price;
 	
 }

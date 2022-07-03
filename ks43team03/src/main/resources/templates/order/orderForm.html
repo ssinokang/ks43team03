@@ -245,7 +245,8 @@
 		}
 
 		
-		const clientKey = "[[${@environment.getProperty('test.client.api.key')}]]";
+		//const clientKey = "[[${@environment.getProperty('test.client.api.key')}]]";
+		const clientKey = 'test_ck_jkYG57Eba3GoelzLmLQ3pWDOxmA1';
 		const tossPayments = TossPayments(clientKey)
 		let orderId = 'order_' + new Date().getTime();
 		//[[${@environment.getProperty('kakao.authorize.redirect.url')}]]
@@ -291,7 +292,13 @@
 						paymentData.virtualAccountCallbackUrl = window.location.origin + '/virtual-account/callback'
 					}
 
-						tossPayments.requestPayment(method, paymentData);
+						tossPayments
+							.requestPayment(method, paymentData)
+							.catch(function(error){
+								if(error.code == 'USER_CANCEL'){
+									
+								}
+							});
 				}).fail(function (error) {
 					console.log(error);
 				});
@@ -299,7 +306,7 @@
 			
     	});
 			
-		const checkPayAndOrder(data){
+		const checkPayAndOrder = (data) => {
 			
 			for(value in data){
 				if(typeof 'undefinded' == value || value == '' || value == null){

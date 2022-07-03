@@ -15,9 +15,8 @@ import ks43team03.dto.ResponseGoods;
 import ks43team03.dto.User;
 import ks43team03.dto.type.OrderState;
 import ks43team03.dto.type.PayType;
-import ks43team03.exception.NotFoundGoodsException;
-import ks43team03.exception.NotFoundOrderException;
-import ks43team03.mapper.CommonMapper;
+import ks43team03.exception.CustomException;
+import ks43team03.exception.ErrorMessage;
 import ks43team03.mapper.OrderMapper;
 import ks43team03.mapper.UserMapper;
 
@@ -75,7 +74,7 @@ public class OrderService {
 			}else {
 				// 있다면 포인트 내역 조회한다 
 			}
-		}catch(NotFoundGoodsException e){
+		}catch(Exception e){
 			
 		}
 		
@@ -121,7 +120,7 @@ public class OrderService {
 	
 	//== 주문 상세 조회 ==//
 	public Order getOrderByCode(String orderCd) {
-		Order order = orderMapper.getOrderByCode(orderCd).orElseThrow(()-> new NotFoundOrderException("주문한 내역이 없습니다."));
+		Order order = orderMapper.getOrderByCode(orderCd).orElseThrow(()-> new CustomException(ErrorMessage.ORDER_NOT_FOUND));
 		return order;
 	}
 	
@@ -148,7 +147,7 @@ public class OrderService {
 			order = orderMapper.getOrderDetailWithPass(orderCd);
 			break;
 		default: 
-			throw new NotFoundOrderException("주문한 내역이 없습니다.");
+			throw new CustomException(ErrorMessage.ORDER_NOT_FOUND);
 		}
 		
 		

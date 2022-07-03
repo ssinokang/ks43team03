@@ -1,8 +1,10 @@
 package ks43team03.service;
 
+
 import java.util.Base64;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,15 +12,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ks43team03.dto.Order;
+import ks43team03.dto.Payload;
+import ks43team03.dto.Payment;
+import ks43team03.dto.PaymentResDto;
 import ks43team03.mapper.OrderMapper;
 
 
@@ -64,48 +68,116 @@ public class PaymentService {
 	
 	
 	
-	public void addPay(Long amount, String orderId, String paymentKey) {
+	public void order(Long amount, String orderId) {
 
-		
 		orderMapper.getOrderByCode(orderId)
 			.ifPresent(o ->{
 				if(o.getOrderPayPrice() == amount) {
-					String ok = "맞음";
+					log.info("맞음0");
 				}else {
-					String fail = "맞지않음";
+					log.info("맞지않음");
 				}
 			});
 		
 		
 	}
 	
-	public String confirmPayment(String paymentKey, String orderId, Long amount) throws RestClientException, JsonProcessingException {
-
-	    RestTemplate restTemplate = new RestTemplate();
-	    
-	    ObjectMapper objectMapper = new ObjectMapper();
+	public PaymentResDto confirmPayment(String paymentKey, String orderId, Long amount) throws JsonProcessingException {
+		
+		//주문 정보 확인 한다. 
+		Order order = orderMapper.getOrderByCode(orderId)
+				.orElseThrow(() -> new IllegalStateException("주문정보를 찾지 못하였습니다."));
+		
+		
+		// 대관과 레슨의 예약 정보를 확인 확인해야겠네
+		
+		
+		// 주문정보에 결제 타입을 넣어야겠군 
+		
+		
+		// toss 결제 최종 확인을한다.
+		RestTemplate restTemplate = new RestTemplate();
+		ObjectMapper objectMapper = new ObjectMapper();
 		
 		HttpHeaders headers = new HttpHeaders();
 		
-		headers.set("Authorization", "Basic " + Base64.getEncoder().encodeToString((SECRET_KEY + ":").getBytes()));
+		String secretKey = SECRET_KEY + ":";
+		String encodingAuth = new String(Base64.getEncoder().encode(secretKey.getBytes()));
+		headers.setBasicAuth(encodingAuth);
+//        headers.set("Authorization", "Basic " + Base64.getEncoder().encodeToString((SECRET_KEY + ":").getBytes()));
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         
-        HashMap<String, String> payloadMap = new HashMap<>();
-        
+        Map<String, String> payloadMap = new HashMap<>();
         payloadMap.put("orderId", orderId);
         payloadMap.put("amount", String.valueOf(amount));
+        log.info("payloadMap data : {}", payloadMap);
+        HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(payloadMap), headers);
         
-        log.info("payloadmap 데이터 : {} ", payloadMap);
+        PaymentResDto paymentResDto = null;
+        try {
+        	paymentResDto= restTemplate.postForEntity(
+        			"https://api.tosspayments.com/v1/payments/" + paymentKey, 
+        			request, 
+        			PaymentResDto.class
+        			).getBody();
+        	
+        	if(paymentResDto == null) {
+        		log.info("결제 정보를 찾지 못함 ");
+        	}
+        }catch (Exception e) {
+        	e.getMessage();
+        }
+        
+        // 확인이 완료되면 최종 결제 정보를 결제테이블에 정보를 db에 쌓야야겠다.
         
         
-        ResponseEntity<String> response = restTemplate.postForEntity( 
-        			"https://api.tosspayments.com/v1/payments/confirm" + paymentKey,
-        			new HttpEntity<>(objectMapper.writeValueAsString(payloadMap), headers), 
-        			String.class);
-	
-		return response.getBody();
+        
+        return paymentResDto;
+        
 	}
+	
+	
+	public void handleVirtualAccountCallback(Payload payload) {
+		
+		String status = payload.getStatus();
+		String orderId = payload.getOrderId();
+		String secret = payload.getSecret();
+		
+		// 주문정보 조회 
+		orderMapper.getOrderByCode(orderId)
+			.orElseThrow(() -> new IllegalStateException("주문정보를 찾지 못하였습니다."));
+		
+		// 엥 ?? 여기는 결제가 끝나고 정보를 입력하는곳인가
+		
+		if("DONE".equals(status)) {
+			// 입금이 확인되면 결제상태 변경
+		}else if("CANCELED".equals(status)) {
+			// 입금을 취소시 
+		}
+	}
+	
+	public void failPayment(String orderId) {
+		
+		// 주문정보를 조회후 주문 취소를 해야한다  주문 등록 -> 결제 하기 때문
+		
+		
+	}
+	
+	
+	
+	public List<Payment> getAllPayment(){
+		
+		return null;
+	}
+	
+	
+	//회원이 조회한 결제정보
+	public List<Payment> getAllPaymentByUserId(String userId){
+		
+		
+		return null; 
+	}
+	
 	
 	
 }

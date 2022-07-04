@@ -1,5 +1,6 @@
 package ks43team03.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -196,8 +198,8 @@ public class TrainerController {
 	//경력 등록
 	@ResponseBody
 	@PostMapping("/addCareer")
-	public boolean addCareer(@RequestBody List<TrainerCareer> trainerCareerList
-							,@RequestParam MultipartFile[] trainerCareerFile
+	public boolean addCareer(TrainerCareer trainerCareerList
+							,@RequestParam(required = false) MultipartFile[] trainerCareerFile
 							,HttpSession session
 							,HttpServletRequest request) {
 		
@@ -206,6 +208,7 @@ public class TrainerController {
 		String userId = (String)session.getAttribute("SID");
 		
 		log.info("trainerCareerList : {}",trainerCareerList);
+		log.info("업로드 파일크기" + trainerCareerFile);
 		
 		String serverName = request.getServerName();
 		String fileRealPath = "";
@@ -213,7 +216,7 @@ public class TrainerController {
 		if("localhost".equals(serverName)) {
 			// server 가 localhost 일때 접근
 			fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
-			System.out.println(System.getProperty("user.dir"));
+			log.info("user.dir : {}", System.getProperty("user.dir"));
 			//fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
 		}else {
 			//배포용 주소

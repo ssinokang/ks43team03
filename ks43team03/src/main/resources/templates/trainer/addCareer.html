@@ -31,9 +31,9 @@
 			/* 경력 추가 시 유효성 검사 */
 			$('#addCareerBtn').click(function(){
 				var isSubmit = true;
-				var inputObj = $('#plusUl').find('input');
+				var $inputObj = $('#plusUl').find('input').not('input[type="file"]');
 				
-				$.each(inputObj, function(){
+				$.each($inputObj, function(){
 					var inputData = $(this).val();
 					var result = validationCheck(inputData);
 					
@@ -50,33 +50,38 @@
 				
 				/* 여러 li list 형태로 보내기 */
 				if(isSubmit){
-					var trainerCareerList = [];
-					
+					var trainerCareerFile = [];
 					var careerNum = $('#plusUl li').length;
 					
-					console.log(careerNum);
+					//FormData : 가상의 <form> 태그
+					//Ajax를 이용하는 파일 업로드는 FormData를 이용
+					var formData = new FormData();
 					
 					for(var i=0; i<careerNum; i++){
 						
 						var trainerCareer = new Object();
 						
-						trainerCareer.trainerCd = $('input[name="trainerCd"]').val()
-						trainerCareer.trainerCareerTerm = $('input[name="trainerCareerTerm"]').eq(i).val()
-						trainerCareer.trainerCareerCenter = $('input[name="trainerCareerCenter"]').eq(i).val()
-						trainerCareer.trainerCareerPosition = $('input[name="trainerCareerPosition"]').eq(i).val()
-						trainerCareer.trainerCareerWork = $('input[name="trainerCareerWork"]').eq(i).val()
+						formData.append("trainerCd",				$('input[name="trainerCd"]').val());
+						formData.append("trainerCareerTerm",		$('input[name="trainerCareerTerm"]').eq(i).val());
+						formData.append("trainerCareerCenter",		$('input[name="trainerCareerCenter"]').eq(i).val());
+						formData.append("trainerCareerPosition",	$('input[name="trainerCareerPosition"]').eq(i).val());
+						formData.append("trainerCareerWork",		$('input[name="trainerCareerWork"]').eq(i).val());
 						
-						trainerCareerList.push(trainerCareer);
+						formData.append('trainerCareerFile', $('input[type="file"]')[i].files[0]);
 					}
-						console.log(trainerCareerList);
-						console.log(trainerCareer.trainerCd);
-						
+					
+						//FormData 객체란 단순한 객체가 아니며 XMLHttpRequest 전송을 위하여 설계된 특수한 객체 형태입니다.
+						//그러기에 문자열 화할 수 없는 객체이며 Console.log를 사용하여 확인이 불가능합니다.
+						for (var pair of formData.entries()) {
+							console.log(pair[0]+ ', ' + pair[1]); 
+						}
+
 					$.ajax({
 						 url: '/trainer/addCareer'
 						,type: 'POST'
-						,data: JSON.stringify(trainerCareerList)
-						,contentType: 'application/json; charset=utf-8'
-						,dataType: 'json'
+						,processData: false
+						,contentType: false
+						,data: formData
 						,success: function(data){
 							console.log(data);
 							if(data) $(location).attr('href','/trainer/addLicense?trainerCd='+trainerCareer.trainerCd);
@@ -174,7 +179,7 @@
 						</label>
 						<div class="col-md-9 col-sm-9 ">
 							<input type="file" class="form-control" name="trainerCareerFile" 
-								accept=".doc, .docx, .xml, .pdf, .hwp" required>
+								accept=".doc, .docx, .xml, .pdf, .hwp">
 						</div>
 					</div>
 				</li>
@@ -227,9 +232,9 @@
 			/* 경력 추가 시 유효성 검사 */
 			$('#addCareerBtn').click(function(){
 				var isSubmit = true;
-				var inputObj = $('#plusUl').find('input');
+				var $inputObj = $('#plusUl').find('input');
 				
-				$.each(inputObj, function(){
+				$.each($inputObj, function(){
 					var inputData = $(this).val();
 					var result = validationCheck(inputData);
 					

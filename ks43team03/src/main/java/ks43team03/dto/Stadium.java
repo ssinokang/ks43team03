@@ -3,6 +3,7 @@ package ks43team03.dto;
 import java.util.List;
 import java.util.Map;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,4 +31,15 @@ public class Stadium {
 	private List<TFile> 				tFile;
 	private BookingDto 					booking;
 	private FacilityUser 				facilityUser;
+	
+	@Builder
+	public FacilityGoods toFacilityGoods() {
+		return FacilityGoods.builder()
+					.facilityCd(facilityCd)
+					.userId(userId)
+					.goodsCtgCd(goodsCtgCd)
+					.sportsCd(sportsCd)
+					.build();
+					
+	}
 }

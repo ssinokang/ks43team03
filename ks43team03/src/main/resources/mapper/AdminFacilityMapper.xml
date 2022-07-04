@@ -265,7 +265,7 @@
 				,city_cd
 				,facility_detail
 				)VALUES (
-					#{facilityCd}
+					sf_facility_new_cd()
 					,#{mainCtgCd}
 					,#{townCd}
 					,#{facilityUseCd}

@@ -15,6 +15,7 @@ import ks43team03.dto.Lesson;
 import ks43team03.dto.Review;
 import ks43team03.dto.Stadium;
 import ks43team03.mapper.FacilityMapper;
+import ks43team03.mapper.StadiumMapper;
 
 
 @Service
@@ -24,9 +25,13 @@ public class FacilityService {
 	private static final Logger log = LoggerFactory.getLogger(FacilityService.class);
 	
 	private final FacilityMapper facilityMapper;
+	private final StadiumMapper stadiumMapper;
 	
-	public FacilityService(FacilityMapper facilityMapper) {
+	
+	public FacilityService(FacilityMapper facilityMapper, StadiumMapper stadiumMapper) {
 		this.facilityMapper = facilityMapper;
+		this.stadiumMapper = stadiumMapper;
+		
 	}
 
 	/*시설후기갯수*/
@@ -58,11 +63,11 @@ public class FacilityService {
 	
 	
 	/*시설 내 구장 목록*/
-	public List<Stadium> getStadiumList(String facilityCd) {
-		List<Stadium> stadiumList = facilityMapper.getStadiumList(facilityCd);
+	public List<Stadium> getStadiumListByCd(String facilityCd) {
+		List<Stadium> stadiumListByCd = stadiumMapper.getStadiumListByCd(facilityCd);
 		
-		log.info("stadiumList", stadiumList);
-		return stadiumList;
+		log.info("stadiumListByCd", stadiumListByCd);
+		return stadiumListByCd;
 	}
 	
 	/*시설 내 레슨 목록*/

@@ -17,6 +17,8 @@ import ks43team03.dto.StadiumPrice;
 @Mapper
 public interface StadiumMapper {
 
+	//시설코드로 구장 조회
+	public List<Stadium> getStadiumListByCd(String facilityCd);
 	
 	//구장 예약 확인
 	public List<BookingDto> getBookingList(String facilityGoodsCd);

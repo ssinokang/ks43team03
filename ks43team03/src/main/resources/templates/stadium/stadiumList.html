@@ -74,6 +74,7 @@
                 </div>
                 <div class="col-lg-9 col-md-9">
                     <div class="row">
+                    	<a></a>
                         <div class="col-lg-4 col-md-6" th:if="${not #lists.isEmpty(stadiumList)}" th:each="l : ${stadiumList}">
                             <div class="product__item" th:if="${not #lists.isEmpty(l.tFile)}" th:each=" t : ${l.tFile}">
                              	<div th:if="${t.representImg == 'Y'}">
@@ -85,9 +86,9 @@
 	                                        <li><a href="#"><span class="icon_bag_alt"></span></a></li>
 	                                    </ul>
 	                                </div>
-	                                <div class="product__item__text">
+	                                <div class="product__item__text" style="padding-top: 10px;">
 	                                    <h6><a th:href="@{/stadium/stadiumDetail(facilityStadiumCd=${l.facilityStadiumCd})}" th:text="${l.facilityStadiumNm}"></a></h6>
-	                                    <div th:text="${l.facility.facilityNm}" style="font-size: 13px; margin: 3px;"></div>
+	                                    <div th:text="${l.facility.facilityNm}" style="font-size: 13px;"></div>
 	                                    <div class="rating">
 	                                        <i class="fa fa-star"></i>
 	                                        <i class="fa fa-star"></i>
@@ -108,9 +109,9 @@
 										<li><a href="#"><span class="icon_bag_alt"></span></a></li>
 									</ul>
 								</div>
-								<div class="product__item__text">
+								<div class="product__item__text" style="padding-top: 10px;">
 									<h6><a th:href="@{/stadium/stadiumDetail(facilityStadiumCd=${l.facilityStadiumCd})}" th:text="${l.facilityStadiumNm}"></a></h6>
-									<div th:text="${l.facility.facilityNm}" style="font-size: 13px; margin: 3px;"></div>
+									<div th:text="${l.facility.facilityNm}" style="font-size: 13px;"></div>
 									<div class="rating">
 										<i class="fa fa-star"></i>
 										<i class="fa fa-star"></i>

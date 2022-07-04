@@ -160,15 +160,24 @@ $(function() {
 	console.log($goodsCtgVal);
 	$('#goodsCtg option[value=' + $goodsCtgVal + ']').attr('selected', 'selected');
 	
-    $('input:radio[name="lessonDivision"]').change(function() {
+	/**
+	 *	 
+	 **/
+	var $soloparty = $('input:radio[name="lessonDivision"]');
+	$soloparty.change(function() {
         if ($(this).val() === '개인') {
             $lessonNu.removeClass('none-display');
+            $('#lessonTotalMember').val(1);
         } else {
         	$lessonNu.addClass('none-display');
         }
     });
     
-    $(document).ready(function() {        												// INPUT 박스에 들어간 ID값을 적어준다.
+   
+    
+    
+/* 
+ *    $(document).ready(function() {        												// INPUT 박스에 들어간 ID값을 적어준다.
         $("#START_TIME,#END_TIME").timepicker({            
 				'minTime': '09:00am', 												// 조회하고자 할 시작 시간 ( 09시 부터 선택 가능하다. )
 	            'maxTime': '20:00pm', 												// 조회하고자 할 종료 시간 ( 20시 까지 선택 가능하다. )
@@ -178,8 +187,49 @@ $(function() {
         $(window).scroll(function(){
 	        $(".ui-timepicker-wrapper").hide();
 	    });
-	});
-    	
+*	});
+*/
+    /**
+     *유효성 검사
+     **/
     
+    $('#lesson-btn').on('click' ,function() {
+    	var $lessonNm 	  		= $('#lessonNm');
+    	var $lessonDetail 		= $('#lessonDetail');
+    	var $lessonTotalMember 	= $('#lessonTotalMember')
+    	var $lessonCount		= $('.lessonCount')
+    	var $lessonPrice		= $('#lessonPrice')
+    	
+    	
+    	console.log('작동');
+    	console.log(!$soloparty.is(':checked'));
+    	
+    	if($('input:radio[name="lessonDivision"]:checked').val() === '개인' && $('#lessonTotalMember').val() != 1 || $('input:radio[name="lessonDivision"]:checked').val() === '단체' && $('#lessonTotalMember').val() == 1) {
+    		alert('개인/단체와 인원수가 맞지 않습니다.');
+    	} else if($lessonNm.val() == null || $lessonNm.val() == '') {
+    		alert('레슨 이름을 입력해 주세요');
+    		$lessonNm.focus();
+    	} else if($lessonDetail.val() == null || $lessonDetail.val() == '') {
+    		alert('레슨 정보를 입력해 주세요');
+    		$lessonNm.focus();
+    	} else if(!$soloparty.is(':checked')) {
+    		alert('개인/단체를 체크해주세요');
+    		$soloparty.focus();
+    		
+    	} else if($('input:radio[name="lessonDivision"]:checked').val() == '개인' && $lessonCount.val() == '' || $('input:radio[name="lessonDivision"]:checked').val() == '개인' && $lessonCount.val() == null) {
+			alert('회차를 입력해주세요');
+			$lessonCount.focus();
+    	} else if($lessonTotalMember.val() == '' || $lessonTotalMember.val() == null ) {
+    		alert('레슨 인원을 입력해 주세요');
+    		$lessonTotalMember.focus();
+    	} else if($lessonPrice.val() == '' || $lessonPrice.val() == null ) {
+    		alert('레슨 가격을 입력해주세요');
+    		$lessonTotalMember.focus();
+    	} else {
+    		console.log('submit');
+    		console.log($('#lesson-form'));
+    		$('#lesson-form').submit();
+    	}
+    });
 
 });

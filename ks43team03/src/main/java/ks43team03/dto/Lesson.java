@@ -27,7 +27,7 @@ public class Lesson {
 	private String lessonEndDate;
 	private String lessonStartTime;
 	private String lessonEndTime;
-	private String lessonNumber;
+	private String lessonCount;
 	private String lessonPrice;
 	private String lessonRegDate;
 	private String lessonState;

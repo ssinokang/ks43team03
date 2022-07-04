@@ -20,6 +20,7 @@
 		<result column="lesson_end_date" 		property="lessonEndDate"/>		
 		<result column="lesson_start_time" 		property="lessonStartTime"/>		
 		<result column="lesson_end_time" 		property="lessonEndTime"/>
+		<result column="lesson_count" 			property="lessonCount"/>
 		<result column="lesson_price" 			property="lessonPrice"/>		
 		<result column="lesson_reg_date" 		property="lessonRegDate"/>		
 		<result column="lesson_state" 			property="lessonState"/>		
@@ -118,6 +119,7 @@
 			,lesson_sub.lesson_end_date
 			,lesson_sub.lesson_start_time
 			,lesson_sub.lesson_end_time
+			,lesson_sub.lesson_count
 			,lesson_sub.lesson_price
 			,lesson_sub.facility_goods_cd
 			,lesson_sub.lesson_reg_date
@@ -159,6 +161,7 @@
 				  	,l.lesson_end_date
 				  	,l.lesson_start_time
 				  	,l.lesson_end_time
+				  	,l.lesson_count
 				  	,l.lesson_price
 				  	,l.facility_goods_cd
 				  	,l.lesson_reg_date
@@ -217,6 +220,7 @@
 			,l.lesson_end_date
 			,l.lesson_start_time
 			,l.lesson_end_time
+			,l.lesson_count
 			,l.lesson_state
 			,l.lesson_reg_date
 			,s.sports_nm
@@ -248,6 +252,7 @@
 			,lesson_end_date
 			,lesson_start_time
 			,lesson_end_time
+			,lesson_count
 			,lesson_price
 			,lesson_reg_date
 		) VALUES (
@@ -265,6 +270,7 @@
 			,#{lessonEndDate}
 			,#{lessonStartTime}
 			,#{lessonEndTime}
+			,#{lessonCount}
 			,#{lessonPrice}
 			,NOW()
 		)

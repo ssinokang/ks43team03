@@ -51,7 +51,7 @@ public class FacilityGoodsService {
 	// 상폼하나 조회 
 	public ResponseGoods getFacilityGoodsCd(String facilityGoodsCd) {
 		FacilityGoods facilityGoods = facilityGoodsMapper.getFacilityGoodsCd(facilityGoodsCd)
-					.orElseThrow(()->  new CustomException(ErrorMessage.GOODS_NOT_FOUND));
+					.orElseThrow(()->  new CustomException(ErrorMessage.NOT_FOUND_GOODS));
 		
 		String categoryCode = facilityGoods.getGoodsCtgCd();
 		ResponseGoods responceGoods = getFacilityGoodsCd(facilityGoodsCd,categoryCode);
@@ -81,7 +81,7 @@ public class FacilityGoodsService {
 		}else if("stadium".equals(categoryCode)) {
 			
 		}else {
-			throw new CustomException(ErrorMessage.GOODS_NOT_FOUND);
+			throw new CustomException(ErrorMessage.NOT_FOUND_GOODS);
 		}
 		
 		return ResponseGoods.builder()

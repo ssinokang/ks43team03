@@ -20,10 +20,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ks43team03.dto.Order;
+import ks43team03.dto.Pay;
 import ks43team03.dto.Payload;
-import ks43team03.dto.Payment;
 import ks43team03.dto.PaymentResDto;
+import ks43team03.dto.type.OrderState;
+import ks43team03.dto.type.PayStatus;
+import ks43team03.dto.type.PayType;
+import ks43team03.exception.CustomException;
+import ks43team03.exception.ErrorMessage;
 import ks43team03.mapper.OrderMapper;
+import ks43team03.mapper.PayMapper;
 
 
 @Service
@@ -51,7 +57,6 @@ public class PaymentService {
 //	@Value("${fail.call.back.url}")
 	private String failCallBackUrl;
 	
-	//private String tossOriginUrl;
 	
 	
 	 // TEST_SECRTE_KEY 노출 x
@@ -59,9 +64,11 @@ public class PaymentService {
     private String SECRET_KEY;
 	
 	private final OrderMapper orderMapper;
+	private final PayMapper payMapper;
 	
-	public PaymentService(OrderMapper orderMapper) {
+	public PaymentService(OrderMapper orderMapper,PayMapper payMapper) {
 		this.orderMapper = orderMapper;
+		this.payMapper = payMapper;
 	}
 	
 	
@@ -85,11 +92,9 @@ public class PaymentService {
 	public PaymentResDto confirmPayment(String paymentKey, String orderId, Long amount) throws JsonProcessingException {
 		
 		//주문 정보 확인 한다. 
-		Order order = orderMapper.getOrderByCode(orderId)
-				.orElseThrow(() -> new IllegalStateException("주문정보를 찾지 못하였습니다."));
+		Order order = orderMapper.getOrderByOrderUUID(orderId)
+				.orElseThrow(()-> new CustomException(ErrorMessage.NOT_FOUND_ORDER));
 		
-		
-		// 대관과 레슨의 예약 정보를 확인 확인해야겠네
 		
 		
 		// 주문정보에 결제 타입을 넣어야겠군 
@@ -114,26 +119,67 @@ public class PaymentService {
         HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(payloadMap), headers);
         
         PaymentResDto paymentResDto = null;
-        try {
-        	paymentResDto= restTemplate.postForEntity(
-        			"https://api.tosspayments.com/v1/payments/" + paymentKey, 
-        			request, 
-        			PaymentResDto.class
-        			).getBody();
-        	
-        	if(paymentResDto == null) {
-        		log.info("결제 정보를 찾지 못함 ");
-        	}
-        }catch (Exception e) {
-        	e.getMessage();
-        }
-        
+    	paymentResDto= restTemplate.postForEntity(
+    			"https://api.tosspayments.com/v1/payments/" + paymentKey, 
+    			request, 
+    			PaymentResDto.class
+    			).getBody();
+    	
+    	if(paymentResDto == null) {
+    		log.info("결제 정보를 찾지 못함 ");
+    		throw new CustomException(ErrorMessage.NOT_FOUND_PAYMENT);
+    	}
+        log.info("토스 응답데이터 :  {}", paymentResDto);
+    	
         // 확인이 완료되면 최종 결제 정보를 결제테이블에 정보를 db에 쌓야야겠다.
         
+        String status = paymentResDto.getStatus().getMessage();
+        //카드또는 가상계좌 종류 이므로 if문으로 비교 후 카드로 결제했다면 주문완료 와 결제 완료 표시 
+        // 여기서 CARD는 임의의 카드   테이블에 칼럼추가하거 아니면 응답데이터로 비교 함...
+//        if(PayType.CARD.equals(order.getPayType())) {
+//        	log.info("===========카드로 결제===========");
+//        	
+//        	
+//        }else if(PayType.VIRTUAL_ACCOUNT.equals(order.getPayType())) {
+//        	log.info("===========가상계좌로 결제===========");
+//        	
+//        }
         
         
+        if(PayStatus.DONE.equals( paymentResDto.getStatus())) {
+    		order.setOrderPayState(OrderState.COMPLETE.getCode());
+    	}else if(PayStatus.CANCELED.equals( paymentResDto.getStatus())) {
+			order.setOrderPayState(OrderState.CANCEL.getCode());
+		}
+        
+        Pay pay = toPay(paymentResDto, order);
+        // 계좌 입금으로 처리할시 결제상태와 주문상태 주문중 상태
+        
+        orderMapper.modifyOrder(order);
+        
+        payMapper.addPay(pay);
+        
+        //최종적으로 if문 통과시 가상계좌 or 카드 결과 셋팅 ex 카드는 카드번호 카드회사  가상계좌는 계좌은행 계좌번호 예금주
+        
+
+        //통과후 토스 응답데이터 리턴
         return paymentResDto;
         
+	}
+	
+	private Pay toPay(PaymentResDto payRes, Order order) {
+		return Pay.builder()
+				.orderCd(order.getOrderCd())
+				.payMethod(payRes.getMethod())
+				.payPrice(order.getOrderPrice())
+				.orderUUID(payRes.getOrderId())
+				.payTotalPrice(payRes.getTotalAmount())
+				.userId(order.getUserId())
+				.payUsedPoint(order.getUsedPoint())
+				.paymentKey(payRes.getPaymentKey())
+				.payState(payRes.getStatus().getMessage())
+				.build();
+				
 	}
 	
 	
@@ -144,10 +190,9 @@ public class PaymentService {
 		String secret = payload.getSecret();
 		
 		// 주문정보 조회 
-		orderMapper.getOrderByCode(orderId)
-			.orElseThrow(() -> new IllegalStateException("주문정보를 찾지 못하였습니다."));
+		Order order = orderMapper.getOrderByOrderUUID(orderId)
+				.orElseThrow(()-> new CustomException(ErrorMessage.NOT_FOUND_ORDER));
 		
-		// 엥 ?? 여기는 결제가 끝나고 정보를 입력하는곳인가
 		
 		if("DONE".equals(status)) {
 			// 입금이 확인되면 결제상태 변경
@@ -161,22 +206,33 @@ public class PaymentService {
 		// 주문정보를 조회후 주문 취소를 해야한다  주문 등록 -> 결제 하기 때문
 		
 		
+		//order정보 조회
+		Order order = orderMapper.getOrderByOrderUUID(orderId)
+				.orElseThrow(()-> new CustomException(ErrorMessage.NOT_FOUND_ORDER));
+		
+		// order 상태 yn   y세팅하거나 삭제
+		
+		
+		//삭제 또는 업데이트 처리 <<
+		
 	}
 	
 	
 	
-	public List<Payment> getAllPayment(){
+	public List<Pay> getAllPayment(){
 		
 		return null;
 	}
 	
 	
 	//회원이 조회한 결제정보
-	public List<Payment> getAllPaymentByUserId(String userId){
+	public List<Pay> getAllPaymentByUserId(String userId){
 		
 		
 		return null; 
 	}
+	
+	
 	
 	
 	

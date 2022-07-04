@@ -11,6 +11,7 @@ public class Order {
 
 	private String orderCd;
 	private String userId;
+//	private String userName;
 	private String facilityGoodsCd; //예약신청코드 
 	private String goodsCtgCd; //카테고리코드 이것도 
 	private int orderPrice;//가격
@@ -20,9 +21,14 @@ public class Order {
 	private String orderRegDate; //  주문일자
 	//private OrderState orderPayState; // 주문/결제상태 enum테스트
 	private String orderPayState;
+	private PayType payType;
+	private String orderDelYN; // 주문삭제 상태 
+	private String orderDelDate; // 주문삭제일시 
+	
+	
 	
 	// 토스 주문ㅇㅏ이디
-	private String orderId;
+	private String orderUUID;
 	// 상품 이름 흠.
 	private String goodsName;
 	
@@ -47,7 +53,9 @@ public class Order {
 			int usedPoint,
 			int orderPayPrice, 
 			String orderPayState,
-			String goodsName) {
+			String goodsName,
+			PayType payType,
+			String orderUUID) {
 		
 		this.orderCd = orderCd;
 		this.userId = userId;
@@ -59,6 +67,8 @@ public class Order {
 		this.orderPayPrice = orderPayPrice;
 		this.orderPayState = orderPayState;
 		this.goodsName = goodsName;
+		this.payType = payType;
+		this.orderUUID = orderUUID;
 	}
 	
 	

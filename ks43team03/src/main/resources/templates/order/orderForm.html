@@ -245,10 +245,10 @@
 		}
 
 		
-		//const clientKey = "[[${@environment.getProperty('test.client.api.key')}]]";
-		const clientKey = 'test_ck_jkYG57Eba3GoelzLmLQ3pWDOxmA1';
+		const clientKey = "[[${@environment.getProperty('test.client.api.key')}]]";
+		//const clientKey = 'test_ck_jkYG57Eba3GoelzLmLQ3pWDOxmA1';
 		const tossPayments = TossPayments(clientKey)
-		let orderId = 'order_' + new Date().getTime();
+		//let orderId = 'order_' + new Date().getTime();
 		//[[${@environment.getProperty('kakao.authorize.redirect.url')}]]
   
 
@@ -281,9 +281,9 @@
 					let method = data.payName;
 					const paymentData = {
 						amount: data.orderPayPrice,
-						orderId: data.orderCd,
+						orderId: data.orderUUID,
 						orderName: data.goodsName,
-						customerName: data.usreId,
+						customerName: data.userId,
 						method : data.payName,
 						successUrl: window.location.origin + "/success",
 						failUrl: window.location.origin + "/fail",
@@ -298,6 +298,7 @@
 								if(error.code == 'USER_CANCEL'){
 									
 								}
+								console.log('why???????');
 							});
 				}).fail(function (error) {
 					console.log(error);

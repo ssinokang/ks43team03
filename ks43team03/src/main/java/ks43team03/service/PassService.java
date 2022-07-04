@@ -61,7 +61,7 @@ public class PassService {
 	@Transactional(readOnly = true)
 	public Pass getPassDetail(String passCd, String facilityGoodsCd) {
 		Pass pass = passMapper.getPassDetail(passCd, facilityGoodsCd)
-				.orElseThrow(()-> new CustomException(ErrorMessage.GOODS_ERROR_PASS_NOT_FOUND));
+				.orElseThrow(()-> new CustomException(ErrorMessage.GOODS_ERROR_NOT_FOUND_PASS));
 		
 		return pass;
 	}

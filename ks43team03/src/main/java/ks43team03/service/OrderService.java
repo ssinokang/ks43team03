@@ -2,6 +2,7 @@ package ks43team03.service;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,26 +57,30 @@ public class OrderService {
 		
 		
 		if(!paytype.equals("카드") && !paytype.equals("가상계좌")) {
-			
+			throw new CustomException(ErrorMessage.NOT_EXITS_PAYMENT_TYPE_ERROR);
 		}
 		
-		if(orderPayPrice < 0 || orderPayPrice > req.getOrderPrice()) {
-			//exception
+		if(orderPayPrice < 0 || orderPayPrice > goods.getPrice()) {
+			throw new CustomException(ErrorMessage.ORDER_ERROR_ORDER_PRICE);
 		}
 		
 		// 상품정보있는지 없는지 체크 한다.
-		
 		
 		// 예외처리 
 		try {
 			User user = userMapper.getUserInfoById(userId);
 			if(user == null) {
-				// 예외 발생
+				throw new CustomException(ErrorMessage.USER_ERROR_USER_NOT_FOUND);
 			}else {
-				// 있다면 포인트 내역 조회한다 
+				// 있다면 포인트 내역 조회한다 후 
+				
+				
+				//포인트 테이블 포인트 차감 하고 저장한다.
+				
+				//
 			}
 		}catch(Exception e){
-			
+			throw new CustomException(ErrorMessage.DATABASE_ERROR);
 		}
 		
 		
@@ -92,10 +97,13 @@ public class OrderService {
 				.facilityGoodsCd(goods.getFacilityGoods().getFacilityGoodsCd())
 				.goodsCtgCd(goods.getFacilityGoods().getGoodsCtgCd())
 				.orderPayPrice(req.getOrderPayPrice())
+				.orderUUID(UUID.randomUUID().toString()+ LocalDate.now())
 				.orderPrice(req.getOrderPrice())
 				.userId(req.getUserId())
+				.usedPoint(req.getUsedPoint())
 				.goodsName(req.getGoodsName())
 				.orderPayState(OrderState.ORDER.getCode())
+				.payType(req.getPayType())
 				.build();
 	}
 	
@@ -120,7 +128,7 @@ public class OrderService {
 	
 	//== 주문 상세 조회 ==//
 	public Order getOrderByCode(String orderCd) {
-		Order order = orderMapper.getOrderByCode(orderCd).orElseThrow(()-> new CustomException(ErrorMessage.ORDER_NOT_FOUND));
+		Order order = orderMapper.getOrderByCode(orderCd).orElseThrow(()-> new CustomException(ErrorMessage.NOT_FOUND_ORDER));
 		return order;
 	}
 	
@@ -147,7 +155,7 @@ public class OrderService {
 			order = orderMapper.getOrderDetailWithPass(orderCd);
 			break;
 		default: 
-			throw new CustomException(ErrorMessage.ORDER_NOT_FOUND);
+			throw new CustomException(ErrorMessage.NOT_FOUND_ORDER);
 		}
 		
 		

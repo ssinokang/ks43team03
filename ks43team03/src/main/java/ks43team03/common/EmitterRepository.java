@@ -49,6 +49,8 @@ public class EmitterRepository {
 
     
     public void deleteAllEmitterStartWithId(String userId) {
+
+
         emitters.forEach(
                 (key, emitter) -> {
                     if (key.startsWith(userId)) {

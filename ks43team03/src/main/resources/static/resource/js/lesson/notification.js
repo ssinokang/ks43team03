@@ -2,52 +2,46 @@
  * 
  */
 
+/* 좋아요 알림 */
 $(function() {
 	$('#like').on('click', function() {
-		console.log("작동");
-		var data = sessionStorage.getItem("SID");
-		console.log(data);
-		var data = sessionStorage.getItem("SNAME");
-		console.log(data);
-		var data = sessionStorage.length
-		console.log(data);
-		/*if (data.facilityCd == null) {
-				alert('입력하지않은 폼이 있습니다.');
-				return false;
-		} else {
-			$.ajax({
-				type: 'POST',
-				url: '/api/goods',
-				dataType: 'JSON',
-				contentType: 'application/json; charset=utf-8',
-				data: JSON.stringify(data)
-			}).done(function (fg) {
+		if ($('#sessionId').val() != null) {
+			const data = {
+					 receiverId : 'id002'
+			}
+			var receiverId = 'id002';
+	        var sessionId = $('#recieverId').val();
+	        var eventSource = new EventSource('/notification/like/' , {data});
 
-				console.log(fg.goodsCtgCd);
-				
-				$('#gscode').val(fg.facilityGoodsCd);
-				if (fg.goodsCtgCd == 'lesson') {
-					$lesson.css('display', 'block');
-				}
-				if (fg.goodsCtg == 'pass') {
-					$pass.css('display', 'block');
-				}
-				if (fg.goodsCtg == 'stadium') {
-					$stadium.css('display', 'block');
-				}
-				//facilityGoodsCd = fg.facilityGoodsCd;
-				
-				$('#facilityCd-lesson').val(fg.facilityCd);
-				$('#facilityGoodsCd-lesson').val(fg.facilityGoodsCd);
-				$('#goodsCtgCd-lesson').val(fg.goodsCtgCd);
-				$('#userId-lesson').val(fg.userId);
-				$('#sportsCd-lesson').val(fg.sportsCd);
+	        eventSource.addEventListener("sse", function(event) {
+	            let message = event.data;
+	            console.log(message);
+	        })
 
-				productData = fg;
-			}).fail(function (error) {
-				alert(JSON.stringify(error));
-			});
-			
-		}*/
+	        eventSource.addEventListener("error", function(event) {
+	            eventSource.close()
+	        })
+	    }
 	})
 });
+
+/* 로그인 알림 */
+$(function() {
+	$('#login').on('click', function() {
+		if ($('#sessionId').val() != null) {
+			var receiverId = 'id002'
+				var sessionId = $('#recieverId').val();
+			var eventSource = new EventSource('/notification/login/' + "?receiverId=" + receiverId);
+			
+			eventSource.addEventListener("sse", function(event) {
+				let message = event.data;
+				console.log(message);
+			})
+			
+			eventSource.addEventListener("error", function(event) {
+				eventSource.close()
+			})
+		}
+	})
+});
+

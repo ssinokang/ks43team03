@@ -36,35 +36,37 @@
 							<p class="text-muted font-13 m-b-30">
 								DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>
 							</p>
-							<table id="datatable" class="table table-striped table-bordered" style="width:100%">
-								<thead>
-									<!-- 테스트 데이터 -->
-									<tr>
-										<th>레슨 이름</th>
-										<th>종목</th>
-										<th>레슨 수강료</th>
-										<th>레슨 시작 일자</th>
-										<th>레슨 종료 일자</th>
-										<th>레슨 상태</th>
-										<th>레슨 등록 일자</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:if="${not #lists.isEmpty(lessonList)}" th:each="l : ${lessonList}">
-										<td><a th:href="@{/lesson/detailLesson(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></td>
-										<td th:text="${l.sports.sportsName}"></td>
-										<td th:text="${l.lessonPrice}"></td>
-										<td th:text="${l.lessonStartDate}"></td>
-										<td th:text="${l.lessonEndDate}"></td>
-										<td th:text="${l.lessonState}"></td>
-										<td th:text="${l.lessonRegDate}"></td>
-									</tr>
-									
-									<tr th:unless="${not #lists.isEmpty(lessonList)}">
-										<td colspan="6">레슨 내용이 없습니다.</td>
-									</tr>
-								</tbody>
-							</table>
+							<div class="table-responsive">
+								<table id="datatable" class="table table-striped jambo_table bulk_action table-bordered" style="width:100%">
+									<thead>
+										<!-- 테스트 데이터 -->
+										<tr>
+											<th>레슨 이름</th>
+											<th>종목</th>
+											<th>레슨 수강료</th>
+											<th>레슨 시작 일자</th>
+											<th>레슨 종료 일자</th>
+											<th>레슨 상태</th>
+											<th>레슨 등록 일자</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:if="${not #lists.isEmpty(lessonList)}" th:each="l : ${lessonList}">
+											<td><a th:href="@{/lesson/detailLesson(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></td>
+											<td th:text="${l.sports.sportsName}"></td>
+											<td th:text="${l.lessonPrice}"></td>
+											<td th:text="${l.lessonStartDate}"></td>
+											<td th:text="${l.lessonEndDate}"></td>
+											<td th:text="${l.lessonState}"></td>
+											<td th:text="${l.lessonRegDate}"></td>
+										</tr>
+										
+										<tr th:unless="${not #lists.isEmpty(lessonList)}">
+											<td colspan="6">레슨 내용이 없습니다.</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 							<div>
 								
 							</div>	

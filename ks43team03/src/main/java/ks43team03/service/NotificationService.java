@@ -34,21 +34,17 @@ public class NotificationService {
         }
     }
     
-    public void send(String receiver, Boomk boomk, String content) {
-        Notification notification = createNotification(receiver, boomk, content);
-        String id = String.valueOf(receiver);
-        
-        // 로그인 한 유저의 SseEmitter 모두 가져오기
-        Map<String, SseEmitter> sseEmitters = emitterRepository.findAllEmitterStartWithByuserId(id);
-        sseEmitters.forEach(
-                (key, emitter) -> {
-                    // 데이터 캐시 저장(유실된 데이터 처리하기 위함)
-                    emitterRepository.saveEventCache(key, notification);
-                    // 데이터 전송
-                    sendToClient(emitter, key, NotificationResponse.from(notification));
-                }
-        );
-    }
+	/*
+	 * public void send(String receiver, Boomk boomk, String content) { Notification
+	 * notification = createNotification(receiver, boomk, content); String id =
+	 * String.valueOf(receiver);
+	 * 
+	 * // 로그인 한 유저의 SseEmitter 모두 가져오기 Map<String, SseEmitter> sseEmitters =
+	 * emitterRepository.findAllEmitterStartWithByuserId(id); sseEmitters.forEach(
+	 * (key, emitter) -> { // 데이터 캐시 저장(유실된 데이터 처리하기 위함)
+	 * emitterRepository.saveEventCache(key, notification); // 데이터 전송
+	 * sendToClient(emitter, key, NotificationResponse.from(notification)); } ); }
+	 */
 
     public SseEmitter subscribe(String userId, String lastEventId) {
         

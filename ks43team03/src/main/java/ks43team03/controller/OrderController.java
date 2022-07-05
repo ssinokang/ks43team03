@@ -5,13 +5,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ks43team03.dto.Order;
+import ks43team03.dto.PaymentResDto;
 import ks43team03.dto.ResponseGoods;
 import ks43team03.service.FacilityGoodsService;
 import ks43team03.service.OrderService;
@@ -33,8 +36,10 @@ public class OrderController {
 	
 	
 	@PostMapping("/addOrder")
-	/*public ResponseEntity<Order> addOrder(@RequestBody Order.Request req) {
+	public ResponseEntity<Order> addOrder(@RequestBody Order.Request req) {
 		
+		
+		log.info("화면에서 받은 데이터 : {}", req.getGoodsName());
 		
 		log.info("데이터 userId 요청 : {}", req.getUserId());
 		log.info("데이터 facilityGoodsCd 요청 : {}", req.getFacilityGoodsCd());
@@ -45,7 +50,7 @@ public class OrderController {
 		 
 		
 		return ResponseEntity.ok(orderService.addOrder(req, responseGoods));
-	}*/
+	}
 	
 	
 	
@@ -64,6 +69,9 @@ public class OrderController {
 		
 		return "order/orderDetail";
 	}
+	
+	
+	
 	
 	
 	

@@ -9,7 +9,7 @@ import org.apache.ibatis.type.MappedTypes;
 
 public enum OrderState implements CodeEnum{
 
-	ORDER("주문중"),COMPLETE("주문완료"), FAIL("주문실패"), CANCEL("주문취소");
+	ORDER("주문 진행중"),COMPLETE("주문완료"), FAIL("주문실패"), CANCEL("주문취소");
 	
 	private String code;
 	

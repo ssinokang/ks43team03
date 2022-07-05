@@ -265,7 +265,16 @@ public class UserService {
 		return result;
 	}
 	
+	/**
+	 * 비밀번호 찾기
+	 */
 	
+	public String isIdCheck2(String userId) {
+		
+		String result = userMapper.isIdCheck2(userId);
+		
+		return result;
+	}
 	
 	
 }

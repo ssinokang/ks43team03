@@ -130,7 +130,7 @@
                         <div class="product__details__button" style="margin-top: 20px;">
                             <a data-toggle="modal" data-target="#addModal" class="cart-btn"><span class="icon_bag_alt"></span>시설가입</a> 
                             <ul>
-                                <li><a th:href="@{/boomk/addBoomk(facilityCd=${l.facilityCd},userId=${session.SID})}"><span class="icon_heart_alt"></span></a></li>
+                                <li><a th:if="${session.SLEVEL == '5'}" th:href="@{/boomk/addBoomk(facilityCd=${l.facilityCd},userId=${session.SID})}"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
                             </ul>
                         </div>

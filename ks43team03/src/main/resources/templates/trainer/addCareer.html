@@ -48,26 +48,27 @@
 					}
 				});
 				
-				/* 여러 li list 형태로 보내기 */
+				/* 여러 li list 형태로 보내기 formdata */
 				if(isSubmit){
 					var trainerCareerFile = [];
 					var careerNum = $('#plusUl li').length;
-					
+					var trainerCd = $('input[name="trainerCd"]').val();
 					//FormData : 가상의 <form> 태그
 					//Ajax를 이용하는 파일 업로드는 FormData를 이용
 					var formData = new FormData();
 					
 					for(var i=0; i<careerNum; i++){
 						
-						var trainerCareer = new Object();
+						formData.append('trainerCareerList['+i+'].trainerCd',				trainerCd);
+						formData.append('trainerCareerList['+i+'].trainerCareerTerm',		$('input[name="trainerCareerTerm"]').eq(i).val());
+						formData.append('trainerCareerList['+i+'].trainerCareerCenter',		$('input[name="trainerCareerCenter"]').eq(i).val());
+						formData.append('trainerCareerList['+i+'].trainerCareerPosition',	$('input[name="trainerCareerPosition"]').eq(i).val());
+						formData.append('trainerCareerList['+i+'].trainerCareerWork',		$('input[name="trainerCareerWork"]').eq(i).val());
 						
-						formData.append("trainerCd",				$('input[name="trainerCd"]').val());
-						formData.append("trainerCareerTerm",		$('input[name="trainerCareerTerm"]').eq(i).val());
-						formData.append("trainerCareerCenter",		$('input[name="trainerCareerCenter"]').eq(i).val());
-						formData.append("trainerCareerPosition",	$('input[name="trainerCareerPosition"]').eq(i).val());
-						formData.append("trainerCareerWork",		$('input[name="trainerCareerWork"]').eq(i).val());
-						
-						formData.append('trainerCareerFile', $('input[type="file"]')[i].files[0]);
+						//첨부파일 없다면 담지 않는다
+						if($('input[type="file"]')[i].files[0]){
+							formData.append('trainerCareerList['+i+'].trainerCareerFiles', 	$('input[type="file"]')[i].files[0]);
+						}
 					}
 					
 						//FormData 객체란 단순한 객체가 아니며 XMLHttpRequest 전송을 위하여 설계된 특수한 객체 형태입니다.
@@ -84,7 +85,7 @@
 						,data: formData
 						,success: function(data){
 							console.log(data);
-							if(data) $(location).attr('href','/trainer/addLicense?trainerCd='+trainerCareer.trainerCd);
+							if(data) $(location).attr('href','/trainer/addLicense?trainerCd='+trainerCd);
 						}
 					});
 				}

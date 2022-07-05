@@ -152,16 +152,14 @@ public class TrainerController {
 	//자격증 등록
 	@ResponseBody
 	@PostMapping("/addLicense")
-	public boolean addLicense(@RequestBody List<TrainerLicense> trainerLicenseList
-							 ,@RequestParam(value = "trainerCd") String trainerCd
-							 ,@RequestParam MultipartFile[] trainerLicenseFile
+	public boolean addLicense(TrainerLicense trainerLicense
 							 ,HttpSession session
 							 ,HttpServletRequest request) {
 		
 		boolean addLicenseCheck = false;
 		
 		String userId = (String)session.getAttribute("SID");
-		
+		List<TrainerLicense> trainerLicenseList = trainerLicense.getTrainerLicenseList();
 		log.info("trainerLicenseList : {}",trainerLicenseList);
 		
 		String serverName = request.getServerName();
@@ -177,7 +175,7 @@ public class TrainerController {
 			fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
 		}
 		
-		int result = trainerService.addTrainerLicense(trainerLicenseList, trainerCd, userId, trainerLicenseFile, fileRealPath);
+		int result = trainerService.addTrainerLicense(trainerLicenseList, userId, fileRealPath);
 		
 		if(result>0) addLicenseCheck = true;
 		
@@ -198,8 +196,7 @@ public class TrainerController {
 	//경력 등록
 	@ResponseBody
 	@PostMapping("/addCareer")
-	public boolean addCareer(TrainerCareer trainerCareerList
-							,@RequestParam(required = false) MultipartFile[] trainerCareerFile
+	public boolean addCareer(TrainerCareer trainerCareer
 							,HttpSession session
 							,HttpServletRequest request) {
 		
@@ -207,8 +204,8 @@ public class TrainerController {
 		
 		String userId = (String)session.getAttribute("SID");
 		
-		log.info("trainerCareerList : {}",trainerCareerList);
-		log.info("업로드 파일크기" + trainerCareerFile);
+		List<TrainerCareer> trainerCareerList = trainerCareer.getTrainerCareerList();
+		log.info("trainerCareerList : {}", trainerCareerList);
 		
 		String serverName = request.getServerName();
 		String fileRealPath = "";
@@ -223,9 +220,9 @@ public class TrainerController {
 			fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
 		}
 		
-		//int result = trainerService.addTrainerCareer(trainerCareerList, trainerCd, userId, trainerCareerFile, fileRealPath);
+		int result = trainerService.addTrainerCareer(trainerCareerList, userId, fileRealPath);
 		
-		//if(result > 0) addCareerCheck = true;
+		if(result > 0) addCareerCheck = true;
 		
 		return addCareerCheck;
 	}

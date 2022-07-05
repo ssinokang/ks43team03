@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.common.FileUtils;
@@ -136,17 +137,26 @@ public class TrainerService {
 	/**
 	 * 트레이너 자격증 등록
 	 */
-	public int addTrainerLicense(List<TrainerLicense> trainerLicenseList, String trainerCd, String userId
-								,MultipartFile[] trainerLicenseFile, String fileRealPath) {
+	public int addTrainerLicense(List<TrainerLicense> trainerLicenseList, String userId, String fileRealPath) {
 		
-		//파일 업로드 위한 객체 생성 
-		FileUtils fu = new FileUtils(trainerLicenseFile, userId, fileRealPath);
-		List<Map<String, String>> dtoFileList = fu.parseFileInfo();
+		for(int i=0; i<trainerLicenseList.size(); i++) {
+			//파일 없다면 거치지 않도록
+			if(!ObjectUtils.isEmpty(trainerLicenseList.get(i).getTrainerLicenseFiles())) {
+				
+				//파일 업로드 위한 객체 생성
+				FileUtils fu = new FileUtils(trainerLicenseList.get(i).getTrainerLicenseFiles(), userId, fileRealPath);
+				List<Map<String, String>> dtoFileList = fu.parseFileInfo();
+			
+				// t_file 테이블에 삽입
+				log.info("addCareer dtoFileList : {}", dtoFileList);
+		        fileMapper.uploadFile(dtoFileList);
+		        
+		        //file_cd삽입
+		        trainerLicenseList.get(i).setTrainerLicenseFile(dtoFileList.get(0).get("fileCd"));
+			}
+		}
 		
-		// t_file 테이블에 삽입
-		log.info("LessonService/addLesson dtoFileList : {}", dtoFileList);
-        fileMapper.uploadFile(dtoFileList);
-		
+		//TrainerLicense 테이블 삽입
 		int result = trainerMapper.addTrainerLicense(trainerLicenseList);
 		log.info("result : {}", result);
 		
@@ -156,9 +166,26 @@ public class TrainerService {
 	/**
 	 * 트레이너 경력 등록
 	 */
-	public int addTrainerCareer(List<TrainerCareer> trainerCareerList, String trainerCd, String userId
-							   ,MultipartFile[] trainerCareerFile, String fileRealPath) {
+	public int addTrainerCareer(List<TrainerCareer> trainerCareerList, String userId, String fileRealPath) {
 		
+		
+		for(int i=0; i<trainerCareerList.size(); i++) {
+			//파일 없다면 거치지 않도록
+			if(!ObjectUtils.isEmpty(trainerCareerList.get(i).getTrainerCareerFiles())) {
+				
+				//파일 업로드 위한 객체 생성
+				FileUtils fu = new FileUtils(trainerCareerList.get(i).getTrainerCareerFiles(), userId, fileRealPath);
+				List<Map<String, String>> dtoFileList = fu.parseFileInfo();
+			
+				// t_file 테이블에 삽입
+				log.info("addCareer dtoFileList : {}", dtoFileList);
+		        fileMapper.uploadFile(dtoFileList);
+		        
+		        //file_cd삽입
+		        trainerCareerList.get(i).setTrainerCareerFile(dtoFileList.get(0).get("fileCd"));
+			}
+		}
+		//TrainerCareer테이블 삽입
 		int result = trainerMapper.addTrainerCareer(trainerCareerList);
 		log.info("result : {}", result);
 		
@@ -181,7 +208,7 @@ public class TrainerService {
 		List<Map<String, String>> dtoFileList = fu.parseFileInfo();
 		
 		// t_file 테이블에 삽입
-		log.info("LessonService/addLesson dtoFileList : {}", dtoFileList);
+		log.info("addTrainer dtoFileList : {}", dtoFileList);
         fileMapper.uploadFile(dtoFileList);
 		
 		// 트레이너 등록 - 트레이너 코드 selectKey로 담아 줌
@@ -208,7 +235,7 @@ public class TrainerService {
 			m.put("trainerCd", trainerCd);
 			relationFileList.add(m);
 		}
-		System.out.println(relationFileList);
+		log.info("relationFileList", relationFileList);
 		fileMapper.uploadRelationFileWithTrainer(relationFileList);
 		
 		return trainerCd;

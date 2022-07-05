@@ -1,6 +1,9 @@
 package ks43team03.dto;
 
+
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,5 +22,6 @@ public class TrainerCareer {
 	private String trainerCareerFile;
 	private String trainerCareerRegDate;
 	
+	private MultipartFile[] trainerCareerFiles;
 	private List<TrainerCareer> trainerCareerList;
 }

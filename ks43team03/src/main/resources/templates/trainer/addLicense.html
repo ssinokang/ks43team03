@@ -31,7 +31,7 @@
 			/* 자격증 추가 시 유효성 검사 */
 			$('#addLicenseBtn').click(function(){
 				var isSubmit = true;
-				var inputObj = $('#plusUl').find('input');
+				var inputObj = $('#plusUl').find('input').not('input[type="file"]');
 				
 				$.each(inputObj, function(){
 					var inputData = $(this).val();
@@ -47,32 +47,38 @@
 						return false;
 					}
 				});
-				
-				/* 여러 li list 형태로 보내기 */
+				/* 여러 li list 형태로 보내기 formdata */
 				if(isSubmit){
 					var trainerLicenseList = [];
-					
 					var licenseNum = $('#plusUl li').length;
 					
-					console.log(licenseNum);
+					//FormData : 가상의 <form> 태그
+					//Ajax를 이용하는 파일 업로드는 FormData를 이용
+					var formData = new FormData();
 					
 					for(var i=0; i<licenseNum; i++){
 						
-						var trainerLicense = new Object();
+						formData.append('trainerLicenseList['+i+'].trainerCd',			$('input[name="trainerCd"]').val());
+						formData.append('trainerLicenseList['+i+'].trainerLicense',		$('input[name="trainerLicense"]').eq(i).val());
 						
-						trainerLicense.trainerCd = $('input[name="trainerCd"]').val()
-						trainerLicense.trainerLicense = $('input[name="trainerLicense"]').eq(i).val()
-						
-						trainerLicenseList.push(trainerLicense);
+						//첨부파일 없다면 담지 않는다
+						if($('input[type="file"]')[i].files[0]){
+							formData.append('trainerLicenseList['+i+'].trainerLicenseFiles', $('input[type="file"]')[i].files[0]);
+						}
 					}
-						console.log(trainerLicenseList);
 					
+						//FormData 객체란 단순한 객체가 아니며 XMLHttpRequest 전송을 위하여 설계된 특수한 객체 형태입니다.
+						//그러기에 문자열 화할 수 없는 객체이며 Console.log를 사용하여 확인이 불가능합니다.
+						for (var pair of formData.entries()) {
+							console.log(pair[0]+ ', ' + pair[1]); 
+						}
+
 					$.ajax({
 						 url: '/trainer/addLicense'
 						,type: 'POST'
-						,data: JSON.stringify(trainerLicenseList)
-						,contentType: 'application/json; charset=utf-8'
-						,dataType: 'json'
+						,processData: false
+						,contentType: false
+						,data: formData
 						,success: function(data){
 							console.log(data);
 							if(data) $(location).attr('href','/');
@@ -81,6 +87,7 @@
 				}
 			});
 			
+		});				
 			
 		// 최대 li 개수
 		var maxLiNum = 50;
@@ -141,7 +148,8 @@
 							<span class="required"></span>
 						</label>
 						<div class="col-md-9 col-sm-9 ">
-							<input type="text" class="form-control" name="trainerLicenseFile" placeholder="원래는 첨부 파일  그냥 doc 입력 바람">
+							<input type="file" class="form-control" name="trainerLicenseFile" 
+								accept=".doc, .docx, .xml, .pdf, .hwp">
 						</div>
 					</div>
 				</li>

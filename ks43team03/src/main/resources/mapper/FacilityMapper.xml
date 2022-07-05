@@ -83,15 +83,6 @@
 			<result column="facility_approve_date"	property="facilityApproveDate"/>
 			<result column="facility_reg_date"		property="facilityRegDate"/>
 		</collection>
-		<collection property="review" 			javaType="Review">
-			<id column="review_cd"				property="reviewCd"/>
-			<result column="pay_cd"				property="payCd"/>
-			<result column="goods_ctg_cd"		property="goodsCtgCd"/>
-			<result column="user_id"			property="userId"/>
-			<result column="review_detail"		property="reviewDetail"/>
-			<result column="review_score"		property="reviewScore"/>
-			<result column="review_reg_date"	property="reviewRegDate"/>
-		</collection>
 		<collection property="tFile"  ofType="TFile">
 			<id		column="file_cd"				property="fileCd"/>
 			<result	column="original_file_nm"		property="originalFileName"/>
@@ -143,57 +134,7 @@
 
 	
 	
-	<select id="getReviewCountByCd" resultType="int">
-		/*시설 별 리뷰 수*/
-		SELECT
-			COUNT(*)
-		FROM 
-			review AS r
-			INNER join
-			pay AS p
-			on
-			r.pay_cd = p.pay_cd
-			INNER join
-			goods_order AS o
-			on
-			p.order_cd = o.order_cd
-			INNER join
-			facility_goods AS fg
-			on
-			o.facility_goods_cd = fg.facility_goods_cd
-		WHERE
-			fg.facility_cd = #{facilityCd};
-	</select>
 	
-	<select id="getReviewList" resultType="Review">
-	/*리뷰조회*/
-		SELECT
-			r.review_cd			AS reviewCd
-			,r.pay_cd			AS payCd
-			,r.goods_ctg_cd		AS goodsCtgCd
-			,r.user_id			AS userId
-			,r.review_detail	AS reviewDetail
-			,r.review_score		AS reviewScore
-			,r.review_reg_date	AS reviewRegDate
-			,fg.facility_cd		AS facilityCd
-		FROM 
-			review AS r
-			INNER join
-			pay AS p
-			on
-			r.pay_cd = p.pay_cd
-			INNER join
-			goods_order AS o
-			on
-			p.order_cd = o.order_cd
-			INNER join
-			facility_goods AS fg
-			on
-			o.facility_goods_cd = fg.facility_goods_cd
-		where
-	   		fg.facility_cd = #{facilityCd}
-	   ORDER BY r.review_reg_date DESC;
-	</select>
 	
 	
 	<select id="isUserCheck" parameterType="String" resultType="boolean">
@@ -369,14 +310,12 @@
 				,f.area_cd						
 				,f.city_cd						
 				,f.town_cd						
-				,f.facility_use_cd				
-				,f.user_id						
+				,f.facility_use_cd									
 				,f.facility_nm					
 				,f.facility_address  			
 				,f.facility_tell				
 				,f.facility_post_num			
-				,f.facility_reg_date			
-				,f.facility_detail 				
+				,f.facility_reg_date						
 				,facility_file.file_cd			
 				,facility_file.re_file_name		
 				,facility_file.original_file_nm	

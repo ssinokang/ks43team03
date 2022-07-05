@@ -9,18 +9,13 @@ import org.apache.ibatis.annotations.Mapper;
 import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityUser;
 import ks43team03.dto.Lesson;
-import ks43team03.dto.Review;
 
 
 
 @Mapper
 public interface FacilityMapper {
 	
-	//시설 후기 갯수
-	public int getReviewCountByCd(String facilityCd);
-	
-	//시설 후기 
-	public List<Review> getReviewList(String facilityCd);
+
 
 	//시설에 가입한 회원 체크
 	public boolean isUserCheck(String userId, String facilityCd);

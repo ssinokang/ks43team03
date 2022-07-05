@@ -24,6 +24,18 @@ public class ReviewService {
 		this.reviewMapper = reviewMapper;
 	}
 	
+	/*결제한 회원만 리뷰작성
+	public boolean isOrderCheck(String userId, String facilityCd, String facilityGoodsCd) {
+		boolean result = reviewMapper.isOrderCheck(userId, facilityCd, facilityGoodsCd);
+		return result;
+	}*/
+	
+	/*상품코드별 후기 조회*/
+	public List<Review> getReviewListByCd(String facilityGoodsCd){
+		List<Review> reviewListByCd = reviewMapper.getReviewListByCd(facilityGoodsCd);
+		
+		return reviewListByCd;
+	}
 	
 	
 	/*사용자가 후기 등록*/

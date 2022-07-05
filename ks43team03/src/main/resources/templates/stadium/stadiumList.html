@@ -16,8 +16,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a href="./index"><i class="fa fa-home"></i> Home</a>
-                        <span>Shop</span>
+                        <a th:href="@{/}"><i class="fa fa-home"></i> Home</a>
+                        <span>구장</span>
                     </div>
                 </div>
             </div>
@@ -87,7 +87,7 @@
 	                                    </ul>
 	                                </div>
 	                                <div class="product__item__text" style="padding-top: 10px;">
-	                                    <h6><a th:href="@{/stadium/stadiumDetail(facilityStadiumCd=${l.facilityStadiumCd})}" th:text="${l.facilityStadiumNm}"></a></h6>
+	                                    <h6><a th:href="@{/stadium/stadiumDetail(facilityStadiumCd=${l.facilityStadiumCd}, facilityGoodsCd=${l.facilityGoodsCd})}" th:text="${l.facilityStadiumNm}"></a></h6>
 	                                    <div th:text="${l.facility.facilityNm}" style="font-size: 13px;"></div>
 	                                    <div class="rating">
 	                                        <i class="fa fa-star"></i>
@@ -110,7 +110,7 @@
 									</ul>
 								</div>
 								<div class="product__item__text" style="padding-top: 10px;">
-									<h6><a th:href="@{/stadium/stadiumDetail(facilityStadiumCd=${l.facilityStadiumCd})}" th:text="${l.facilityStadiumNm}"></a></h6>
+									<h6><a th:href="@{/stadium/stadiumDetail(facilityStadiumCd=${l.facilityStadiumCd},facilityGoodsCd=${l.facilityGoodsCd})}" th:text="${l.facilityStadiumNm}"></a></h6>
 									<div th:text="${l.facility.facilityNm}" style="font-size: 13px;"></div>
 									<div class="rating">
 										<i class="fa fa-star"></i>

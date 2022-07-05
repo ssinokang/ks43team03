@@ -59,6 +59,47 @@
 				}
 			})
 		});
+		 /*$(function(){
+			var $reviewForm = $('#reviewForm');
+			function validationCheck(data1, date2, date3){
+				if((typeof data1 == 'undefined' || data1 == '' || data1 == null) 
+						&& ((typeof data2 == 'undefined' || data2 == '' || data2 == null)
+								|| (typeof data3 == 'undefined' || data3 == '' || data3 == null))){
+					return false;
+				}
+				return true;
+			}
+			
+			$reviewForm.on('click','#reviewBtn',function(){
+				
+				var facilityCd = $('input[name="facilityCd"]').val();
+				var userId = $('input[name="userId"]').val();
+				var facilityGoodsCd = $('input[name="facilityGoodsCd"]').val();
+				console.log(facilityCd);
+				console.log(userId);
+				console.log(facilityGoodsCd);
+				
+				var vCheck = validationCheck(userId, facilityCd, facilityGoodsCd);
+				console.log(vCheck);
+				
+				if(vCheck){
+					$.ajax({
+						 url: '/review/orderCheck'
+						,type: 'POST'
+						,data: {'facilityCd' : facilityCd, 'userId' : userId, 'facilityGoodsCd' : facilityGoodsCd}
+						,dataType: 'json'
+						,success: function(data){
+							console.log(data);
+							if(data){
+								$reviewForm.attr('action','/review/addReview').submit();
+							}else{
+								alert("구매 후 등록이 가능합니다");
+							}
+						}
+					});
+				}
+			})
+		});*/
 	</script>
  
 </th:block>
@@ -142,7 +183,7 @@
 	                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">게시판</a>
 	                            </li>
 	                            <li class="nav-item">
-	                                <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">후기</a>
+	                                <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab" th:text="'후기(' + ${reviewCount} + ')'"></a>
 	                            </li>
 	                        </ul>
 	                        <div class="tab-content">
@@ -410,8 +451,10 @@
 								<input type="hidden" name="reviewCd" value="review_03"> 
 								<input type="hidden" name="payCd" value="pay_03"> 
 								<input type="hidden" name="goodsCtgCd" value="lesson"> 
-								<input type="hidden" name="userId" value="id008"> 
-								<label class="control-label" for="userId">평점</label>
+								<input type="hidden" name="userId" value="id008">
+								<!-- <input type="hidden" name="userId" th:value="${session.SID}">  -->
+								<label class="control-label">평점</label>
+								<!-- <input type="hidden" class="form-control" name="facilityCd" readonly="readonly" th:value="${facilityDetail.facilityCd}"> -->
 							</div>
 							<div class="mb-3" id="myform">
 								<fieldset>
@@ -430,6 +473,7 @@
 						</div>
 						<div class="form-group row">
 							<div class="col-md-12 col-sm-12">
+								
 								<textarea  class="form-control" name="reviewDetail" placeholder="후기를 작성해주세요.">
 								</textarea>
 							</div>
@@ -438,7 +482,7 @@
 					<div class="modal-footer">
 						<div class="form-group">
 							<button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
-							<button type="submit" class="btn btn-danger" id="reviewBtn">저장</button>
+							<button type="submit" class="btn btn-info" id="reviewBtn">저장</button>
 						</div>
 					</div>
 				</div>

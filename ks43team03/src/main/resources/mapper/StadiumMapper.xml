@@ -164,7 +164,7 @@
 	
 	
 	<select id="getStadiumInfoByCd" parameterType="String" resultMap="stadiumResultMap">
-	/*구장대표코드로 구장 조회*/
+	/*상품코드로 구장 조회*/
 		SELECT 
 			fs.facility_stadium_cd
 			,fs.facility_goods_cd
@@ -399,9 +399,8 @@
 				tf.deleted_yn != 'Y') AS stadium_file
 			on
 			fs.facility_goods_cd = stadium_file.facility_goods_cd
-
 		WHERE
-			facility_stadium_cd = #{facilityStadiumCd};
+			fs.facility_stadium_cd = #{facilityStadiumCd};
 	</select>
 
 	

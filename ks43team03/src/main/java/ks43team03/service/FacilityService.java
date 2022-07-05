@@ -15,6 +15,7 @@ import ks43team03.dto.Lesson;
 import ks43team03.dto.Review;
 import ks43team03.dto.Stadium;
 import ks43team03.mapper.FacilityMapper;
+import ks43team03.mapper.ReviewMapper;
 import ks43team03.mapper.StadiumMapper;
 
 
@@ -26,23 +27,26 @@ public class FacilityService {
 	
 	private final FacilityMapper facilityMapper;
 	private final StadiumMapper stadiumMapper;
+	private final ReviewMapper reviewMapper;
 	
 	
-	public FacilityService(FacilityMapper facilityMapper, StadiumMapper stadiumMapper) {
+	
+	public FacilityService(FacilityMapper facilityMapper, StadiumMapper stadiumMapper,  ReviewMapper reviewMapper) {
 		this.facilityMapper = facilityMapper;
 		this.stadiumMapper = stadiumMapper;
+		this.reviewMapper = reviewMapper;
 		
 	}
 
 	/*시설후기갯수*/
 	public int getReviewCountByCd(String facilityCd) {
-		int reviewCount = facilityMapper.getReviewCountByCd(facilityCd);
+		int reviewCount = reviewMapper.getReviewCountByCd(facilityCd);
 		return reviewCount;
 	}
 	
 	/*시설 후기*/
 	public List<Review> getReviewList(String facilityCd){
-		List<Review> reviewList = facilityMapper.getReviewList(facilityCd);
+		List<Review> reviewList = reviewMapper.getReviewList(facilityCd);
 		return reviewList;
 	}
 	

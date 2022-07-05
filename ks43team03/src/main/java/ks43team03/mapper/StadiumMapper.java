@@ -24,7 +24,7 @@ public interface StadiumMapper {
 	public List<BookingDto> getBookingList(String facilityGoodsCd);
 	
 	//회원이 구장 상세정보 조회 
-	public Stadium getStadiumInfoByCd(String facilityStadiumCd);
+	public Stadium getStadiumInfoByCd(String facilityGoodsCd);
 	
 	//회원이 구장 조회
 	public List<Map<String, Object>> getStadiumList(Map<String, Object> paramMap);
@@ -35,7 +35,7 @@ public interface StadiumMapper {
 	//구장코드별 구장 단가 상세정보조회
 	public StadiumPrice getAdminStadiumPriceInfoByCd(String facilityStadiumCd);
 	
-	//구장코드별 구장 상세정보조회
+	//상품코드별 구장 상세정보조회
 	public Stadium getAdminStadiumInfoByCd(String facilityStadiumCd);
 	
 	//구장 수정

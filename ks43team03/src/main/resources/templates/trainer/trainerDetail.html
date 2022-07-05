@@ -52,57 +52,61 @@
 		<!-- 트레이너 정보 -->
 		<section class="board-details spad">
 			<div class="container">
+				<input type="hidden" id="trainerData" th:value="${trainerProfile.trainerCd}">
 				<div class="row" style="padding-bottom: 80px">
+					<div class="product__details__pic col-lg-6 col-md-6">
+						<div class="product__details__pic__left product__thumb nice-scroll">
+							<th:block th:if="${not #lists.isEmpty(trainerProfile.tFile)}" th:each="t, i : ${trainerProfile.tFile}">
+								<a class="pt" th:data-img="${t.representImg}" th:href="@{#product-} + ${i.index+1}">
+									<img th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="" style="height: 60px;">
+								</a>
+							</th:block>
+						</div>
+						<div class="product__details__slider__content">
+							<div class="product__details__pic__slider owl-carousel">
+								<th:block  th:if="${not #lists.isEmpty(trainerProfile.tFile)}" th:each="t, i : ${trainerProfile.tFile}">                           
+									<img th:data-hash="@{product-} + ${i.index+1}" class="product__big__img" th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="" style="height: 300px;">
+								</th:block>
+							</div>
+						</div>
+					</div>
 					<div class="col-lg-6 col-md-6">
 						<div class="board__details__content">
 							<div class="board__details__item">
 								<img src="img/board/details/board-details.jpg" alt="">
 								<div class="board__details__item__title">
 									<span class="tip">트레이너</span>
-									<th:block th:if="${session.SID eq trainerProfile.userId}">
-										<a th:href="@{/trainer/modifyTrainer}">
-											<button class="tip btn">트레이너 정보 수정</button>
-										</a>	
-									</th:block>
 									<h4>[[${trainerProfile.trainerNickname}]]</h4>
-									<ul>
-										<li>
-											phone
-											<span>[[${trainerProfile.user.userTell}]]</span>
-										</li>
-										<li>이메일 등 들어 갈 수 있음</li>
-									</ul>
 								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-6 col-md-6">
-						<div class="product__details__pic">
-							<div class="product__details__slider__content">
-								<div class="product__details__pic__slider owl-carousel">
-									<img th:data-hash="@{product-1}" class="product__big__img" src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201608/04/htm_2016080484837486184.jpg/_ir_1250x834_/" alt="">
-									<img th:data-hash="@{product-2}" class="product__big__img" src="https://cdn.ikoreadaily.co.kr/news/photo/201505/198248_93383_78.jpg" alt="">
-									<img th:data-hash="@{product-3}" class="product__big__img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT39egyJYwCvo9ybQ8grzut7-74plOElbIhzA&usqp=CAU" alt="">
-									<img th:data-hash="@{product-4}" class="product__big__img" src="http://img.tf.co.kr/article/home/2015/08/20/201520301440032275.jpg" alt="">
+								<div class="product__details__text">
+									<div class="rating">
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+									</div>
+									<div style="margin: 20px 0 70px 0;">
+				                        <p th:text="'phone ' +${trainerProfile.user.userTell}" style="font-size : medium; margin: 0px;" ></p>
+									</div>
+									<div class="product__details__button">
+										<th:block th:if="${session.SID eq trainerProfile.userId}">
+											<a th:href="@{/trainer/modifyTrainer(trainerCd=${trainerProfile.trainerCd})}" class="cart-btn">
+												<span class="icon_bag_alt"></span>
+												트레이너 정보 수정
+											</a> 	
+										</th:block>
+										<ul>
+											<li><a href="#"><span class="icon_heart_alt"></span></a></li>
+											<li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+										</ul>
+									</div>
 								</div>
-							</div>
-							<div class="product__details__pic__left product__thumb nice-scroll">
-								<a class="pt active" th:href="@{#product-1}">
-									<img src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201608/04/htm_2016080484837486184.jpg/_ir_1250x834_/" alt="">
-								</a>
-								<a class="pt" th:href="@{#product-2}">
-									<img src="https://cdn.ikoreadaily.co.kr/news/photo/201505/198248_93383_78.jpg" alt="">
-								</a>
-								<a class="pt" th:href="@{#product-3}">
-									<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT39egyJYwCvo9ybQ8grzut7-74plOElbIhzA&usqp=CAU" alt="">
-								</a>
-								<a class="pt" th:href="@{#product-4}">
-									<img src="http://img.tf.co.kr/article/home/2015/08/20/201520301440032275.jpg" alt="">
-								</a>
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<div class="row">
 					<div class="col-lg-12 col-md-12">
 						<div>

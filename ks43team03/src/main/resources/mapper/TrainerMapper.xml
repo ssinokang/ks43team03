@@ -127,12 +127,30 @@
 			,t.trainer_reg_date
 			,u.user_nm
 			,u.user_tell
+			,f.file_cd
+			,f.original_file_nm
+			,f.stored_file_path
+			,f.file_size
+			,f.uploader_id
+			,f.upload_date
+			,f.updator_id
+			,f.updated_datetime
+			,f.represent_img
+			,f.re_file_name
 		FROM
 			trainer_profile as t
 			INNER join
 			user AS u
 			on
 			t.user_id = u.user_id
+			INNER JOIN
+			rel_file_with_trainer AS r
+			on
+			t.trainer_cd = r.trainer_cd
+			INNER JOIN
+			t_file AS f
+			on
+			r.flie_cd = f.file_cd
 		<trim prefix="WHERE">
 			<if test="trainerCd != null and trainerCd != ''">
 				t.trainer_cd = #{trainerCd}

@@ -478,6 +478,10 @@ ol {
 	position: relative;
 }
 
+.header__right__widget i {
+	color: #ca1515;
+}
+
 .header__right__widget li a .tip {
 	position: absolute;
 	right: -12px;

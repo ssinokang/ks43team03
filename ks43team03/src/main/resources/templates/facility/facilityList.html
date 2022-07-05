@@ -27,8 +27,8 @@
 	            <div class="row">
 	                <div class="col-lg-12">
 	                    <div class="breadcrumb__links">
-	                        <a href="./index"><i class="fa fa-home"></i> Home</a>
-	                        <span>Shop</span>
+	                        <a th:href="@{/}"><i class="fa fa-home"></i> Home</a>
+	                        <span>시설</span>
 	                    </div>
 	                </div>
 	            </div>
@@ -87,8 +87,33 @@
                    <div class="row">
                     <th:block th:if="${not #lists.isEmpty(facilityList)}" th:each="l : ${facilityList}">
                         <div class="col-lg-4 col-md-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/shop/shop-1.jpg">
+                            <div class="product__item" th:if="${not #lists.isEmpty(l.tFile)}" th:each=" t : ${l.tFile}">
+                            	<div th:if="${t.representImg == 'Y'}">
+	                                <div class="product__item__pic set-bg" th:data-setbg="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}"
+																	style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
+	                                    <ul class="product__hover">
+	                                        <li><a href="img/shop/shop-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+	                                        <li><a class="heart" href="#"><span class="icon_heart_alt"></span></a></li>
+	                                        
+	                                        <!-- <li><a th:if="${session.SID != null && l.facilityCd != 'ss_35011770_03'}" th:href="@{/boomk/addBoomk(facilityCd=${l.facilityCd},userId=${session.SID})}"><span class="icon_heart_alt"></span></a></li> -->
+	                                    </ul>
+	                                </div>
+	                          
+	                                <div class="product__item__text" style="margin-top: 10px;">
+	                                    <h6><a th:href="@{/facility/facilityDetail(facilityCd=${l.facilityCd})}" th:text="${l.facilityNm}"></a></h6>
+	                                    <div class="rating">
+	                                        <i class="fa fa-star"></i>
+	                                        <i class="fa fa-star"></i>
+	                                        <i class="fa fa-star"></i>
+	                                        <i class="fa fa-star"></i>
+	                                        <i class="fa fa-star"></i>
+	                                    </div>
+	                                </div>
+	                            </div> 
+                     		</div>
+                            <div class="product__item" th:unless="${not #lists.isEmpty(l.tFile)}">
+                                <div class="product__item__pic set-bg" th:data-setbg="@{/images/notImage.jfif}"
+																		style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
                                     <ul class="product__hover">
                                         <li><a href="img/shop/shop-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                                         <li><a class="heart" href="#"><span class="icon_heart_alt"></span></a></li>
@@ -96,8 +121,8 @@
                                         <!-- <li><a th:if="${session.SID != null && l.facilityCd != 'ss_35011770_03'}" th:href="@{/boomk/addBoomk(facilityCd=${l.facilityCd},userId=${session.SID})}"><span class="icon_heart_alt"></span></a></li> -->
                                     </ul>
                                 </div>
-                            </div>
-                                <div class="product__item__text">
+                          
+                                <div class="product__item__text" style="margin-top: 10px;">
                                     <h6><a th:href="@{/facility/facilityDetail(facilityCd=${l.facilityCd})}" th:text="${l.facilityNm}"></a></h6>
                                     <div class="rating">
                                         <i class="fa fa-star"></i>
@@ -107,6 +132,7 @@
                                         <i class="fa fa-star"></i>
                                     </div>
                                 </div>
+                     		</div>
                         </div>
                     </div>
                     <div class="col-lg-12 text-center">

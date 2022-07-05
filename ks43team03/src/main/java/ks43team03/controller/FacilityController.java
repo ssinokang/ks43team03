@@ -72,10 +72,12 @@ public class FacilityController {
 										
 			Facility facilityDetail = facilityService.getFacilityDetail(facilityCd);
 			log.info(facilityCd);
-			List<Stadium> stadiumList = facilityService.getStadiumList(facilityCd);
+			List<Stadium> stadiumList = facilityService.getStadiumListByCd(facilityCd);
 			List<Lesson> lessonList = facilityService.getLessonList(facilityCd);
 			List<Review> reviewList = facilityService.getReviewList(facilityCd);
 			int reviewCount = facilityService.getReviewCountByCd(facilityCd);
+			
+			log.info("구장목록  : {}", stadiumList);
 			
 			model.addAttribute("title", "시설 상세 정보");
 			model.addAttribute("facilityDetail", facilityDetail);
@@ -87,7 +89,7 @@ public class FacilityController {
 			
 			return "facility/facilityDetail";
 			
-										 }
+	 	}
 
 
 	/* 사용자가 시설 조회 */

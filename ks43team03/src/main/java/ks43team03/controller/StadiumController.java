@@ -18,9 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityGoods;
+import ks43team03.dto.Review;
 import ks43team03.dto.Sports;
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;
+import ks43team03.service.ReviewService;
 import ks43team03.service.StadiumService;
 
 @Controller
@@ -30,20 +32,28 @@ public class StadiumController {
 	private static final Logger log = LoggerFactory.getLogger(StadiumController.class);
 	
 	private final StadiumService stadiumService;
+	private final ReviewService reviewService;
 	
-	public StadiumController(StadiumService stadiumService) {
+	public StadiumController(StadiumService stadiumService, ReviewService reviewService) {
 		this.stadiumService = stadiumService;
+		this.reviewService = reviewService;
 	}
 	
 
 	/*회원이 구장 상세정보 조회*/
 	@GetMapping("stadiumDetail")
 	public String getStadiumInfoByCdForUser(Model model
-											,@RequestParam(name="facilityStadiumCd", required = false) String facilityStadiumCd) {
+											,@RequestParam(name="facilityStadiumCd", required = false) String facilityStadiumCd
+											,@RequestParam(name="facilityGoodsCd", required = false) String facilityGoodsCd) {
 		Stadium stadiumDetail = stadiumService.getStadiumInfoByCd(facilityStadiumCd);
+		List<Review> reviewList = reviewService.getReviewListByCd(facilityGoodsCd);
+		
+		log.info("stadiumDetail : {}", stadiumDetail);
+		log.info("reviewList : {} ", reviewList);
 		
 		model.addAttribute("title", "구장 상세 정보");
 		model.addAttribute("stadiumDetail", stadiumDetail);
+		model.addAttribute("reviewList", reviewList);
 		return "stadium/stadiumDetail";
 	}
 	

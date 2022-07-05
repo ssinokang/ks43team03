@@ -18,4 +18,5 @@ public class Review {
 	private String reviewRegDate;
 	
 	private Facility facility;
+	private Order order;
 }

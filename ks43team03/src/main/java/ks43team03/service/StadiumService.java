@@ -9,11 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.common.FileUtils;
 import ks43team03.dto.Facility;
+import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Sports;
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;
@@ -126,49 +126,42 @@ public class StadiumService {
 	}
 	
 	/*구장등록*/
-	public void addStadium(Stadium stadium, MultipartFile[] uploadfile, String fileRealPath) {
-		//파일이 널이 아니라면
-		if (!ObjectUtils.isEmpty(uploadfile)) {
-			String uproaderId 		= stadium.getUserId();
-			String facilityGoodsCd;
-			
-			facilityGoodsMapper.addFacilityGoods(stadium.getFacilityGoods());
-			facilityGoodsCd = stadium.getFacilityGoods().getFacilityGoodsCd();
-			
-			/***
-			 * test code: start
-			 ***/
-			
-			FileUtils fu = new FileUtils(uploadfile, uproaderId, fileRealPath);
-			List<Map<String, String>> dtoFileList = fu.parseFileInfo();
-			// 1. t_file 테이블에 삽입
-			System.out.println(dtoFileList + "StadiumService/addStadium");
-			fileMapper.uploadFile(dtoFileList);
-			/***
-			 * test code: end
-			 ***/
-			// 2. stadium 테이블에 삽입
-			System.out.println(stadium + "StadiumService/addStadium/stadium");
-			stadiumMapper.addStadium(stadium);
-			
-			// 3. 릴레이션 테이블에 삽입
-			List<Map<String, String>> relationFileList = new ArrayList<>();
-			for(Map<String, String> m : dtoFileList) {
-				m.put("facilityGoodsCd", facilityGoodsCd);
-				relationFileList.add(m);
-			}
-			System.out.println(relationFileList);
-			fileMapper.uploadRelationFile(relationFileList);
-			
-			
-			
-			/****************
-			 *				*
-			 *  log 찍어보기	*
-			 * 				*
-			 ****************/
-			
-	    }
+	public String addStadium(Stadium stadium, MultipartFile[] uploadfile, String fileRealPath) {
+
+		String uproaderId 		= stadium.getUserId();
+		
+		FacilityGoods facilityGoods = stadium.toFacilityGoods();
+		facilityGoodsMapper.addFacilityGoods(facilityGoods);
+		
+		log.info("facilityGoods : {}", facilityGoods);
+		
+		String facilityGoodsCd = facilityGoods.getFacilityGoodsCd();
+		log.info("facilityGoodsCd : {}", facilityGoodsCd);
+
+		//파일 업로드를 위한 객체 생성
+		FileUtils fu = new FileUtils(uploadfile, uproaderId, fileRealPath);
+		List<Map<String, String>> dtoFileList = fu.parseFileInfo();
+		
+		// 1. t_file 테이블에 삽입
+		log.info(dtoFileList + "StadiumService/addStadium");
+		fileMapper.uploadFile(dtoFileList);
+		
+		// 2. stadium 테이블에 삽입
+		log.info(stadium + "StadiumService/addStadium/stadium");
+		
+		stadium.setFacilityGoodsCd(facilityGoods.getFacilityGoodsCd());
+		stadiumMapper.addStadium(stadium);
+		
+		// 3. 릴레이션 테이블에 삽입
+		List<Map<String, String>> relationFileList = new ArrayList<>();
+		for(Map<String, String> m : dtoFileList) {
+			m.put("facilityGoodsCd", facilityGoodsCd);
+			relationFileList.add(m);
+		}
+		fileMapper.uploadRelationFile(relationFileList);
+		
+		return facilityGoodsCd;
+    
 	}
 	
 	/*아이디별 시설 조회*/

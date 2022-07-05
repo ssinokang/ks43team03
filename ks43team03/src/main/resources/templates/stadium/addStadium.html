@@ -121,12 +121,7 @@
 			<div class="x_content">
 			<form id="addStadiumForm"  data-parsley-validate class="form-horizontal form-label-left"  enctype="multipart/form-data" name="multiPart" th:action="@{/stadium/addStadium}" method="post">
 				<div class="field item form-group">
-					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityGoodsCd">시설내상품코드 <span class="required">*</span></label>
-					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityGoodsCd" data-validate-minmax="10,100" required='required'></div>
-				</div>
-				<div class="field item form-group">
-					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityCd">시설대표코드 <span class="required">*</span></label>
+					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityCd">시설명<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
 						<select class="select2_single form-control" tabindex="-1"  name="facilityCd" id="facilityCd" required="required">
 							<option value=""> ::  시설선택   ::</option>

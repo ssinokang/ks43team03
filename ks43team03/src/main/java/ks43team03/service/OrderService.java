@@ -66,14 +66,16 @@ public class OrderService {
 		
 		// 상품정보있는지 없는지 체크 한다.
 		
-		// 예외처리 
+		// 예외처리
+		User user;
 		try {
-			User user = userMapper.getUserInfoById(userId);
+			user = userMapper.getUserInfoById(userId);
+			
 			if(user == null) {
 				throw new CustomException(ErrorMessage.USER_ERROR_USER_NOT_FOUND);
 			}else {
 				// 있다면 포인트 내역 조회한다 후 
-				
+				log.info("userName : {} , " , user.getUserName());
 				
 				//포인트 테이블 포인트 차감 하고 저장한다.
 				
@@ -88,6 +90,7 @@ public class OrderService {
 		Order order = createOrder(req, goods );
 		orderMapper.addOrder(order);
 		order.setPayName(paytype);
+		order.setUserName(user.getUserName());
 		return order;
 	}
 
@@ -97,7 +100,7 @@ public class OrderService {
 				.facilityGoodsCd(goods.getFacilityGoods().getFacilityGoodsCd())
 				.goodsCtgCd(goods.getFacilityGoods().getGoodsCtgCd())
 				.orderPayPrice(req.getOrderPayPrice())
-				.orderUUID(UUID.randomUUID().toString()+ LocalDate.now())
+				.orderUUID((UUID.randomUUID().toString()+ LocalDate.now()).replaceAll("-", ""))
 				.orderPrice(req.getOrderPrice())
 				.userId(req.getUserId())
 				.usedPoint(req.getUsedPoint())

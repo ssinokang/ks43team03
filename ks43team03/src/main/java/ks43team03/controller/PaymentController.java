@@ -6,9 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ks43team03.dto.Payload;
 import ks43team03.dto.PaymentResDto;
@@ -17,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
+@RequestMapping("/pay")
 public class PaymentController {
 	
 	private final PaymentService paymentService;
@@ -28,16 +31,39 @@ public class PaymentController {
     @GetMapping("/success")
     public String confirmPayment(
             @RequestParam String paymentKey, @RequestParam String orderId, @RequestParam Long amount,
-        Model model) throws Exception {
+        Model model, RedirectAttributes reattr) throws Exception {
     	
     	
     	
     	PaymentResDto paymentResDto = paymentService.confirmPayment(paymentKey, orderId, amount);
     	
-    	
-    	return "success";
+    	//model.addAttribute("payment", paymentResDto);
+    	reattr.addAttribute("orderId", paymentResDto.getOrderId());
+    	reattr.addAttribute("paymentKey", paymentResDto.getPaymentKey());
+    	reattr.addAttribute("amount", paymentResDto.getTotalAmount());
+    	return "redirect:/pay/thank-you";
     }
 
+    /**
+     * 결제후 리다렉트 되는 경로  
+     */
+    @GetMapping("/thank-you")
+	public String orderSuccess(@RequestParam(name = "orderId")String orderId, 
+							   @RequestParam(name = "paymentKey", required = false)String paymentKey, 
+							   @RequestParam(name ="amount" ,required = false) Long amount
+							   , Model model) {
+		
+//		log.info("결과 처리후 success에 orderUUID 요청 데이터 : {}" , dto);
+		log.info("결과 처리후 success에 orderUUID 요청 데이터 : {}" , orderId);
+		
+		PaymentResDto payResDto = paymentService.findTossPaymentsbyOrderId(orderId);
+		model.addAttribute("pay", payResDto);
+		
+		return "order/orderSuccess";
+	}
+    
+    
+    
 	@GetMapping("/fail")
 	public String failPayment(@RequestParam String message, @RequestParam String code, @RequestParam String orderId, Model model) {
 	    log.info("=======결제실패=======");
@@ -55,10 +81,12 @@ public class PaymentController {
 	
 	    }
 
-    
-   
 	
-	@GetMapping("/pay")
+	
+	
+	
+	
+	//== 테스트 ==//
 	public String pay() {
 		return "paymentTest";
 	}

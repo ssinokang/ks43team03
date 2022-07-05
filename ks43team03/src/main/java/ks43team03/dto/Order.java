@@ -34,6 +34,8 @@ public class Order {
 	
 	private String payName;
 	
+	private String userName;
+	
 	
 	private FacilityGoods facilityGoods;
 	private Facility facility;

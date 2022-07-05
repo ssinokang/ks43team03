@@ -1,6 +1,7 @@
 package ks43team03.service;
 
 
+import java.net.URI;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +24,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ks43team03.dto.Order;
 import ks43team03.dto.Pay;
 import ks43team03.dto.Payload;
+import ks43team03.dto.PaymentCardResDto;
 import ks43team03.dto.PaymentResDto;
+import ks43team03.dto.PaymentVirtualResDto;
 import ks43team03.dto.type.OrderState;
 import ks43team03.dto.type.PayStatus;
 import ks43team03.dto.type.PayType;
@@ -112,14 +116,14 @@ public class PaymentService {
 //        headers.set("Authorization", "Basic " + Base64.getEncoder().encodeToString((SECRET_KEY + ":").getBytes()));
         headers.setContentType(MediaType.APPLICATION_JSON);
         
+        log.info("headers data : {}", headers);
         Map<String, String> payloadMap = new HashMap<>();
         payloadMap.put("orderId", orderId);
         payloadMap.put("amount", String.valueOf(amount));
         log.info("payloadMap data : {}", payloadMap);
         HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(payloadMap), headers);
         
-        PaymentResDto paymentResDto = null;
-    	paymentResDto= restTemplate.postForEntity(
+        PaymentResDto paymentResDto= restTemplate.postForEntity(
     			"https://api.tosspayments.com/v1/payments/" + paymentKey, 
     			request, 
     			PaymentResDto.class
@@ -136,14 +140,7 @@ public class PaymentService {
         String status = paymentResDto.getStatus().getMessage();
         //카드또는 가상계좌 종류 이므로 if문으로 비교 후 카드로 결제했다면 주문완료 와 결제 완료 표시 
         // 여기서 CARD는 임의의 카드   테이블에 칼럼추가하거 아니면 응답데이터로 비교 함...
-//        if(PayType.CARD.equals(order.getPayType())) {
-//        	log.info("===========카드로 결제===========");
-//        	
-//        	
-//        }else if(PayType.VIRTUAL_ACCOUNT.equals(order.getPayType())) {
-//        	log.info("===========가상계좌로 결제===========");
-//        	
-//        }
+        
         
         
         if(PayStatus.DONE.equals( paymentResDto.getStatus())) {
@@ -153,11 +150,37 @@ public class PaymentService {
 		}
         
         Pay pay = toPay(paymentResDto, order);
-        // 계좌 입금으로 처리할시 결제상태와 주문상태 주문중 상태
-        
         orderMapper.modifyOrder(order);
         
         payMapper.addPay(pay);
+        
+        if(pay.getPayCd() == null) {
+        	throw new CustomException(ErrorMessage.DATABASE_ERROR);
+        }
+        
+        String payMethod = paymentResDto.getMethod();
+        
+        if(PayType.CARD.equals(order.getPayType())) {
+        	log.info("===========카드로 결제===========");
+        	PaymentCardResDto res = paymentResDto.getCard();
+        	if(res != null) {
+        		pay.setPayCardType(res.getCardType());
+        		pay.setPayCompany(res.getCompany());
+        		pay.setPayCardNumber(res.getNumber());
+        		payMapper.addPayCardInfo(pay);
+        	}else if(paymentResDto.getVirtualAccount() != null) {
+        		
+        	}
+        }else if(PayType.VIRTUAL_ACCOUNT.equals(order.getPayType())) {
+        	log.info("===========가상계좌로 결제===========");
+        	PaymentVirtualResDto res = paymentResDto.getVirtualAccount();
+        	pay.setPayBank(res.getBank());
+        	pay.setPayUserName(res.getCustomerName());
+        	pay.setAccountNumber(res.getAccountNumber());
+        	pay.setPayDueDate(res.getDueDate());
+        	payMapper.addPayVirtualAccount(pay);
+        }
+        // 계좌 입금으로 처리할시 결제상태와 주문상태 주문중 상태
         
         //최종적으로 if문 통과시 가상계좌 or 카드 결과 셋팅 ex 카드는 카드번호 카드회사  가상계좌는 계좌은행 계좌번호 예금주
         
@@ -211,12 +234,47 @@ public class PaymentService {
 				.orElseThrow(()-> new CustomException(ErrorMessage.NOT_FOUND_ORDER));
 		
 		// order 상태 yn   y세팅하거나 삭제
-		
-		
 		//삭제 또는 업데이트 처리 <<
 		
 	}
 	
+	public PaymentResDto findTossPaymentsbyOrderId(String orderId) {
+		
+		
+		
+		
+		RestTemplate restTemplate = new RestTemplate();
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		HttpHeaders headers = new HttpHeaders();
+		
+		String secretKey = SECRET_KEY + ":";
+		
+		String encodingAuth = new String(Base64.getEncoder().encode(secretKey.getBytes()));
+		headers.setBasicAuth(encodingAuth);
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+        
+		//PaymentResDto paymentResDto= restTemplate.getForEntity("https://api.tosspayments.com/v1/payments/orders/" + orderId, PaymentResDto.class).getBody();
+		HttpEntity<String> request = new HttpEntity<>(headers);
+		log.info("request 데이터 : {}", request);
+		
+		URI uri = URI.create("https://api.tosspayments.com/v1/payments/orders/" + orderId);
+		log.info("uri ============================ : {}",uri);
+		
+		PaymentResDto paymentResDto = restTemplate.exchange(
+				  uri,
+				  HttpMethod.GET,
+				  request,
+				  PaymentResDto.class
+				).getBody();
+		
+		if(paymentResDto == null) {
+			throw new CustomException(ErrorMessage.NOT_FOUND_PAYMENT);
+		}
+		
+		log.info("조회 요청 데이터 : {}", paymentResDto);
+		return paymentResDto;
+	}
 	
 	
 	public List<Pay> getAllPayment(){

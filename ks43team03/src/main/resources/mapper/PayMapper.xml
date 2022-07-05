@@ -62,4 +62,40 @@
 			,'N'
 			)
 	</insert>
+	
+	<!-- 결제한 카드정보 -->
+	<insert id="addPayCardInfo" parameterType="Pay">
+		INSERT INTO pay_card
+			(
+			pay_cd
+			, pay_card_company
+			, pay_card_number
+			, pay_card_type
+			)
+		VALUES (
+			#{payCd}
+			,#{payCompany}
+			,#{payCardNumber}
+			,#{payCardType}
+		)
+	</insert>
+	
+	<!-- 결제한 가상계좌 -->
+	<insert id="addPayVirtualAccount" parameterType="Pay">
+		INSERT INTO pay_virtual_account
+			(
+			pay_cd
+			, pay_bank
+			, pay_user_name
+			, pay_account_number
+			, pay_due_date
+			)
+			VALUES (
+			#{payCd}
+			,#{payBank}
+			,#{payUserName}
+			,#{accountNumber}
+			,#{payDueDate}
+		)
+	</insert>
 </mapper>

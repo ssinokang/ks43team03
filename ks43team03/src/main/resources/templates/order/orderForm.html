@@ -278,28 +278,7 @@
 				}).done(function (data) {
 					console.log(data);
 					//window.location.href = '/order/orderDetail/' + data.orderCd;
-					let method = data.payName;
-					const paymentData = {
-						amount: data.orderPayPrice,
-						orderId: data.orderUUID,
-						orderName: data.goodsName,
-						customerName: data.userId,
-						method : data.payName,
-						successUrl: window.location.origin + "/success",
-						failUrl: window.location.origin + "/fail",
-					};
-					if (method === '가상계좌') {
-						paymentData.virtualAccountCallbackUrl = window.location.origin + '/virtual-account/callback'
-					}
-
-						tossPayments
-							.requestPayment(method, paymentData)
-							.catch(function(error){
-								if(error.code == 'USER_CANCEL'){
-									
-								}
-								console.log('why???????');
-							});
+					requestTossData(data);
 				}).fail(function (error) {
 					console.log(error);
 				});
@@ -317,6 +296,46 @@
 			}
 		}
 		
+		
+		const send = data => {
+			
+			// 데이터 보내기 
+			window.location.href ='/order/orderSuccess?orderId=' + data.orderUUID + '&method='+data.method;
+		}
+		
+		
+		function requestTossData(data){
+			let method = data.payName;
+			const paymentData = {
+				amount: data.orderPayPrice,
+				orderId: data.orderUUID,
+				orderName: data.goodsName,
+				customerName: data.userName,
+				method : data.payName,
+				successUrl: window.location.origin + "/pay/success",
+				failUrl: window.location.origin + "/pay/fail",
+			};
+			if (method === '가상계좌') {
+				paymentData.virtualAccountCallbackUrl = window.location.origin + '/virtual-account/callback'
+			}
+
+				tossPayments
+					.requestPayment(method, paymentData)
+					.catch(function(error){
+						if(error.code == 'USER_CANCEL'){
+							
+						}
+						console.log('why???????');
+						alert('결제에 실패햐였습니다.');
+						removeOrderData();
+						
+					});
+		}
+		
+		
+		function removeOrderData(){
+			
+		}
 
 		
 	</script>

@@ -28,7 +28,17 @@ public class Pay {
 	private String payDelYN; // 결제 삭제상태
 	private String payDelDate; // 결제 삭제일시 
 	
+	//card 결제 정보
 	
+	private String payCompany; //  결제 카드회사
+	private String payCardNumber; //결제 카드번호
+	private String payCardType; // 결제 카드 종류
+	
+	// 가상계좌 결제 정보 
+	private String payBank;	// 가상계좌 은행
+	private String payUserName; // 예금주
+	private String accountNumber; // 가상계좌 번호
+	private String payDueDate; //입금 기한 
 	
 	
 	

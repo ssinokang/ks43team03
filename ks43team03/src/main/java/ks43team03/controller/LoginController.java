@@ -4,12 +4,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ks43team03.dto.User;
 import ks43team03.service.UserService;
@@ -17,7 +19,7 @@ import ks43team03.service.UserService;
 @Controller
 public class LoginController {
 	
-
+	private static final Logger log = LoggerFactory.getLogger(LoginController.class);
 	
 	private final UserService userService;
 	
@@ -80,11 +82,39 @@ public class LoginController {
 		return "login/login";
 	}
 	
+	//아이디 찾기
+	
+	@PostMapping("/loginId")
+	@ResponseBody
+	public String isEmailCheck(@RequestParam(name = "userEmail" , required = false) String userEmail) {
+		
+		log.info("아이디 찾기 클릭시 요청받은 userEmail의 값: {}", userEmail);
+		
+		String result = userService.isEmailCheck(userEmail);
+		System.out.println("!!! : "+ result);
+
+		return result;
+	}
+	
 	@GetMapping("/loginId")
 	public String loginId(Model model) {
 		model.addAttribute("title", "아이디 찾기");
 		return "login/loginId";
 	}	
+	
+	//비밀번호 찾기
+	
+	@PostMapping("/loginPw")
+	@ResponseBody
+	public String isIdCheck2(@RequestParam(name = "userId" , required = false) String userId) {
+		
+		log.info("비밀번호 찾기 클릭시 요청받은 userId의 값: {}", userId);
+		
+		String result = userService.isIdCheck2(userId);
+		System.out.println("!!! : "+ result);
+
+		return result;
+	}
 	
 	@GetMapping("/loginPw")
 	public String loginPw(Model model) {

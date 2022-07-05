@@ -253,4 +253,28 @@ public class UserService {
 
 		return user;
 	}
+	
+	/**
+	 * 아이디 찾기
+	 */
+	
+	public String isEmailCheck(String userEmail) {
+
+		String result = userMapper.isEmailCheck(userEmail);
+
+		return result;
+	}
+	
+	/**
+	 * 비밀번호 찾기
+	 */
+	
+	public String isIdCheck2(String userId) {
+		
+		String result = userMapper.isIdCheck2(userId);
+		
+		return result;
+	}
+	
+	
 }

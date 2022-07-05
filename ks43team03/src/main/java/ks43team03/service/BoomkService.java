@@ -51,35 +51,18 @@ public class BoomkService {
 		return result;
 	}
 	
-	
-	
-	/**
-	 * 회원 즐겨찾기 취소 (N)
-	 */
-	
+	/*
+	  회원 즐겨찾기 취소 (N)
+	 
 	public void modifyBoomk(Boomk boomk) {
 		boomkMapper.modifyBoomk(boomk);
 	}
 	 
-	
-	/**
-	 * 회원 즐겨찾기 추가 (Y)
-	 */
+	  회원 즐겨찾기 추가 (Y)
 	
 	public void modifyBoomk2(Boomk boomk) {
 		boomkMapper.modifyBoomk2(boomk);
 	}		
-	
-	
-	/**
-	 * 시설 조회
-	 */
-
-	public List<Facility> getFacilityList(){
-		List<Facility> FacilityList = boomkMapper.getFacilityList();
-		
-		return FacilityList;
-	}
-	
+	*/
 	
 }

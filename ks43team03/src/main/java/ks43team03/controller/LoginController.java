@@ -93,19 +93,28 @@ public class LoginController {
 		String result = userService.isEmailCheck(userEmail);
 		System.out.println("!!! : "+ result);
 
-		
 		return result;
 	}
-	
-	
-	
-	
 	
 	@GetMapping("/loginId")
 	public String loginId(Model model) {
 		model.addAttribute("title", "아이디 찾기");
 		return "login/loginId";
 	}	
+	
+	//비밀번호 찾기
+	
+	@PostMapping("/loginPw")
+	@ResponseBody
+	public String isIdCheck2(@RequestParam(name = "userId" , required = false) String userId) {
+		
+		log.info("비밀번호 찾기 클릭시 요청받은 userId의 값: {}", userId);
+		
+		String result = userService.isIdCheck2(userId);
+		System.out.println("!!! : "+ result);
+
+		return result;
+	}
 	
 	@GetMapping("/loginPw")
 	public String loginPw(Model model) {

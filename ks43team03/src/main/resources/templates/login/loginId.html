@@ -49,8 +49,6 @@
 				
 			});
 		</script>
-		
-		
 	</th:block>
 			
 	<!-- 사용자 정의 contents -->
@@ -58,7 +56,7 @@
 	
 	<div class="container" style="margin-top: 100px;">	
 		<h2>아이디 찾기</h2>
-		<form id="loginForm" th:action="@{/loginId}" method="post" style="text-align:center;">
+		<form id="loginIdForm" th:action="@{/loginId}" method="post" style="text-align:center;">
 		<div class="card panel panel-default offset-lg-3 col-md-5"> 
 				<div style="text-align:center;">
 					<h5 class="text-dark" style="margin-top: 20px;">아이디 찾기</h5>
@@ -78,9 +76,6 @@
 					</div>
 				</div>
 				<button class="btn btn btn-primary btn-lg col-md-12" type="button" id="loginIdBtn">찾기</button>
-<!-- 				<span class="text-dark">회원가입을 하시겠습니까?
-					<a th:href="@{/user/addUser}">회원 가입</a>
-				</span> -->
 			</div>
 			<div style="text-align:center;">
 				<a th:href="@{/loginId}"> 아이디 찾기 | </a>
@@ -90,12 +85,6 @@
 		</div>
 		</form>
 	</div>		
-
-		
-		<!-- <div th:if="${result != null}"> -->
-		<div th:if="${not #strings.isEmpty(result)}">
-			<p th:text="${result}"></p>
-		</div>
 	</th:block>
 
 </html>

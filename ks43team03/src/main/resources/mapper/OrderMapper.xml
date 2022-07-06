@@ -139,6 +139,23 @@
 			,'N'
 		)
 	</insert>
+	<!-- 주문 정보 uuid로 삭제 -->
+	<delete id="removeOrderByOrderUUID" parameterType="String">
+		DELETE
+		FROM
+			goods_order
+		WHERE
+			order_uuid_id = #{orderUUID};
+	</delete>
+
+	<delete id="removeOrderByOrderCd" parameterType="String">
+		DELETE
+		FROM
+			goods_order
+		WHERE
+			order_cd = #{orderCd};
+	</delete>
+	
 	<!-- 하나의 구매내역 order기본키로  조회 -->
 	<select id="getOrderByCode" parameterType="String" resultType="Order" resultMap="orderResultMap">
 		SELECT 

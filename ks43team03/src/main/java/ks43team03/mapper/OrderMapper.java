@@ -37,4 +37,10 @@ public interface OrderMapper {
 	
 	// 회원 한명의 주문내역 조회 메소드
 	public List<Order> getOrdersByUser(String userId);
+	
+	// 주문 삭제 uuid 
+	public void removeOrderByOrderUUID(String orderUUID);
+	
+	// 주문삭제 기본키
+	public void removeOrderByOrderCd(String orderCd);
 }

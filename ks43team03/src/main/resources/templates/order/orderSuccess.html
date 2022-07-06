@@ -119,7 +119,7 @@
 																<td><a href="#">[[${pay.virtualAccount.bank}]]은행</a>
 																</td>
 															</tr>
-															<tr>
+															<tr th:if="${pay.virtualAccount != null}">
 																<th>예금주</th>
 																<td>[[${pay.virtualAccount.customerName}]]</td>
 															</tr>

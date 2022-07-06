@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ks43team03.dto.Order;
-import ks43team03.dto.PaymentResDto;
 import ks43team03.dto.ResponseGoods;
 import ks43team03.service.FacilityGoodsService;
 import ks43team03.service.OrderService;
@@ -71,10 +69,6 @@ public class OrderController {
 	}
 	
 	
-	
-	
-	
-	
 	@GetMapping("/orders/{id}")
 	public String orders(@PathVariable("id") String userId) {
 		orderService.getOrdersByUser(userId);
@@ -86,6 +80,16 @@ public class OrderController {
 		return "order/orderAfter";
 	}
 	
+	
+	/*
+	 * orderUUID로 주문 완전 삭제 메소드 
+	 */
+	@PostMapping("/removeOrder")
+	@ResponseBody
+	public void removeOrder(@RequestParam("orderUUID") String orderUUID) {
+		log.info("orderUUID : {}", orderUUID);
+		orderService.removeOrderByOrderUUID(orderUUID);
+	}
 	
 	//==판매자 주문예약/결제 정보 조회==//
 	

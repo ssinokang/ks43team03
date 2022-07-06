@@ -164,10 +164,16 @@ public class OrderService {
 		
 		return order;
 	}
-	
-	
-	//주문 취소 
 
+	
+	
+	/**
+	 * orderUUID로 주문 완전 삭제 메소드 
+	 */
+	public void removeOrderByOrderUUID(String orderUUID){
+		log.info("uuid 주문 정보 삭제 log");
+		orderMapper.removeOrderByOrderUUID(orderUUID);
+	}
 	
 	
 	/**

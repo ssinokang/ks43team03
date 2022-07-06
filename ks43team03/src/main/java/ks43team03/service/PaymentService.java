@@ -93,6 +93,10 @@ public class PaymentService {
 		
 	}
 	
+	
+	/*
+	 * 결제 후 토스 에서 결제 승인데이터를 받고 결제 테이블에 등록하는 메소드 
+	 */
 	public PaymentResDto confirmPayment(String paymentKey, String orderId, Long amount) throws JsonProcessingException {
 		
 		//주문 정보 확인 한다. 
@@ -162,14 +166,22 @@ public class PaymentService {
         
         if(PayType.CARD.equals(order.getPayType())) {
         	log.info("===========카드로 결제===========");
-        	PaymentCardResDto res = paymentResDto.getCard();
-        	if(res != null) {
+        	// 간편결제시 삼성폐이 = card  
+        	if( paymentResDto.getCard() != null) {
+        		//==  카드 정보가 있다면 ==// 
+        		PaymentCardResDto res = paymentResDto.getCard();
         		pay.setPayCardType(res.getCardType());
         		pay.setPayCompany(res.getCompany());
         		pay.setPayCardNumber(res.getNumber());
         		payMapper.addPayCardInfo(pay);
         	}else if(paymentResDto.getVirtualAccount() != null) {
-        		
+        		//==  가상계좌 정보가 있다면 ==// 
+        		PaymentVirtualResDto res = paymentResDto.getVirtualAccount();
+            	pay.setPayBank(res.getBank());
+            	pay.setPayUserName(res.getCustomerName());
+            	pay.setAccountNumber(res.getAccountNumber());
+            	pay.setPayDueDate(res.getDueDate());
+            	payMapper.addPayVirtualAccount(pay);
         	}
         }else if(PayType.VIRTUAL_ACCOUNT.equals(order.getPayType())) {
         	log.info("===========가상계좌로 결제===========");
@@ -205,6 +217,9 @@ public class PaymentService {
 				
 	}
 	
+	/*
+	 * 
+	 */
 	
 	public void handleVirtualAccountCallback(Payload payload) {
 		
@@ -224,6 +239,10 @@ public class PaymentService {
 		}
 	}
 	
+	
+	/*
+	 * 결제 실패 메소드
+	 */
 	public void failPayment(String orderId) {
 		
 		// 주문정보를 조회후 주문 취소를 해야한다  주문 등록 -> 결제 하기 때문
@@ -238,9 +257,10 @@ public class PaymentService {
 		
 	}
 	
+	/*
+	 * 결제 후 데이터 조회 메소드
+	 */
 	public PaymentResDto findTossPaymentsbyOrderId(String orderId) {
-		
-		
 		
 		
 		RestTemplate restTemplate = new RestTemplate();

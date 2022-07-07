@@ -143,11 +143,11 @@
 			user AS u
 			on
 			t.user_id = u.user_id
-			INNER JOIN
+			LEFT JOIN
 			rel_file_with_trainer AS r
 			on
 			t.trainer_cd = r.trainer_cd
-			INNER JOIN
+			LEFT JOIN
 			t_file AS f
 			on
 			r.flie_cd = f.file_cd
@@ -180,11 +180,11 @@
 			,f.re_file_name
 		FROM
 			trainer_profile as t
-			INNER JOIN
+			LEFT JOIN
 			rel_file_with_trainer AS r
 			on
 			t.trainer_cd = r.trainer_cd
-			INNER JOIN
+			LEFT JOIN
 			t_file AS f
 			on
 			r.flie_cd = f.file_cd;

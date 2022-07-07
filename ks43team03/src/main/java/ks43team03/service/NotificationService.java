@@ -33,7 +33,7 @@ public class NotificationService {
             throw new RuntimeException("연결 오류!");
         }
     }
-    
+    /*
     public void send(String receiver, Boomk boomk, String content) {
         Notification notification = createNotification(receiver, boomk, content);
         String id = String.valueOf(receiver);
@@ -49,7 +49,7 @@ public class NotificationService {
                 }
         );
     }
-
+	*/
     public SseEmitter subscribe(String userId, String lastEventId) {
         
         String id = userId + "_" + System.currentTimeMillis();

@@ -139,19 +139,18 @@ public class PaymentService {
     	}
         log.info("토스 응답데이터 :  {}", paymentResDto);
     	
-        // 확인이 완료되면 최종 결제 정보를 결제테이블에 정보를 db에 쌓야야겠다.
+        
+       
+        paymentResDto.setUserId(order.getUserId());
+        
         
         String status = paymentResDto.getStatus().getMessage();
+        
+        
         //카드또는 가상계좌 종류 이므로 if문으로 비교 후 카드로 결제했다면 주문완료 와 결제 완료 표시 
         // 여기서 CARD는 임의의 카드   테이블에 칼럼추가하거 아니면 응답데이터로 비교 함...
-        
-        
-        
-        if(PayStatus.DONE.equals( paymentResDto.getStatus())) {
-    		order.setOrderPayState(OrderState.COMPLETE.getCode());
-    	}else if(PayStatus.CANCELED.equals( paymentResDto.getStatus())) {
-			order.setOrderPayState(OrderState.CANCEL.getCode());
-		}
+       
+        orderStateSetting(paymentResDto,order);
         
         Pay pay = toPay(paymentResDto, order);
         orderMapper.modifyOrder(order);
@@ -162,8 +161,21 @@ public class PaymentService {
         	throw new CustomException(ErrorMessage.DATABASE_ERROR);
         }
         
-        String payMethod = paymentResDto.getMethod();
+        addPaySetting(pay, paymentResDto, order);
         
+        // 계좌 입금으로 처리할시 결제상태와 주문상태 주문중 상태
+      
+        //최종적으로 if문 통과시 가상계좌 or 카드 결과 셋팅 ex 카드는 카드번호 카드회사  가상계좌는 계좌은행 계좌번호 예금주
+        
+
+        //통과후 토스 응답데이터 리턴
+        return paymentResDto;
+        
+	}
+	
+	private void addPaySetting(Pay pay, PaymentResDto paymentResDto, Order order) {
+		 String payMethod = paymentResDto.getMethod();
+	        
         if(PayType.CARD.equals(order.getPayType())) {
         	log.info("===========카드로 결제===========");
         	// 간편결제시 삼성폐이 = card  
@@ -192,14 +204,15 @@ public class PaymentService {
         	pay.setPayDueDate(res.getDueDate());
         	payMapper.addPayVirtualAccount(pay);
         }
-        // 계좌 입금으로 처리할시 결제상태와 주문상태 주문중 상태
-        
-        //최종적으로 if문 통과시 가상계좌 or 카드 결과 셋팅 ex 카드는 카드번호 카드회사  가상계좌는 계좌은행 계좌번호 예금주
-        
-
-        //통과후 토스 응답데이터 리턴
-        return paymentResDto;
-        
+	}
+	
+	
+	private void orderStateSetting(PaymentResDto paymentResDto, Order order) {
+		 if(PayStatus.DONE.equals( paymentResDto.getStatus())) {
+	    	order.setOrderPayState(OrderState.COMPLETE.getCode());
+	    }else if(PayStatus.CANCELED.equals( paymentResDto.getStatus())) {
+			order.setOrderPayState(OrderState.CANCEL.getCode());
+		}
 	}
 	
 	private Pay toPay(PaymentResDto payRes, Order order) {

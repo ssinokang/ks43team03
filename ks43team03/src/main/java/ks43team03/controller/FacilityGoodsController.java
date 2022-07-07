@@ -35,7 +35,8 @@ public class FacilityGoodsController {
 	// goodsCtg 
 	@GetMapping("/order")
 	public String order(Model model, @RequestParam(name = "userId", required = false)String userId,
-									 @RequestParam(name = "facilityGoodsCd" , required = false)String facilityGoodsCd) {
+									 @RequestParam(name = "facilityGoodsCd" , required = false)String facilityGoodsCd,
+									 @RequestParam(name = "goodsCtgCd" , required = false)String goodsCtgCd) {
 		
 		
 		log.info("화면에서 받은 goodsCode : {}", facilityGoodsCd);

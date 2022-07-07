@@ -30,4 +30,5 @@ public class PaymentResDto {
 	 
 	 // private EasyPayType easyPay; // 안받아지네 
 	 
+	 private String userId;
 }

@@ -182,10 +182,26 @@
 
 			</div>
 		</div>
+		<input type="hidden" id="userId" th:value="${userId}">
+		<script>
+		const orderDetailBtn = document.querySelector('#orderDetail');
+		const indexHomeBtn = document.querySelector('#indexHome');
+		const userId = document.querySelector('#userId').value;
+		orderDetailBtn.addEventListener('click', e=> {
+			console.log(userId);
+			location.href = window.location.origin + "/order/orders/" + userId;
+			
+		});
+		
+		indexHomeBtn.addEventListener('click', () =>{
+			console.log('id', ' click 했습니다.');
+		});
+		
+	</script>
 	</section>
 
 
-
+	
 
 </th:block>
 

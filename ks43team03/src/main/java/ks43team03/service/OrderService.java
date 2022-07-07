@@ -139,6 +139,8 @@ public class OrderService {
 	@Transactional(readOnly = true)
 	public List<Order> getOrdersByUser(String userId){
 		List<Order> orderList = orderMapper.getOrdersByUser(userId);
+		log.info("db 조회 데이터 : {}", orderList);
+		
 		return orderList;
 	}
 	

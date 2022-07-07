@@ -1,6 +1,8 @@
 package ks43team03.controller;
 
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -70,8 +72,11 @@ public class OrderController {
 	
 	
 	@GetMapping("/orders/{id}")
-	public String orders(@PathVariable("id") String userId) {
-		orderService.getOrdersByUser(userId);
+	public String orders(@PathVariable("id") String userId, Model model) {
+		List<Order> orderList = orderService.getOrdersByUser(userId);
+		
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("title", "회원님의 주문내역입니다.");
 		return "order/회원한명주문리스트";
 	}
 	

@@ -207,6 +207,7 @@
 			o.user_id,
 			o.facility_goods_cd,
 			o.goods_ctg_cd,
+			o.order_uuid_id,
 			o.order_price,
 			o.order_user_point,
 			o.order_used_point,
@@ -235,14 +236,20 @@
 			,o.facility_goods_cd
 			,o.goods_ctg_cd
 			,o.order_price
+			,o.order_uuid_id
 			,o.order_user_point
 			,o.order_used_point
 			,o.order_pay_price
 			,o.order_reg_date
 			,o.order_pay_state
-			,(SELECT f.facility_nm FROM facility AS f WHERE f.facility_cd = g.facility_cd)
+			,f.facility_nm
+			,f.facility_cd
 		FROM
+			facility AS f
+			INNER join
 			facility_goods AS g
+			ON 
+			g.facility_cd = f.facility_cd
 			INNER join
 			goods_order AS o
 			on

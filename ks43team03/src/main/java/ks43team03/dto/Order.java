@@ -4,6 +4,7 @@ import ks43team03.dto.type.PayType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter

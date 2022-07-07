@@ -130,7 +130,7 @@ public class StadiumService {
 
 		String uproaderId 		= stadium.getUserId();
 		
-		FacilityGoods facilityGoods = stadium.toFacilityGoods();
+		FacilityGoods facilityGoods = stadium.getFacilityGoods();
 		facilityGoodsMapper.addFacilityGoods(facilityGoods);
 		
 		log.info("facilityGoods : {}", facilityGoods);

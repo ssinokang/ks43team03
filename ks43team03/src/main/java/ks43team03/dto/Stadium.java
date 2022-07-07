@@ -32,14 +32,4 @@ public class Stadium {
 	private BookingDto 					booking;
 	private FacilityUser 				facilityUser;
 	
-	@Builder
-	public FacilityGoods toFacilityGoods() {
-		return FacilityGoods.builder()
-					.facilityCd(facilityCd)
-					.userId(userId)
-					.goodsCtgCd(goodsCtgCd)
-					.sportsCd(sportsCd)
-					.build();
-					
-	}
 }

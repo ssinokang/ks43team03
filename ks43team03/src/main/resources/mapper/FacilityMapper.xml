@@ -45,35 +45,6 @@
 			<result  column="area_cd" 			property="areaCd"/>
 			<result  column="town_nm" 			property="townNm"/>
 		</association>	
-		<collection property="stadium" javaType="Stadium">
-			<id column="facility_stadium_cd" 			property="facilityStadiumCd"/>
-			<result column="facility_goods_cd" 			property="facilityGoodsCd"/>
-			<result column="facility_cd" 				property="facilityCd"/>
-			<result column="goods_ctg_cd" 				property="goodsCtgCd"/>
-			<result column="sports_cd" 					property="sportsCd"/>
-			<result column="user_id" 					property="userId"/>
-			<result column="facility_stadium_nm" 		property="facilityStadiumNm"/>
-			<result column="facility_stadium_reg_date"	property="facilityStadiumRegDate"/>
-			<result column="facility_stadium_detail"	property="facilityStadiumDetail"/>
-		</collection>
-		<collection property="lesson" javaType="Lesson">
-			<id 	column="lesson_cd" 				property="lessonCd"/>
-			<result column="lesson_division" 		property="lessonDivision"/>
-			<result column="facility_goods_cd" 		property="facilityGoodsCd"/>
-			<result column="facility_cd" 			property="facilityCd"/>
-			<result column="goods_ctg_cd" 			property="goodsCtgCd"/>
-			<result column="sports_cd" 				property="sportsCd"/>
-			<result column="user_id" 				property="userId"/>
-			<result column="lesson_nm" 				property="lessonName"/>
-			<result column="lesson_detail" 			property="lessonDetail"/>		
-			<result column="lesson_total_member" 	property="lessonTotalMember"/>		
-	 		<result column="lesson_member" 			property="lessonMember"/>		 
-			<result column="lesson_start_date" 		property="lessonStartDate"/>		
-			<result column="lesson_end_date" 		property="lessonEndDate"/>		
-			<result column="lesson_price" 			property="lessonPrice"/>		
-			<result column="lesson_reg_date" 		property="lessonRegDate"/>		
-			<result column="lesson_state" 			property="lessonState"/>		
-		</collection>
 		<collection property="facilityUser" 	javaType="FacilityUser">
 			<id column="facility_cd"				property="facilityCd"/>
 			<result column="user_id"				property="userId"/>

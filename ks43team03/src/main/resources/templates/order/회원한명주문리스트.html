@@ -135,7 +135,7 @@
 																			<td th:text="${order.orderUUID}">order_cd_3306789785</td>
 																			<th rowspan="4" class="col-sm-3 col-lg-3">
 																				<div class="div btn-box ml-5" style="margin-top: 60px;">
-																					<button type="button" class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;">상세보기</button>
+																					<a th:href="@{/order/orderDetail/{id}(id=${order.userId},orderCd=${order.orderCd})}" class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;">상세보기</a>
 																				</div>
 																			</th>
 																		</tr>
@@ -159,48 +159,21 @@
 												</div>
 											</div>
 											</th:block>
-											
+											<a th:if="${currentPage > 1}" th:href="@{/order/orders/{id}(id=${userId})}">[맨처음]</a>
+											<a th:if="${currentPage > 1}" th:href="@{/order/orders/{id}(id=${userId},currentPage=${currentPage - 1})}">[이전]</a>
+											<th:block th:each="num : ${#numbers.sequence(startPage,endPage)}">
+												<label th:if="${currentPage eq num}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></label>
+												<a th:unless="${currentPage eq num}" th:href="@{/order/orders/{id}(id=${userId},currentPage=${num})}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></a>
+											</th:block>
+											<a th:if="${currentPage < lastPage}" th:href="@{/order/orders/{id}(id=${userId},currentPage=${currentPage + 1})}">[다음]</a>
+											<a th:href="@{/order/orders/{id}(id=${userId},currentPage=${lastPage})}">[마지막]</a>
 											
 											<th:block th:unless="${not #lists.isEmpty(orderList)}">
 													<div><span>비워있습니다.</span></div>
 											
 											</th:block>
 											
-											<div class="card mb-4">
-												<div class="card-body">
-													<div class="tab-content">
-														<div class="row">
-															<div class="col-sm-12 col-lg-12">
-															<table class="table">
-																	<tbody>
-																		<tr>
-																			<th class="col-sm-2 col-lg-2">주문코드</th>
-																			<td >order_cd_3306789785</td>
-																			<th rowspan="4" class="col-sm-3 col-lg-3">
-																				<div class="div btn-box ml-5" style="margin-top: 60px;">
-																					<button type="button" class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;">주문 취소 상세보기</button>
-																				</div>
-																			</th>
-																		</tr>
-																		<tr>
-																			<th rowspan="2" class="col-sm-2 col-lg-2">상품명</th>
-																			<td><a href="#">지구어딘가체육관/이용권</a></td>
-																		</tr>
-																		<tr>
-																			<td class="col-sm-2 col-lg-2">취소완료</td>
-																		</tr>
-																		<tr>
-																			<th class="col-sm-2 col-lg-2">상품금액</th>
-																			<td>500000</td>
-																		</tr>
-																	</tbody>
-																</table>
-															</div>
-															
-														</div>
-													</div>
-												</div>
-											</div>
+											
 										</div>
 	
 									</div>
@@ -223,6 +196,10 @@
 			</div>
 		</div>
 	</section>
+	
+	<script>
+		
+	</script>
 </th:block>
 
 </html>

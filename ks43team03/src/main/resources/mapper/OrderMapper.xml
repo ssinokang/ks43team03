@@ -229,7 +229,7 @@
 	</select>
 	
 	<!-- 사용자 주문내역 조회 -->
-	<select id="getOrdersByUser" resultType="Order" resultMap="orderResultMap" parameterType="String">
+	<select id="getOrdersByUser" resultType="Order" resultMap="orderResultMap" parameterType="java.util.Map">
 		SELECT
 			o.order_cd
 			,o.user_id
@@ -262,6 +262,16 @@
 			o.user_id = #{userId}
 			AND
 			o.order_del_yn = 'N'
+		LIMIT #{startRow}, #{rowPerPage};
+	</select>
+	
+	<select id="getOrderByUserCount" parameterType="String" resultType="int">
+		SELECT
+			COUNT(o.user_id)
+		FROM
+			goods_order AS o
+		WHERE
+			o.user_id = #{userId}
 	</select>
 	
 	<!-- 대관 주문내역 -->

@@ -89,12 +89,12 @@ public class BoardController {
 		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
 		
-		log.info("tfile : {}", board.getTFile());
 		
 		System.out.println("------------------------게시글 상세조회 끝-----------------------------");
 		return "board/boardDetail";
 	}
 	
+	/*
 	@GetMapping("/download")
 	public void download(HttpServletResponse response
 						,@RequestParam MultipartFile[] boardImgFile
@@ -124,6 +124,7 @@ public class BoardController {
 		  throw new RuntimeException("file Save Error");
 		}
 	}
+	*/
 	
 	/* 게시글 등록 처리 */
 	@PostMapping("/addBoard")
@@ -147,7 +148,7 @@ public class BoardController {
 			//배포용 주소
 			fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
 		}
-		      
+		
 		String boardPostCd = boardService.addBoard(board, boardImgFile, fileRealPath);
 		log.info("boardPostCd : {}", boardPostCd);
 		

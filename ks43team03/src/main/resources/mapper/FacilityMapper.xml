@@ -45,35 +45,6 @@
 			<result  column="area_cd" 			property="areaCd"/>
 			<result  column="town_nm" 			property="townNm"/>
 		</association>	
-		<collection property="stadium" javaType="Stadium">
-			<id column="facility_stadium_cd" 			property="facilityStadiumCd"/>
-			<result column="facility_goods_cd" 			property="facilityGoodsCd"/>
-			<result column="facility_cd" 				property="facilityCd"/>
-			<result column="goods_ctg_cd" 				property="goodsCtgCd"/>
-			<result column="sports_cd" 					property="sportsCd"/>
-			<result column="user_id" 					property="userId"/>
-			<result column="facility_stadium_nm" 		property="facilityStadiumNm"/>
-			<result column="facility_stadium_reg_date"	property="facilityStadiumRegDate"/>
-			<result column="facility_stadium_detail"	property="facilityStadiumDetail"/>
-		</collection>
-		<collection property="lesson" javaType="Lesson">
-			<id 	column="lesson_cd" 				property="lessonCd"/>
-			<result column="lesson_division" 		property="lessonDivision"/>
-			<result column="facility_goods_cd" 		property="facilityGoodsCd"/>
-			<result column="facility_cd" 			property="facilityCd"/>
-			<result column="goods_ctg_cd" 			property="goodsCtgCd"/>
-			<result column="sports_cd" 				property="sportsCd"/>
-			<result column="user_id" 				property="userId"/>
-			<result column="lesson_nm" 				property="lessonName"/>
-			<result column="lesson_detail" 			property="lessonDetail"/>		
-			<result column="lesson_total_member" 	property="lessonTotalMember"/>		
-	 		<result column="lesson_member" 			property="lessonMember"/>		 
-			<result column="lesson_start_date" 		property="lessonStartDate"/>		
-			<result column="lesson_end_date" 		property="lessonEndDate"/>		
-			<result column="lesson_price" 			property="lessonPrice"/>		
-			<result column="lesson_reg_date" 		property="lessonRegDate"/>		
-			<result column="lesson_state" 			property="lessonState"/>		
-		</collection>
 		<collection property="facilityUser" 	javaType="FacilityUser">
 			<id column="facility_cd"				property="facilityCd"/>
 			<result column="user_id"				property="userId"/>
@@ -83,71 +54,62 @@
 			<result column="facility_approve_date"	property="facilityApproveDate"/>
 			<result column="facility_reg_date"		property="facilityRegDate"/>
 		</collection>
-		<collection property="review" 			javaType="Review">
-			<id column="review_cd"				property="reviewCd"/>
-			<result column="pay_cd"				property="payCd"/>
-			<result column="goods_ctg_cd"		property="goodsCtgCd"/>
-			<result column="user_id"			property="userId"/>
-			<result column="review_detail"		property="reviewDetail"/>
-			<result column="review_score"		property="reviewScore"/>
-			<result column="review_reg_date"	property="reviewRegDate"/>
+		<collection property="tFile"  ofType="TFile">
+			<id		column="file_cd"				property="fileCd"/>
+			<result	column="original_file_nm"		property="originalFileName"/>
+			<result	column="stored_file_path"		property="storedFilePath"/>
+			<result	column="file_size"				property="fileSize"/>
+			<result column="re_file_name"			property="reFileName"/>
+			<result	column="uploader_id"			property="uploaderId"/>
+			<result	column="upload_date"			property="uploadDate"/>
+			<result	column="updator_id"				property="updatorId"/>
+			<result	column="updated_date"			property="updatedDate"/>
+			<result	column="represent_img"		property="representImg"/>
 		</collection>
-	</resultMap>
+	</resultMap>	
 	
-	<select id="getReviewCountByCd" resultType="int">
-		/*시설 별 리뷰 수*/
-		SELECT
-			COUNT(*)
-		FROM 
-			review AS r
-			INNER join
-			pay AS p
-			on
-			r.pay_cd = p.pay_cd
-			INNER join
-			goods_order AS o
-			on
-			p.order_cd = o.order_cd
-			INNER join
-			facility_goods AS fg
-			on
-			o.facility_goods_cd = fg.facility_goods_cd
-		WHERE
-			fg.facility_cd = #{facilityCd};
-	</select>
-	
-	<select id="getReviewList" resultType="Review">
-	/*리뷰조회*/
-		SELECT
-			r.review_cd			AS reviewCd
-			,r.pay_cd			AS payCd
-			,r.goods_ctg_cd		AS goodsCtgCd
-			,r.user_id			AS userId
-			,r.review_detail	AS reviewDetail
-			,r.review_score		AS reviewScore
-			,r.review_reg_date	AS reviewRegDate
-			,fg.facility_cd		AS facilityCd
-		FROM 
-			review AS r
-			INNER join
-			pay AS p
-			on
-			r.pay_cd = p.pay_cd
-			INNER join
-			goods_order AS o
-			on
-			p.order_cd = o.order_cd
-			INNER join
-			facility_goods AS fg
-			on
-			o.facility_goods_cd = fg.facility_goods_cd
-		<trim prefix="WHERE" prefixOverrides="AND /OR ">
-	   		<if test="facilityCd != null and facilityCd != '' ">
-	   			fg.facility_cd = #{facilityCd}
-	   		</if>
-	   	</trim>
-	   ORDER BY r.review_reg_date DESC;
-	</select>
+	<select id="searchFacilityList" fetchSize="10" parameterType="map" resultType="map">
+			/*시설검색*/
+			SELECT
+				f.facility_cd 			AS facilityCd
+				,f.main_ctg_cd 			AS mainCtgCd
+				,fu.facility_use_nm 	AS facilityUseNm
+				,a.area_nm 				AS areaNm
+				,ac.city_nm				AS cityNm
+				,act.town_nm 			AS townNm
+				,f.user_id 				AS userId
+				,f.facility_nm 			AS facilityNm
+ 				,f.facility_address 	AS facilityAddr
+				,f.facility_detail_addr AS facilityDetailAddr
+				,f.facility_tell 		AS facilityTell
+				,f.business_number		AS businessNum
+				,f.facility_reg_date 	AS facilityRegDate
+				,f.facility_detail		AS facilityDetail
+			FROM
+				facility AS f
+				INNER JOIN 
+				area AS a
+				ON 
+				f.area_cd = a.area_cd
+				INNER join
+				area_city AS ac
+				ON 
+				f.city_cd= ac.city_cd
+				INNER join
+				area_city_town AS act
+				on
+				f.town_cd = act.town_cd
+				INNER join
+				facility_use AS fu
+				ON 
+				f.facility_use_cd = fu.facility_use_cd
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<if test="searchValue != null and searchValue != ''">
+					${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+				</if>
+			</trim>
+			LIMIT #{startRow}, #{rowPerPage};
+		</select>
 	
 	
 	<select id="isUserCheck" parameterType="String" resultType="boolean">
@@ -177,54 +139,6 @@
 			,CURDATE());
 	</insert>
 	
-	
-	
-	
-	<select id="getStadiumList" resultType="Stadium">
-	/*시설내 구장 목록*/
-		SELECT 
-			facility_stadium_cd			AS facilityStadiumCd
-			,facility_goods_cd			AS facilityGoodsCd
-			,facility_cd				AS facilityCd
-			,goods_ctg_cd 				AS goodsCtgCd
-			,sports_cd 					AS sportsCd
-			,user_id 					AS userId
-			,facility_stadium_nm 		AS facilityStadiumNm
-			,facility_stadium_reg_date	AS facilityStadiumRegDate
-			,facility_stadium_detail 	AS facilityStadiumDetail
-		FROM 
-			facility_stadium
-		WHERE 
-			facility_cd = #{facilityCd};
-	</select>
-	
-	<select id="getLessonList" resultType="Lesson">
-	/*시설내 레슨 목록*/
-		SELECT 
-			lesson_cd 				AS lessonCd
-			,lesson_division 		AS lessonDivision
-			,facility_goods_cd	 	AS facilityGoodsCd
-			,facility_cd 			AS facilityCd
-			,goods_ctg_cd 			AS goodsCtgCd
-			,sports_cd 				AS sportsCd
-			,user_id 				AS sportsCd 	
-			,sports_nm 				AS userId 
-			,lesson_nm 				AS lessonName 
-			,lesson_detail 			AS lessonDetail
-			,lesson_total_member	AS lessonTotalMember 
-			,lesson_member 			AS lessonMember
-			,lesson_start_date	 	AS lessonStartDate
-			,lesson_end_date 		AS lessonEndDate
-			,lesson_price 			AS lessonPrice
-			,lesson_reg_date	 	AS lessonRegDate
-			,lesson_state 			AS lessonState
-		FROM 
-			lesson
-		WHERE 
-			facility_cd = #{facilityCd};
-	</select>
-
-
 	<select id="getFacilityInfoByCd" resultType="Facility" resultMap="facilityResultMap">
 		/*시설상세정보조회*/
 			SELECT
@@ -242,7 +156,11 @@
 				,f.business_number
 				,f.facility_reg_date
 				,f.facility_detail
-				
+				,facility_file.file_cd			
+				,facility_file.re_file_name		
+				,facility_file.original_file_nm	
+				,facility_file.stored_file_path	
+				,facility_file.represent_img
 			FROM
 				facility AS f
 				INNER JOIN 
@@ -265,6 +183,29 @@
 				main_ctg AS mc
 				ON 
 				f.main_ctg_cd = mc.main_ctg_cd
+				left join
+				(SELECT
+						rfwf.facility_cd 	
+						,tf.file_cd				
+						,tf.re_file_name		
+						,tf.original_file_nm	
+						,tf.stored_file_path	
+						,tf.file_size		
+						,tf.uploader_id			
+						,tf.upload_date		
+						,tf.updator_id			
+						,tf.updated_datetime	
+						,tf.represent_img		
+					FROM
+						rel_file_with_facility AS rfwf
+					   INNER JOIN
+					   t_file	AS tf
+					   on
+					   tf.file_cd = rfwf.file_cd
+					WHERE
+						tf.deleted_yn != 'Y') AS facility_file
+				on
+				f.facility_cd = facility_file.facility_cd
 			WHERE
 				f.facility_cd = #{facilityCd};
 	</select>
@@ -280,31 +221,56 @@
 		</select>
 	
 	
-	<select id="getFacilityList" parameterType="map" resultType="map">
+	<select id="getFacilityList" parameterType="map" resultMap="facilityResultMap">
 		/*시설전체조회*/
 			SELECT 
-				facility_cd 	AS facilityCd	
-				,main_ctg_cd	AS mainCtgCd	
-				,area_cd		AS areaCd	
-				,city_cd		AS cityCd	
-				,town_cd		AS townCd	
-				,facility_use_cd	AS facilityUseCd
-				,user_id			AS userId
-				,facility_nm		AS facilityNm
-				,facility_address   AS facilityAddr
-				,facility_tell		AS facilityTell
-				,facility_post_num	AS businessNum
-				,facility_reg_date	AS facilityRegDate
-				,facility_detail  AS facilityDetail
+				f.facility_cd 					
+				,f.main_ctg_cd					
+				,f.area_cd						
+				,f.city_cd						
+				,f.town_cd						
+				,f.facility_use_cd									
+				,f.facility_nm					
+				,f.facility_address  			
+				,f.facility_tell				
+				,f.facility_post_num			
+				,f.facility_reg_date						
+				,facility_file.file_cd			
+				,facility_file.re_file_name		
+				,facility_file.original_file_nm	
+				,facility_file.stored_file_path	
+				,facility_file.represent_img
 			FROM 
-				facility 
-			LIMIT #{startRow}, #{rowPerPage};	
+				facility as f
+				left join
+					 (SELECT
+						rfwf.facility_cd 	
+						,tf.file_cd				
+						,tf.re_file_name		
+						,tf.original_file_nm	
+						,tf.stored_file_path	
+						,tf.file_size		
+						,tf.uploader_id			
+						,tf.upload_date		
+						,tf.updator_id			
+						,tf.updated_datetime	
+						,tf.represent_img		
+					FROM
+						rel_file_with_facility AS rfwf
+					   INNER JOIN
+					   t_file	AS tf
+					   on
+					   tf.file_cd = rfwf.file_cd
+					WHERE
+						tf.deleted_yn != 'Y') AS facility_file
+				on
+				f.facility_cd = facility_file.facility_cd
 			<trim prefix="WHERE" prefixOverrides="AND /OR ">
 		   		<if test="mainCtgCd != null and mainCtgCd != '' ">
-		   			main_ctg_cd = #{mainCtgCd}
+		   			f.main_ctg_cd = #{mainCtgCd}
 		   		</if>
 	   		</trim>
-				
+			LIMIT #{startRow}, #{rowPerPage}
 		</select>
 	
 	

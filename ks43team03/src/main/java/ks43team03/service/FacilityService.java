@@ -15,6 +15,9 @@ import ks43team03.dto.Lesson;
 import ks43team03.dto.Review;
 import ks43team03.dto.Stadium;
 import ks43team03.mapper.FacilityMapper;
+import ks43team03.mapper.LessonMapper;
+import ks43team03.mapper.ReviewMapper;
+import ks43team03.mapper.StadiumMapper;
 
 
 @Service
@@ -24,20 +27,31 @@ public class FacilityService {
 	private static final Logger log = LoggerFactory.getLogger(FacilityService.class);
 	
 	private final FacilityMapper facilityMapper;
+	private final StadiumMapper stadiumMapper;
+	private final LessonMapper lessonMapper;
+	private final ReviewMapper reviewMapper;
 	
-	public FacilityService(FacilityMapper facilityMapper) {
+	
+	
+	public FacilityService(FacilityMapper facilityMapper, StadiumMapper stadiumMapper, LessonMapper lessonMapper,  ReviewMapper reviewMapper) {
 		this.facilityMapper = facilityMapper;
+		this.stadiumMapper = stadiumMapper;
+		this.lessonMapper = lessonMapper;
+		this.reviewMapper = reviewMapper;
+		
 	}
 
 	/*시설후기갯수*/
 	public int getReviewCountByCd(String facilityCd) {
-		int reviewCount = facilityMapper.getReviewCountByCd(facilityCd);
+		int reviewCount = reviewMapper.getReviewCountByCd(facilityCd);
 		return reviewCount;
 	}
 	
-	/*시설 후기*/
+	/*시설 후기 리스트*/
 	public List<Review> getReviewList(String facilityCd){
-		List<Review> reviewList = facilityMapper.getReviewList(facilityCd);
+		List<Review> reviewList = reviewMapper.getReviewList(facilityCd);
+		log.info("reviewList", reviewList);
+
 		return reviewList;
 	}
 	
@@ -52,29 +66,33 @@ public class FacilityService {
 	/*시설에 회원 가입*/
 	public int addFacilityUser(FacilityUser facilityUser) {
 		int result = facilityMapper.addFacilityUser(facilityUser);
-		
+		log.info("result", result);
+
 		return result;
 	}
 	
 	
 	/*시설 내 구장 목록*/
-	public List<Stadium> getStadiumList(String facilityCd) {
-		List<Stadium> stadiumList = facilityMapper.getStadiumList(facilityCd);
-
-		return stadiumList;
+	public List<Stadium> getStadiumListByCd(String facilityCd) {
+		List<Stadium> stadiumListByCd = stadiumMapper.getStadiumListByCd(facilityCd);
+		
+		log.info("stadiumListByCd", stadiumListByCd);
+		return stadiumListByCd;
 	}
 	
 	/*시설 내 레슨 목록*/
 	public List<Lesson> getLessonList(String facilityCd) {
-		List<Lesson> lessonList = facilityMapper.getLessonList(facilityCd);
+		List<Lesson> lessonList = lessonMapper.getFacilityLessonList(facilityCd);
+		log.info("lessonList", lessonList);
 
+		
 		return lessonList;	
 		}
 	
 	/*시설 상세 정보 조회*/
 	public Facility getFacilityDetail(String facilityCd) {
 		Facility facilityDetail = facilityMapper.getFacilityInfoByCd(facilityCd);
-
+		log.info("facilityDetail", facilityDetail);
 		
 		return facilityDetail;
 	}
@@ -82,7 +100,7 @@ public class FacilityService {
 	
 
 	/*시설조회*/
-	public Map<String, Object> getFacilityList(int currentPage){
+	public Map<String, Object> getFacilityList(int currentPage, String mainCtgCd){
 		
 		int rowPerPage = 9;
 		int startPageNum = 1;
@@ -98,6 +116,7 @@ public class FacilityService {
 		
 		paramMap.put("startRow", startRow);
 		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("mainCtgCd", mainCtgCd);
 		
 	
 		

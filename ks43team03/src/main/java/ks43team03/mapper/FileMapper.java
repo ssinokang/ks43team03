@@ -17,4 +17,7 @@ public interface FileMapper {
 	
 	// 게시판, 파일 릴레이션 테이블 삽입
 	public void uploadRelationFileWithBoard(List<Map<String, String>> relationFileList);
+	
+	// 시설, 파일 릴레이션 테이블 삽입
+	public void uploadRelationFileWithFacility(List<Map<String, String>> relationFileList);
 }

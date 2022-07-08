@@ -87,8 +87,8 @@
 			});
 			// 최대 li 개수
 			var maxLiNum = 4;
-			</script>
-			<script th:src="@{/resource/js/listUpdate.js}"></script>
+		</script>
+		<script th:src="@{/resource/js/listUpdate.js}"></script>
 	</th:block>
 	
 	 
@@ -145,8 +145,8 @@
 						<span class="required">*</span>
 					</label>
 					<div class="col-md-9 col-sm-9">
-						<ul id="plusUl">
-							<li>
+						<ul id="plusUl" class="list-group list-group-flush">
+							<li class="list-group-item">
 								<input type="file" class="form-control" name="trainerImgFile"  accept="image/*" required>
 								<button type="button" id="addLi">플러스</button>
 								<button type="button" id="delLi">마이너스</button>

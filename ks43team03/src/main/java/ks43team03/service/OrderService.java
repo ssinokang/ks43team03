@@ -2,9 +2,14 @@ package ks43team03.service;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,9 +18,8 @@ import ks43team03.dto.ResponseGoods;
 import ks43team03.dto.User;
 import ks43team03.dto.type.OrderState;
 import ks43team03.dto.type.PayType;
-import ks43team03.exception.NotFoundGoodsException;
-import ks43team03.exception.NotFoundOrderException;
-import ks43team03.mapper.CommonMapper;
+import ks43team03.exception.CustomException;
+import ks43team03.exception.ErrorMessage;
 import ks43team03.mapper.OrderMapper;
 import ks43team03.mapper.UserMapper;
 
@@ -24,17 +28,18 @@ import ks43team03.mapper.UserMapper;
 public class OrderService {
 
 	private final OrderMapper orderMapper;
-	private final CommonMapper commonMapper;
 	private final UserMapper userMapper;
 	
 	
-	private final static String COLUMN_NAME = "order_cd";
-	private final static String TABLE_NAME = "goods_order";
+	private static final Logger log = LoggerFactory.getLogger(OrderService.class);
+
+	
+//	private final static String COLUMN_NAME = "order_cd";
+//	private final static String TABLE_NAME = "goods_order";
 	
 	
-	public OrderService(OrderMapper orderMapper,CommonMapper commonMapper,UserMapper userMapper) {
+	public OrderService(OrderMapper orderMapper,UserMapper userMapper) {
 		this.orderMapper = orderMapper;
-		this.commonMapper = commonMapper;
 		this.userMapper = userMapper;
 	}
 
@@ -44,51 +49,66 @@ public class OrderService {
 	// toss 결제전에 주문내역을 넣는다.
 	public Order addOrder(Order.Request req, ResponseGoods goods) {
 		
-		String paytype = req.getPayType();
+		log.info("요청 데이터의 PayType : {}", req.getPayType());
+		
+		String paytype = req.getPayType().getName();
 		String userId = req.getUserId();
 		int orderPayPrice = req.getOrderPayPrice();
 		
+		
+		
+		
 		if(!paytype.equals("카드") && !paytype.equals("가상계좌")) {
-			
+			throw new CustomException(ErrorMessage.NOT_EXITS_PAYMENT_TYPE_ERROR);
 		}
 		
-		if(orderPayPrice < 0 || orderPayPrice > req.getOrderPrice()) {
-			//exception
+		if(orderPayPrice < 0 || orderPayPrice > goods.getPrice()) {
+			throw new CustomException(ErrorMessage.ORDER_ERROR_ORDER_PRICE);
 		}
 		
 		// 상품정보있는지 없는지 체크 한다.
 		
-		
-		// 예외처리 
+		// 예외처리
+		User user;
 		try {
-			User user = userMapper.getUserInfoById(userId);
-			if(user == null) {
-				// 예외 발생
-			}else {
-				// 있다면 포인트 내역 조회한다 
-			}
-		}catch(NotFoundGoodsException e){
+			user = userMapper.getUserInfoById(userId);
 			
+			if(user == null) {
+				throw new CustomException(ErrorMessage.USER_ERROR_USER_NOT_FOUND);
+			}else {
+				// 있다면 포인트 내역 조회한다 후 
+				log.info("userName : {} , " , user.getUserName());
+				
+				//포인트 테이블 포인트 차감 하고 저장한다.
+				
+				//
+			}
+		}catch(Exception e){
+			throw new CustomException(ErrorMessage.DATABASE_ERROR);
 		}
 		
 		
-		String code = commonMapper.createNewCode(COLUMN_NAME, TABLE_NAME);
-		Order order = createOrder(req, goods, code);
+		//String code = commonMapper.createNewCode(COLUMN_NAME, TABLE_NAME);
+		Order order = createOrder(req, goods );
 		orderMapper.addOrder(order);
+		order.setPayName(paytype);
+		order.setUserName(user.getUserName());
 		return order;
 	}
 
 	
-	private Order createOrder(Order.Request req, ResponseGoods goods,String code) {
+	private Order createOrder(Order.Request req, ResponseGoods goods) {
 		return Order.builder()
-				.orderCd(code)
 				.facilityGoodsCd(goods.getFacilityGoods().getFacilityGoodsCd())
 				.goodsCtgCd(goods.getFacilityGoods().getGoodsCtgCd())
 				.orderPayPrice(req.getOrderPayPrice())
+				.orderUUID((UUID.randomUUID().toString()+ LocalDate.now()).replaceAll("-", ""))
 				.orderPrice(req.getOrderPrice())
 				.userId(req.getUserId())
+				.usedPoint(req.getUsedPoint())
+				.goodsName(req.getGoodsName())
 				.orderPayState(OrderState.ORDER.getCode())
-				.orderId(UUID.randomUUID().toString()+LocalDate.now())
+				.payType(req.getPayType())
 				.build();
 	}
 	
@@ -113,17 +133,56 @@ public class OrderService {
 	
 	//== 주문 상세 조회 ==//
 	public Order getOrderByCode(String orderCd) {
-		Order order = orderMapper.getOrderByCode(orderCd).orElseThrow(()->{
-			throw new NotFoundOrderException("주문한 내역이 없습니다.");
-		});
+		Order order = orderMapper.getOrderByCode(orderCd).orElseThrow(()-> new CustomException(ErrorMessage.NOT_FOUND_ORDER));
 		return order;
 	}
 	
 	//== 회원이 주문한 내역 ==//
+	/**
+	 *  페이징 처리 개선이 필요하다.
+	 */
 	@Transactional(readOnly = true)
-	public List<Order> getOrdersByUser(String userId){
-		List<Order> orderList = orderMapper.getOrdersByUser(userId);
-		return orderList;
+	public Map<String, Object> getOrdersByUser(int currentPage, String userId){
+		
+		int rowPerPage = 6;
+		
+		double rowCount = orderMapper.getOrderByUserCount(userId);
+		
+		int lastPage = (int)Math.ceil(rowCount / rowPerPage);
+		
+		int startRow = (currentPage - 1) * rowPerPage;
+		
+		Map<String, Object> maps = new HashMap<>();
+		
+		maps.put("startRow", startRow);
+		maps.put("rowPerPage", rowPerPage);
+		maps.put("userId", userId);
+		
+		int startPage = 1;
+		int endPage = 10;
+		
+		if(lastPage > 10) {
+			if(currentPage >= 6) {
+				startPage = currentPage - 4;
+				endPage = currentPage + 5;
+				if(endPage >= lastPage) {
+					startPage = lastPage - 9;
+					endPage = lastPage;
+				}
+			}
+		}else {
+			endPage = lastPage;
+		}
+		List<Order> orderList = orderMapper.getOrdersByUser(maps);
+		
+		log.info("db 조회 데이터 : {}", orderList);
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("lastPage", lastPage);
+		resultMap.put("orderList", orderList);
+		resultMap.put("startPage", startPage);
+		resultMap.put("endPage", endPage);
+		
+		return resultMap;
 	}
 	
 	
@@ -142,16 +201,22 @@ public class OrderService {
 			order = orderMapper.getOrderDetailWithPass(orderCd);
 			break;
 		default: 
-			throw new NotFoundOrderException("주문한 내역이 없습니다.");
+			throw new CustomException(ErrorMessage.NOT_FOUND_ORDER);
 		}
 		
 		
 		return order;
 	}
-	
-	
-	//주문 취소 
 
+	
+	
+	/**
+	 * orderUUID로 주문 완전 삭제 메소드 
+	 */
+	public void removeOrderByOrderUUID(String orderUUID){
+		log.info("uuid 주문 정보 삭제 log");
+		orderMapper.removeOrderByOrderUUID(orderUUID);
+	}
 	
 	
 	/**

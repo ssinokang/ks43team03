@@ -73,4 +73,18 @@
 			)
 		</foreach>
 	</insert>
+	<insert id="uploadRelationFileWithFacility" parameterType="List">
+		/* 시설, 파일 릴레이션 테이블 삽입*/
+		INSERT INTO rel_file_with_facility
+		(
+			facility_cd
+			,file_cd
+		) VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+				#{item.facilityCd}
+				,#{item.fileCd}
+			)
+		</foreach>
+	</insert>
 </mapper>

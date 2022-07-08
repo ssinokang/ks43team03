@@ -72,10 +72,12 @@ public class FacilityController {
 										
 			Facility facilityDetail = facilityService.getFacilityDetail(facilityCd);
 			log.info(facilityCd);
-			List<Stadium> stadiumList = facilityService.getStadiumList(facilityCd);
+			List<Stadium> stadiumList = facilityService.getStadiumListByCd(facilityCd);
 			List<Lesson> lessonList = facilityService.getLessonList(facilityCd);
 			List<Review> reviewList = facilityService.getReviewList(facilityCd);
 			int reviewCount = facilityService.getReviewCountByCd(facilityCd);
+			
+			log.info("구장목록  : {}", stadiumList);
 			
 			model.addAttribute("title", "시설 상세 정보");
 			model.addAttribute("facilityDetail", facilityDetail);
@@ -87,19 +89,19 @@ public class FacilityController {
 			
 			return "facility/facilityDetail";
 			
-										 }
+	 	}
 
 
 	/* 사용자가 시설 조회 */
 	@GetMapping("/facilityList")
 	public String getFacilityList(Model model
-								 ,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage){
-		Map<String, Object> resultMap = facilityService.getFacilityList(currentPage);
+								 ,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage
+								 ,@RequestParam(name = "mainCtgCd", required = false) String mainCtgCd){
+		Map<String, Object> resultMap = facilityService.getFacilityList(currentPage, mainCtgCd);
 		
 		log.info("resultMap : {}",resultMap);
 		log.info("resultMap.get(\"facilityList\") : {}",resultMap.get("facilityList"));
-		
-
+	
 
 		
 		model.addAttribute("resultMap", 			resultMap);

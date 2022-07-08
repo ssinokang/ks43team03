@@ -8,12 +8,16 @@
 		<result column="user_id" property="userId"/>
 		<result column="facility_goods_cd" property="facilityGoodsCd"/>
 		<result column="goods_ctg_cd" property="goodsCtgCd"/>
+		<result column="order_uuid_id" property="orderUUID"/>
 		<result column="order_price" property="orderPrice"/>
 		<result column="order_user_point" property="userPoint"/>
 		<result column="order_used_point" property="usedPoint"/>
 		<result column="order_pay_price" property="orderPayPrice"/>
+		<result column="pay_type" property="payType"/>
 		<result column="order_reg_date" property="orderRegDate"/>
 		<result column="order_pay_state" property="orderPayState"/>
+		<result column="order_del_yn" property="orderDelYN"/>
+		<result column="order_del_date" property="orderDelDate"/>
 		<association property="facilityGoods" javaType="FacilityGoods">
 			<id 	column="facility_goods_cd" 			property="facilityGoodsCd"/>
 			<result column="facility_cd"				property="facilityCd"/>
@@ -92,34 +96,38 @@
 	select CONCAT('order_cd','_',max(CAST(substring(order_cd,9)+1 AS DECIMAL))) AS order_code FROM goods_order	<< 처음에 값이 없으면 null이됨.		
 				-->
 	<insert id="addOrder" parameterType="Order">
-		<!-- <selectKey keyProperty="orderCd" resultType="String" order="BEFORE">
+		<selectKey keyProperty="orderCd" resultType="String" order="BEFORE">
 		SELECT
 			case
 			when COUNT(o.order_cd) = 0 
 			then 'order_1'
 			else
-				CONCAT('order_',MAX(CAST(SUBSTRING_INDEX(o.order_cd,'_',-1) AS UNSIGNED))+1)
+				CONCAT('order_cd_',MAX(CAST(SUBSTRING_INDEX(o.order_cd,'_',-1) AS UNSIGNED))+1)
 			END
 		FROM
 			goods_order AS o							
-		</selectKey> -->
+		</selectKey>
 		
 		INSERT INTO goods_order
 		(
 			order_cd,
 			user_id, 
 			facility_goods_cd, 
+			order_uuid_id,
 			goods_ctg_cd, 
 			order_price, 
 			order_user_point, 
 			order_used_point, 
 			order_pay_price, 
 			order_reg_date, 
-			order_pay_state
+			order_pay_state,
+			pay_type,
+			order_del_yn
 		)VALUES (
 			 #{orderCd}
 			,#{userId}
 			,#{facilityGoodsCd} 
+			,#{orderUUID}
 			,#{goodsCtgCd}
 			,#{orderPrice}
 			,#{userPoint} 
@@ -127,9 +135,28 @@
 			,#{orderPayPrice} 
 			,NOW()
 			,#{orderPayState}
+			,#{payType}
+			,'N'
 		)
 	</insert>
-	<!-- 하나의 구매내역 조회 -->
+	<!-- 주문 정보 uuid로 삭제 -->
+	<delete id="removeOrderByOrderUUID" parameterType="String">
+		DELETE
+		FROM
+			goods_order
+		WHERE
+			order_uuid_id = #{orderUUID};
+	</delete>
+
+	<delete id="removeOrderByOrderCd" parameterType="String">
+		DELETE
+		FROM
+			goods_order
+		WHERE
+			order_cd = #{orderCd};
+	</delete>
+	
+	<!-- 하나의 구매내역 order기본키로  조회 -->
 	<select id="getOrderByCode" parameterType="String" resultType="Order" resultMap="orderResultMap">
 		SELECT 
 			 o.order_cd
@@ -142,10 +169,36 @@
 			,o.order_pay_price
 			,o.order_reg_date
 			,o.order_pay_state
+			,o.pay_type
 		FROM 
 			goods_order AS o
 		WHERE 
 			o.order_cd = #{orderCd}
+			AND
+			o.order_del_yn = 'N'
+	</select>
+	
+	<!-- order UUID로 조회 -->
+		<select id="getOrderByOrderUUID" parameterType="String" resultType="Order" resultMap="orderResultMap">
+		SELECT 
+			 o.order_cd
+			,o.user_id
+			,o.facility_goods_cd
+			,o.order_uuid_id
+			,o.goods_ctg_cd
+			,o.order_price
+			,o.order_user_point
+			,o.order_used_point
+			,o.order_pay_price
+			,o.order_reg_date
+			,o.order_pay_state
+			,o.pay_type
+		FROM 
+			goods_order AS o
+		WHERE 
+			o.order_uuid_id = #{orderId}
+			AND
+			o.order_del_yn = 'N'
 	</select>
 	<!-- 시설명과 상품코드 주문내역조회 -->
 	<select id="getOrderAll" resultMap="orderResultMap" resultType="Order">
@@ -154,6 +207,7 @@
 			o.user_id,
 			o.facility_goods_cd,
 			o.goods_ctg_cd,
+			o.order_uuid_id,
 			o.order_price,
 			o.order_user_point,
 			o.order_used_point,
@@ -175,21 +229,27 @@
 	</select>
 	
 	<!-- 사용자 주문내역 조회 -->
-	<select id="getOrdersByUser" resultType="Order" resultMap="orderResultMap" parameterType="String">
+	<select id="getOrdersByUser" resultType="Order" resultMap="orderResultMap" parameterType="java.util.Map">
 		SELECT
 			o.order_cd
 			,o.user_id
 			,o.facility_goods_cd
 			,o.goods_ctg_cd
 			,o.order_price
+			,o.order_uuid_id
 			,o.order_user_point
 			,o.order_used_point
 			,o.order_pay_price
 			,o.order_reg_date
 			,o.order_pay_state
-			,(SELECT f.facility_nm FROM facility AS f WHERE f.facility_cd = g.facility_cd)
+			,f.facility_nm
+			,f.facility_cd
 		FROM
+			facility AS f
+			INNER join
 			facility_goods AS g
+			ON 
+			g.facility_cd = f.facility_cd
 			INNER join
 			goods_order AS o
 			on
@@ -198,6 +258,18 @@
 			user AS u
 			on
 			o.user_id = u.user_id
+		WHERE
+			o.user_id = #{userId}
+			AND
+			o.order_del_yn = 'N'
+		LIMIT #{startRow}, #{rowPerPage};
+	</select>
+	
+	<select id="getOrderByUserCount" parameterType="String" resultType="int">
+		SELECT
+			COUNT(o.user_id)
+		FROM
+			goods_order AS o
 		WHERE
 			o.user_id = #{userId}
 	</select>
@@ -241,6 +313,8 @@
 			f.facility_cd = s.facility_cd
 		WHERE
 			o.order_cd = #{orderCd}
+			AND
+			o.order_del_yn = 'N'
 	</select>
 	<!-- 레슨 주문 내역 -->
 	<select id="getOrderDetailWithLesson" parameterType="String" resultMap="orderResultMap">
@@ -282,6 +356,8 @@
 			f.facility_cd = l.facility_cd
 		WHERE
 			o.order_cd = #{orderCd}
+			AND
+			o.order_del_yn = 'N'
 	</select>
 	
 	<!-- 이용권 주문내역 -->
@@ -324,5 +400,38 @@
 			f.facility_cd = p.facility_cd
 		WHERE
 			o.order_cd = #{orderCd}
+			AND
+			o.order_del_yn = 'N'
 	</select>
+	
+	<update id="modifyOrder" parameterType="Order">
+		UPDATE goods_order
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="userId != null and userId != ''">
+				user_id= #{userId}
+			</if>
+			<if test="facilityGoodsCd != null and facilityGoodsCd !=''">
+				,facility_goods_cd = #{facilityGoodsCd} 
+			</if>
+			<if test="goodsCtgCd != null and goodsCtgCd !=''">
+				,goods_ctg_cd = #{goodsCtgCd} 
+			</if>
+			<if test="orderPrice != null and orderPrice !=''">
+				,order_price = #{orderPrice} 
+			</if>
+			<if test="userPoint != null and userPoint !=''">
+				,order_user_point = #{userPoint} 
+			</if>
+			<if test="userPoint != null and userPoint !=''">
+				,order_used_point = #{usedPoint} 
+			</if>
+			<if test="orderPayPrice != null and orderPayPrice !=''">
+				,order_pay_price = #{orderPayPrice} 
+			</if>
+			<if test="orderPayState != null and orderPayState !=''">
+				,order_pay_state = #{orderPayState} 
+			</if>
+		</trim>
+		WHERE order_cd=#{orderCd}
+	</update>
 </mapper>

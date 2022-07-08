@@ -230,6 +230,7 @@
 	
 	
 	<select id="getLoginHistory" parameterType="map" resultType="map"> <!-- type사용 -> map을 사용하려면 위에서 정의해야함 -->
+		/*로그인 이력 조회*/
 		SELECT 
 			 login_number
 			,user_id
@@ -241,12 +242,31 @@
 		LIMIT #{startRow}, #{rowPerPage};		
 	</select>
 	
-	
 	<select id="getLoginHistoryCount" resultType="int">
 		SELECT 
 			COUNT(login_number)
 		FROM
 			user_login;	
+	</select>	
+	
+	<select id="isEmailCheck" parameterType="String" resultType="String">
+		/*이메일로 아이디 찾기*/
+		SELECT 
+			user_id
+		FROM 
+			user
+		WHERE 	 
+			user_email = #{userEmail};	
+	</select>
+	
+	<select id="isIdCheck2" parameterType="String" resultType="String">
+		/*아이디로 비밀번호 찾기*/
+		SELECT 
+			user_password 
+		FROM 
+			user
+		WHERE 	
+			user_id = #{userId};
 	</select>	
 	
 	

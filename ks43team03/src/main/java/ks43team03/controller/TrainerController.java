@@ -1,5 +1,6 @@
 package ks43team03.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -150,13 +152,30 @@ public class TrainerController {
 	//자격증 등록
 	@ResponseBody
 	@PostMapping("/addLicense")
-	public boolean addLicense(@RequestBody List<TrainerLicense> trainerLicenseList) {
+	public boolean addLicense(TrainerLicense trainerLicense
+							 ,HttpSession session
+							 ,HttpServletRequest request) {
 		
 		boolean addLicenseCheck = false;
 		
+		String userId = (String)session.getAttribute("SID");
+		List<TrainerLicense> trainerLicenseList = trainerLicense.getTrainerLicenseList();
 		log.info("trainerLicenseList : {}",trainerLicenseList);
 		
-		int result = trainerService.addTrainerLicense(trainerLicenseList);
+		String serverName = request.getServerName();
+		String fileRealPath = "";
+		
+		if("localhost".equals(serverName)) {
+			// server 가 localhost 일때 접근
+			fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
+			System.out.println(System.getProperty("user.dir"));
+			//fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}else {
+			//배포용 주소
+			fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}
+		
+		int result = trainerService.addTrainerLicense(trainerLicenseList, userId, fileRealPath);
 		
 		if(result>0) addLicenseCheck = true;
 		
@@ -177,13 +196,31 @@ public class TrainerController {
 	//경력 등록
 	@ResponseBody
 	@PostMapping("/addCareer")
-	public boolean addCareer(@RequestBody List<TrainerCareer> trainerCareerList) {
+	public boolean addCareer(TrainerCareer trainerCareer
+							,HttpSession session
+							,HttpServletRequest request) {
 		
 		boolean addCareerCheck = false;
 		
-		log.info("trainerCareerList : {}",trainerCareerList);
+		String userId = (String)session.getAttribute("SID");
 		
-		int result = trainerService.addTrainerCareer(trainerCareerList);
+		List<TrainerCareer> trainerCareerList = trainerCareer.getTrainerCareerList();
+		log.info("trainerCareerList : {}", trainerCareerList);
+		
+		String serverName = request.getServerName();
+		String fileRealPath = "";
+		
+		if("localhost".equals(serverName)) {
+			// server 가 localhost 일때 접근
+			fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
+			log.info("user.dir : {}", System.getProperty("user.dir"));
+			//fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}else {
+			//배포용 주소
+			fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}
+		
+		int result = trainerService.addTrainerCareer(trainerCareerList, userId, fileRealPath);
 		
 		if(result > 0) addCareerCheck = true;
 		

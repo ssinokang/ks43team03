@@ -29,6 +29,22 @@ public class ReviewController {
 		this.reviewService = reviewService;
 	}
 	
+	/*결제한 회원만 리뷰작성 
+	@PostMapping("/orderCheck")
+	@ResponseBody
+	public boolean isOrderCheck(@RequestParam(value = "userId") String userId
+								,@RequestParam(value = "facilityCd") String facilityCd
+								,@RequestParam(value = "facilityGoodsCd") String facilityGoodsCd) {
+		boolean orderCheck = false;
+		
+		boolean result = reviewService.isOrderCheck(userId, facilityCd, facilityGoodsCd);
+		if(result) orderCheck = true;
+		
+		return orderCheck;
+		}*/
+	
+	
+	
 	//후기등록처리
 	@PostMapping("/addReview")
 	public String addReview(Review review) {
@@ -36,7 +52,7 @@ public class ReviewController {
 		
 		return"redirect:/facility/facilityDetail";
 	}
-		//후기 등록 화면
+	//후기 등록 화면
 	@GetMapping("/addReview")
 	public String addReview() {
 		

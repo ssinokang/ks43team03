@@ -81,15 +81,10 @@ public class BoomkController {
 		return "redirect:/boomk/boomkList";		
 		
 	}
-	
-
-	
-	
-	
-	
 
 	
 	// 즐겨찾기 취소
+	/*
 	@GetMapping("/modifyBoomk")
 	public String modifyBoomk(Boomk boomk, Model model) {
 
@@ -99,17 +94,5 @@ public class BoomkController {
 		
 		return "redirect:/boomk/boomkList";
 	}
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	*/
 }

@@ -225,11 +225,6 @@
 			<div class="x_content">
 			<form id="addFacilityForm" data-parsley-validate class="form-horizontal form-label-left" th:action="@{/adminFacility/addFacility}" method="post" enctype="multipart/form-data" name="multiPart">
 				<div class="field item form-group">
-					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityCd">시설대표코드 <span class="required">*</span></label>
-					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityCd" value = "gg_30511750_05" data-validate-minmax="10,100" required='required'></div>
-				</div>
-				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="mainCtgCd">시설카테고리<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
 					<select class="form-control" name="mainCtgCd" id="mainCtgCd" data-validate-length-range="6" data-validate-words="2" required="required">

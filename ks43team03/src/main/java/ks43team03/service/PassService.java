@@ -7,7 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Pass;
-import ks43team03.exception.NotFoundGoodsException;
+import ks43team03.exception.CustomException;
+import ks43team03.exception.ErrorMessage;
 import ks43team03.mapper.FacilityGoodsMapper;
 import ks43team03.mapper.PassMapper;
 
@@ -60,9 +61,7 @@ public class PassService {
 	@Transactional(readOnly = true)
 	public Pass getPassDetail(String passCd, String facilityGoodsCd) {
 		Pass pass = passMapper.getPassDetail(passCd, facilityGoodsCd)
-				.orElseThrow(()->{
-					throw new NotFoundGoodsException("등록하신 이용권이 없습니다.");
-				});
+				.orElseThrow(()-> new CustomException(ErrorMessage.GOODS_ERROR_NOT_FOUND_PASS));
 		
 		return pass;
 	}

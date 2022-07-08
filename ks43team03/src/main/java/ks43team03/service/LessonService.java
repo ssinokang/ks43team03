@@ -136,17 +136,57 @@ public class LessonService {
 		return lesson;
 	}
 
-	public List<Lesson> getLessonListForUser(HashMap<String, Object> lessonMap) {
+	public Map<String, Object> getLessonListForUser(HashMap<String, Object> lessonMap, int currentPage) {
 		log.info("___________________________________________________");
 		log.info("_______________start LessonService_________________");
 		log.info("lessonMap : {}",lessonMap);
 
 		
-		List<Lesson> LessonListForUser = lessonMapper.getLessonListForUser(lessonMap);
 		
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		int rowPerPage = 9;
+	
+		double rowCount = lessonMapper.getLessonCount();
+	
+		int lastPage = (int)Math.ceil(rowCount/rowPerPage);
+		
+
+		int startRow = (currentPage - 1)*rowPerPage;
+		
+		int startPageNum = 1;
+		int endPageNum = 10;
+		
+		if(lastPage > 10) {
+			if(currentPage >= 6) {
+				startPageNum = currentPage - 4;
+				endPageNum = currentPage + 5;
+				
+				if(endPageNum >= lastPage) {
+					startPageNum = lastPage - 9;
+					endPageNum = lastPage;
+				}
+			}
+		}else {
+			endPageNum = lastPage;
+		}
+		
+		resultMap.put("startRow", startRow);
+		resultMap.put("rowPerPage", rowPerPage);
+		resultMap.put("lastPage", 		lastPage);
+		resultMap.put("startPageNum",	startPageNum);
+		resultMap.put("endPageNum",		endPageNum);
+		
+		lessonMap.put("startRow", startRow);
+		lessonMap.put("rowPerPage", rowPerPage);
+		
+		List<Lesson> LessonListForUser = lessonMapper.getLessonListForUser(lessonMap);
+	
+		resultMap.put("LessonListForUser", LessonListForUser);
 		log.info("_______________end   LessonService_________________");
 		log.info("___________________________________________________");
-		return LessonListForUser;
+		return resultMap;
 	}
 
 	public int modifyLesson(Lesson lesson) {

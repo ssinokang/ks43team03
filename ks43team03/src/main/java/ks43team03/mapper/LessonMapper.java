@@ -27,4 +27,6 @@ public interface LessonMapper {
 	//레슨 수정하기
 	public int modifyLesson(Lesson lesson);
 
+	public int getLessonCount();
+
 }

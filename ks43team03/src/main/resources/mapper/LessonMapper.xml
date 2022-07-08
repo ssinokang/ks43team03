@@ -66,6 +66,14 @@
 			<result	column="represent_img"		property="representImg"/>
 		</collection>
 	</resultMap>
+	<!-- 레슨 게시물 숫자 가져오기 -->
+	<select id="getLessonCount" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			lesson
+	</select>
+	
 	<!-- 레슨 수정하기 -->
 	<update id="modifyLesson" parameterType="Lesson">
 		UPDATE lesson
@@ -398,9 +406,11 @@
 	   		<if test="search.searchValue != null and search.searchValue != '' ">		
 				and lesson_sub.lesson_nm LIKE CONCAT('%', #{search.searchValue}, '%')
 	   		</if>
+	   		
 	   	</trim>
    			GROUP BY
 		lesson_sub.facility_goods_cd
+		limit #{startRow}, #{rowPerPage}
 	</select>
 
 </mapper>

@@ -1,17 +1,13 @@
 package ks43team03.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.common.FileUtils;
@@ -25,6 +21,8 @@ import ks43team03.mapper.LessonMapper;
 @Service
 @Transactional
 public class LessonService {
+	
+	private static final Logger log = LoggerFactory.getLogger(LessonService.class);
 	private final LessonMapper lessonMapper;
 	private final FileMapper   fileMapper;
 	private final FacilityGoodsMapper facilityGoodsMapper;
@@ -40,14 +38,14 @@ public class LessonService {
 	// 레슨 리스트 가져오기
 	public List<Lesson> getfacilityLessonList(String facilityCd) {
 		List<Lesson> lessonList = lessonMapper.getFacilityLessonList(facilityCd);
-		System.out.println(lessonList + "!!!");
+		log.info(lessonList + "!!!");
 		return lessonList;
 	}
 
 	//레슨 등록하기
 	public void addLesson(Lesson lesson, MultipartFile[] uploadfile, String fileRealPath) {
 		
-		System.out.println(uploadfile.toString());
+		log.info(uploadfile.toString());
 		
 		boolean fileCheck = true;
 		
@@ -58,7 +56,7 @@ public class LessonService {
 		}
 		//파일이 널이 아니라면
 		if (!fileCheck) {
-			System.out.println("파일 있음!!" + uploadfile + "파일있음!!");
+			log.info("파일 있음!!" + uploadfile + "파일있음!!");
 			String uproaderId 		= lesson.getUserId();
 			String facilityGoodsCd;
 			
@@ -72,14 +70,14 @@ public class LessonService {
 			FileUtils fu = new FileUtils(uploadfile, uproaderId, fileRealPath);
 			List<Map<String, String>> dtoFileList = fu.parseFileInfo();
 			// 1. t_file 테이블에 삽입
-			System.out.println(dtoFileList + "LessonService/addLesson");
+			log.info(dtoFileList + "LessonService/addLesson");
 			fileMapper.uploadFile(dtoFileList);
 			/***
 			 * test code: end
 			 ***/
 			// 2. lesson 테이블에 삽입
 			//lessonMapper.addLesson(lesson);
-			System.out.println(lesson + "LessonService/addLesson/lesson");
+			log.info(lesson + "LessonService/addLesson/lesson");
 			
 			/*
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyymmdd");
@@ -110,7 +108,7 @@ public class LessonService {
 				m.put("facilityGoodsCd", facilityGoodsCd);
 				relationFileList.add(m);
 			}
-			System.out.println(relationFileList);
+			log.info("relationFileList", relationFileList);
 			
 			fileMapper.uploadRelationFile(relationFileList);
 			
@@ -118,13 +116,15 @@ public class LessonService {
 			
 			/****************
 			 *				*
-			 *  log 찍어보기	*
+			 * 알림 테이블 삽입	*
 			 * 				*
 			 ****************/
 			
+			//List<Map<String, String>> notification = new ArrayList<>();
+			
 	    } else {
 			facilityGoodsMapper.addFacilityGoods(lesson.getFacilityGoods());
-			System.out.println(lesson + "LessonService/addLesson/lesson");
+			log.info(lesson + "LessonService/addLesson/lesson");
 			lessonMapper.addLesson(lesson);
 	    }
 	}
@@ -132,34 +132,74 @@ public class LessonService {
 	public Lesson getLessonInfoByCd(String lessonCd) {
 		
 		Lesson lesson = lessonMapper.getLessonInfoByCd(lessonCd);
-		System.out.println(lesson + "lessonService/getLessonInfoById");
+		log.info(lesson + "lessonService/getLessonInfoById");
 		return lesson;
 	}
 
-	public List<Lesson> getLessonListForUser(HashMap<String, Object> lessonMap) {
-		System.out.println("___________________________________________________");
-		System.out.println("_______________start LessonService_________________");
-		System.out.println(lessonMap);
+	public Map<String, Object> getLessonListForUser(HashMap<String, Object> lessonMap, int currentPage) {
+		log.info("___________________________________________________");
+		log.info("_______________start LessonService_________________");
+		log.info("lessonMap : {}",lessonMap);
 
 		
-		List<Lesson> LessonListForUser = lessonMapper.getLessonListForUser(lessonMap);
 		
-		System.out.println("_______________end   LessonService_________________");
-		System.out.println("___________________________________________________");
-		return LessonListForUser;
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		int rowPerPage = 9;
+	
+		double rowCount = lessonMapper.getLessonCount();
+	
+		int lastPage = (int)Math.ceil(rowCount/rowPerPage);
+		
+
+		int startRow = (currentPage - 1)*rowPerPage;
+		
+		int startPageNum = 1;
+		int endPageNum = 10;
+		
+		if(lastPage > 10) {
+			if(currentPage >= 6) {
+				startPageNum = currentPage - 4;
+				endPageNum = currentPage + 5;
+				
+				if(endPageNum >= lastPage) {
+					startPageNum = lastPage - 9;
+					endPageNum = lastPage;
+				}
+			}
+		}else {
+			endPageNum = lastPage;
+		}
+		
+		resultMap.put("startRow", startRow);
+		resultMap.put("rowPerPage", rowPerPage);
+		resultMap.put("lastPage", 		lastPage);
+		resultMap.put("startPageNum",	startPageNum);
+		resultMap.put("endPageNum",		endPageNum);
+		
+		lessonMap.put("startRow", startRow);
+		lessonMap.put("rowPerPage", rowPerPage);
+		
+		List<Lesson> LessonListForUser = lessonMapper.getLessonListForUser(lessonMap);
+	
+		resultMap.put("LessonListForUser", LessonListForUser);
+		log.info("_______________end   LessonService_________________");
+		log.info("___________________________________________________");
+		return resultMap;
 	}
 
 	public int modifyLesson(Lesson lesson) {
-		System.out.println("___________________________________________________");
-		System.out.println("_______________start modifyLesson");
+		log.info("___________________________________________________");
+		log.info("_______________start modifyLesson");
 		int result = lessonMapper.modifyLesson(lesson);
-		System.out.println("_______________end   modifyLesson");
-		System.out.println("___________________________________________________");
+		log.info("_______________end   modifyLesson");
+		log.info("___________________________________________________");
 		return 0;
 	}
 
 	public List<Sports> getSportsList() {
-		System.out.println("___________LessonService/getSportsList_____________");
+		log.info("___________LessonService/getSportsList_____________");
 		List<Sports> sportsList = commonMapper.getSportsList();
 		return sportsList;
 	}

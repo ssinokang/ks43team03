@@ -2,6 +2,7 @@ package ks43team03.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -62,7 +63,8 @@ public class LessonController {
 			,AreaCityTown areaCityTown
 			,Sports 	  sports
 			,Model 		  model
-			,String		  sv) {
+			,String		  sv
+			,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
 		log.info("facility : {}", facility);
 		log.info("areaCity : {}", areaCity);
 		log.info("areaCityTown : {}", areaCityTown);
@@ -84,14 +86,18 @@ public class LessonController {
 		lessonMap.put("lesson", lesson);
 		lessonMap.put("search", search);
 		
-		List<Lesson> lessonList = lessonService.getLessonListForUser(lessonMap);
+		Map<String, Object> resultMap = lessonService.getLessonListForUser(lessonMap, currentPage);
 		List<Area> 	 areaList	= commonService.getAreaList();
 		
-		model.addAttribute("lessonList", lessonList);
-		model.addAttribute("sportsList", sportsList);
-		model.addAttribute("areaList", areaList);
+		model.addAttribute("sportsList"			, sportsList);
+		model.addAttribute("areaList"			, areaList);
+		model.addAttribute("lessonList"			, resultMap.get("LessonListForUser"));
+		model.addAttribute("lastPage"			, resultMap.get("lastPage"));
+		model.addAttribute("startPageNum"		, resultMap.get("startPageNum"));
+		model.addAttribute("endPageNum"			, resultMap.get("endPageNum"));
+		model.addAttribute("currentPage"		, currentPage);
+		model.addAttribute("title", 			"레슨 목록");
 		
-		log.info("lessonList : {}", lessonList);
 		return "lesson/lessonListForUser";
 	}
 	/**

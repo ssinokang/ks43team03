@@ -112,6 +112,7 @@
 			</div>
 		</div>
 	</form>
+	
 	<section class="shop spad">
 		<div class="container">
 			<div class="row">
@@ -186,6 +187,20 @@
 				</div>
 			</div>
 		</div>
+		
+								
+		<div style="text-align: center;">
+			<a th:href="@{/lesson/lessonListForUser}">[맨처음]</a>
+			<a th:if="${currentPage > 1}" th:href="@{/lesson/lessonListForUser(currentPage=${currentPage - 1})}">[이전]</a>
+			<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">
+				<label th:if="${currentPage eq num}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></label>
+				<a th:unless="${currentPage eq num}" th:href="@{/lesson/lessonListForUser(currentPage=${num})}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></a>
+			</th:block>
+			<a th:if="${currentPage < lastPage}" th:href="@{/lesson/lessonListForUser(currentPage=${currentPage + 1})}">[다음]</a>
+			<a th:href="@{/lesson/lessonListForUser(currentPage=${lastPage})}">[마지막]</a>
+		</div>
+									
+		
 	</section>
 	<div class="instagram">
 		<div class="container-fluid">

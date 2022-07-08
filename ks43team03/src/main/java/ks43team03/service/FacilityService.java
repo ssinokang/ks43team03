@@ -47,9 +47,11 @@ public class FacilityService {
 		return reviewCount;
 	}
 	
-	/*시설 후기*/
+	/*시설 후기 리스트*/
 	public List<Review> getReviewList(String facilityCd){
 		List<Review> reviewList = reviewMapper.getReviewList(facilityCd);
+		log.info("reviewList", reviewList);
+
 		return reviewList;
 	}
 	
@@ -64,7 +66,8 @@ public class FacilityService {
 	/*시설에 회원 가입*/
 	public int addFacilityUser(FacilityUser facilityUser) {
 		int result = facilityMapper.addFacilityUser(facilityUser);
-		
+		log.info("result", result);
+
 		return result;
 	}
 	
@@ -80,14 +83,16 @@ public class FacilityService {
 	/*시설 내 레슨 목록*/
 	public List<Lesson> getLessonList(String facilityCd) {
 		List<Lesson> lessonList = lessonMapper.getFacilityLessonList(facilityCd);
+		log.info("lessonList", lessonList);
 
+		
 		return lessonList;	
 		}
 	
 	/*시설 상세 정보 조회*/
 	public Facility getFacilityDetail(String facilityCd) {
 		Facility facilityDetail = facilityMapper.getFacilityInfoByCd(facilityCd);
-
+		log.info("facilityDetail", facilityDetail);
 		
 		return facilityDetail;
 	}

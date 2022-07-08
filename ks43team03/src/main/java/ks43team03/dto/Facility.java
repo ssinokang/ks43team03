@@ -37,9 +37,5 @@ public class Facility {
 	private FacilityUser facilityUser;
 	private List<TFile> tFile;
 	private List<Map<String, String>> relFileWithFacility;
-	private Stadium stadium;
-	private Lesson lesson;
-	private Review review;
-	
 	
 }

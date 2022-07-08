@@ -95,13 +95,13 @@ public class FacilityController {
 	/* 사용자가 시설 조회 */
 	@GetMapping("/facilityList")
 	public String getFacilityList(Model model
-								 ,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage){
-		Map<String, Object> resultMap = facilityService.getFacilityList(currentPage);
+								 ,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage
+								 ,@RequestParam(name = "mainCtgCd", required = false) String mainCtgCd){
+		Map<String, Object> resultMap = facilityService.getFacilityList(currentPage, mainCtgCd);
 		
 		log.info("resultMap : {}",resultMap);
 		log.info("resultMap.get(\"facilityList\") : {}",resultMap.get("facilityList"));
-		
-
+	
 
 		
 		model.addAttribute("resultMap", 			resultMap);

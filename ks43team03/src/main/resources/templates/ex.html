@@ -1,1 +1,101 @@
 
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default.html}">
+	
+	<th:block layout:fragment="customCss">
+		
+		<link rel="stylesheet" th:href="@{/calendar/css/fullcalendar.min.css}" />
+	    <link rel="stylesheet" th:href="@{/calendar/css/bootstrap.min.css}">
+	    <link rel="stylesheet" th:href="@{/calendar/css/select2.min.css}" />
+	    <link rel="stylesheet" th:href="@{/calendar/css/bootstrap-datetimepicker.min.css}" />
+	
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	    
+		<style>
+			.none-display {
+				display: none;
+			}
+		</style>
+	
+	</th:block>
+	
+	<th:block layout:fragment="customContents">
+	
+	
+	<div class="container col-lg-8" >
+	
+	<!-- 일자 클릭시 메뉴오픈 -->
+        
+
+        <div id="wrapper">
+            <div id="loading"></div>
+            <div id="calendar"></div>
+        </div>
+        
+        
+        <!-- 일정 추가 MODAL -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="eventModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label class="col-xs-4" for="editLesson-start">예약 날짜</label>
+                                <input class="inputModal" type="text" name="edit-start" id="edit-start" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label class="col-xs-4" for="editLesson-start">시작</label>
+                                <input class="inputModal" type="text" name="edit-start" id="edit-start" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label class="col-xs-4" for="editLesson-end">끝</label>
+                                <input class="inputModal" type="text" name="edit-end" id="edit-end" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer modalBtnContainer-addEvent">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                        <button type="button" class="btn btn-primary" id="save-event">저장</button>
+                    </div>
+                    <div class="modal-footer modalBtnContainer-modifyEvent">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                        <button type="button" class="btn btn-danger" id="deleteEvent">삭제</button>
+                        <button type="button" class="btn btn-primary" id="updateEvent">저장</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+       
+    </div>
+    <!-- /.container -->
+				    
+	<script th:src="@{/calendar/js/jquery.min.js}"></script>
+	<script th:src="@{/resource/js/lesson/detailLessonForUser.js}"></script>
+	<script th:src="@{/calendar/js/bootstrap.min.js}"></script>
+	<script th:src="@{/calendar/js/moment.min.js}"></script>
+	<script th:src="@{/calendar/js/bootstrap-datetimepicker.min.js}"></script>
+	<script th:src="@{/calendar/js/fullcalendar.min.js}"></script>
+	<script th:src="@{/calendar/js/select2.min.js}"></script>
+	<script th:src="@{/calendar/js/ko.js}"></script>
+	<script th:src="@{/calendarJs/mainLesson.js}"></script>
+	<script th:src="@{/calendarJs/etcLessonSetting.js}"></script>
+	<script th:src="@{/calendarJs/editEvent.js}"></script>
+	<script th:src="@{/calendarJs/addLessonEvent.js}"></script>
+	
+	
+	</th:block>
+</html>

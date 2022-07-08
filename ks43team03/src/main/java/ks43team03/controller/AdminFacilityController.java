@@ -169,7 +169,6 @@ public class AdminFacilityController {
 			String fileRealPath = "";
 			if("localhost".equals(serverName)) {				
 				fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
-				//fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
 			}else {
 				fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
 			}

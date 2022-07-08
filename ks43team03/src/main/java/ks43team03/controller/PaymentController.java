@@ -41,6 +41,7 @@ public class PaymentController {
     	reattr.addAttribute("orderId", paymentResDto.getOrderId());
     	reattr.addAttribute("paymentKey", paymentResDto.getPaymentKey());
     	reattr.addAttribute("amount", paymentResDto.getTotalAmount());
+    	reattr.addAttribute("userId", paymentResDto.getUserId());
     	return "redirect:/pay/thank-you";
     }
 
@@ -50,14 +51,17 @@ public class PaymentController {
     @GetMapping("/thank-you")
 	public String orderSuccess(@RequestParam(name = "orderId")String orderId, 
 							   @RequestParam(name = "paymentKey", required = false)String paymentKey, 
-							   @RequestParam(name ="amount" ,required = false) Long amount
+							   @RequestParam(name ="amount" ,required = false) Long amount,
+							   @RequestParam(name = "userId", required = false)String userId
 							   , Model model) {
 		
 //		log.info("결과 처리후 success에 orderUUID 요청 데이터 : {}" , dto);
 		log.info("결과 처리후 success에 orderUUID 요청 데이터 : {}" , orderId);
+		log.info("결과 처리후 success에 userId 요청 데이터 : {}" , userId);
 		
 		PaymentResDto payResDto = paymentService.findTossPaymentsbyOrderId(orderId);
 		model.addAttribute("pay", payResDto);
+		model.addAttribute("userId", userId);
 		
 		return "order/orderSuccess";
 	}

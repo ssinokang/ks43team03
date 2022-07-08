@@ -3,7 +3,9 @@ package ks43team03.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -136,10 +138,51 @@ public class OrderService {
 	}
 	
 	//== 회원이 주문한 내역 ==//
+	/**
+	 *  페이징 처리 개선이 필요하다.
+	 */
 	@Transactional(readOnly = true)
-	public List<Order> getOrdersByUser(String userId){
-		List<Order> orderList = orderMapper.getOrdersByUser(userId);
-		return orderList;
+	public Map<String, Object> getOrdersByUser(int currentPage, String userId){
+		
+		int rowPerPage = 6;
+		
+		double rowCount = orderMapper.getOrderByUserCount(userId);
+		
+		int lastPage = (int)Math.ceil(rowCount / rowPerPage);
+		
+		int startRow = (currentPage - 1) * rowPerPage;
+		
+		Map<String, Object> maps = new HashMap<>();
+		
+		maps.put("startRow", startRow);
+		maps.put("rowPerPage", rowPerPage);
+		maps.put("userId", userId);
+		
+		int startPage = 1;
+		int endPage = 10;
+		
+		if(lastPage > 10) {
+			if(currentPage >= 6) {
+				startPage = currentPage - 4;
+				endPage = currentPage + 5;
+				if(endPage >= lastPage) {
+					startPage = lastPage - 9;
+					endPage = lastPage;
+				}
+			}
+		}else {
+			endPage = lastPage;
+		}
+		List<Order> orderList = orderMapper.getOrdersByUser(maps);
+		
+		log.info("db 조회 데이터 : {}", orderList);
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("lastPage", lastPage);
+		resultMap.put("orderList", orderList);
+		resultMap.put("startPage", startPage);
+		resultMap.put("endPage", endPage);
+		
+		return resultMap;
 	}
 	
 	
@@ -164,10 +207,16 @@ public class OrderService {
 		
 		return order;
 	}
-	
-	
-	//주문 취소 
 
+	
+	
+	/**
+	 * orderUUID로 주문 완전 삭제 메소드 
+	 */
+	public void removeOrderByOrderUUID(String orderUUID){
+		log.info("uuid 주문 정보 삭제 log");
+		orderMapper.removeOrderByOrderUUID(orderUUID);
+	}
 	
 	
 	/**

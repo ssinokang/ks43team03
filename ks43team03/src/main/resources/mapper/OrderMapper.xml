@@ -139,6 +139,23 @@
 			,'N'
 		)
 	</insert>
+	<!-- 주문 정보 uuid로 삭제 -->
+	<delete id="removeOrderByOrderUUID" parameterType="String">
+		DELETE
+		FROM
+			goods_order
+		WHERE
+			order_uuid_id = #{orderUUID};
+	</delete>
+
+	<delete id="removeOrderByOrderCd" parameterType="String">
+		DELETE
+		FROM
+			goods_order
+		WHERE
+			order_cd = #{orderCd};
+	</delete>
+	
 	<!-- 하나의 구매내역 order기본키로  조회 -->
 	<select id="getOrderByCode" parameterType="String" resultType="Order" resultMap="orderResultMap">
 		SELECT 
@@ -190,6 +207,7 @@
 			o.user_id,
 			o.facility_goods_cd,
 			o.goods_ctg_cd,
+			o.order_uuid_id,
 			o.order_price,
 			o.order_user_point,
 			o.order_used_point,
@@ -211,21 +229,27 @@
 	</select>
 	
 	<!-- 사용자 주문내역 조회 -->
-	<select id="getOrdersByUser" resultType="Order" resultMap="orderResultMap" parameterType="String">
+	<select id="getOrdersByUser" resultType="Order" resultMap="orderResultMap" parameterType="java.util.Map">
 		SELECT
 			o.order_cd
 			,o.user_id
 			,o.facility_goods_cd
 			,o.goods_ctg_cd
 			,o.order_price
+			,o.order_uuid_id
 			,o.order_user_point
 			,o.order_used_point
 			,o.order_pay_price
 			,o.order_reg_date
 			,o.order_pay_state
-			,(SELECT f.facility_nm FROM facility AS f WHERE f.facility_cd = g.facility_cd)
+			,f.facility_nm
+			,f.facility_cd
 		FROM
+			facility AS f
+			INNER join
 			facility_goods AS g
+			ON 
+			g.facility_cd = f.facility_cd
 			INNER join
 			goods_order AS o
 			on
@@ -238,6 +262,16 @@
 			o.user_id = #{userId}
 			AND
 			o.order_del_yn = 'N'
+		LIMIT #{startRow}, #{rowPerPage};
+	</select>
+	
+	<select id="getOrderByUserCount" parameterType="String" resultType="int">
+		SELECT
+			COUNT(o.user_id)
+		FROM
+			goods_order AS o
+		WHERE
+			o.user_id = #{userId}
 	</select>
 	
 	<!-- 대관 주문내역 -->

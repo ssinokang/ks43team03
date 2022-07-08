@@ -119,7 +119,7 @@
 																<td><a href="#">[[${pay.virtualAccount.bank}]]은행</a>
 																</td>
 															</tr>
-															<tr>
+															<tr th:if="${pay.virtualAccount != null}">
 																<th>예금주</th>
 																<td>[[${pay.virtualAccount.customerName}]]</td>
 															</tr>
@@ -182,10 +182,26 @@
 
 			</div>
 		</div>
+		<input type="hidden" id="userId" th:value="${userId}">
+		<script>
+		const orderDetailBtn = document.querySelector('#orderDetail');
+		const indexHomeBtn = document.querySelector('#indexHome');
+		const userId = document.querySelector('#userId').value;
+		orderDetailBtn.addEventListener('click', e=> {
+			console.log(userId);
+			location.href = window.location.origin + "/order/orders/" + userId;
+			
+		});
+		
+		indexHomeBtn.addEventListener('click', () =>{
+			console.log('id', ' click 했습니다.');
+		});
+		
+	</script>
 	</section>
 
 
-
+	
 
 </th:block>
 

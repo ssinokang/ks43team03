@@ -26,6 +26,8 @@ import ks43team03.dto.Search;
 import ks43team03.dto.Sports;
 import ks43team03.service.CommonService;
 import ks43team03.service.LessonService;
+import ks43team03.service.SearchService;
+import ks43team03.strategy.enumeration.SearchStrategyName;
 
 @Controller
 @RequestMapping("/lesson")
@@ -33,9 +35,11 @@ public class LessonController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	private final LessonService lessonService;
 	private final CommonService commonService;
-	public LessonController(LessonService lessonService, CommonService commonService) {
+	private final SearchService searchService;
+	public LessonController(LessonService lessonService, CommonService commonService, SearchService searchService) {
 		this.lessonService = lessonService;
 		this.commonService = commonService;
+		this.searchService = searchService;
 	}
 	/**
 	 *  회원이 보는 레슨 리스트 
@@ -55,56 +59,19 @@ public class LessonController {
 		
 		return "lesson/detailLessonForUser";
 	}
-	//검색창으로 검색 할 때
-	@PostMapping("/lessonListForUser")
-	public String lessonListforUser(
-			@RequestParam(name = "mainCtgCd", required = false, defaultValue = "") String mainCtgCd
-			,@RequestParam(name = "areaCd", required = false, defaultValue = "") String areaCd
-			,@RequestParam(name = "CityCd", required = false, defaultValue = "") String CityCd
-			,@RequestParam(name = "sportsCd", required = false, defaultValue = "") String sportsCd
-			,Model 		  model
-			,String		  sv
-			,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
-		
-		
-		Map<String, Object> lesson = new HashMap<String, Object>();
-		
-		lesson.put("CityCd"		, CityCd);
-		lesson.put("mainCtgCd"	, mainCtgCd);
-		lesson.put("areaCd"		, areaCd);
-		lesson.put("sportsCd"	, sportsCd);
-
-		
-		Search search = new Search();
-		search.setSearchValue(sv);
-		
-		log.info("lesson : {}", lesson);
-		List<Sports> sportsList	= lessonService.getSportsList();
-		Map<String, Object> lessonMap = new HashMap<>();
-		lessonMap.put("lesson", lesson);
-		lessonMap.put("searchValue", sv);
-		
-		Map<String, Object> resultMap = lessonService.getLessonListForUser(lessonMap, currentPage);
-		List<Area> 	 areaList	= commonService.getAreaList();
-		
-		model.addAttribute("sportsList"			, sportsList);
-		model.addAttribute("areaList"			, areaList);
-		model.addAttribute("lessonList"			, resultMap.get("LessonListForUser"));
-		model.addAttribute("lastPage"			, resultMap.get("lastPage"));
-		model.addAttribute("startPageNum"		, resultMap.get("startPageNum"));
-		model.addAttribute("endPageNum"			, resultMap.get("endPageNum"));
-		model.addAttribute("currentPage"		, currentPage);
-		model.addAttribute("title", 			"레슨 목록");
-		
-		return "lesson/lessonListForUser";
-	}
+	
 	@GetMapping("/lessonListForUser")
 	public String lessonListforUser(Model model
-									,@RequestParam(name="goodsCtg", required = false) String goodsCtg
+									,@RequestParam(name="searchCtg", required = false) String searchCtg
 									,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage){
-		Map<String, Object> ctgMap	  = new HashMap<>();
-		ctgMap.put("goodsCtg", goodsCtg);
-		Map<String, Object> resultMap = lessonService.getLessonListForUser(ctgMap, 1);
+		Map<String, Object> searchMap	  = new HashMap<>();
+		SearchStrategyName searchName = SearchStrategyName.valueOf(searchCtg);
+		
+		
+		
+		searchMap.put("searchCtg", searchCtg);
+		Map<String, Object> resultMap = searchService.findSearch(searchName, searchMap, currentPage);
+		
 		model.addAttribute("title", 			"레슨 목록");
 		model.addAttribute("lessonList"			, resultMap.get("LessonListForUser"));
 		model.addAttribute("lessonList"			, resultMap.get("LessonListForUser"));

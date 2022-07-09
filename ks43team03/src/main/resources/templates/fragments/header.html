@@ -105,6 +105,83 @@
 		<div class="canvas__open">
 			<i class="fa fa-bars"></i>
 		</div>
+		
+			<form th:action="@{/search}" method="post">
+						
+				<div class="row">
+					<div class="mx-auto col-8 input-group">
+						<p class="col-2">
+							공공/사설 :
+						</p>
+						<select class="col-4" name="mainCtgCd">
+							<option value="">:: 전체 ::</option>
+							<option value="gg">공공</option>
+							<option value="ss">사설</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="mx-auto col-8 input-group">
+						<p class="col-2">
+							시/도
+						</p>
+						<select class="col-4" name="areaCd" id="area">
+							<option value="">:: 전체 ::</option>
+							<th:block th:if="${not #lists.isEmpty(areaList)}" th:each="a : ${areaList}">
+								<option th:value="${a.areaCd}">[[${a.areaNm}]]</option>
+							</th:block>
+							<th:block th:unless="${not #lists.isEmpty(areaList)}">
+								<option>없음</option>
+							</th:block>
+						</select>
+						<p class="col-2">
+							시/군/구 :
+						</p>
+						<select class="col-4" name="CityCd" id="areaCity">
+							<option value="">:: 전체 ::</option>
+							<th:block th:if="${not #lists.isEmpty(areaCityList)}" th:each="acl : ${areaCityList}">
+								<option th:value="${acl.cityCd}">[[${acl.cityNm}]]</option>
+							</th:block>
+							<th:block th:unless="${not #lists.isEmpty(areaCityList)}">
+								
+							</th:block>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="mx-auto col-8 input-group">
+						<p class="col-2">
+							중분류 :
+						</p>
+						<select class="col-4" name="searchCtg">
+							<option value="FacilitySearch">시설</option>
+							<option value="LessonSearch">레슨</option>
+							<option value="StadiumSearch">대관</option>
+							<option value="TrainerSearch">트레이너</option>
+							<option value="NoticeSearch">게시판</option>
+						</select>
+						<p class="col-2">
+							종목 :
+						</p>
+						<select class="col-4" name="sportsCd">
+							<option value="">:: 전체 ::</option>
+							<th:block th:if="${not #lists.isEmpty(sportsList)}" th:each="s : ${sportsList}">
+								<option th:value="${s.sportsCd}">[[${s.sportsName}]]</option>
+							</th:block>
+							<th:block th:unless="${not #lists.isEmpty(sportsList)}">
+								<option>없음</option>
+							</th:block>
+						</select>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="mx-auto col-8 search-bar input-group">
+						<input name="sv" type="text" class="form-control rounded-pill" id="searchBar" placeholder="검색 또는 URL 입력" aria-label="Recipient's username" aria-describedby="button-addon2">
+					</div>
+				</div>
+			</form>
+		
 	</div>
 
 </header>

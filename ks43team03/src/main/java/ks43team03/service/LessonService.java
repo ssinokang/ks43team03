@@ -136,7 +136,7 @@ public class LessonService {
 		return lesson;
 	}
 
-	public Map<String, Object> getLessonListForUser(HashMap<String, Object> lessonMap, int currentPage) {
+	public Map<String, Object> getLessonListForUser(Map<String, Object> lessonMap, int currentPage) {
 		log.info("___________________________________________________");
 		log.info("_______________start LessonService_________________");
 		log.info("lessonMap : {}",lessonMap);

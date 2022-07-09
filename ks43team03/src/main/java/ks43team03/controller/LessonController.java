@@ -55,36 +55,34 @@ public class LessonController {
 		
 		return "lesson/detailLessonForUser";
 	}
-	@GetMapping("/lessonListForUser")
+	//검색창으로 검색 할 때
+	@PostMapping("/lessonListForUser")
 	public String lessonListforUser(
-			Lesson 		  lesson
-			,Facility 	  facility
-			,AreaCity 	  areaCity
-			,AreaCityTown areaCityTown
-			,Sports 	  sports
+			@RequestParam(name = "mainCtgCd", required = false, defaultValue = "") String mainCtgCd
+			,@RequestParam(name = "areaCd", required = false, defaultValue = "") String areaCd
+			,@RequestParam(name = "CityCd", required = false, defaultValue = "") String CityCd
+			,@RequestParam(name = "sportsCd", required = false, defaultValue = "") String sportsCd
 			,Model 		  model
 			,String		  sv
 			,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
-		log.info("facility : {}", facility);
-		log.info("areaCity : {}", areaCity);
-		log.info("areaCityTown : {}", areaCityTown);
-		log.info("sports : {}", sports);
 		
 		
+		Map<String, Object> lesson = new HashMap<String, Object>();
 		
-		lesson.setAreaCityTown(areaCityTown);
-		lesson.setFacility(facility);
-		lesson.setAreaCity(areaCity);
-		lesson.setSports(sports);
+		lesson.put("CityCd"		, CityCd);
+		lesson.put("mainCtgCd"	, mainCtgCd);
+		lesson.put("areaCd"		, areaCd);
+		lesson.put("sportsCd"	, sportsCd);
+
 		
 		Search search = new Search();
 		search.setSearchValue(sv);
 		
 		log.info("lesson : {}", lesson);
 		List<Sports> sportsList	= lessonService.getSportsList();
-		HashMap<String, Object> lessonMap = new HashMap<>();
+		Map<String, Object> lessonMap = new HashMap<>();
 		lessonMap.put("lesson", lesson);
-		lessonMap.put("search", search);
+		lessonMap.put("searchValue", sv);
 		
 		Map<String, Object> resultMap = lessonService.getLessonListForUser(lessonMap, currentPage);
 		List<Area> 	 areaList	= commonService.getAreaList();
@@ -100,6 +98,23 @@ public class LessonController {
 		
 		return "lesson/lessonListForUser";
 	}
+	@GetMapping("/lessonListForUser")
+	public String lessonListforUser(Model model
+									,@RequestParam(name="goodsCtg", required = false) String goodsCtg
+									,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage){
+		Map<String, Object> ctgMap	  = new HashMap<>();
+		ctgMap.put("goodsCtg", goodsCtg);
+		Map<String, Object> resultMap = lessonService.getLessonListForUser(ctgMap, 1);
+		model.addAttribute("title", 			"레슨 목록");
+		model.addAttribute("lessonList"			, resultMap.get("LessonListForUser"));
+		model.addAttribute("lessonList"			, resultMap.get("LessonListForUser"));
+		model.addAttribute("lastPage"			, resultMap.get("lastPage"));
+		model.addAttribute("startPageNum"		, resultMap.get("startPageNum"));
+		model.addAttribute("endPageNum"			, resultMap.get("endPageNum"));
+		model.addAttribute("currentPage"		, currentPage);
+		model.addAttribute("title", 			"레슨 목록");
+		return "lesson/lessonListForUser";
+	};
 	/**
 	 * 레슨 상세 조회 
 	 **/

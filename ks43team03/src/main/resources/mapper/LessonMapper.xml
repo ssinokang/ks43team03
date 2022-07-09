@@ -391,20 +391,20 @@
 		lesson_file.facility_goods_cd = lesson_sub.facility_goods_cd
 		
 		<trim prefix="where " prefixOverrides="and">
-	   		<if test="lesson.facility.mainCtgCd != null and lesson.facility.mainCtgCd != ''">
-	   			and lesson_sub.main_ctg_cd = #{lesson.facility.mainCtgCd}
+	   		<if test="mainCtgCd != null and mainCtgCd != ''">
+	   			and lesson_sub.main_ctg_cd = #{mainCtgCd}
 	   		</if>
-	   		<if test="lesson.areaCity.cityCd != null and lesson.areaCity.cityCd != ''">
-	   			and lesson_sub.city_cd = #{lesson.areaCity.cityCd}
+	   		<if test="cityCd != null and cityCd != ''">
+	   			and lesson_sub.city_cd = #{cityCd}
 	   		</if>
-	   		<if test="lesson.areaCityTown.townCd != null and lesson.areaCityTown.townCd != ''">
-	   			and lesson_sub.town_cd = #{lesson.areaTownCity.townCd}
+	   		<if test="townCd != null and townCd != ''">
+	   			and lesson_sub.town_cd = #{townCd}
 	   		</if>
-	   		<if test="lesson.sports.sportsCd != null and lesson.sports.sportsCd != '' ">
-	   			and lesson_sub.sports_cd = #{lesson.sports.sportsCd}
+	   		<if test="sportsCd != null and sportsCd != '' ">
+	   			and lesson_sub.sports_cd = #{sportsCd}
 	   		</if>
-	   		<if test="search.searchValue != null and search.searchValue != '' ">		
-				and lesson_sub.lesson_nm LIKE CONCAT('%', #{search.searchValue}, '%')
+	   		<if test="searchValue != null and searchValue != '' ">		
+				and lesson_sub.lesson_nm LIKE CONCAT('%', #{searchValue}, '%')
 	   		</if>
 	   		
 	   	</trim>

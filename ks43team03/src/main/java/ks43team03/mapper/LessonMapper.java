@@ -22,7 +22,7 @@ public interface LessonMapper {
 	public Lesson getLessonInfoByCd(String lessonCd);
 	
 	//
-	public List<Lesson> getLessonListForUser(HashMap<String, Object> lessonMap);
+	public List<Lesson> getLessonListForUser(Map<String, Object> lessonMap);
 	
 	//레슨 수정하기
 	public int modifyLesson(Lesson lesson);

@@ -52,7 +52,7 @@
 		</div>
 	</div>
 	
-	<form th:action="@{/lesson/lessonListForUser}" method="GET">
+	<form th:action="@{/lesson/lessonListForUser}" method="post">
 		<div class="row">
 			<div class="mx-auto col-6 input-group">
 				<p class="col-2">
@@ -71,7 +71,7 @@
 					<th:block th:if="${not #lists.isEmpty(sportsList)}" th:each="s : ${sportsList}">
 						<option th:value="${s.sportsCd}">[[${s.sportsName}]]</option>
 					</th:block>
-					<th:block th:unless="${not #lists.isEmpty(lesson.sports)}">
+					<th:block th:unless="${not #lists.isEmpty(sportsList)}">
 						<option>없음</option>
 					</th:block>
 				</select>

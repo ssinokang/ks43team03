@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ks43team03.mapper.LessonOfferMapper">
+	<resultMap type="LessonOffer" id="lessonOfferResultMap">
+		<id 	column="lesson_offer_cd" 			property="lessonOfferCd"/>
+		<result column="facility_cd"			property="facilityCd"/>
+		<result column="lesson_cd"  				property="lessonCd"/>
+		<result column="user_id" 		property="userId"/>
+		<result column="lesson_sports" 				property="lessoSports"/>
+		<result column="offer_title" 			property="offerTitle"/>
+		<result column="offer_detail" 		property="offerDetail"/>
+		<result column="offer_file" 			property="offerFile"/>
+		<result column="offer_end_date" 		property="offerEndDate"/>
+		<result column="offer_state" 		property="offerState"/>
+		<result column="offer_reg_date"		property="offerRegDate"/>
+		<result column="offer_update_date"		property="offerUpdateDate"/>
+		<association property="lesson">
+			<id 	column="lesson_cd" 				property="lessonCd"/>
+			<result column="lesson_division" 		property="lessonDivision"/>
+			<result column="facility_goods_cd" 		property="facilityGoodsCd"/>
+			<result column="facility_cd" 			property="facilityCd"/>
+			<result column="goods_ctg_cd" 			property="goodsCtgCd"/>
+			<result column="sports_cd" 				property="sportsCd"/>
+			<result column="user_id" 				property="userId"/>
+			<result column="lesson_nm" 				property="lessonName"/>
+			<result column="lesson_detail" 			property="lessonDetail"/>		
+			<result column="lesson_total_member" 	property="lessonTotalMember"/>		
+	 		<result column="lesson_member" 			property="lessonMember"/>		 
+			<result column="lesson_start_date" 		property="lessonStartDate"/>		
+			<result column="lesson_end_date" 		property="lessonEndDate"/>		
+			<result column="lesson_start_time" 		property="lessonStartTime"/>		
+			<result column="lesson_end_time" 		property="lessonEndTime"/>
+			<result column="lesson_count" 			property="lessonCount"/>
+			<result column="lesson_price" 			property="lessonPrice"/>		
+			<result column="lesson_reg_date" 		property="lessonRegDate"/>		
+			<result column="lesson_state" 			property="lessonState"/>		
+		</association>
+		<association property="facility">
+			<id 	column="facility_cd" 			property="facilityCd"/>
+			<result column="main_ctg_cd"			property="mainCtgCd"/>
+			<result column="town_cd"  				property="townCd"/>
+			<result column="facility_use_cd" 		property="facilityUseCd"/>
+			<result column="user_id" 				property="userId"/>
+			<result column="facility_nm" 			property="facilityNm"/>
+			<result column="facility_address" 		property="facilityAddr"/>
+			<result column="facility_tell" 			property="facilityTell"/>
+			<result column="facility_post_num" 		property="facilityPostNum"/>
+			<result column="business_number" 		property="businessNum"/>
+			<result column="facility_reg_date"		property="facilityRegDate"/>
+			<result column="facility_detail_addr" 	property="facilityDetailAddr"/>
+			<result column="area_cd"  				property="areaCd"/>
+			<result column="city_cd"  				property="cityCd"/>
+			<result column="facility_detail"  		property="facilityDetail"/>
+		</association>
+	</resultMap>
+	
+	<select id="getOfferList" resultType="map">
+		SELECT
+			a.area_nm,
+			f.facility_nm,
+			f.facility_address,
+			l.lesson_cd,
+			l.facility_goods_cd,
+			ofe.lesson_offer_cd,
+			ofe.facility_cd,
+			ofe.lesson_sports,
+			ofe.offer_detail,
+			ofe.offer_title,
+			ofe.offer_state, 
+			ofe. offer_file,
+			ofe.offer_end_date,
+			ofe.offer_update_date
+		FROM
+			area AS  a
+			INNER join
+			facility AS f
+			on
+			a.area_cd = f.area_cd
+			INNER JOIN 
+			lesson AS l
+			on
+			f.facility_cd = l.facility_cd
+			INNER join
+			lesson_offer AS ofe
+			on
+			ofe.lesson_cd = l.lesson_cd
+	</select>
+</mapper>
+

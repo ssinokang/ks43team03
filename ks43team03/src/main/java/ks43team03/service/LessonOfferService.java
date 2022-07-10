@@ -6,16 +6,16 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ks43team03.mapper.OfferMapper;
+import ks43team03.mapper.LessonOfferMapper;
 
 @Service
 @Transactional
-public class OfferService {
+public class LessonOfferService {
 
 	
-	private final OfferMapper offerMapper;
+	private final LessonOfferMapper offerMapper;
 	
-	public OfferService(OfferMapper offerMapper) {
+	public LessonOfferService(LessonOfferMapper offerMapper) {
 		this.offerMapper = offerMapper;
 	}
 	

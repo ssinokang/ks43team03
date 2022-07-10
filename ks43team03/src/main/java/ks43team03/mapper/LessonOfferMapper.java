@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface OfferMapper {
+public interface LessonOfferMapper {
 
 	public List<Map<String,Object>> getOfferList();
 }

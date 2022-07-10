@@ -16,13 +16,15 @@ public class PointService {
 		this.pointMapper = pointMapper;
 	}
 	
-	//회원 포인트 조회
+	// 회원 포인트 조회
 	public List<Point> getPointList(String userId){
 		List<Point> pointList = pointMapper.getPointList(userId);
-		System.out.println(pointList+"!!!!!!!!!!!");
 		return pointList;
 	}
 	
-	
+	// 포인트 합계
+	public String getTotalPoint(String userId){
+		return pointMapper.getTotalPoint(userId);
+	}
 	
 }

@@ -80,7 +80,7 @@ public class BoardService {
 		return resultMap;
 	}
 	
-	/* 게시글 코드로 상세 조회  */
+	/* 게시글 코드로 상세 조회   */
 	public Board getBoardDetail(String boardPostCd) { 
 		System.out.println("------------------------게시글 상세조회 서비스-----------------------------");
 		Board board = boardMapper.getBoardDetail(boardPostCd); 

@@ -4,55 +4,88 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks43team03.mapper.PointMapper">
 	<resultMap	type="Point" 					id="pointResultMap">
-		<!-- apply_point 누적 포인트 내역 -->
-		<id 	column="apply_point_cd" 		property="applyPointCd" />
+		<id 	column="apply_point_cd" 		property="pointCd" />
 		<result column="user_id" 				property="userId" /> 			
-		<result column="event_detail" 			property="eventDetail" /> 			
-		<result column="apply_point_amount" 	property="applyPointAmount" /> 		
-		<result column="apply_date" 			property="applyDate" /> 			
-		<result column="apply_point_group_cd"	property="applyPointGroupCd" /> 	
-		<!-- total_point 총 포인트 -->
-		<result column="total_point"			property="totalPoint" />			
-		<result column="point_update_date"		property="pointUpdateDate" />			
-	</resultMap>
-	<resultMap	type="PointGet" 				id="pointGetResultMap">
-		<!-- user_get_point 포인트 적립 이벤트 -->
-		<id 	column="user_get_point_cd"		property="userGetPointCd"/>
-		<result	column="point_apply_date_cd" 	property="pointGetCd" />
-		<result	column="user_id" 				property="userId" />
-		<result	column="point_get_cd" 			property="pointGetCd" />
-		<result	column="get_point" 				property="getPoint" />
-		<result	column="point_event_date" 		property="pointEventDate" />
-		<result	column="get_point_date" 		property="getPointDate" />
-		<result	column="point_end_date" 		property="pointEndDate" />
-		<result	column="get_state" 				property="getState" />
-		<!-- point_get 포인트 적립 분류 -->
-		<result	column="point_cd" 				property="pointCd" />
-		<result	column="point_get_detail" 		property="pointGetDetail" />
-		<result	column="point_end_days" 		property="pointEndDays" />
-		<result	column="point_get_reg_date" 	property="pointGetRegDate" />
+		<result column="pay_cd" 				property="payCd" /> 			
+		<result column="point_amount" 			property="pointAmount" /> 		
+		<result column="point_event_date"		property="pointEventDate" /> 	
+		<result column="point_save_date" 		property="pointSaveDate" /> 			
+		<result column="point_end_date"			property="pointEndDate" /> 	
+		<result column="point_how_get"			property="pointHowGet" /> 	
+		<result column="goods_nm"				property="goodsNm" /> 	
+		<!-- pay, goods_order, lesson, facility_stadium, facility_pass -->
+		<result column="pay_cd"					property="payCd"/>
+		<result column="order_cd"				property="orderCd"/>
+		<result column="facility_goods_cd"		property="facilityGoodCd"/>
+		<result column="facility_stadium_cd"	property="facilityStadiumCd"/>
+		<result column="facility_stadium_nm"	property="facilityStadiumNm"/>
+		<result column="pass_cd"				property="passCd"/>
+		<result column="pass_nm"				property="passNm"/>
+		<result column="lesson_cd"				property="lessonCd"/>
+		<result column="lesson_nm"				property="lessonNm"/>
 	</resultMap>
 	
 	<!-- 회원 포인트 조회 -->
 	<select id="getPointList" parameterType="String" resultMap="pointResultMap">
-		SELECT 
-			a.user_id
-			, a.event_detail
-			, a.apply_point_amount
-			, a.apply_date
-			,t.total_point
-		FROM 
-			apply_point AS a
-		INNER JOIN
-			total_point AS t
+		SELECT
+			pt.point_cd
+			, pt.user_id
+			, pt.pay_cd
+			, pt.point_amount
+			, pt.point_event_date
+			, pt.point_save_date
+			, pt.point_end_date
+			, pt.point_how_get
+			, (case
+					when
+						l.lesson_nm IS NOT NULL
+					then
+						l.lesson_nm
+					when
+						s.facility_stadium_nm IS NOT NULL
+					then
+						s.facility_stadium_nm
+					else
+						fp.pass_nm
+					end) AS goods_nm
+		FROM
+			point AS pt
+		LEFT JOIN
+			pay AS p
 		ON
-			t.user_id = a.user_id
-		WHERE 
-			a.user_id = #{userId};
+			pt.pay_cd = p.pay_cd
+		LEFT JOIN
+			goods_order AS g
+		ON
+			p.order_cd = g.order_cd
+		LEFT JOIN
+			lesson AS l
+		ON
+			l.facility_goods_cd = g.facility_goods_cd
+		LEFT JOIN
+			facility_stadium AS s
+		ON
+			g.facility_goods_cd = s.facility_goods_cd
+		LEFT JOIN
+			facility_pass AS fp
+		ON
+			g.facility_goods_cd = fp.facility_goods_cd
+		WHERE
+			pt.user_id = #{userId};
+	</select>
+	
+	<!-- 포인트 합계 -->
+	<select id="getTotalPoint" resultType="String">
+		SELECT 
+			sum(point_amount)
+		FROM 
+			point
+		WHERE
+			user_id = #{userId};
 	</select>
 	
 	<!-- 회원 포인트 적립 -->
-	<update id="pointGet">
+	<update id="reviewPointGet">
 		
 	</update>
 	

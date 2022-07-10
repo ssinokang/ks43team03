@@ -32,25 +32,28 @@
 							<table class="table">
 								<thead>
 									<tr>
-										<th id="event_detail">이벤트 내용</th>
-										<th id="apply_point_amount">적립 금액</th>
-										<th id="apply_date">적용 날짜</th>
+										<th id="pointAmount">포인트</th>
+										<th id="pointEventDate">적립일</th>
+										<th id="pointEndDate">소멸 예정일</th>
+										<th id="apply_date">적립 구분</th>
+										<th id="goodsNm">적립 상품명</th>
 									</tr>
 								</thead>
 								<tbody id="boardBody">
 									<tr th:if="${not #lists.isEmpty(pointList)}" th:each="l : ${pointList}">
-										<input type="hidden" th:value="${l.applyPointGroupCd}">
 										<input type="hidden" th:value="${l.userId}">
-										<td th:text="${l.eventDetail}"></td>
-										<td th:text="${l.applyPointAmount}"></td>
-										<td th:text="${l.applyDate}"></td>
+										<td th:text="${l.pointAmount}"></td>
+										<td th:text="${l.pointEventDate}"></td>
+										<td th:text="${l.pointEndDate}"></td>
+										<td th:text="${l.pointHowGet}"></td>
+										<td th:text="${l.goodsNm}"></td>
 									</tr>
 									<tr style="text-align: center;">
 										<td>총 포인트</td>
-										<td id="totalPoint"></td>
+										<td id="totalPoint" th:text="${totalPoint}"></td>
 									</tr>
 									<tr th:unless="${not #lists.isEmpty(pointList)}">
-										<td colspan="3">조회된 내용이 없습니다.</td>
+										<td colspan="5">조회된 내용이 없습니다.</td>
 									</tr>
 								</tbody>
 							</table>

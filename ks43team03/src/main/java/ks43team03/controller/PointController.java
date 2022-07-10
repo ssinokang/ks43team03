@@ -29,17 +29,19 @@ public class PointController {
 	
 	//회원 포인트 조회
 	@GetMapping("/pointList")
-	public String getPointList(Model model,
-							@RequestParam(name = "userId", required = false) String userId,
-							HttpSession session) {
+	public String getPointList(Model model
+							, @RequestParam(name = "userId", required = false) String userId
+							, HttpSession session) {
 		String sessionId = (String)session.getAttribute("SID");
 		List<Point> pointList = pointService.getPointList(sessionId);
+		String totalPoint = pointService.getTotalPoint(sessionId);
 		
 		model.addAttribute("title", "포인트 조회");
 		model.addAttribute("pointList", pointList);
+		model.addAttribute("totalPoint", totalPoint);
 		
-		log.info("userId : {}", userId);
 		log.info("pointList : {}", pointList);
+		log.info("totalPoint : {}", totalPoint);
 		
 		return "point/pointList";
 	}

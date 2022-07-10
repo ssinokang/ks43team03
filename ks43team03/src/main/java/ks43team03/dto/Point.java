@@ -9,26 +9,14 @@ import lombok.ToString;
 @ToString
 public class Point {
 
-	//user_get_point
-	private String userGetPointCd;
-	private String pointApplyDateCd;
+	private String pointCd;
 	private String userId;
-	private String pointGetCd;
-	private String getPoint;
-	private String PointEventDate;
-	private String getPointDate;
-	private String PointEndDate;
-	private String getState;
-	
-	//total_point
-	private String applyPointGroupCd;
-	private int totalPoint;
-	private String pointUpdateDate;
-	
-	//apply_point
-	private String applyPointCd;
-	private String eventDetail;
-	private int applyPointAmount;
-	private String applyDate;
+	private String payCd;
+	private String pointAmount;
+	private String pointEventDate;
+	private String pointSaveDate;
+	private String pointEndDate;
+	private String pointHowGet;
+	private String goodsNm;
 	
 }

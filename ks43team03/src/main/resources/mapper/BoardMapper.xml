@@ -6,6 +6,7 @@
 	<resultMap type="Board" 						id="boardResultMap">
 		<id column="board_post_cd"					property="boardPostCd"/>
 		<result column="board_ctg_cd"				property="boardCtgCd"/>
+		<result column="facility_cd"				property="facilityCd"/>
 		<result column="user_id"					property="userId"/>
 		<result column="board_post_title"			property="boardPostTitle"/>
 		<result column="board_post_content"			property="boardPostContent"/>
@@ -46,7 +47,8 @@
 	<select id="getBoardList" parameterType="map" resultType="map" resultMap="boardResultMap">
 		SELECT
 			b.board_post_cd					
-			,b.board_ctg_cd					
+			,b.board_ctg_cd		
+			,b.facility_cd			
 			,b.user_id						
 			,b.board_post_title				
 			,b.board_post_content			
@@ -72,6 +74,7 @@
 		SELECT 
 			b.board_post_cd
 			, b.board_ctg_cd
+			, b.facility_cd
 			, b.user_id
 			, b.board_post_title
 			, b.board_post_content
@@ -92,7 +95,7 @@
 			, sub.board_post_cd
 		FROM 
 			board_post AS b
-		INNER JOIN
+		left JOIN
 			(select
 				st.file_cd
 				, st.original_file_nm
@@ -122,6 +125,7 @@
 		INSERT INTO board_post
 			(board_post_cd
 			, board_ctg_cd
+			, facility_cd
 			, user_id
 			, board_post_title
 			, board_post_content
@@ -209,6 +213,7 @@
 		SET
 			board_post_cd=#{boardPostCd},
 			board_ctg_cd=#{boardCtgCd},
+			facility_cd=#{facilityCd},
 			user_id=#{userId},
 			board_post_title=#{boardPostTitle},
 			board_post_content=#{boardPostContent},

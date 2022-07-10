@@ -1,12 +1,9 @@
 package ks43team03.controller;
 
-import java.io.FileInputStream;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ks43team03.dto.Board;
 import ks43team03.dto.BoardComment;
 import ks43team03.dto.BoardCtgCd;
-import ks43team03.dto.TFile;
 import ks43team03.service.BoardService;
 
 @Controller
@@ -78,7 +74,7 @@ public class BoardController {
 		model.addAttribute("boardCommentList",	boardCommentList);
 		
 		log.info("boardPostcd : {}", boardPostCd);
-		log.info("boardDetail : {}", board);
+		log.info("board : {}", board);
 		log.info("boardCommentList : {}", boardCommentList);
 		
 		Map<String, Object> resultMap =  boardService.getBoardList(currentPage);

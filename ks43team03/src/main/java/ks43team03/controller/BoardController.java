@@ -85,7 +85,6 @@ public class BoardController {
 		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
 		
-		
 		System.out.println("------------------------게시글 상세조회 끝-----------------------------");
 		return "board/boardDetail";
 	}

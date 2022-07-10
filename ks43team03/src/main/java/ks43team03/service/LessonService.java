@@ -1,9 +1,9 @@
 package ks43team03.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.common.FileUtils;
 import ks43team03.dto.Lesson;
-import ks43team03.dto.Sports;
 import ks43team03.mapper.CommonMapper;
 import ks43team03.mapper.FacilityGoodsMapper;
 import ks43team03.mapper.FileMapper;
@@ -136,58 +135,6 @@ public class LessonService {
 		return lesson;
 	}
 
-	public Map<String, Object> getLessonListForUser(HashMap<String, Object> lessonMap, int currentPage) {
-		log.info("___________________________________________________");
-		log.info("_______________start LessonService_________________");
-		log.info("lessonMap : {}",lessonMap);
-
-		
-		
-		
-		Map<String, Object> resultMap = new HashMap<>();
-		
-		int rowPerPage = 9;
-	
-		double rowCount = lessonMapper.getLessonCount();
-	
-		int lastPage = (int)Math.ceil(rowCount/rowPerPage);
-		
-
-		int startRow = (currentPage - 1)*rowPerPage;
-		
-		int startPageNum = 1;
-		int endPageNum = 10;
-		
-		if(lastPage > 10) {
-			if(currentPage >= 6) {
-				startPageNum = currentPage - 4;
-				endPageNum = currentPage + 5;
-				
-				if(endPageNum >= lastPage) {
-					startPageNum = lastPage - 9;
-					endPageNum = lastPage;
-				}
-			}
-		}else {
-			endPageNum = lastPage;
-		}
-		
-		resultMap.put("startRow", startRow);
-		resultMap.put("rowPerPage", rowPerPage);
-		resultMap.put("lastPage", 		lastPage);
-		resultMap.put("startPageNum",	startPageNum);
-		resultMap.put("endPageNum",		endPageNum);
-		
-		lessonMap.put("startRow", startRow);
-		lessonMap.put("rowPerPage", rowPerPage);
-		
-		List<Lesson> LessonListForUser = lessonMapper.getLessonListForUser(lessonMap);
-	
-		resultMap.put("LessonListForUser", LessonListForUser);
-		log.info("_______________end   LessonService_________________");
-		log.info("___________________________________________________");
-		return resultMap;
-	}
 
 	public int modifyLesson(Lesson lesson) {
 		log.info("___________________________________________________");
@@ -198,9 +145,4 @@ public class LessonService {
 		return 0;
 	}
 
-	public List<Sports> getSportsList() {
-		log.info("___________LessonService/getSportsList_____________");
-		List<Sports> sportsList = commonMapper.getSportsList();
-		return sportsList;
-	}
 }

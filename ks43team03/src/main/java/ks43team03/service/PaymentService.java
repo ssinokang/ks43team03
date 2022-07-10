@@ -64,7 +64,7 @@ public class PaymentService {
 	
 	
 	 // TEST_SECRTE_KEY 노출 x
-	@Value("${test.secret.api.key}")
+	//@Value("${test.secret.api.key}")
     private String SECRET_KEY;
 	
 	private final OrderMapper orderMapper;

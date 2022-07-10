@@ -68,6 +68,7 @@ public class LessonController {
 		SearchStrategyName searchName = SearchStrategyName.valueOf(searchCtg);
 		
 		
+		List<Area> areaList = commonService.getAreaList();
 		
 		searchMap.put("searchCtg", searchCtg);
 		Map<String, Object> resultMap = searchService.findSearch(searchName, searchMap, currentPage);
@@ -79,6 +80,7 @@ public class LessonController {
 		model.addAttribute("startPageNum"		, resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum"			, resultMap.get("endPageNum"));
 		model.addAttribute("currentPage"		, currentPage);
+		model.addAttribute("areaList"			, areaList);
 		model.addAttribute("title", 			"레슨 목록");
 		return "lesson/lessonListForUser";
 	};

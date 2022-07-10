@@ -137,5 +137,80 @@ $(function() {
 	console.log($sportsCtgVal);
 	 $('#sportsCtg option[value=' + $sportsCtgVal + ']').attr('selected', 'selected');
 	 $('#goodsCtg option[value=' + $goodsCtgVal + ']').attr('selected', 'selected');
+    /**
+     * 파일 업로드 보안 검사
+     */
+   
+    $("input:file[name='file']").change(function () {
+        var str = $(this).val();
+        var fileName = str.split('\\').pop().toLowerCase();
+        //alert(fileName);
+ 
+        checkFileName(fileName);
+    });
+	
+ 
+ 
+    /**
+     *유효성 검사
+     **/
+	
+    
+    $('#lesson-btn').on('click' ,function() {
+    	var $lessonNm 	  		= $('#lessonNm');
+    	var $lessonDetail 		= $('#lessonDetail');
+    	var $lessonTotalMember 	= $('#lessonTotalMember')
+    	var $lessonCount		= $('.lessonCount')
+    	var $lessonPrice		= $('#lessonPrice')
+    	
+    	
+    	console.log('작동');
+    	console.log(!$soloparty.is(':checked'));
+    	
+    	if($('input:radio[name="lessonDivision"]:checked').val() === '개인' && $('#lessonTotalMember').val() != 1 || $('input:radio[name="lessonDivision"]:checked').val() === '단체' && $('#lessonTotalMember').val() == 1) {
+    		alert('개인/단체와 인원수가 맞지 않습니다.');
+    	} else if($lessonNm.val() == null || $lessonNm.val() == '') {
+    		alert('레슨 이름을 입력해 주세요');
+    		$lessonNm.focus();
+    	} else if($lessonDetail.val() == null || $lessonDetail.val() == '') {
+    		alert('레슨 정보를 입력해 주세요');
+    		$lessonNm.focus();
+    	} else if(!$soloparty.is(':checked')) {
+    		alert('개인/단체를 체크해주세요');
+    		$soloparty.focus();
+    		
+    	} else if($('input:radio[name="lessonDivision"]:checked').val() == '개인' && $lessonCount.val() == '' || $('input:radio[name="lessonDivision"]:checked').val() == '개인' && $lessonCount.val() == null) {
+			alert('회차를 입력해주세요');
+			$lessonCount.focus();
+    	} else if($lessonTotalMember.val() == '' || $lessonTotalMember.val() == null ) {
+    		alert('레슨 인원을 입력해 주세요');
+    		$lessonTotalMember.focus();
+    	} else if($lessonPrice.val() == '' || $lessonPrice.val() == null ) {
+    		alert('레슨 가격을 입력해주세요');
+    		$lessonTotalMember.focus();
+    	} else {
+    		console.log('submit');
+    		console.log($('#lesson-form'));
+    		$('#lesson-form').submit();
+    	}
+    });
 
 });
+
+function checkFileName(str){
+	 
+	    //1. 확장자 체크
+	    var ext =  str.split('.').pop().toLowerCase();
+	    if($.inArray(ext, ['bmp' , 'hwp', 'jpg', 'pdf', 'png', 'xls', 'zip', 'pptx', 'xlsx', 'jpeg', 'doc', 'gif']) == -1) {
+	 
+	        //alert(ext);
+	        alert(ext+'파일은 업로드 하실 수 없습니다.');
+	    }
+	 
+	    //2. 파일명에 특수문자 체크
+	    var pattern =   /[\{\}\/?,;:|*~`!^\+<>@\#$%&\\\=\'\"]/gi;
+	    if(pattern.test(str) ){
+	        //alert("파일명에 허용된 특수문자는 '-', '_', '(', ')', '[', ']', '.' 입니다.");
+	        alert('파일명에 특수문자를 제거해주세요.');
+	    }
+	}

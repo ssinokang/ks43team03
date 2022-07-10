@@ -73,6 +73,8 @@ implements SearchStrategy{
 		List<Lesson> LessonListForUser = lessonMapper.getLessonListForUser(lessonMap);
 	
 		resultMap.put("LessonListForUser", LessonListForUser);
+		resultMap.put("title", "레슨목록");
+		resultMap.put("path", "lesson/lessonListForUser");
 		log.info("_______________end   LessonSearch__________________");
 		log.info("___________________________________________________");
 		return resultMap;

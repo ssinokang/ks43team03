@@ -28,7 +28,7 @@ public interface OrderMapper {
 	//이용권 주문내역 상세
 	public Order getOrderDetailWithPass(String orderCd);
 	
-	
+	public List<Order> orderInfomationByCategory(String category, String userId);
 	
 	// 주문정보 수정
 	public void modifyOrder(Order order);

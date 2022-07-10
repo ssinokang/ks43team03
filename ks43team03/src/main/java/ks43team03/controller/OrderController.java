@@ -4,6 +4,8 @@ package ks43team03.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +47,8 @@ public class OrderController {
 		log.info("데이터 userId 요청 : {}", req.getUserId());
 		log.info("데이터 facilityGoodsCd 요청 : {}", req.getFacilityGoodsCd());
 		
+		log.info("userId datat {}", req.getUserId());
+		
 		// order 저장 
 		ResponseGoods responseGoods = facilityGoodsService.getFacilityGoodsCd(req.getFacilityGoodsCd());
 		String goodsCode = responseGoods.getFacilityGoods().getFacilityGoodsCd();
@@ -74,11 +78,24 @@ public class OrderController {
 		return "order/orderDetail";
 	}
 	
-	
+	/*
+	 * Session
+	 */
 	@GetMapping("/orders/{id}")
 	public String orders(@PathVariable("id") String userId, Model model,
-						 @RequestParam(name = "currentPage", required = false, defaultValue = "1")int currentPage) {
+						 @RequestParam(name = "currentPage", required = false, defaultValue = "1")int currentPage,
+						 HttpSession session) {
 		
+		
+		String sessionId = (String)session.getAttribute("SID");
+		
+		log.info("session Id : {}", sessionId);
+		
+		if(!userId.equals(sessionId)) {
+			return "redirect:/";
+		}
+		
+		log.info("userId : {}", userId);
 		Map<String,Object> orderList = orderService.getOrdersByUser(currentPage,userId);
 		
 		model.addAttribute("orderList", orderList.get("orderList"));
@@ -110,9 +127,21 @@ public class OrderController {
 	}
 	
 	//==판매자 주문예약/결제 정보 조회==//
+	/*
+	 * Session
+	 */
 	
-	
-	
+	@GetMapping("/{category}/orders")
+	@ResponseBody
+	public List<Order> orderInfomationByCategory(@PathVariable("category")String category,
+												  @RequestParam String userId) {
+		
+		
+		log.info("session UserId : {}", userId);
+		List<Order> orderList = orderService.orderInfomationByCategory(category, userId);
+		
+		return orderList;
+	}
 	
 	
 	

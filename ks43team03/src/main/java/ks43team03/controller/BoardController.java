@@ -58,7 +58,7 @@ public class BoardController {
 	}
 	
 	/* 게시글 코드로 상세 조회 */
-	/* 게시물 답글 조회 */
+	/* 게시물 답글 조회  */
 	@GetMapping("/boardDetail")
 	public String getBoardDetail(Model model 
 								,@RequestParam(value = "boardPostCd", required = false) String boardPostCd

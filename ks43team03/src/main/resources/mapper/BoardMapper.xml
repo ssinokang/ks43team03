@@ -43,7 +43,7 @@
 	</resultMap>
 	
 	
-	<!-- 게시글 전체 조회 -->
+	<!-- 게시글 전체 조회  -->
 	<select id="getBoardList" parameterType="map" resultType="map" resultMap="boardResultMap">
 		SELECT
 			b.board_post_cd					

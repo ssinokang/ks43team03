@@ -12,7 +12,7 @@ import ks43team03.dto.BoardCtgCd;
 @Mapper
 public interface BoardMapper {
 
-	//게시글 전체 목록 조회
+	//게시글 전체 목록 조회 
 	public List<Map<String, Object>> getBoardList(Map<String, Object> paramMap);
 	
 	//게시글 코드로 상세 조회 

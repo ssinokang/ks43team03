@@ -44,7 +44,7 @@
 				<table class="table table-bordered">
 					<tr>
 						<td style="width: 16.66%">아이디</td>
-						<td style="width: 83.33%" th:text="${user.userId}">id001</td>
+						<td style="width: 83.33%" th:text="${session.SID}">id001</td>
 					</tr>
 					<tr>
 						<td>연락처</td>
@@ -58,7 +58,7 @@
 					상품정보
 				</div>
 			</div>
-			<input type="hidden" name="userId" th:value="${user.userId}">
+			<input type="hidden" name="userId" th:value="${session.SID}">
 			<input type="hidden" name="facilityGoodsCd" th:value="${goods.facilityGoods.facilityGoodsCd}">
 			<input type="hidden" name="goodsCtgCd" th:value="${goods.facilityGoods.goodsCtgCd}">
 			<input type="hidden" name="goodsName" th:value="${goods.goodsName}"> 
@@ -117,7 +117,7 @@
 					</tr>
 					<tr>
 						<td>총 결제 금액</td>
-						<td><input type="text" class="form-control col-sm-4" id="sum-pay" disabled></td>
+						<td><input type="text" class="form-control col-sm-4" id="sum-pay" th:value="${goods.price}" disabled></td>
 					</tr>
 				</table>
 
@@ -148,7 +148,7 @@
 					</tr>
 					<tr>
 						<td>총 결제 금액</td>
-						<td><input type="text" class="form-control col-sm-4" id="order-price" disabled></td>
+						<td><input type="text" class="form-control col-sm-4" id="order-price" th:value="${goods.price}" disabled></td>
 					</tr>
 				</table>
 			</div>
@@ -159,7 +159,6 @@
 			</div>
 		</form>
 	</div>
-
 	<script>
 		const pattern_num = /[0-9]/;	// 숫자 
 		const pattern_eng = /[a-zA-Z]/;	// 문자 
@@ -210,7 +209,6 @@
 			}
 		});
 			
-		
 		
 		
 

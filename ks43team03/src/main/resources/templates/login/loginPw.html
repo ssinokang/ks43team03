@@ -12,8 +12,13 @@
 		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>	
 		<script>
 		
-		/*비밀번호 찾기*/
+		/*아이디로 비밀번호 찾기*/
 			$(function() {
+				$(document).keypress(function(e) {
+		            if (e.keyCode == 13)
+		                e.preventDefault();
+				});
+				
 				function validationCheck(data) {
 					if (typeof data == 'undefined' || data == '' || data == null) {
 						return false;
@@ -32,6 +37,7 @@
 							data: {
 								'userId': userId
 							},
+							dataType: 'text'
 						}).done(function(data){
 							console.log(data);
 							if(data){

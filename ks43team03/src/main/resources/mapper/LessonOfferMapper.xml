@@ -57,7 +57,7 @@
 		</association>
 	</resultMap>
 	
-	<select id="getOfferList" resultType="map">
+	<select id="getOfferList" resultMap="lessonOfferResultMap">
 		SELECT
 			a.area_nm,
 			f.facility_nm,
@@ -87,6 +87,41 @@
 			lesson_offer AS ofe
 			on
 			ofe.lesson_cd = l.lesson_cd
+	</select>
+	
+	<select id="getLessonOfferCityOrSports" parameterType="String" resultMap="lessonOfferResultMap">
+		SELECT
+			o.lesson_offer_cd,
+			o.facility_cd,
+			o.lesson_cd,
+			o.user_id,
+			o.lesson_sports,
+			o.offer_title,
+			o.offer_detail,
+			o.offer_file,
+			o.offer_end_date,
+			o.offer_state,
+			o.offer_reg_date,
+			o.offer_update_date,
+			f.facility_nm
+		FROM
+			lesson_offer AS o
+			INNER JOIN 
+			facility AS f
+			ON 
+			o.facility_cd = f.facility_cd
+			INNER join
+			area AS a
+			ON 
+			a.area_cd = f.area_cd
+		<trim prefix="WHERE" prefixOverrides="and || or">
+			<if test="areaCd != null and areaCd != ''">
+				a.area_cd = #{areaCd}
+			</if>
+			<if test="sportsName != null and sportsName != ''">
+				and o.lesson_sports = #{sportsName}
+			</if>
+		</trim>
 	</select>
 </mapper>
 

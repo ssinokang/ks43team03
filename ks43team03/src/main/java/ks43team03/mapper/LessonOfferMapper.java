@@ -5,8 +5,12 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks43team03.dto.LessonOffer;
+
 @Mapper
 public interface LessonOfferMapper {
 
-	public List<Map<String,Object>> getOfferList();
+	public List<LessonOffer> getOfferList();
+	
+	public List<LessonOffer> getLessonOfferCityOrSports(String areaCd,String sportsName);
 }

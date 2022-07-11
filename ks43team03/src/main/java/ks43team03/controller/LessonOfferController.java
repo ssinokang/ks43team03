@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ks43team03.dto.Area;
+import ks43team03.dto.LessonOffer;
+import ks43team03.dto.Sports;
 import ks43team03.service.CommonService;
 import ks43team03.service.LessonOfferService;
 
@@ -33,14 +35,30 @@ public class LessonOfferController {
 	//== 구인 리스트 user ==//
 	@GetMapping("/offerList")
 	public String offerList(Model model) {
-		List<Map<String,Object>> offerList = offerService.getOfferList();
+		List<LessonOffer> offerList = offerService.getOfferList();
 		List<Area> areaList = commonService.getAreaList();
-		
+		List<Sports> sportsList = commonService.getSportsList();
 		
 		model.addAttribute("title", "트레이너가 즐겁게 일하도록");
 		model.addAttribute("offerList", offerList);
-		model.addAttribute("area", areaList);
+		model.addAttribute("sportsList", sportsList);
+		model.addAttribute("areaList", areaList);
 		return "offer/LessonOfferList";
+	}
+	
+	@GetMapping("/offers/city")
+	public String offers(@RequestParam(name = "areaCd", required = false)String areaCd,
+						 @RequestParam(name = "sportsName", required = false)String sportsName, Model model){
+		log.info("request AreaCd : {}", areaCd);
+		log.info("request sportsName : {}", sportsName);
+		
+		
+		List<LessonOffer> lessonOfferList = offerService.getLessonOfferCityOrSports(areaCd,sportsName);
+		
+		model.addAttribute("offerList", lessonOfferList);
+		
+		
+		return "/offer/LessonOfferList :: #offerList";
 	}
 	
 	

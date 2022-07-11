@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ks43team03.dto.LessonOffer;
 import ks43team03.mapper.LessonOfferMapper;
 
 @Service
@@ -21,9 +22,14 @@ public class LessonOfferService {
 	
 	
 	@Transactional(readOnly = true)
-	public List<Map<String,Object>>getOfferList(){
+	public List<LessonOffer>getOfferList(){
 		
-		List<Map<String,Object>> offerList = offerMapper.getOfferList();
+		List<LessonOffer> offerList = offerMapper.getOfferList();
 		return offerList;
+	}
+	
+	@Transactional(readOnly = true)
+	public List<LessonOffer> getLessonOfferCityOrSports(String areaCd,String sportsName){
+		return offerMapper.getLessonOfferCityOrSports(areaCd,sportsName);
 	}
 }

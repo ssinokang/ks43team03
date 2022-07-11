@@ -21,7 +21,8 @@ public class LessonOffer {
 	private String offerUpdateDate;//업데이트 일자	
 	
 	
-	
+	private Lesson lesson;
+	private Facility facility;
 	
 	
 }

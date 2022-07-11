@@ -123,5 +123,102 @@
 			</if>
 		</trim>
 	</select>
+	<insert id="addLessonOffer" parameterType="LessonOffer">
+		<selectKey keyProperty="lessonOfferCd" resultType="String" order="BEFORE">
+			SELECT
+				case
+				when COUNT(o.lesson_offer_cd) = 0 
+				then 'lesson_offer_cd_1'
+				else
+					CONCAT('lesson_offer_cd_',MAX(CAST(SUBSTRING_INDEX(o.lesson_offer_cd,'_',-1) AS UNSIGNED))+1)
+				END
+			FROM
+				lesson_offer AS o						
+		</selectKey>
+		INSERT INTO lesson_offer
+			(
+			lesson_offer_cd
+			, facility_cd
+			, lesson_cd
+			, user_id
+			, lesson_sports
+			, offer_title
+			, offer_detail
+			, offer_file
+			, offer_end_date
+			, offer_state
+			, offer_reg_date
+			, offer_update_date
+			)
+			VALUES (
+			#{lessonOfferCd}
+			,#{facilityCd}
+			,#{lessonCd}
+			,#{userId}
+			,#{lessoSports}
+			,#{offerTitle}
+			,#{offerDetail}
+			,#{offerFile}
+			,NOW()
+			,#{offerState}  
+			,NOW()
+			,NOW()
+			)
+	</insert>
+	<!-- lessonOffer 수정 -->
+	<update id="modifyLessonOffer" parameterType="LessonOffer">
+		UPDATE lesson_offer
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="lessoSports != null and lessoSports !=''">
+				lesson_sports=#{lessoSports},
+			</if>
+			<if test="offerTitle != null and offerTitle !=''">
+				offer_title=#{offerTitle},
+			</if>
+			<if test="offerDetail != null and offerDetail !=''">
+				offer_detail=#{offerDetail},
+			</if>
+			<if test="offerFile != null and offerFile !=''">
+				offer_file=#{offerFile},
+			</if>
+			<if test="offerEndDate != null and offerEndDate !=''">
+				offer_end_date=#{offerEndDate},
+			</if>
+			<if test="offerState != null and offerState !=''">
+				offer_state=#{offerState},
+			</if>
+			offer_update_date=NOW()
+		</trim>
+		WHERE
+			lesson_offer_cd=#{lessonOfferCd}
+	</update>
+	<!-- lessonOffer 삭제  -->
+	<delete id="removeLessonOffer" parameterType="String">
+		DELETE
+		FROM
+			lesson_offer
+		WHERE
+			lesson_offer_cd==#{lessonOfferCd}
+	</delete>
+	<!-- 레슨_offer lesson_offer_cd로조회 -->
+	<select id="getLessonOfferByLessonOfferCd" parameterType="String" resultMap="lessonOfferResultMap">
+		SELECT 
+			o.lesson_offer_cd
+			,o.facility_cd
+			,o.lesson_cd
+			,o.user_id
+			,o.lesson_sports
+			,o.offer_title
+			,o.offer_detail
+			,o.offer_file
+			,o.offer_end_date
+			,o.offer_state
+			,o.offer_reg_date
+			,o.offer_update_date
+		FROM
+			 lesson_offer AS o
+		WHERE
+			o.lesson_offer_cd=#{lessonOfferCd}
+	</select>
 </mapper>
 

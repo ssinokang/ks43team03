@@ -13,9 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import ks43team03.dto.Facility;
 import ks43team03.dto.Review;
+import ks43team03.service.FacilityService;
 import ks43team03.service.ReviewService;
+
 
 @Controller
 @RequestMapping("/review")
@@ -24,35 +28,58 @@ public class ReviewController {
 	private static final Logger log = LoggerFactory.getLogger(ReviewController.class);
 	
 	private final ReviewService reviewService;
+	private final FacilityService facilityService;
+
 	
-	public ReviewController(ReviewService reviewService) {
+	public ReviewController(ReviewService reviewService, FacilityService facilityService) {
 		this.reviewService = reviewService;
+		this.facilityService = facilityService;
 	}
 	
-	/*결제한 회원만 리뷰작성 
+	//후기 삭제
+	@GetMapping("/reviewRemove")
+	public String removeReview(Review review
+							  ,HttpSession session
+							  ,@RequestParam(name = "facilityCd", required = false) String facilityCd) {
+		String sessionId = (String) session.getAttribute("SID");
+		Facility facility = facilityService.getFacilityDetail(facilityCd);
+		log.info("sessionId : {}", sessionId);
+		reviewService.removeReview(sessionId);
+		
+		return"redirect:/facility/facilityDetail?"+"facilityCd=" +facility.getFacilityCd();
+		
+	}
+	
+	
+	
+	//결제한 회원만 리뷰작성 
 	@PostMapping("/orderCheck")
 	@ResponseBody
 	public boolean isOrderCheck(@RequestParam(value = "userId") String userId
-								,@RequestParam(value = "facilityCd") String facilityCd
-								,@RequestParam(value = "facilityGoodsCd") String facilityGoodsCd) {
-		boolean orderCheck = false;
+								,@RequestParam(value = "facilityCd") String facilityCd) {
+		boolean orderCheck = true;
 		
-		boolean result = reviewService.isOrderCheck(userId, facilityCd, facilityGoodsCd);
-		if(result) orderCheck = true;
+		boolean result = reviewService.isOrderCheck(userId, facilityCd);
+		log.info("result :{} ", result);
+		if(result) orderCheck = false;
 		
 		return orderCheck;
-		}*/
-	
-	
-	
-	//후기등록처리
-	@PostMapping("/addReview")
-	public String addReview(Review review) {
-		reviewService.addReview(review);
-		
-		return"redirect:/facility/facilityDetail";
 	}
-	//후기 등록 화면
+	
+	
+	
+	//시설에 후기등록처리
+	@PostMapping("/addReview")
+	public String addReview(Review review
+			,@RequestParam(name = "facilityCd", required = false) String facilityCd) {
+		reviewService.addReview(review);
+		Facility facility = facilityService.getFacilityDetail(facilityCd);
+		log.info("review : {}", review);
+		log.info("facilityCd : {}", facilityCd);
+		
+		return "redirect:/facility/facilityDetail?"+"facilityCd=" +facility.getFacilityCd();
+	}
+	//시설에서 후기 등록 화면
 	@GetMapping("/addReview")
 	public String addReview() {
 		

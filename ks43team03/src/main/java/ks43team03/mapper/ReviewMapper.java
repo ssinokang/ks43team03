@@ -11,9 +11,15 @@ import ks43team03.dto.Review;
 @Mapper
 public interface ReviewMapper {
 	
-	/*결제한 회원만 리뷰작성 
-	public boolean isOrderCheck(String userId, String facilityCd, String facilityGoodsCd);
-	*/
+	//후기 삭제
+	public int removeReview(String userId);
+	
+	//아이디로 후기 조회
+	public Review reviewinfoById(String userId);
+	
+	//결제한 회원만 리뷰작성(시설별)
+	public boolean isOrderCheck(String userId, String facilityCd);
+	
 	//시설 상품 코드로 후기 조회
 	public List<Review> getReviewListByCd(String facilityGoodsCd);
 
@@ -23,7 +29,7 @@ public interface ReviewMapper {
 	//시설 후기 
 	public List<Review> getReviewList(String facilityCd);
 	
-	//후기등록
+	//시설에후기등록
 	public int addReview(Review review);
 	
 	//시설관리자가 본인 후기 조회

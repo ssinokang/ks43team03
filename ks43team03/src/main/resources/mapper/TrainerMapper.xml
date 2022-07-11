@@ -150,7 +150,7 @@
 			LEFT JOIN
 			t_file AS f
 			on
-			r.flie_cd = f.file_cd
+			r.file_cd = f.file_cd
 		<trim prefix="WHERE">
 			<if test="trainerCd != null and trainerCd != ''">
 				t.trainer_cd = #{trainerCd}
@@ -187,7 +187,7 @@
 			LEFT JOIN
 			t_file AS f
 			on
-			r.flie_cd = f.file_cd;
+			r.file_cd = f.file_cd;
 	</select>
 	
 	<insert id="addTrainerLicense" parameterType="java.util.List">

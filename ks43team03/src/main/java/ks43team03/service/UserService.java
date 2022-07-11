@@ -34,21 +34,23 @@ public class UserService {
 	 * 시설 내 회원 목록
 	 * @return
 	 */
-	public Map<String, Object> getFacilityUserList(int currentPage, String facilityCd){
+	public Map<String, Object> getFacilityUserList(int currentPage, List<Object> facilityCdList){
 		
 		int rowPerPage = 10;
 		
-		double rowCount = userMapper.getFacilityUserCount();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+		paramMap.put("facilityCdList", facilityCdList);
+		
+		double rowCount = userMapper.getFacilityUserCount(paramMap);
+		log.info("rowCount : {}", rowCount);
 		
 		int lastPage = (int)Math.ceil(rowCount/rowPerPage);
 		
 		int startRow = (currentPage - 1)*rowPerPage;
 		
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		
 		paramMap.put("startRow", startRow);
 		paramMap.put("rowPerPage", rowPerPage);
-		paramMap.put("facilityCd", facilityCd);
 		
 		int startPageNum = 1;
 		int endPageNum = 10;

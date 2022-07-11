@@ -18,7 +18,7 @@ public interface UserMapper {
 	public List<Map<String, Object>> getFacilityUserList(Map<String, Object> paramMap);
 	
 	//시설 내 user블 총 row(튜플) 수
-	public int getFacilityUserCount();
+	public int getFacilityUserCount(Map<String, Object> paramMap);
 	
 	//회원 전체 목록 조회(페이징)
 	public List<Map<String, Object>> getUserList(Map<String, Object> paramMap);

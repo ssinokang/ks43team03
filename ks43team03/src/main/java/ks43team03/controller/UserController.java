@@ -1,5 +1,7 @@
 package ks43team03.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ks43team03.dto.Facility;
 import ks43team03.dto.User;
+import ks43team03.service.AdminFacilityService;
 import ks43team03.service.UserService;
 
 
@@ -26,19 +30,36 @@ public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
 	private final UserService userService; 
-
-	public UserController(UserService userService) {
-		this.userService = userService;
+	private final AdminFacilityService adminFacilityService; 
+	
+	public UserController(UserService userService, AdminFacilityService adminFacilityService) {
+		this.userService			=	userService;
+		this.adminFacilityService	=	adminFacilityService;
 	}
 	
 	//시설 내 회원 목록 조회
 	@GetMapping("/facilityUser")
 	public String getFacilityUserList(Model model
-									 ,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
+									 ,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage
+									 ,HttpSession session) {
+		
+		String sessionId = (String)session.getAttribute("SID");
+		log.info("시설조회 아이디 : {}", sessionId);
+		
+		List<Facility> adminFacilityListById = adminFacilityService.getAdminFacilityListById(sessionId);
+		
+		List<Object> facilityCdList = new ArrayList<Object>();
+		
+		for(int i=0; i<adminFacilityListById.size(); i++) {
+			log.info("adminFacilityListById.get("+i+") : {}", adminFacilityListById.get(i));
+			facilityCdList.add(adminFacilityListById.get(i).getFacilityCd());
+		}
+		
+		log.info("facilityCdList:{}",facilityCdList);
 		
 		String facilityCd = "ss_35011740_01";
 		
-		Map<String, Object> resultMap = userService.getFacilityUserList(currentPage, facilityCd);
+		Map<String, Object> resultMap = userService.getFacilityUserList(currentPage, facilityCdList);
 		
 		log.info("resultMap : {}",resultMap);
 		log.info("resultMap.get(\"facilityUserList\") : {}",resultMap.get("facilityUserList"));

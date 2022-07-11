@@ -4,6 +4,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ks43team03.mapper.FileMapper">
+	<update id="modifyFile">
+		/*파일 수정*/
+		
+	</update>
 	<insert id="uploadFile" parameterType="List">
 		/*파일 업로드*/
 		INSERT INTO t_file (

@@ -174,7 +174,6 @@
 										<li th:if="${not #lists.isEmpty(lesson.tFile)}" th:each="t : ${lesson.tFile}">>
 											<img th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="..." style="width: 10vw; min-width: 50px;"/>
 											<input type="radio" th:value="${t.fileCd}" name="fileCd">
-											<p>변경</p>
 										</li>
 										<li th:unless="${not #lists.isEmpty(lesson.tFile)}" th:each="t : ${lesson.tFile}">>
 											<p>업로드된 사진 파일이 없습니다.</p>

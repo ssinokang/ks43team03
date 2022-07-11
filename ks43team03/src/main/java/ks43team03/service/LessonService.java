@@ -115,10 +115,15 @@ public class LessonService {
 	}
 
 
-	public int modifyLesson(Lesson lesson) {
+	public int modifyLesson(Map<String, Object> paramMap) {
 		log.info("___________________________________________________");
 		log.info("_______________start modifyLesson");
-		int result = lessonMapper.modifyLesson(lesson);
+		/**
+		 * 조인 해서 업데이트, 대표 이미지만 컬럼 Y로 바뀌게 할 것 
+		 **/
+		fileMapper.modifyFile(paramMap);
+		int result = lessonMapper.modifyLesson((Lesson)paramMap.get("lesson"));
+		
 		log.info("_______________end   modifyLesson");
 		log.info("___________________________________________________");
 		return 0;

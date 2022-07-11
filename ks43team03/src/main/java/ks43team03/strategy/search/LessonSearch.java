@@ -77,6 +77,7 @@ implements SearchStrategy{
 		resultMap.put("path", "lesson/lessonListForUser");
 		log.info("_______________end   LessonSearch__________________");
 		log.info("___________________________________________________");
+		
 		return resultMap;
 	}
 

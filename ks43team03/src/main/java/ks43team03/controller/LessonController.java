@@ -64,7 +64,7 @@ public class LessonController {
 	public String lessonListforUser(Model model
 									,@RequestParam(name="searchCtg", required = false) String searchCtg
 									,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage){
-		Map<String, Object> searchMap	  = new HashMap<>();
+		Map<String, Object> searchMap = new HashMap<>();
 		SearchStrategyName searchName = SearchStrategyName.valueOf(searchCtg);
 		
 		
@@ -102,8 +102,13 @@ public class LessonController {
 	 **/
 	@PostMapping("/modyfyLesson")
 	public String modifyLesson(Lesson lesson
-							   ,Model model) {
-		int result = lessonService.modifyLesson(lesson);
+							   ,Model model
+							   ,@RequestParam(name="fileCd" ,required = false) String fileCd) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("fileCd", fileCd);
+		paramMap.put("lesson", lesson);
+		
+		int result = lessonService.modifyLesson(paramMap);
 		model.addAttribute("facilityCd", lesson.getFacilityCd());
 		return "lesson/facilitylessonList";
 	}

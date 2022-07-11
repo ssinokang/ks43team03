@@ -149,8 +149,12 @@ $(function() {
         checkFileName(fileName);
     });
 	
- 
- 
+    /**
+     * 대표 이미지 변경
+     **/
+    
+    
+    
     /**
      *유효성 검사
      **/

@@ -116,8 +116,11 @@
 				st.file_cd = sr.file_cd) AS sub
 		on
 			sub.board_post_cd = b.board_post_cd
-		where
-			b.board_post_cd = #{boardPostCd};
+		<trim prefix="WHERE">
+			<if test="boardPostCd != null and boardPostCd != ''">
+				b.board_post_cd = #{boardPostCd}
+			</if>
+		</trim>
 	</select>
 	
 	<!-- 게시글 작성 -->
@@ -144,7 +147,6 @@
 			, #{boardPostViews}
 			, 0
 			, 'N')
-		
 		<selectKey keyProperty="boardPostCd" resultType="String" order="BEFORE">
 			SELECT sf_new_board_post_cd()
 		</selectKey>
@@ -187,8 +189,11 @@
 			board_post
 		SET
 			board_post_views = board_post_views+1
-		WHERE 
-			board_post_cd = #{boardPostCd};
+		<trim prefix="WHERE">
+			<if test="boardPostCd != null and boardPostCd != ''">
+				board_post_cd = #{boardPostCd}
+			</if>
+		</trim>
 	</update>
 	
 	<!-- 게시글 댓글 수 업데이트 -->
@@ -221,8 +226,11 @@
 			board_post_views=#{boardPostViews},
 			board_post_comment_number=0,
 			board_post_state='N'
-		WHERE 
-			board_post_cd=#{boardPostCd};
+		<trim prefix="WHERE">
+			<if test="boardPostCd != null and boardPostCd != ''">
+				board_post_cd = #{boardPostCd}
+			</if>
+		</trim>
 	</update>
 	
 	<!-- 게시글 답글 리스트 조회 -->
@@ -241,8 +249,11 @@
 			board_post AS p
 		ON
 			c.board_post_cd = p.board_post_cd
-		WHERE
-			p.board_post_cd = #{boardPostCd};
+		<trim prefix="WHERE">
+			<if test="boardPostCd != null and boardPostCd != ''">
+				p.board_post_cd = #{boardPostCd}
+			</if>
+		</trim>
 	</select>
 	
 	<!-- 게시글 답글 삭제 -->

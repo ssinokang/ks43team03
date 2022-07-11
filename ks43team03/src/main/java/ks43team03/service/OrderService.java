@@ -2,8 +2,9 @@ package ks43team03.service;
 
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -15,7 +16,6 @@ import ks43team03.dto.Order;
 import ks43team03.dto.ResponseGoods;
 import ks43team03.dto.User;
 import ks43team03.dto.type.OrderState;
-import ks43team03.dto.type.PayType;
 import ks43team03.exception.CustomException;
 import ks43team03.exception.ErrorMessage;
 import ks43team03.mapper.OrderMapper;
@@ -42,6 +42,8 @@ public class OrderService {
 	}
 
 
+	
+	
 
 	//주문 하기
 	// toss 결제전에 주문내역을 넣는다.
@@ -64,7 +66,6 @@ public class OrderService {
 			throw new CustomException(ErrorMessage.ORDER_ERROR_ORDER_PRICE);
 		}
 		
-		// 상품정보있는지 없는지 체크 한다.
 		
 		// 예외처리
 		User user;
@@ -74,7 +75,6 @@ public class OrderService {
 			if(user == null) {
 				throw new CustomException(ErrorMessage.USER_ERROR_USER_NOT_FOUND);
 			}else {
-				// 있다면 포인트 내역 조회한다 후 
 				log.info("userName : {} , " , user.getUserName());
 				
 				//포인트 테이블 포인트 차감 하고 저장한다.
@@ -136,10 +136,51 @@ public class OrderService {
 	}
 	
 	//== 회원이 주문한 내역 ==//
+	/**
+	 *  페이징 처리 개선이 필요하다.
+	 */
 	@Transactional(readOnly = true)
-	public List<Order> getOrdersByUser(String userId){
-		List<Order> orderList = orderMapper.getOrdersByUser(userId);
-		return orderList;
+	public Map<String, Object> getOrdersByUser(int currentPage, String userId){
+		
+		int rowPerPage = 6;
+		
+		double rowCount = orderMapper.getOrderByUserCount(userId);
+		
+		int lastPage = (int)Math.ceil(rowCount / rowPerPage);
+		
+		int startRow = (currentPage - 1) * rowPerPage;
+		
+		Map<String, Object> maps = new HashMap<>();
+		
+		maps.put("startRow", startRow);
+		maps.put("rowPerPage", rowPerPage);
+		maps.put("userId", userId);
+		
+		int startPage = 1;
+		int endPage = 10;
+		
+		if(lastPage > 10) {
+			if(currentPage >= 6) {
+				startPage = currentPage - 4;
+				endPage = currentPage + 5;
+				if(endPage >= lastPage) {
+					startPage = lastPage - 9;
+					endPage = lastPage;
+				}
+			}
+		}else {
+			endPage = lastPage;
+		}
+		List<Order> orderList = orderMapper.getOrdersByUser(maps);
+		
+		log.info("db 조회 데이터 : {}", orderList);
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("lastPage", lastPage);
+		resultMap.put("orderList", orderList);
+		resultMap.put("startPage", startPage);
+		resultMap.put("endPage", endPage);
+		
+		return resultMap;
 	}
 	
 	
@@ -164,11 +205,29 @@ public class OrderService {
 		
 		return order;
 	}
-	
-	
-	//주문 취소 
 
 	
+	
+	/**
+	 * orderUUID로 주문 완전 삭제 메소드 
+	 */
+	public void removeOrderByOrderUUID(String orderUUID){
+		log.info("uuid 주문 정보 삭제 log");
+		orderMapper.removeOrderByOrderUUID(orderUUID);
+	}
+	
+	
+	public List<Order> orderInfomationByCategory(String category, String userId) {
+		
+		if("main".equals(category)) {
+			category = "";
+		}else if("reserve".equals(category)) {
+			category = "pass";
+		}
+		List<Order> orderList = orderMapper.orderInfomationByCategory(category, userId);
+		
+		return orderList;
+	}
 	
 	/**
 	 * 관리자 주문리스트 

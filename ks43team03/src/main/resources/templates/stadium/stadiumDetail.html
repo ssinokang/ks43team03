@@ -18,6 +18,11 @@
 <!-- 사용자 정의 css 선언 -->
 	<th:block layout:fragment="customCss">
 		<link rel="stylesheet" th:href="@{/resource/css/mapOverlay.css}" type="text/css">
+		<link rel="stylesheet" th:href="@{/calendar/css/fullcalendar.min.css}" />
+	    <link rel="stylesheet" th:href="@{/calendar/css/select2.min.css}" />
+		<link rel="stylesheet" th:href="@{/calendar/css/bootstrap-datetimepicker.min.css}" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	</th:block>
 
 
@@ -126,9 +131,23 @@
 								                        <div class="row">
 								                       </div>
 								                        <div class="row">
-								                            <div class="col-lg-12 col-md-8 col-sm-6">
+								                           <!--  <div class="col-lg-12 col-md-8 col-sm-6">
 								                                <input type="date" class="form-control" name="reservationStadium">
-								                            </div>
+								                            </div> -->
+								                            <div id="wrapper">
+													            <div id="loading"></div>
+													            <div id="calendar"></div>
+													        </div>
+								                            <!-- <div class="col-md-6 col-sm-6 ">
+																<div id="gender" class="btn-group" data-toggle="buttons">
+																	<label class="btn btn-secondary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
+																		<input type="checkbox" name="gender" value="9:00-10:00" class="join-btn"> &nbsp; 9:00-10:00 &nbsp;
+																	</label>
+																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
+																		<input type="checkbox" name="gender" value="10:00-11:00" class="join-btn" style=""> 10:00-11:00
+																	</label>
+																</div>
+															</div> -->
 								                       </div>
 								                    </div>
 							                        <div class="col-lg-4">
@@ -306,6 +325,21 @@
 	<!-- modal end -->
 
 <script th:src="@{/resource/js/map.js}"></script>
+
+
+<script th:src="@{/calendar/js/jquery.min.js}"></script>
+	<script th:src="@{/resource/js/lesson/detailLessonForUser.js}"></script>
+	<script th:src="@{/calendar/js/bootstrap.min.js}"></script>
+	<script th:src="@{/calendar/js/moment.min.js}"></script>
+	<script th:src="@{/calendar/js/bootstrap-datetimepicker.min.js}"></script>
+	<script th:src="@{/calendar/js/fullcalendar.min.js}"></script>
+	<script th:src="@{/calendar/js/select2.min.js}"></script>
+	<script th:src="@{/calendar/js/ko.js}"></script>
+	<script th:src="@{/calendarJs/mainLesson.js}"></script>
+	<script th:src="@{/calendarJs/etcLessonSetting.js}"></script>
+	<script th:src="@{/calendarJs/editEvent.js}"></script>
+	<script th:src="@{/calendarJs/addLessonEvent.js}"></script>
+
 
 
 </th:block>	  

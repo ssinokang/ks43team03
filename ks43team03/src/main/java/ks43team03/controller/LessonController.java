@@ -2,6 +2,7 @@ package ks43team03.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,6 +26,8 @@ import ks43team03.dto.Search;
 import ks43team03.dto.Sports;
 import ks43team03.service.CommonService;
 import ks43team03.service.LessonService;
+import ks43team03.service.SearchService;
+import ks43team03.strategy.enumeration.SearchStrategyName;
 
 @Controller
 @RequestMapping("/lesson")
@@ -32,9 +35,11 @@ public class LessonController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	private final LessonService lessonService;
 	private final CommonService commonService;
-	public LessonController(LessonService lessonService, CommonService commonService) {
+	private final SearchService searchService;
+	public LessonController(LessonService lessonService, CommonService commonService, SearchService searchService) {
 		this.lessonService = lessonService;
 		this.commonService = commonService;
+		this.searchService = searchService;
 	}
 	/**
 	 *  회원이 보는 레슨 리스트 
@@ -54,46 +59,29 @@ public class LessonController {
 		
 		return "lesson/detailLessonForUser";
 	}
+	
 	@GetMapping("/lessonListForUser")
-	public String lessonListforUser(
-			Lesson 		  lesson
-			,Facility 	  facility
-			,AreaCity 	  areaCity
-			,AreaCityTown areaCityTown
-			,Sports 	  sports
-			,Model 		  model
-			,String		  sv) {
-		log.info("facility : {}", facility);
-		log.info("areaCity : {}", areaCity);
-		log.info("areaCityTown : {}", areaCityTown);
-		log.info("sports : {}", sports);
+	public String lessonListforUser(Model model
+									,@RequestParam(name="searchCtg", required = false) String searchCtg
+									,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage){
+		Map<String, Object> searchMap	  = new HashMap<>();
+		SearchStrategyName searchName = SearchStrategyName.valueOf(searchCtg);
 		
 		
 		
-		lesson.setAreaCityTown(areaCityTown);
-		lesson.setFacility(facility);
-		lesson.setAreaCity(areaCity);
-		lesson.setSports(sports);
+		searchMap.put("searchCtg", searchCtg);
+		Map<String, Object> resultMap = searchService.findSearch(searchName, searchMap, currentPage);
 		
-		Search search = new Search();
-		search.setSearchValue(sv);
-		
-		log.info("lesson : {}", lesson);
-		List<Sports> sportsList	= lessonService.getSportsList();
-		HashMap<String, Object> lessonMap = new HashMap<>();
-		lessonMap.put("lesson", lesson);
-		lessonMap.put("search", search);
-		
-		List<Lesson> lessonList = lessonService.getLessonListForUser(lessonMap);
-		List<Area> 	 areaList	= commonService.getAreaList();
-		
-		model.addAttribute("lessonList", lessonList);
-		model.addAttribute("sportsList", sportsList);
-		model.addAttribute("areaList", areaList);
-		
-		log.info("lessonList : {}", lessonList);
+		model.addAttribute("title", 			"레슨 목록");
+		model.addAttribute("lessonList"			, resultMap.get("LessonListForUser"));
+		model.addAttribute("lessonList"			, resultMap.get("LessonListForUser"));
+		model.addAttribute("lastPage"			, resultMap.get("lastPage"));
+		model.addAttribute("startPageNum"		, resultMap.get("startPageNum"));
+		model.addAttribute("endPageNum"			, resultMap.get("endPageNum"));
+		model.addAttribute("currentPage"		, currentPage);
+		model.addAttribute("title", 			"레슨 목록");
 		return "lesson/lessonListForUser";
-	}
+	};
 	/**
 	 * 레슨 상세 조회 
 	 **/

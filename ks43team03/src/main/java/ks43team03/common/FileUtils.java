@@ -48,6 +48,8 @@ public class FileUtils {
 		
     	//대표이미지 인덱스
     	int representImg = 0;
+    	
+
 		for (MultipartFile multipartFile : uploadfile){
 			if(multipartFile.isEmpty() == false){
 				contentType = multipartFile.getContentType();
@@ -97,6 +99,8 @@ public class FileUtils {
 			    	}
 			    	
 			    	// 파일의 업로드 경로 설정
+
+			    	
 			    	byte[] bytes;			    	
 			    	Path uploadPath = Paths.get(path + "/" + resultFileName);
 			    	
@@ -106,12 +110,13 @@ public class FileUtils {
 						
 						// 파일업로드 
 						Files.write(uploadPath, bytes);
-						
+
+
 					} catch (IOException e) {
 						e.printStackTrace();
 						return null;
 					}
-			    	
+
 					
 					// 올려진 파일 리스트로 정리(테이블에 삽입할 내용)
 					fileIdx = "file_"+current.format(format)+Long.toString(System.nanoTime());
@@ -136,7 +141,7 @@ public class FileUtils {
 				
 			}
 		}
-		
+
 		return fileList;
 	}
 }

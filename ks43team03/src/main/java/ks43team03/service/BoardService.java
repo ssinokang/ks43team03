@@ -80,7 +80,7 @@ public class BoardService {
 		return resultMap;
 	}
 	
-	/* 게시글 코드로 상세 조회  */
+	/* 게시글 코드로 상세 조회   */
 	public Board getBoardDetail(String boardPostCd) { 
 		System.out.println("------------------------게시글 상세조회 서비스-----------------------------");
 		Board board = boardMapper.getBoardDetail(boardPostCd); 
@@ -117,33 +117,53 @@ public class BoardService {
 		// 3. 게시글 인서트
  		// 4. 결과값 리턴
 		
-		//파일 업로드 위한 객체 생성 
-		FileUtils fu = new FileUtils(boardImgFile, board.getUserId(), fileRealPath);
-		List<Map<String, String>> dtoFileList = fu.parseFileInfo();
+		boolean fileCheck = true;
 		
-		// t_file 테이블에 삽입
-		System.out.println(dtoFileList + "BoardService/addBoard");
-        fileMapper.uploadFile(dtoFileList);
-        
-        // 게시글 등록 - 게시글 코드 selectKey로 담아 줌
- 		boardMapper.addBoard(board);
- 		log.info("add 이후 board : {}", board);
- 		
- 		String boardPostCd = board.getBoardPostCd();
- 		log.info("boardPostCd : {}", boardPostCd);
+		for (MultipartFile multipartFile : boardImgFile){
+			if(!multipartFile.isEmpty()) {
+				fileCheck = false;
+			}
+		}
 		
-        // 릴레이션 테이블에 삽입
- 		List<Map<String, String>> relationFileList = new ArrayList<>();
- 		for(Map<String, String> m : dtoFileList) {
- 			m.put("boardPostCd", boardPostCd);
- 			relationFileList.add(m);
+		if(!fileCheck) {
+			log.info("파일 있음"+ boardImgFile);
+			
+			//파일 업로드 위한 객체 생성 
+			FileUtils fu = new FileUtils(boardImgFile, board.getUserId(), fileRealPath);
+			List<Map<String, String>> dtoFileList = fu.parseFileInfo();
+			
+			// t_file 테이블에 삽입
+			System.out.println(dtoFileList + "BoardService/addBoard");
+			fileMapper.uploadFile(dtoFileList);
+			
+			// 게시글 등록 - 게시글 코드 selectKey로 담아 줌
+			boardMapper.addBoard(board);
+			log.info("add 이후 board : {}", board);
+			
+			String boardPostCd = board.getBoardPostCd();
+			log.info("boardPostCd : {}", boardPostCd);
+			
+			// 릴레이션 테이블에 삽입
+			List<Map<String, String>> relationFileList = new ArrayList<>();
+			for(Map<String, String> m : dtoFileList) {
+				m.put("boardPostCd", boardPostCd);
+				relationFileList.add(m);
+			}
+			
+			System.out.println(relationFileList);
+			fileMapper.uploadRelationFileWithBoard(relationFileList);
+			
+			return boardPostCd;
+ 		}else {
+ 			
+ 			boardMapper.addBoard(board);
+			log.info("add 이후 board : {}", board);
+			
+			String boardPostCd = board.getBoardPostCd();
+			log.info("boardPostCd : {}", boardPostCd);
+			
+			return boardPostCd;
  		}
- 		
- 		System.out.println(relationFileList);
- 		fileMapper.uploadRelationFileWithBoard(relationFileList);
-     	
-		System.out.println("-----------------------게시글 등록 서비스 끝------------------------------");
-		return boardPostCd;
 	}
 	
 	/* 게시글 카테고리 조회 */

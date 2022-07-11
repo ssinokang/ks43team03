@@ -2,84 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/default.html}">
 
+<th:block layout:fragment="customJs">
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+
+</th:block>
 <!-- 사용자 정의 contents -->
 <th:block layout:fragment="customContents">
+
 	<!-- 이런식으로 넣으면 되겠죠? -->
 	<section class="shop-cart spad">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-3 col-md-3">
-					<div class="shop__sidebar">
-						<div class="sidebar__categories">
-							<div class="section-title">
-								<h4>My 쇼핑</h4>
-							</div>
-							<div class="categories__accordion">
-								<div class="accordion" id="mypagelink">
-									<div class="card">
-										<div class="card-heading">
-											<a data-toggle="collapse" data-target="#collapseOne" class="collapsed"
-												aria-expanded="false">My주문</a>
-										</div>
-										<div id="collapseOne" class="collapse" data-parent="#mypagelink">
-											<div class="card-body">
-												<ul>
-													<li><a href="#">주문목록/주문조회</a></li>
-													<li><a href="#">CSS</a></li>
-													<li><a href="#">취소/환불내역</a></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="card">
-										<div class="card-heading">
-											<a data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
-												class="collapsed">My예약</a>
-										</div>
-										<div id="collapseTwo" class="collapse" data-parent="#mypagelink">
-											<div class="card-body">
-												<ul>
-													<li><a href="#">나의 대관 예약 정보</a></li>
-													<li><a href="#">나의 레슨 예약정보</a></li>
-			
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="card">
-										<div class="card-heading">
-											<a data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
-												class="collapsed">My 활동</a>
-										</div>
-										<div id="collapseThree" class="collapse" data-parent="#mypagelink">
-											<div class="card-body">
-												<ul>
-													<li><a href="#">문의하기</a></li>
-													<li><a href="#">문의내역 조회</a></li>
-													<li><a href="#">리뷰관리</a></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="card">
-										<div class="card-heading">
-											<a data-toggle="collapse" data-target="#collapseFour" aria-expanded="false"
-												class="collapsed">My 정보</a>
-										</div>
-										<div id="collapseFour" class="collapse" data-parent="#mypagelink">
-											<div class="card-body">
-												<ul>
-													<li><a href="#">개인정보 확인</a></li>
-													<li><a href="#">결제 수단 관리</a></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<div th:replace="fragments/orderSidebar :: orderSidebarFragment"></div>
 				<div class="col-lg-9 col-md-9">
 					<div class="row">
 						<div class="col-lg-8 col-sm-8">
@@ -108,13 +42,14 @@
 						<div class="col-sm-12 col-lg-12">
 							<ul class="nav nav-tabs" role="tablist">
 								<li class="nav-item">
-									<a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">전체주문</a>
+									<a class="nav-link active" id="order-main" data-toggle="tab" href="#tabs-1" role="tab">전체주문</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">예약</a>
+									<a class="nav-link" id="book-id" data-toggle="tab"  role="tab">예약</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">레슨</a>
+									
+									<a class="nav-link" id="lesson-id" data-toggle="tab" href="#tabs-3" role="tab">레슨</a>
 								</li>
 							</ul>	
 							<div class="tab-content">
@@ -122,32 +57,34 @@
 									<div class="row">
 										<div class="col-sm-12 col-lg-12">
 											<h6>전체주문</h6>
+											<th:block th:if="${not #lists.isEmpty(orderList)}" th:each="order : ${orderList}">
 											<div class="card mb-4">
 												<div class="card-body">
 													<div class="tab-content">
+														<div><span>주문일시 : </span> [[${order.orderRegDate}]]</div>
 														<div class="row">
 															<div class="col-sm-12 col-lg-12">
 																<table class="table">
 																	<tbody>
 																		<tr>
 																			<th class="col-sm-2 col-lg-2">주문코드</th>
-																			<td >order_cd_3306789785</td>
+																			<td th:text="${order.orderUUID}">order_cd_3306789785</td>
 																			<th rowspan="4" class="col-sm-3 col-lg-3">
 																				<div class="div btn-box ml-5" style="margin-top: 60px;">
-																					<button type="button" class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;">상세보기</button>
+																					<a th:href="@{/order/orderDetail/{id}(id=${order.userId},orderCd=${order.orderCd})}" class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;">상세보기</a>
 																				</div>
 																			</th>
 																		</tr>
 																		<tr>
 																			<th rowspan="2" class="col-sm-2 col-lg-2">상품명</th>
-																			<td><a href="#">지구어딘가체육관/이용권</a></td>
+																			<td><a href="#">[[${order.facility.facilityNm}]]</a></td>
 																		</tr>
 																		<tr>
-																			<td class="col-sm-2 col-lg-2">주문완료(결제완료)</td>
+																			<td class="col-sm-2 col-lg-2" th:text="${order.orderPayState}">주문완료(결제완료)</td>
 																		</tr>
 																		<tr>
-																			<th class="col-sm-2 col-lg-2">상품금액</th>
-																			<td>500000</td>
+																			<th class="col-sm-2 col-lg-2">결제 금액</th>
+																			<td th:text="${order.orderPayPrice}">500000</td>
 																		</tr>
 																	</tbody>
 																</table>
@@ -157,76 +94,24 @@
 													</div>
 												</div>
 											</div>
-											<div class="card mb-4">
-												<div class="card-body">
-													<div class="tab-content">
-														<div class="row">
-															<div class="col-sm-12 col-lg-12">
-																<table class="table">
-																	<tbody>
-																		<tr>
-																			<th class="col-sm-2 col-lg-2">주문코드</th>
-																			<td >order_cd_3306789785</td>
-																			<th rowspan="4" class="col-sm-3 col-lg-3">
-																				<div class="div btn-box ml-5" style="margin-top: 60px;">
-																					<button type="button" class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;">상세보기</button>
-																				</div>
-																			</th>
-																		</tr>
-																		<tr>
-																			<th rowspan="2" class="col-sm-2 col-lg-2">상품명</th>
-																			<td><a href="#">지구어딘가체육관/이용권</a></td>
-																		</tr>
-																		<tr>
-																			<td class="col-sm-2 col-lg-2">주문완료(결제완료)</td>
-																		</tr>
-																		<tr>
-																			<th class="col-sm-2 col-lg-2">상품금액</th>
-																			<td>500000</td>
-																		</tr>
-																	</tbody>
-																</table>
-															</div>
-															
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="card mb-4">
-												<div class="card-body">
-													<div class="tab-content">
-														<div class="row">
-															<div class="col-sm-12 col-lg-12">
-																<table class="table">
-																	<tbody>
-																		<tr>
-																			<th class="col-sm-2 col-lg-2">주문코드</th>
-																			<td >order_cd_3306789785</td>
-																			<th rowspan="4" class="col-sm-3 col-lg-3">
-																				<div class="div btn-box ml-5" style="margin-top: 60px;">
-																					<button type="button" class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;">주문 취소 상세보기</button>
-																				</div>
-																			</th>
-																		</tr>
-																		<tr>
-																			<th rowspan="2" class="col-sm-2 col-lg-2">상품명</th>
-																			<td><a href="#">지구어딘가체육관/이용권</a></td>
-																		</tr>
-																		<tr>
-																			<td class="col-sm-2 col-lg-2">취소완료</td>
-																		</tr>
-																		<tr>
-																			<th class="col-sm-2 col-lg-2">상품금액</th>
-																			<td>500000</td>
-																		</tr>
-																	</tbody>
-																</table>
-															</div>
-															
-														</div>
-													</div>
-												</div>
-											</div>
+											</th:block>
+											<th:block th:if="${not #lists.isEmpty(orderList)}")>
+												<a th:if="${currentPage > 1}" th:href="@{/order/orders/{id}(id=${session.SID})}">[맨처음]</a>
+												<a th:if="${currentPage > 1}" th:href="@{/order/orders/{id}(id=${session.SID},currentPage=${currentPage - 1})}">[이전]</a>
+												<th:block th:each="num : ${#numbers.sequence(startPage,endPage)}">
+													<label th:if="${currentPage eq num}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></label>
+													<a th:unless="${currentPage eq num}" th:href="@{/order/orders/{id}(id=${session.SID},currentPage=${num})}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></a>
+												</th:block>
+												<a th:if="${currentPage < lastPage}" th:href="@{/order/orders/{id}(id=${userId},currentPage=${currentPage + 1})}">[다음]</a>
+												<a th:href="@{/order/orders/{id}(id=${session.SID},currentPage=${lastPage})}">[마지막]</a>
+											</th:block>
+											
+											<th:block th:unless="${not #lists.isEmpty(orderList)}">
+													<div><span>비워있습니다.</span></div>
+											
+											</th:block>
+											
+											
 										</div>
 	
 									</div>
@@ -249,6 +134,53 @@
 			</div>
 		</div>
 	</section>
+	
+	<script>
+	
+		// 예약 
+		const $reserve = $('#book-id');
+		// 전체주문리스트
+		const $ordreMain = $('#order-main');
+		
+		const $lesson = $('#lesson-id');
+		
+		
+		//   href="#tabs-2"
+		
+		$reserve.on('click',function(){
+			console.log('hello world');
+			
+			const category = 'reserve';
+		
+			console.log('categoroy : ', category);
+			categorySearch(category);
+		});
+		
+		
+		const categorySearch = (category) =>{
+			const sessionId = '[[${session.SID}]]';
+			
+			console.log('sessionId : ', sessionId);
+			console.log('data : ', category);
+			
+			$.ajax({
+				type: 'GET',
+				url: '/order/' + category + '/orders',
+	   		   	dataType : 'JSON',
+				data:{
+					userId : sessionId
+				}
+			}).done(function (data) {
+				
+				if(category == 'reserve'){
+					
+				}
+				console.log(data.length);
+			}).fail(function (error) {
+				console.log(error);
+			});
+		}
+		</script>
 </th:block>
 
 </html>

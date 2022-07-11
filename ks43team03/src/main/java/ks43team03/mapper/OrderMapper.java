@@ -1,6 +1,7 @@
 package ks43team03.mapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -27,7 +28,7 @@ public interface OrderMapper {
 	//이용권 주문내역 상세
 	public Order getOrderDetailWithPass(String orderCd);
 	
-	
+	public List<Order> orderInfomationByCategory(String category, String userId);
 	
 	// 주문정보 수정
 	public void modifyOrder(Order order);
@@ -36,5 +37,14 @@ public interface OrderMapper {
 	public List<Order>getOrderAll();
 	
 	// 회원 한명의 주문내역 조회 메소드
-	public List<Order> getOrdersByUser(String userId);
+	public List<Order> getOrdersByUser(Map<String, Object> maps);
+	
+	// 주문 삭제 uuid 
+	public void removeOrderByOrderUUID(String orderUUID);
+	
+	// 주문삭제 기본키
+	public void removeOrderByOrderCd(String orderCd);
+	
+	// 회원한명의 주문카운트
+	public int getOrderByUserCount(String userId);
 }

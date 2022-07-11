@@ -44,7 +44,7 @@
 				<table class="table table-bordered">
 					<tr>
 						<td style="width: 16.66%">아이디</td>
-						<td style="width: 83.33%" th:text="${user.userId}">id001</td>
+						<td style="width: 83.33%" th:text="${session.SID}">id001</td>
 					</tr>
 					<tr>
 						<td>연락처</td>
@@ -58,7 +58,7 @@
 					상품정보
 				</div>
 			</div>
-			<input type="hidden" name="userId" th:value="${user.userId}">
+			<input type="hidden" name="userId" th:value="${session.SID}">
 			<input type="hidden" name="facilityGoodsCd" th:value="${goods.facilityGoods.facilityGoodsCd}">
 			<input type="hidden" name="goodsCtgCd" th:value="${goods.facilityGoods.goodsCtgCd}">
 			<input type="hidden" name="goodsName" th:value="${goods.goodsName}"> 
@@ -117,7 +117,7 @@
 					</tr>
 					<tr>
 						<td>총 결제 금액</td>
-						<td><input type="text" class="form-control col-sm-4" id="sum-pay" disabled></td>
+						<td><input type="text" class="form-control col-sm-4" id="sum-pay" th:value="${goods.price}" disabled></td>
 					</tr>
 				</table>
 
@@ -148,7 +148,7 @@
 					</tr>
 					<tr>
 						<td>총 결제 금액</td>
-						<td><input type="text" class="form-control col-sm-4" id="order-price" disabled></td>
+						<td><input type="text" class="form-control col-sm-4" id="order-price" th:value="${goods.price}" disabled></td>
 					</tr>
 				</table>
 			</div>
@@ -159,7 +159,6 @@
 			</div>
 		</form>
 	</div>
-
 	<script>
 		const pattern_num = /[0-9]/;	// 숫자 
 		const pattern_eng = /[a-zA-Z]/;	// 문자 
@@ -210,7 +209,6 @@
 			}
 		});
 			
-		
 		
 		
 
@@ -297,14 +295,8 @@
 		}
 		
 		
-		const send = data => {
-			
-			// 데이터 보내기 
-			window.location.href ='/order/orderSuccess?orderId=' + data.orderUUID + '&method='+data.method;
-		}
-		
-		
 		function requestTossData(data){
+			const orderUUID = data.orderUUID;
 			let method = data.payName;
 			const paymentData = {
 				amount: data.orderPayPrice,
@@ -322,19 +314,33 @@
 				tossPayments
 					.requestPayment(method, paymentData)
 					.catch(function(error){
+						removeOrderData(orderUUID);
 						if(error.code == 'USER_CANCEL'){
-							
+							alert('결제를 취소하였습니다.');
+							return;
 						}
-						console.log('why???????');
-						alert('결제에 실패햐였습니다.');
-						removeOrderData();
+						console.log('why???????' , error);
+						alert('결제에 실패하였습니다.');
 						
 					});
 		}
 		
 		
-		function removeOrderData(){
+		function removeOrderData(value){
 			
+			console.log('remove data : ' + value);
+			$.ajax({
+				type: 'POST',
+				url: '/order/removeOrder',
+	   		   	dataType : 'JSON',
+				data:{
+					orderUUID : value
+				}
+			}).done(function (data) {
+				console.log(data);
+			}).fail(function (error) {
+				console.log(error);
+			});
 		}
 
 		

@@ -149,6 +149,17 @@
 
 
 		<insert id="addReview" parameterType="Review">
+			<selectKey keyProperty="reviewCd" resultType="String" order="BEFORE">
+				 select
+					case
+					when COUNT(r.review_cd) = 0 
+					then 'review_1'
+					else
+						CONCAT('review_',MAX(CAST(SUBSTRING_INDEX(r.review_cd,'_',-1) AS UNSIGNED))+1)
+					end
+				FROM
+					review AS r
+ 			</selectKey>
 			INSERT INTO review
 				(review_cd
 				,pay_cd

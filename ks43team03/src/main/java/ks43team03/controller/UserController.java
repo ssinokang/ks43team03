@@ -46,30 +46,32 @@ public class UserController {
 		String sessionId = (String)session.getAttribute("SID");
 		log.info("시설조회 아이디 : {}", sessionId);
 		
-		List<Facility> adminFacilityListById = adminFacilityService.getAdminFacilityListById(sessionId);
-		
-		List<Object> facilityCdList = new ArrayList<Object>();
-		
-		for(int i=0; i<adminFacilityListById.size(); i++) {
-			log.info("adminFacilityListById.get("+i+") : {}", adminFacilityListById.get(i));
-			facilityCdList.add(adminFacilityListById.get(i).getFacilityCd());
+		if(sessionId != null && !sessionId.isEmpty()) {
+			
+			List<Facility> adminFacilityListById = adminFacilityService.getAdminFacilityListById(sessionId);
+			
+			List<Object> facilityCdList = new ArrayList<Object>();
+			
+			for(int i=0; i<adminFacilityListById.size(); i++) {
+				log.info("adminFacilityListById.get("+i+") : {}", adminFacilityListById.get(i));
+				facilityCdList.add(adminFacilityListById.get(i).getFacilityCd());
+			}
+			
+			log.info("facilityCdList:{}",facilityCdList);
+			
+			Map<String, Object> resultMap = userService.getFacilityUserList(currentPage, facilityCdList);
+			
+			log.info("resultMap : {}",resultMap);
+			log.info("resultMap.get(\"facilityUserList\") : {}",resultMap.get("facilityUserList"));
+			
+			model.addAttribute("resultMap", 		resultMap);
+			model.addAttribute("currentPage", 		currentPage);
+			model.addAttribute("facilityUserList",	resultMap.get("facilityUserList"));
+			model.addAttribute("lastPage", 			resultMap.get("lastPage"));
+			model.addAttribute("startPageNum", 		resultMap.get("startPageNum"));
+			model.addAttribute("endPageNum", 		resultMap.get("endPageNum"));
 		}
 		
-		log.info("facilityCdList:{}",facilityCdList);
-		
-		String facilityCd = "ss_35011740_01";
-		
-		Map<String, Object> resultMap = userService.getFacilityUserList(currentPage, facilityCdList);
-		
-		log.info("resultMap : {}",resultMap);
-		log.info("resultMap.get(\"facilityUserList\") : {}",resultMap.get("facilityUserList"));
-		
-		model.addAttribute("resultMap", 		resultMap);
-		model.addAttribute("currentPage", 		currentPage);
-		model.addAttribute("facilityUserList",	resultMap.get("facilityUserList"));
-		model.addAttribute("lastPage", 			resultMap.get("lastPage"));
-		model.addAttribute("startPageNum", 		resultMap.get("startPageNum"));
-		model.addAttribute("endPageNum", 		resultMap.get("endPageNum"));
 		model.addAttribute("title", 			"시설 내 회원 목록");
 		
 		return "user/facilityUser";

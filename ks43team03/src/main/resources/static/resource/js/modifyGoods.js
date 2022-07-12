@@ -154,6 +154,13 @@ $(function() {
      **/
     
     
+    $('.representImgCheck').on('click', function() {
+		$('.representImgCheck').parent().children('input[type="hidden"]').val("N");
+		console.log($(this).parent().children('input[type="hidden"]').val("Y"));
+		console.log($('.representImg').val());
+		console.log($(this).val());
+	});
+    
     
     /**
      *유효성 검사
@@ -167,9 +174,9 @@ $(function() {
     	var $lessonCount		= $('.lessonCount')
     	var $lessonPrice		= $('#lessonPrice')
     	
-    	
+    	var isSubmit = false;
     	console.log('작동');
-    	console.log(!$soloparty.is(':checked'));
+
     	
     	if($('input:radio[name="lessonDivision"]:checked').val() === '개인' && $('#lessonTotalMember').val() != 1 || $('input:radio[name="lessonDivision"]:checked').val() === '단체' && $('#lessonTotalMember').val() == 1) {
     		alert('개인/단체와 인원수가 맞지 않습니다.');
@@ -179,10 +186,9 @@ $(function() {
     	} else if($lessonDetail.val() == null || $lessonDetail.val() == '') {
     		alert('레슨 정보를 입력해 주세요');
     		$lessonNm.focus();
-    	} else if(!$soloparty.is(':checked')) {
+    	} else if(!$('input:radio[name="lessonDivision"]').is(':checked')) {
     		alert('개인/단체를 체크해주세요');
-    		$soloparty.focus();
-    		
+    		$('#solo-party').focus();
     	} else if($('input:radio[name="lessonDivision"]:checked').val() == '개인' && $lessonCount.val() == '' || $('input:radio[name="lessonDivision"]:checked').val() == '개인' && $lessonCount.val() == null) {
 			alert('회차를 입력해주세요');
 			$lessonCount.focus();
@@ -195,8 +201,50 @@ $(function() {
     	} else {
     		console.log('submit');
     		console.log($('#lesson-form'));
-    		$('#lesson-form').submit();
+    		isSubmit = true;
     	}
+    	/* 여러 li list 형태로 보내기 formdata */
+		if(isSubmit){
+			var tFile = [];
+			var fileNum = $('.lesson-file-line > li').length;
+			var fileCd = $('.representImgCheck').val();
+			var lessonCd = $('#lessonCd');
+			//FormData : 가상의 <form> 태그
+			//Ajax를 이용하는 파일 업로드는 FormData를 이용
+			var formData = new FormData();
+			
+			for(var i=0; i<fileNum; i++){
+				
+				formData.append('trainerCareerList['+i+'].trainerCd',				trainerCd);
+				formData.append('trainerCareerList['+i+'].trainerCareerTerm',		$('input[name="trainerCareerTerm"]').eq(i).val());
+				formData.append('trainerCareerList['+i+'].trainerCareerCenter',		$('input[name="trainerCareerCenter"]').eq(i).val());
+				formData.append('trainerCareerList['+i+'].trainerCareerPosition',	$('input[name="trainerCareerPosition"]').eq(i).val());
+				formData.append('trainerCareerList['+i+'].trainerCareerWork',		$('input[name="trainerCareerWork"]').eq(i).val());
+				
+				//첨부파일 없다면 담지 않는다
+				if($('input[type="file"]')[i].files[0]){
+					formData.append('trainerCareerList['+i+'].trainerCareerFiles', 	$('input[type="file"]')[i].files[0]);
+				}
+			}
+			
+				//FormData 객체란 단순한 객체가 아니며 XMLHttpRequest 전송을 위하여 설계된 특수한 객체 형태입니다.
+				//그러기에 문자열 화할 수 없는 객체이며 Console.log를 사용하여 확인이 불가능합니다.
+				for (var pair of formData.entries()) {
+					console.log(pair[0]+ ', ' + pair[1]); 
+				}
+
+			$.ajax({
+				 url: '/trainer/addCareer'
+				,type: 'POST'
+				,processData: false
+				,contentType: false
+				,data: formData
+				,success: function(data){
+					console.log(data);
+					if(data) $(location).attr('href','/trainer/addLicense?trainerCd='+trainerCd);
+				}
+			});
+		}
     });
 
 });

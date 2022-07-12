@@ -24,6 +24,7 @@ import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Lesson;
 import ks43team03.dto.Search;
 import ks43team03.dto.Sports;
+import ks43team03.dto.TFile;
 import ks43team03.service.CommonService;
 import ks43team03.service.LessonService;
 import ks43team03.service.SearchService;
@@ -100,17 +101,21 @@ public class LessonController {
 	/**
 	 * 레슨 수정
 	 **/
-	@PostMapping("/modyfyLesson")
+	@PostMapping("/modifyLesson")
 	public String modifyLesson(Lesson lesson
 							   ,Model model
+							   ,TFile tFile
 							   ,@RequestParam(name="fileCd" ,required = false) String fileCd) {
 		Map<String, Object> paramMap = new HashMap<>();
+		
+		log.info("tfile : {}", tFile.getRepresentImg());
+		
 		paramMap.put("fileCd", fileCd);
 		paramMap.put("lesson", lesson);
 		
 		int result = lessonService.modifyLesson(paramMap);
 		model.addAttribute("facilityCd", lesson.getFacilityCd());
-		return "lesson/facilitylessonList";
+		return "/lesson/facilitylessonList";
 	}
 	@GetMapping("/modifyLesson")
 	public String modifyLesson(Model model

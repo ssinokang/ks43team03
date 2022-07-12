@@ -148,16 +148,12 @@
 					</div>
 					<div class="x_content">
 						<br>
-						<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" th:action="@{/lesson/addLesson}" enctype="multipart/form-data" name="multiPart"> <!--  enctype="multipart/form-data" name="mulP" --> 
+						<form id="lesson-form" data-parsley-validate class="form-horizontal form-label-left" method="post" th:action="@{/lesson/modifyLesson}" enctype="multipart/form-data" name="multiPart"> <!--  enctype="multipart/form-data" name="mulP" --> 
 
 							<div class="item form-group">
 								<div class="col-md-6 col-sm-6 ">
 								<!-- 후에 세션으로 받든 수정 할 것 -->
-									<input type="hidden" name="facilityCd" 		id="facilityCd-lesson">
-									<input type="hidden" name="facilityGoodsCd" id="facilityGoodsCd-lesson">
-									<input type="hidden" name="userId" 			id="userId-lesson">
-									<input type="hidden" name="goodsCtgCd" 		id="goodsCtgCd-lesson">
-									<input type="hidden" name="sportsCd"		id="sportsCd-lesson">
+									<input type="hidden" name="lessonCd" th:value = "${lesson.lessonCd}" id="lessonCd">
 								</div>
 							</div>
 							<div class="item form-group">
@@ -173,7 +169,8 @@
 									<ul class="lesson-file-line">
 										<li th:if="${not #lists.isEmpty(lesson.tFile)}" th:each="t : ${lesson.tFile}">>
 											<img th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="..." style="width: 10vw; min-width: 50px;"/>
-											<input type="radio" th:value="${t.fileCd}" name="fileCd">
+											<input type="radio" class="representImgCheck" th:value="${t.fileCd}" name="fileCd">
+											<input type="hidden" th:value="N" class="representImg" name="representImg">
 										</li>
 										<li th:unless="${not #lists.isEmpty(lesson.tFile)}" th:each="t : ${lesson.tFile}">>
 											<p>업로드된 사진 파일이 없습니다.</p>

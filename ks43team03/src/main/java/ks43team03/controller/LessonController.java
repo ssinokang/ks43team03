@@ -105,10 +105,13 @@ public class LessonController {
 	@PostMapping("/modifyLesson")
 	public String modifyLesson(Lesson lesson
 							   ,Model model
-							   ,ArrayList<String> fileCd
-							   ,ArrayList<String> representImg) {
+							   ,String[] fileCd
+							   ,String[] representImg) {
+		
+		
 		Map<String, Object> paramMap = new HashMap<>();
 		
+		System.out.println(fileCd[1]);
 		
 		paramMap.put("fileCd", fileCd);
 		paramMap.put("lesson", lesson);

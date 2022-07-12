@@ -36,7 +36,7 @@ $(function() {
 			} else {
 				$.ajax({
 					type: 'POST',
-					url: '/api/pass',
+					url: '/api/goods',
 					dataType: 'JSON',
 					contentType: 'application/json; charset=utf-8',
 					data: JSON.stringify(data)

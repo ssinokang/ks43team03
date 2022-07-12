@@ -80,18 +80,14 @@
 		SET
 			lesson_division=#{lessonDivision}
 			,facility_goods_cd=#{facilityGoodsCd}
-			,facility_cd=#{facilityCd}
-			,goods_ctg_cd=#{goodsCtgCd}
 			,sports_cd=#{sportsCd}
 			,user_id=#{userId}
-			,sports_nm=#{sportsNm}
-			,lesson_nm=#{lessonNm}
+			,lesson_nm=#{lessonName}
 			,lesson_detail=#{lessonDetail}
 			,lesson_total_member=#{lessonTotalMember}
 			,lesson_start_date=#{lessonStartDate}
 			,lesson_end_date=#{lessonEndDate}
 			,lesson_price=#{lessonPrice}
-			,lesson_reg_date=NOW()
 		WHERE
 			lesson_cd=#{lessonCd}
 	</update>

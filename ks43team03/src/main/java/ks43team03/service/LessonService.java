@@ -1,6 +1,7 @@
 package ks43team03.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.common.FileUtils;
 import ks43team03.dto.Lesson;
+import ks43team03.dto.TFile;
 import ks43team03.mapper.CommonMapper;
 import ks43team03.mapper.FacilityGoodsMapper;
 import ks43team03.mapper.FileMapper;
@@ -124,13 +126,25 @@ public class LessonService {
 		log.info("lesson : {}", paramMap.get("lesson"));
 		
 		
-		/*
-		fileMapper.modifyFile(paramMap.get(paramMap));
-		int result = lessonMapper.modifyLesson((Lesson)paramMap.get("lesson"));
+		String[] fileCdArray		  = (String[])paramMap.get("fileCd");
+		String[] representImgArray = (String[])paramMap.get("representImg");
+		
+		System.out.println(fileCdArray + "fileCd");
+		Lesson lesson = (Lesson)paramMap.get("lesson");
+		
+		for(int i = 0; i < fileCdArray.length; i++) {
+			Map<String, String> fileMap = new HashMap<>();
+			fileMap.put("fileCd", fileCdArray[i]);
+			fileMap.put("representImg", representImgArray[i]);
+			fileMap.put("facilityGoodsCd", lesson.getFacilityGoodsCd());
+			fileMapper.modifyFile(fileMap);
+		}
+		
+		int result = lessonMapper.modifyLesson(lesson);
 		
 		log.info("_______________end   modifyLesson");
 		log.info("___________________________________________________");
-		*/
+		
 		return 0;
 	}
 

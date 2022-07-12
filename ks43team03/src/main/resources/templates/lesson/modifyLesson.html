@@ -152,8 +152,9 @@
 
 							<div class="item form-group">
 								<div class="col-md-6 col-sm-6 ">
-								<!-- 후에 세션으로 받든 수정 할 것 -->
+								
 									<input type="hidden" name="lessonCd" th:value = "${lesson.lessonCd}" id="lessonCd">
+									<input type="hidden" name="facilityGoodsCd" th:value = "${lesson.facilityGoodsCd}">
 								</div>
 							</div>
 							<div class="item form-group">
@@ -167,10 +168,11 @@
 								<div class="col-form-label col-md-3 col-sm-3 label-align" id="lesson-img-label">대표 이미지 변경</div>
 								<div class="col-md-6 col-sm-6 ">
 									<ul class="lesson-file-line">
-										<li th:if="${not #lists.isEmpty(lesson.tFile)}" th:each="t : ${lesson.tFile}">>
+										<li th:if="${not #lists.isEmpty(lesson.tFile)}" th:each="t ,status : ${lesson.tFile}">>
 											<img th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="..." style="width: 10vw; min-width: 50px;"/>
-											<input type="radio" class="representImgCheck" th:value="${t.fileCd}" name="fileCd">
+											<input type="radio" class="representImgCheck" th:value="${status.count}" name="check">
 											<input type="hidden" th:value="N" class="representImg" name="representImg">
+											<input type="hidden" th:value="${t.fileCd}" name="fileCd">
 										</li>
 										<li th:unless="${not #lists.isEmpty(lesson.tFile)}" th:each="t : ${lesson.tFile}">>
 											<p>업로드된 사진 파일이 없습니다.</p>

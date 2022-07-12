@@ -3,11 +3,14 @@ package ks43team03.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -46,6 +49,10 @@ public class LessonOfferController {
 		return "offer/LessonOfferList";
 	}
 	
+	
+	/*
+	 * ajax 셀렉트박스 할때마다 검색
+	 */
 	@GetMapping("/offers/city")
 	public String offers(@RequestParam(name = "areaCd", required = false)String areaCd,
 						 @RequestParam(name = "sportsName", required = false)String sportsName, Model model){
@@ -61,8 +68,30 @@ public class LessonOfferController {
 		return "/offer/LessonOfferList :: #offerList";
 	}
 	
+	/*
+	 * Lesson Offer 등록화면 이동
+	 */
+	@GetMapping("/addOffer")
+	public String addLessonOffer(HttpSession session, Model model) {
+		
+		String level = (String)session.getAttribute("SLEVEL");
+		String userId = (String)session.getAttribute("SID");
+		
+		// 시설조회
+		
+		
+		// 레슨조회
+		
+		return "offer/addOffer";
+	}
+	//addOffer
+	@PostMapping("/addOffer")
+	public String addLessonOffer(LessonOffer lessonOffer) {
+		return "redirect:/";
+	}
 	
-	//== 트레이너 구인 상세 페이지 user ==//
+	
+	//== 트레이너 구인 상세 페이지 user 이동  ==//
 	@GetMapping("/offerDetail")
 	public String offerDetail(@RequestParam(name = "lessonOfferCd")String lessonOfferCd, Model model) {
 		log.info("lessonOfferCd data : {}", lessonOfferCd);

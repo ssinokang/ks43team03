@@ -25,8 +25,8 @@ public class ReviewService {
 	}
 	
 	/*후기 삭제*/
-	public int removeReview(String userId) {
-		int result = reviewMapper.removeReview(userId);
+	public int removeReview(String reviewCd, String userId) {
+		int result = reviewMapper.removeReview(reviewCd, userId);
 		
 		return result;
 	}

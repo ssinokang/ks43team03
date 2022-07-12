@@ -98,6 +98,35 @@
 				}
 			})
 		});
+		 
+		 $(function(){
+				function validationCheck(data1){
+					if(typeof data1 == 'undefined' || data1 == '' || data1 == null){ 
+						return false;
+					}
+					return true;
+				}
+				$('.removeReview').click(function(){
+					var isSubmit = true;
+					var sid = $('input[name="sId"]').val();
+					var userId = $('input[name="userId"]').val();
+					console.log(sid);
+					console.log(userId);
+					
+					if(sid == ''){
+						alert("로그인이 필요합니다.");
+						return false;
+					}else if(sid != userId){
+						alert("본인 후기만 삭제 가능합니다.");
+						return false;
+					}else{
+						alert("후기가 삭제되었습니다.");					
+					}
+				});
+		 });
+		 
+		 
+		 
 	</script>
  
 </th:block>
@@ -337,11 +366,12 @@
 														<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="#CA1515" class="bi bi-trash3" viewBox="0 0 16 16">
 														  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
 														</svg>
-															<th:block th:if="${not #lists.isEmpty(facilityDetail)}" th:each="l:${facilityDetail}">
-																<a th:href="@{review/reviewRemove(userId = ${session.SID},facilityCd = ${l.facilityCd})}">
+																<a class="removeReview" th:href="@{/review/reviewRemove(reviewCd = ${l.reviewCd}, userId = ${session.SID}, facilityCd = ${facilityDetail.facilityCd})}">
+																	<input type="hidden" id="sId" name="sId" th:value="${session.SID}">
+																	<input type="hidden" id="userId" name="userId" th:value="${l.userId}">
 																	삭제
 																</a>
-															</th:block>
+														
 													</li>
 			                                    </ul>
 			                                </div>

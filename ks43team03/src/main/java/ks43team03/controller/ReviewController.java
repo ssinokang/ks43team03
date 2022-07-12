@@ -40,11 +40,13 @@ public class ReviewController {
 	@GetMapping("/reviewRemove")
 	public String removeReview(Review review
 							  ,HttpSession session
+							  ,@RequestParam(name = "reviewCd", required = false) String reviewCd
 							  ,@RequestParam(name = "facilityCd", required = false) String facilityCd) {
 		String sessionId = (String) session.getAttribute("SID");
 		Facility facility = facilityService.getFacilityDetail(facilityCd);
 		log.info("sessionId : {}", sessionId);
-		reviewService.removeReview(sessionId);
+		log.info("reviewCd : {}", reviewCd);
+		reviewService.removeReview(reviewCd, sessionId);
 		
 		return"redirect:/facility/facilityDetail?"+"facilityCd=" +facility.getFacilityCd();
 		

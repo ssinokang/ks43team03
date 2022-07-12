@@ -43,18 +43,19 @@
 		</association>
 	</resultMap> 
 		
-		<delete id="removeReview" parameterType="int">
+		<delete id="removeReview" parameterType="review">
 		/*후기 삭제*/
 			DELETE
-			FROM 
+			FROM
 				review
-			WHERE 
-				user_id= #{userId};
+			WHERE
+				review_cd = #{reviewCd} AND user_id = #{userId};
 		</delete>
 		
 		
 		
 		<select id="reviewInfoById" resultType="Review" resultMap="reviewResultMap">
+		/*후기코드로 후기 조회*/
 			SELECT 
 				review_cd
 				,pay_cd
@@ -66,7 +67,7 @@
 			FROM 
 				review
 			WHERE 
-				user_id = #{userId};
+				review_cd = #{reviewCd};
 		</select>
 		
 		

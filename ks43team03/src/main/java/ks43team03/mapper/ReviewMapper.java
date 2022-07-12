@@ -12,9 +12,9 @@ import ks43team03.dto.Review;
 public interface ReviewMapper {
 	
 	//후기 삭제
-	public int removeReview(String userId);
+	public int removeReview(String reviewCd, String userId);
 	
-	//아이디로 후기 조회
+	//후기코드로 후기 조회
 	public Review reviewinfoById(String userId);
 	
 	//결제한 회원만 리뷰작성(시설별)

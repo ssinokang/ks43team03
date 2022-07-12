@@ -1,5 +1,6 @@
 package ks43team03.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,14 +105,14 @@ public class LessonController {
 	@PostMapping("/modifyLesson")
 	public String modifyLesson(Lesson lesson
 							   ,Model model
-							   ,TFile tFile
-							   ,@RequestParam(name="fileCd" ,required = false) String fileCd) {
+							   ,ArrayList<String> fileCd
+							   ,ArrayList<String> representImg) {
 		Map<String, Object> paramMap = new HashMap<>();
 		
-		log.info("tfile : {}", tFile.getRepresentImg());
 		
 		paramMap.put("fileCd", fileCd);
 		paramMap.put("lesson", lesson);
+		paramMap.put("representImg", representImg);
 		
 		int result = lessonService.modifyLesson(paramMap);
 		model.addAttribute("facilityCd", lesson.getFacilityCd());

@@ -155,8 +155,10 @@ $(function() {
     
     
     $('.representImgCheck').on('click', function() {
-		$('.representImgCheck').parent().children('input[type="hidden"]').val("N");
-		console.log($(this).parent().children('input[type="hidden"]').val("Y"));
+		$('.representImgCheck').parent().children('input[name="representImg"]').val("N");
+		console.log($(this).parent().children('input[name="representImg"]').val("Y"));
+		console.log($(this).parent().children('input[name="representImg"]').val());
+		console.log("작동");
 		console.log($('.representImg').val());
 		console.log($(this).val());
 	});
@@ -201,50 +203,9 @@ $(function() {
     	} else {
     		console.log('submit');
     		console.log($('#lesson-form'));
-    		isSubmit = true;
+    		$('#lesson-form').submit();
     	}
-    	/* 여러 li list 형태로 보내기 formdata */
-		if(isSubmit){
-			var tFile = [];
-			var fileNum = $('.lesson-file-line > li').length;
-			var fileCd = $('.representImgCheck').val();
-			var lessonCd = $('#lessonCd');
-			//FormData : 가상의 <form> 태그
-			//Ajax를 이용하는 파일 업로드는 FormData를 이용
-			var formData = new FormData();
-			
-			for(var i=0; i<fileNum; i++){
-				
-				formData.append('trainerCareerList['+i+'].trainerCd',				trainerCd);
-				formData.append('trainerCareerList['+i+'].trainerCareerTerm',		$('input[name="trainerCareerTerm"]').eq(i).val());
-				formData.append('trainerCareerList['+i+'].trainerCareerCenter',		$('input[name="trainerCareerCenter"]').eq(i).val());
-				formData.append('trainerCareerList['+i+'].trainerCareerPosition',	$('input[name="trainerCareerPosition"]').eq(i).val());
-				formData.append('trainerCareerList['+i+'].trainerCareerWork',		$('input[name="trainerCareerWork"]').eq(i).val());
-				
-				//첨부파일 없다면 담지 않는다
-				if($('input[type="file"]')[i].files[0]){
-					formData.append('trainerCareerList['+i+'].trainerCareerFiles', 	$('input[type="file"]')[i].files[0]);
-				}
-			}
-			
-				//FormData 객체란 단순한 객체가 아니며 XMLHttpRequest 전송을 위하여 설계된 특수한 객체 형태입니다.
-				//그러기에 문자열 화할 수 없는 객체이며 Console.log를 사용하여 확인이 불가능합니다.
-				for (var pair of formData.entries()) {
-					console.log(pair[0]+ ', ' + pair[1]); 
-				}
-
-			$.ajax({
-				 url: '/trainer/addCareer'
-				,type: 'POST'
-				,processData: false
-				,contentType: false
-				,data: formData
-				,success: function(data){
-					console.log(data);
-					if(data) $(location).attr('href','/trainer/addLicense?trainerCd='+trainerCd);
-				}
-			});
-		}
+	
     });
 
 });

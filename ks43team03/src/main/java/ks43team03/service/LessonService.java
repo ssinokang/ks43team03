@@ -122,6 +122,8 @@ public class LessonService {
 		 * 조인 해서 업데이트, 대표 이미지만 컬럼 Y로 바뀌게 할 것 
 		 **/
 		log.info("lesson : {}", paramMap.get("lesson"));
+		
+		
 		/*
 		fileMapper.modifyFile(paramMap.get(paramMap));
 		int result = lessonMapper.modifyLesson((Lesson)paramMap.get("lesson"));

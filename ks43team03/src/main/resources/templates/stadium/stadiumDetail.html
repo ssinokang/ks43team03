@@ -15,6 +15,7 @@
 	<link rel="stylesheet" th:href="@{/resource/css/star.css}" type="text/css">
 	
 	<script>
+		/*시간 연속 선택*/
 		$(function(){
 		    $('input[name="time"]').click(function(){
 		        var time = new Array();
@@ -40,6 +41,41 @@
 		        }
 		    });    
 		});
+		/*시작 시간 종료 시간 값 가져오기*/
+		$(function(){
+			 $('input[name="time"]').click(function(){
+				var timeArry = new Array();
+				$('input[name="time"]').each(function(){
+		            if($(this).is(":checked")){
+		            	timeArry.push($(this).val());		            
+		            }
+		        });
+				   console.log(timeArry);
+				    var sum = 0;
+					var startTime = timeArry[0];
+					var endTime = timeArry[timeArry.length-1];
+						sum += endTime;
+						sum++;
+					$('.startTime').val(startTime);
+					$('.startTime').text(startTime + ':00 - ');
+					$('.endTime').val(sum +':00');
+					$('.endTime').text(sum + ':00');
+			});
+		});
+		
+		
+		/*날짜 선택 값*/
+		$(function(){
+			 $('#reservationDate').change(function(){
+				var date = $('#reservationDate').val();
+				$('.dateCheck').val(date);
+				$('.dateCheck').text(date);
+				var date2 = $('.dateCheck').val();
+				console.log(date);
+				
+			});
+		});
+
 	</script>
 	
 </th:block>
@@ -163,53 +199,53 @@
 								                       </div>
 								                        <div class="row">
 								                           <div class="col-lg-12 col-md-8 col-sm-6">
-								                               	 <span>날짜선택</span><input type="date" class="form-control" name="reservationDate">
+								                               	 <span>날짜선택</span><input type="date"  class="form-control" id="reservationDate">
 								                            </div> 
 								                            
-								                            <div class="col-lg-12 col-md-8 col-sm-6" style="padding-top: 10px;">
+								                            <div class="col-lg-12 col-md-8 col-sm-6" style="padding-top: 10px; overflow-x:scroll;">
 								                            	<span>시간선택</span>
 																<div id="bookingTime" class="btn-group" data-toggle="buttons">
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="9:00" class="join-btn"> &nbsp; 9 &nbsp;
+																		<input type="checkbox" name="time" value="9" class="join-btn"> &nbsp; 9 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="10:00" class="join-btn" style="">&nbsp; 10 &nbsp;
+																		<input type="checkbox" name="time" value="10" class="join-btn" style="">&nbsp; 10 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="11:00" class="join-btn" style="">&nbsp; 11 &nbsp;
+																		<input type="checkbox" name="time" value="11" class="join-btn" style="">&nbsp; 11 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="12:00" class="join-btn" style="">&nbsp; 12 &nbsp;
+																		<input type="checkbox" name="time" value="12" class="join-btn" style="">&nbsp; 12 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="13:00" class="join-btn" style="">&nbsp; 13 &nbsp;
+																		<input type="checkbox" name="time" value="13" class="join-btn" style="">&nbsp; 13 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="14:00" class="join-btn" style="">&nbsp; 14 &nbsp;
+																		<input type="checkbox" name="time" value="14" class="join-btn" style="">&nbsp; 14 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="15:00" class="join-btn" style="">&nbsp; 15 &nbsp;
+																		<input type="checkbox" name="time" value="15" class="join-btn" style="">&nbsp; 15 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="16:00" class="join-btn" style="">&nbsp; 16 &nbsp;
+																		<input type="checkbox" name="time" value="16" class="join-btn" style="">&nbsp; 16 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="17:00" class="join-btn" style="">&nbsp; 17 &nbsp;
+																		<input type="checkbox" name="time" value="17" class="join-btn" style="">&nbsp; 17 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="18:00" class="join-btn" style="">&nbsp; 18 &nbsp;
+																		<input type="checkbox" name="time" value="18" class="join-btn" style="">&nbsp; 18 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="19:00" class="join-btn" style="">&nbsp; 19 &nbsp;
+																		<input type="checkbox" name="time" value="19" class="join-btn" style="">&nbsp; 19 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="20:00" class="join-btn" style="">&nbsp; 20 &nbsp;
+																		<input type="checkbox" name="time" value="20" class="join-btn" style="">&nbsp; 20 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="21:00" class="join-btn" style="">&nbsp; 21 &nbsp;
+																		<input type="checkbox" name="time" value="21" class="join-btn" style="">&nbsp; 21 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="22:00" class="join-btn" style="">&nbsp; 22 &nbsp;
+																		<input type="checkbox" name="time" value="22" class="join-btn" style="">&nbsp; 22 &nbsp;
 																	</label>
 																</div>
 															</div>
@@ -221,15 +257,15 @@
 							                                <div class="checkout__order__product">
 							                                    <ul>
 							                                        <li>
-							                                            <span class="top__text">Product</span>
-							                                            <span class="top__text__right">Total</span>
+							                                            <span class="top__text">예약정보</span>
 							                                        </li>
-							                                        <li>예약날짜 <span>$ 300.0</span></li>
+							                                        <li>예약날짜 <span class="dateCheck">-</span></li>
+							                                        <li>예약시간 <span class="endTime">-</span><span class="startTime"></span></li>
 							                                    </ul>
 							                                </div>
 							                                <div class="checkout__order__total">
 							                                    <ul>
-							                                        <li>Subtotal <span>$ 750.0</span></li>
+							                                        <li>금액 <span>$ 750.0</span></li>
 							                                        <li>Total <span>$ 750.0</span></li>
 							                                    </ul>
 							                                </div>

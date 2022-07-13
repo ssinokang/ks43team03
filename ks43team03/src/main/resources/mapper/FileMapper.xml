@@ -49,7 +49,7 @@
 		INSERT INTO rel_file_with_trainer
 		(
 			trainer_cd
-			,flie_cd
+			,file_cd
 		) VALUES
 		<foreach collection="list" item="item" separator=",">
 			(

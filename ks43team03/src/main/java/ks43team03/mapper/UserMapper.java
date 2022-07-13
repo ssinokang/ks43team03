@@ -14,8 +14,8 @@ public interface UserMapper {
 	//회원 가입
 	public int addUser(User user);
 	
-	//시설 내 회원 목록 조회(페이징)
-	public List<Map<String, Object>> getFacilityUserList(Map<String, Object> paramMap);
+	//시설 내 회원 목록 조회
+	public List<Map<String, Object>> getFacilityUserList(List<String> facilityCdList);
 	
 	//시설 내 user블 총 row(튜플) 수
 	public int getFacilityUserCount(Map<String, Object> paramMap);

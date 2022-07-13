@@ -72,19 +72,22 @@
 											<td th:text="${l.get('facilityApproveId')}"></td>
 											<td th:text="${l.get('facilityApproveDate')}"></td>
 											<td>
-												<button type="button" class="btn btn-info btn-sm">권한변경</button>
 												<th:block th:if="${l.get('facilityApproveState') eq '승인'}">
-													<button type="button" class="btn btn-danger btn-sm">탈퇴</button>
+													<a>
+														<button type="button" class="btn btn-danger btn-sm">탈퇴</button>
+													</a>
 												</th:block>
 												<th:block th:unless="${l.get('facilityApproveState') eq '승인'}">
-													<button type="button" class="btn btn-secondary btn-sm">승인</button>
+													<a>
+														<button type="button" class="btn btn-secondary btn-sm">승인</button>
+													</a>
 												</th:block>
 											</td>
 											<td th:text="${l.get('userEmail')}"></td>
 											<td th:text="${l.get('facilityRegDate')}"></td>
 										</tr>
 										<tr th:unless="${not #lists.isEmpty(facilityUserList)}">
-											<td colspan="11">조회된 내용이 없습니다.</td>
+											<td colspan="12">조회된 내용이 없습니다.</td>
 										</tr>
 									</tbody>
 								</table>

@@ -34,44 +34,9 @@ public class UserService {
 	 * 시설 내 회원 목록
 	 * @return
 	 */
-	public Map<String, Object> getFacilityUserList(int currentPage, List<Object> facilityCdList){
+	public List<Map<String, Object>> getFacilityUserList(List<String> facilityCdList){
 		
-		int rowPerPage = 10;
-		
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		
-		paramMap.put("facilityCdList", facilityCdList);
-		
-		double rowCount = userMapper.getFacilityUserCount(paramMap);
-		log.info("rowCount : {}", rowCount);
-		
-		int lastPage = (int)Math.ceil(rowCount/rowPerPage);
-		
-		int startRow = (currentPage - 1)*rowPerPage;
-		
-		paramMap.put("startRow", startRow);
-		paramMap.put("rowPerPage", rowPerPage);
-		
-		int startPageNum = 1;
-		int endPageNum = 10;
-		
-		if(lastPage > 10) {
-			if(currentPage >= 6) {
-				startPageNum = currentPage - 4;
-				endPageNum = currentPage + 5;
-				
-				if(endPageNum >= lastPage) {
-					startPageNum = lastPage - 9;
-					endPageNum = lastPage;
-				}
-			}
-		}else {
-			endPageNum = lastPage;
-		}
-		
-		log.info("paramMap : {}", paramMap);
-		
-		List<Map<String, Object>> facilityUserList = userMapper.getFacilityUserList(paramMap);
+		List<Map<String, Object>> facilityUserList = userMapper.getFacilityUserList(facilityCdList);
 		
 		if(facilityUserList != null) {
 			for(Map<String, Object> userMap : facilityUserList) {
@@ -85,13 +50,9 @@ public class UserService {
 			}
 		}
 		
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("lastPage", 			lastPage);
-		resultMap.put("facilityUserList",	facilityUserList);
-		resultMap.put("startPageNum",		startPageNum);
-		resultMap.put("endPageNum",			endPageNum);
+		log.info("facilityUserList : {}", facilityUserList);
 		
-		return resultMap;
+		return facilityUserList;
 		
 	}
 	

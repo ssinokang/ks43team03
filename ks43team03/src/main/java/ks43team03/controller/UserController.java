@@ -40,7 +40,6 @@ public class UserController {
 	//시설 내 회원 목록 조회
 	@GetMapping("/facilityUser")
 	public String getFacilityUserList(Model model
-									 ,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage
 									 ,HttpSession session) {
 		
 		String sessionId = (String)session.getAttribute("SID");
@@ -48,28 +47,18 @@ public class UserController {
 		
 		if(sessionId != null && !sessionId.isEmpty()) {
 			
+			//아이디로 시설 검색 후 리스트에 시설 코드 담아준다.
 			List<Facility> adminFacilityListById = adminFacilityService.getAdminFacilityListById(sessionId);
-			
-			List<Object> facilityCdList = new ArrayList<Object>();
-			
+			List<String> facilityCdList = new ArrayList<String>();
 			for(int i=0; i<adminFacilityListById.size(); i++) {
 				log.info("adminFacilityListById.get("+i+") : {}", adminFacilityListById.get(i));
 				facilityCdList.add(adminFacilityListById.get(i).getFacilityCd());
 			}
-			
 			log.info("facilityCdList:{}",facilityCdList);
 			
-			Map<String, Object> resultMap = userService.getFacilityUserList(currentPage, facilityCdList);
 			
-			log.info("resultMap : {}",resultMap);
-			log.info("resultMap.get(\"facilityUserList\") : {}",resultMap.get("facilityUserList"));
-			
-			model.addAttribute("resultMap", 		resultMap);
-			model.addAttribute("currentPage", 		currentPage);
-			model.addAttribute("facilityUserList",	resultMap.get("facilityUserList"));
-			model.addAttribute("lastPage", 			resultMap.get("lastPage"));
-			model.addAttribute("startPageNum", 		resultMap.get("startPageNum"));
-			model.addAttribute("endPageNum", 		resultMap.get("endPageNum"));
+			List<Map<String, Object>> facilityUserList = userService.getFacilityUserList(facilityCdList);
+			model.addAttribute("facilityUserList",	facilityUserList);
 		}
 		
 		model.addAttribute("title", 			"시설 내 회원 목록");

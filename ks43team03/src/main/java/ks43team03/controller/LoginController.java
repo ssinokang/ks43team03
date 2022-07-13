@@ -69,6 +69,15 @@ public class LoginController {
 				session.setAttribute("SID"		, userId);
 				session.setAttribute("SLEVEL"	, user.getUserLevel());
 				session.setAttribute("SNAME"	, user.getUserName());
+				
+				// 이전 destination 불러오기
+				// response.sendRedirect("/");        
+				Object dest = (String)session.getAttribute("dest");
+				log.info("dest : {}", dest);
+				if(dest != null) {
+					// 이전 destination으로 리디렉트
+					return "redirect:"+dest;
+				}
 				return "redirect:/";
 			}
 		}

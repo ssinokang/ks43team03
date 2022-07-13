@@ -102,7 +102,6 @@
 				#{item}
 			</foreach>
 		</where>
-		LIMIT #{startRow}, #{rowPerPage};
 	</select>
 	
 	<select id="getFacilityUserCount" parameterType="map" resultType="int">
@@ -120,18 +119,10 @@
 			ON
 				u.user_id = fu.user_id
 		<where>
-			<foreach item="item" collection="facilityCdList" open="f.facility_cd in (" separator="," close=")">
+			<foreach item="item" collection="list" open="f.facility_cd in (" separator="," close=")">
 				#{item}
 			</foreach>
 		</where>
-	</select>
-	
-	<select id="getUserCount" resultType="int">
-		/*전체 회원 목록 총 튜플 수*/
-		SELECT
-			COUNT(*)
-		FROM
-			user AS u;
 	</select>
 	
 	<update id="modifyUser" parameterType="User">

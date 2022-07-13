@@ -382,7 +382,10 @@
 		   on
 		   tf.file_cd = rfwg.flie_cd
 		WHERE
-			tf.deleted_yn != 'Y') AS lesson_file
+			tf.deleted_yn != 'Y'
+			and
+			tf.represent_img ='Y' OR null
+		ORDER BY tf.represent_img	) AS lesson_file
 		on
 		lesson_file.facility_goods_cd = lesson_sub.facility_goods_cd
 		
@@ -402,10 +405,8 @@
 	   		<if test="searchValue != null and searchValue != '' ">		
 				and lesson_sub.lesson_nm LIKE CONCAT('%', #{searchValue}, '%')
 	   		</if>
-	   		
 	   	</trim>
-   			GROUP BY
-		lesson_sub.facility_goods_cd
+	   	order by lesson_sub.lesson_reg_date desc
 		limit #{startRow}, #{rowPerPage}
 	</select>
 

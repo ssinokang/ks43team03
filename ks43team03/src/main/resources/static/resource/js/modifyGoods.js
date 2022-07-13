@@ -4,7 +4,7 @@ $(function() {
 	var $pass 	  = $('#pass');
 	var $lesson   = $('#lesson');
 	var $goodsCtg = $('#goodsCtg')
-
+	
 	var ctg = new Array();
 	
 	ctg.push($lesson);
@@ -23,58 +23,48 @@ $(function() {
 		},
 
 		save: function () {
-			const data = {
-				facilityCd: $('#facilityCd').val(),
-				userId: $('#user-id').val(),
-				goodsCtgCd: $('#goodsCtg').val(),
-				sportsCd: $('#sportCtg').val()
-			};
+			
+				const data = {
+					facilityCd: $('#facilityCd').val(),
+					userId: $('#user-id').val(),
+					goodsCtgCd: $('#goodsCtg').val(),
+					sportsCd: $('#sportsCtg').val()
+				};
+			
 
 			if (data.facilityCd == null) {
 				alert('입력하지않은 폼이 있습니다.');
 				return false;
 			} else {
-				$.ajax({
-					type: 'POST',
-					url: '/api/goods',
-					dataType: 'JSON',
-					contentType: 'application/json; charset=utf-8',
-					data: JSON.stringify(data)
-				}).done(function (fg) {
+				
 
-					console.log(fg.goodsCtgCd);
+					console.log(data.goodsCtgCd);
 					
-					$('#gscode').val(fg.facilityGoodsCd);
-					if (fg.goodsCtgCd == 'lesson') {
+					if (data.goodsCtgCd == 'lesson') {
 						$lesson.css('display', 'block');
 					}
-					if (fg.goodsCtg == 'pass') {
+					if (data.goodsCtg == 'pass') {
 						$pass.css('display', 'block');
 					}
-					if (fg.goodsCtg == 'stadium') {
+					if (data.goodsCtg == 'stadium') {
 						$stadium.css('display', 'block');
 					}
 					//facilityGoodsCd = fg.facilityGoodsCd;
 					
-					$('#facilityCd-lesson').val(fg.facilityCd);
-					$('#facilityGoodsCd-lesson').val(fg.facilityGoodsCd);
-					$('#goodsCtgCd-lesson').val(fg.goodsCtgCd);
-					$('#userId-lesson').val(fg.userId);
-					$('#sportsCd-lesson').val(fg.sportsCd);
+					$('#facilityCd-lesson').val(data.facilityCd);
+					$('#goodsCtgCd-lesson').val(data.goodsCtgCd);
+					$('#sportsCd-lesson').val(data.sportsCd);
 
-					productData = fg;
-				}).fail(function (error) {
-					alert(JSON.stringify(error));
-				});
+					
+				}
 				
 			}
 	
 		}
 
-	}
 	
-	$lesson.on('click', function () {
-	})
+	
+
 	main.init();
 	
 	$goodsCtg.on('change', function(e) {
@@ -91,13 +81,13 @@ $(function() {
 	$(document).on('click', '#register-goods', function() {
 		if($(this).html() == '등록') {
 			$('#facilityCd').prop('disabled', true);
-			$('#sportCtg').prop('disabled', true);
+			$('#sportsCtg').prop('disabled', true);
 			$('#goodsCtg').prop('disabled', true);
 			
 			$(this).html('취소');
 		} else {
 			$('#facilityCd').prop('disabled', false);
-			$('#sportCtg').prop('disabled', false);
+			$('#sportsCtg').prop('disabled', false);
 			$('#goodsCtg').prop('disabled', false);
 			
 			$(this).html('등록');
@@ -148,7 +138,16 @@ $(function() {
  
         checkFileName(fileName);
     });
-	
+	/**
+	 * 이전 대표 이미지 설정
+	 **/
+	 $imgCheck = $('input[name="check"]');
+	 console.log($imgCheck);
+	 for(var i = 0; i < $imgCheck.length; i ++) {
+	 	if($imgCheck.eq(i).attr("data-representImg") == 'Y') {
+			$imgCheck.eq(i).prop("checked", true);
+		}
+	 }
     /**
      * 대표 이미지 변경
      **/
@@ -182,6 +181,9 @@ $(function() {
     	
     	if($('input:radio[name="lessonDivision"]:checked').val() === '개인' && $('#lessonTotalMember').val() != 1 || $('input:radio[name="lessonDivision"]:checked').val() === '단체' && $('#lessonTotalMember').val() == 1) {
     		alert('개인/단체와 인원수가 맞지 않습니다.');
+    	} else if($('#register-goods').html() != '취소') {
+    		alert('상위 입력창에 등록 버튼을 눌러주세요');
+    		$lessonNm.focus();
     	} else if($lessonNm.val() == null || $lessonNm.val() == '') {
     		alert('레슨 이름을 입력해 주세요');
     		$lessonNm.focus();
@@ -202,7 +204,7 @@ $(function() {
     		$lessonTotalMember.focus();
     	} else {
     		console.log('submit');
-    		console.log($('#lesson-form'));
+    		console.log($('#sportsCd-lesson').val());
     		$('#lesson-form').submit();
     	}
 	

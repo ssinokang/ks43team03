@@ -77,7 +77,7 @@
 								<label for="" class="col-form-label col-md-3 col-sm-3 label-align">종목<span
 										class="required">*</span></label>
 								<div class="col-md-6 col-sm-6">
-									<select class="custom-select" id="sportsCtg" name="sportsCd" th:data-sport="${lesson.sports.sportsCd}">
+									<select class="custom-select" id="sportsCtg"  th:data-sport="${lesson.sports.sportsCd}">
 										<!--*****수정!!!!! db에서 리스트 받아서 뿌리기*****-->
 										<option>:: 시설에서 운영하는 종목을 선택해주세요::</option>
 										<option value="sp01">축구</option>
@@ -129,19 +129,23 @@
 					<div class="x_title">
 						<h2>레슨권 <small>different form elements</small></h2>
 						<ul class="nav navbar-right panel_toolbox">
-							<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+							<li>
+								<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 							</li>
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
 									aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a class="dropdown-item" href="#">Settings 1</a>
+									<li>
+										<a class="dropdown-item" href="#">Settings 1</a>
 									</li>
-									<li><a class="dropdown-item" href="#">Settings 2</a>
+									<li>
+										<a class="dropdown-item" href="#">Settings 2</a>
 									</li>
 								</ul>
 							</li>
-							<li><a class="close-link"><i class="fa fa-close"></i></a>
+							<li>
+								<a class="close-link"><i class="fa fa-close"></i></a>
 							</li>
 						</ul>
 						<div class="clearfix"></div>
@@ -155,6 +159,8 @@
 								
 									<input type="hidden" name="lessonCd" th:value = "${lesson.lessonCd}" id="lessonCd">
 									<input type="hidden" name="facilityGoodsCd" th:value = "${lesson.facilityGoodsCd}">
+									<input type="hidden" name="facilityCd" th:value = "${lesson.facilityCd}">
+									<input type="hidden" name="sportsCd" id="sportsCd-lesson" value="">
 								</div>
 							</div>
 							<div class="item form-group">
@@ -170,7 +176,7 @@
 									<ul class="lesson-file-line">
 										<li th:if="${not #lists.isEmpty(lesson.tFile)}" th:each="t ,status : ${lesson.tFile}">>
 											<img th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="..." style="width: 10vw; min-width: 50px;"/>
-											<input type="radio" class="representImgCheck" th:value="${status.count}" name="check">
+											<input type="radio" class="representImgCheck" th:value="${status.count}" th:data-representImg="${t.representImg}" name="check">
 											<input type="hidden" th:value="N" class="representImg" name="representImg">
 											<input type="hidden" th:value="${t.fileCd}" name="fileCd">
 										</li>

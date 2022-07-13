@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,13 +106,17 @@ public class LessonController {
 	@PostMapping("/modifyLesson")
 	public String modifyLesson(Lesson lesson
 							   ,Model model
+							   ,HttpSession session
 							   ,String[] fileCd
 							   ,String[] representImg) {
 		
+		String userId = (String)session.getAttribute("SID");
+		log.info(userId);
 		
+		lesson.setUserId(userId);
 		Map<String, Object> paramMap = new HashMap<>();
 		
-		System.out.println(fileCd[1]);
+		System.out.println(lesson.getSportsCd());
 		
 		paramMap.put("fileCd", fileCd);
 		paramMap.put("lesson", lesson);
@@ -119,7 +124,7 @@ public class LessonController {
 		
 		int result = lessonService.modifyLesson(paramMap);
 		model.addAttribute("facilityCd", lesson.getFacilityCd());
-		return "/lesson/facilitylessonList";
+		return "redirect:/lesson/facilityLessonList?" + "facilityCd="+ lesson.getFacilityCd();
 	}
 	@GetMapping("/modifyLesson")
 	public String modifyLesson(Model model

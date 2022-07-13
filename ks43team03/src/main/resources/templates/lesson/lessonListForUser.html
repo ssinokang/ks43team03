@@ -62,10 +62,10 @@
 				<div class="col-lg-9 col-md-9">
 					<div class="row">
 						<th:block th:if="${not #lists.isEmpty(lessonList)}" th:each="l : ${lessonList}">
-							<div class="col-lg-4 col-md-6">
-								<th:block  th:if="${not #lists.isEmpty(l.tFile)}" th:each="t : ${l.tFile}">
-									<div class="product__item">
-										<div th:if="${t.representImg == 'Y'}">
+							<th:block  th:if="${not #lists.isEmpty(l.tFile)}" th:each="t : ${l.tFile}">
+								<th:block  th:if="${t.representImg == 'Y'}">
+									<div class="col-lg-4 col-md-6" >
+										<div class="product__item">
 											<div class="product__item__pic set-bg" th:data-setbg="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}"
 													style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
 												<div class="label new">New</div>
@@ -88,36 +88,35 @@
 												<div class="product__price">$ [[${l.lessonPrice}]]</div>
 											</div>
 										</div>
-										
 									</div>
 								</th:block>
-								<th:block th:unless="${not #lists.isEmpty(l.tFile)}" >
-									<div>
-										<div class="product__item__pic set-bg"  th:data-setbg="@{/images/notImage.jfif}"
-											style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
-											<div class="label new">New</div>
-											<ul class="product__hover">
-												<li><a href="img/shop/shop-1.jpg" class="image-popup"><span
-															class="arrow_expand"></span></a></li>
-												<li><a href="#"><span class="icon_heart_alt"></span></a></li>
-												<li><a href="#"><span class="icon_bag_alt"></span></a></li>
-											</ul>
-										</div>
-										
-										<div class="product__item__text">
-											<h6><a th:href="@{/lesson/detailLessonForUser(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></h6>
-											<div class="rating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-											</div>
-											<div class="product__price">$ [[${l.lessonPrice}]]</div>
-										</div>
+							</th:block>
+							<th:block th:unless="${not #lists.isEmpty(l.tFile)}" >
+								<div class="col-lg-4 col-md-6">
+									<div class="product__item__pic set-bg"  th:data-setbg="@{/images/notImage.jfif}"
+										style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
+										<div class="label new">New</div>
+										<ul class="product__hover">
+											<li><a href="img/shop/shop-1.jpg" class="image-popup"><span
+														class="arrow_expand"></span></a></li>
+											<li><a href="#"><span class="icon_heart_alt"></span></a></li>
+											<li><a href="#"><span class="icon_bag_alt"></span></a></li>
+										</ul>
 									</div>
-								</th:block>
-							</div>
+									
+									<div class="product__item__text">
+										<h6><a th:href="@{/lesson/detailLessonForUser(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></h6>
+										<div class="rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</div>
+										<div class="product__price">$ [[${l.lessonPrice}]]</div>
+									</div>
+								</div>
+							</th:block>
 						</th:block>
 						<th:block  th:unless="${not #lists.isEmpty(lessonList)}">
 							<div class="col-lg-4 col-md-6">
@@ -129,16 +128,17 @@
 			</div>
 		</div>
 		
+		
 								
 		<div style="text-align: center;">
 			<a th:href="@{/lesson/lessonListForUser}">[맨처음]</a>
-			<a th:if="${currentPage > 1}" th:href="@{/lesson/lessonListForUser(currentPage=${currentPage - 1})}">[이전]</a>
+			<a th:if="${currentPage > 1}" th:href="@{/lesson/lessonListForUser(currentPage=${currentPage - 1}, searchCtg=LessonSearch)}">[이전]</a>
 			<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">
 				<label th:if="${currentPage eq num}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></label>
-				<a th:unless="${currentPage eq num}" th:href="@{/lesson/lessonListForUser(currentPage=${num})}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></a>
+				<a th:unless="${currentPage eq num}" th:href="@{/lesson/lessonListForUser(currentPage=${num}, searchCtg=LessonSearch)}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></a>
 			</th:block>
-			<a th:if="${currentPage < lastPage}" th:href="@{/lesson/lessonListForUser(currentPage=${currentPage + 1})}">[다음]</a>
-			<a th:href="@{/lesson/lessonListForUser(currentPage=${lastPage})}">[마지막]</a>
+			<a th:if="${currentPage < lastPage}" th:href="@{/lesson/lessonListForUser(currentPage=${currentPage + 1}, searchCtg=LessonSearch)}">[다음]</a>
+			<a th:href="@{/lesson/lessonListForUser(currentPage=${lastPage}, searchCtg=LessonSearch)}">[마지막]</a>
 		</div>
 									
 		

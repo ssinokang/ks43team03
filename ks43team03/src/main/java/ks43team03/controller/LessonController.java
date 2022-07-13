@@ -1,6 +1,5 @@
 package ks43team03.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,14 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.dto.Area;
-import ks43team03.dto.AreaCity;
-import ks43team03.dto.AreaCityTown;
-import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Lesson;
-import ks43team03.dto.Search;
-import ks43team03.dto.Sports;
-import ks43team03.dto.TFile;
 import ks43team03.service.CommonService;
 import ks43team03.service.LessonService;
 import ks43team03.service.SearchService;
@@ -45,12 +38,20 @@ public class LessonController {
 		this.searchService = searchService;
 	}
 	/**
+	 *  레슨 예약 페이지
+	 **/
+	@GetMapping("/lessonReservation")
+	public String lessonReservateion(@RequestParam(name="lessonCd") String lessonCd) {
+		
+		return "lesson/lessonReservation";
+	}
+	/**
 	 *  회원이 보는 레슨 리스트 
 	 **/
 	@GetMapping("/detailLessonForUser")
 	public String detailLessonForUser(@RequestParam(name		  = "lessonCd"
-													,required 	  = false
-													,defaultValue = "error") String lessonCd
+												   ,required 	  = false
+												   ,defaultValue  = "error") String lessonCd
 									 ,Model model) {
 		
 		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
@@ -126,6 +127,7 @@ public class LessonController {
 		model.addAttribute("facilityCd", lesson.getFacilityCd());
 		return "redirect:/lesson/facilityLessonList?" + "facilityCd="+ lesson.getFacilityCd();
 	}
+	
 	@GetMapping("/modifyLesson")
 	public String modifyLesson(Model model
 								,@RequestParam(name="lessonCd") String lessonCd) {

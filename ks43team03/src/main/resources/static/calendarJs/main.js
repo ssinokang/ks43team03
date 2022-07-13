@@ -195,10 +195,10 @@ var calendar = $('#calendar').fullCalendar({
         .addClass("contextOpened")
         .css({
           display: "block",
-          /*
+          
           left: e.pageX,
           top: e.pageY
-          */
+          
         });
       return false;
     });

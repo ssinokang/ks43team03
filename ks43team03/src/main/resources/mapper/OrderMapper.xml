@@ -156,6 +156,43 @@
 			order_cd = #{orderCd};
 	</delete>
 	
+	<!-- 카테고리별 회원 주문리스트 -->
+	<select id="orderInfomationByCategory" parameterType="String" resultMap="orderResultMap">
+			SELECT
+				o.order_cd
+				,o.user_id
+				,o.facility_goods_cd
+				,o.goods_ctg_cd
+				,o.order_price
+				,o.order_uuid_id
+				,o.order_user_point
+				,o.order_used_point
+				,o.order_pay_price
+				,DATE_FORMAT(o.order_reg_date, '%Y-%m-%d') AS order_reg_date
+				,o.order_pay_state
+				,f.facility_nm
+				,f.facility_cd
+			FROM
+				goods_order AS o
+				INNER join
+				facility_goods AS g
+			ON 
+				o.facility_goods_cd = g.facility_goods_cd
+				INNER join
+				facility AS f
+				on
+				g.facility_cd = f.facility_cd
+			<trim prefix="WHERE" prefixOverrides="and || or">
+				<if test="category != null and category != ''">
+					g.goods_ctg_cd <![CDATA[<>]]> #{category}
+				</if>
+				<if test="userId != null and userId != ''">
+					and o.user_id = #{userId}
+				</if>
+			</trim>
+			ORDER BY o.order_reg_date DESC
+	</select>
+	
 	<!-- 하나의 구매내역 order기본키로  조회 -->
 	<select id="getOrderByCode" parameterType="String" resultType="Order" resultMap="orderResultMap">
 		SELECT 
@@ -240,7 +277,7 @@
 			,o.order_user_point
 			,o.order_used_point
 			,o.order_pay_price
-			,o.order_reg_date
+			,DATE_FORMAT(o.order_reg_date, '%Y-%m-%d') AS order_reg_date
 			,o.order_pay_state
 			,f.facility_nm
 			,f.facility_cd
@@ -262,6 +299,7 @@
 			o.user_id = #{userId}
 			AND
 			o.order_del_yn = 'N'
+		ORDER BY o.order_reg_date DESC
 		LIMIT #{startRow}, #{rowPerPage};
 	</select>
 	

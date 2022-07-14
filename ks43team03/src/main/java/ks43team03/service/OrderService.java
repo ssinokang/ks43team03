@@ -2,7 +2,6 @@ package ks43team03.service;
 
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,6 @@ import ks43team03.dto.Order;
 import ks43team03.dto.ResponseGoods;
 import ks43team03.dto.User;
 import ks43team03.dto.type.OrderState;
-import ks43team03.dto.type.PayType;
 import ks43team03.exception.CustomException;
 import ks43team03.exception.ErrorMessage;
 import ks43team03.mapper.OrderMapper;
@@ -44,6 +42,8 @@ public class OrderService {
 	}
 
 
+	
+	
 
 	//주문 하기
 	// toss 결제전에 주문내역을 넣는다.
@@ -66,7 +66,6 @@ public class OrderService {
 			throw new CustomException(ErrorMessage.ORDER_ERROR_ORDER_PRICE);
 		}
 		
-		// 상품정보있는지 없는지 체크 한다.
 		
 		// 예외처리
 		User user;
@@ -76,7 +75,6 @@ public class OrderService {
 			if(user == null) {
 				throw new CustomException(ErrorMessage.USER_ERROR_USER_NOT_FOUND);
 			}else {
-				// 있다면 포인트 내역 조회한다 후 
 				log.info("userName : {} , " , user.getUserName());
 				
 				//포인트 테이블 포인트 차감 하고 저장한다.
@@ -218,6 +216,18 @@ public class OrderService {
 		orderMapper.removeOrderByOrderUUID(orderUUID);
 	}
 	
+	
+	public List<Order> orderInfomationByCategory(String category, String userId) {
+		
+		if("main".equals(category)) {
+			category = "";
+		}else if("reserve".equals(category)) {
+			category = "pass";
+		}
+		List<Order> orderList = orderMapper.orderInfomationByCategory(category, userId);
+		
+		return orderList;
+	}
 	
 	/**
 	 * 관리자 주문리스트 

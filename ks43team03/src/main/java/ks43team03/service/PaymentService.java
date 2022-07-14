@@ -1,11 +1,14 @@
 package ks43team03.service;
 
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +17,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -53,7 +58,7 @@ public class PaymentService {
 //	새로운 에러 코드 추가
 //	새로운 웹훅 이벤트 추가
 	
-	//@Value("${test.client.api.key}")
+	@Value("${test.client.api.key}")
 	private String testClientApiKey;
 	
 	//@Value("${success.call.back.url}")
@@ -64,7 +69,7 @@ public class PaymentService {
 	
 	
 	 // TEST_SECRTE_KEY 노출 x
-	//@Value("${test.secret.api.key}")
+	@Value("${test.secret.api.key}")
     private String SECRET_KEY;
 	
 	private final OrderMapper orderMapper;
@@ -74,7 +79,6 @@ public class PaymentService {
 		this.orderMapper = orderMapper;
 		this.payMapper = payMapper;
 	}
-	
 	
 	
 	

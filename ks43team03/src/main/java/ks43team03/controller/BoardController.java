@@ -1,12 +1,9 @@
 package ks43team03.controller;
 
-import java.io.FileInputStream;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ks43team03.dto.Board;
 import ks43team03.dto.BoardComment;
 import ks43team03.dto.BoardCtgCd;
-import ks43team03.dto.TFile;
 import ks43team03.service.BoardService;
 
 @Controller
@@ -62,7 +58,7 @@ public class BoardController {
 	}
 	
 	/* 게시글 코드로 상세 조회 */
-	/* 게시물 답글 조회 */
+	/* 게시물 답글 조회  */
 	@GetMapping("/boardDetail")
 	public String getBoardDetail(Model model 
 								,@RequestParam(value = "boardPostCd", required = false) String boardPostCd
@@ -78,7 +74,7 @@ public class BoardController {
 		model.addAttribute("boardCommentList",	boardCommentList);
 		
 		log.info("boardPostcd : {}", boardPostCd);
-		log.info("boardDetail : {}", board);
+		log.info("board : {}", board);
 		log.info("boardCommentList : {}", boardCommentList);
 		
 		Map<String, Object> resultMap =  boardService.getBoardList(currentPage);
@@ -89,12 +85,11 @@ public class BoardController {
 		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
 		
-		log.info("tfile : {}", board.getTFile());
-		
 		System.out.println("------------------------게시글 상세조회 끝-----------------------------");
 		return "board/boardDetail";
 	}
 	
+	/*
 	@GetMapping("/download")
 	public void download(HttpServletResponse response
 						,@RequestParam MultipartFile[] boardImgFile
@@ -124,6 +119,7 @@ public class BoardController {
 		  throw new RuntimeException("file Save Error");
 		}
 	}
+	*/
 	
 	/* 게시글 등록 처리 */
 	@PostMapping("/addBoard")
@@ -147,7 +143,7 @@ public class BoardController {
 			//배포용 주소
 			fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
 		}
-		      
+		
 		String boardPostCd = boardService.addBoard(board, boardImgFile, fileRealPath);
 		log.info("boardPostCd : {}", boardPostCd);
 		

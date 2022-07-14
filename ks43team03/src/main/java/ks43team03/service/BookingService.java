@@ -22,8 +22,15 @@ public class BookingService {
 		this.bookingMapper = bookingMapper;
 	}
 	
+	public int addBooking(BookingDto booking) {
+		int  addBooking = bookingMapper.addBooking(booking);
+		return addBooking;
+	}
+	
+	/*시설 내 상품 코드로 예약조회*/
 	public List<BookingDto> getbookingListByCd(String facilityGoodsCd){
 		List<BookingDto> bookingListByCd = bookingMapper.getbookingListByCd(facilityGoodsCd);
+		log.info("bookingListByCd : {} ", bookingListByCd);
 		
 		return bookingListByCd;	
 	}

@@ -19,7 +19,7 @@
 		<result column="booking_reg_date" 		property="bookingRegDate"/>
 	</resultMap>
 	
-	<insert id="addbooking" parameterType="BookingDto">
+	<insert id="addBooking" parameterType="BookingDto">
 		<selectKey keyProperty="bookingCd" resultType="String" order="BEFORE">
 			 select
 				case

@@ -22,6 +22,7 @@ import ks43team03.dto.Review;
 import ks43team03.dto.Sports;
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;
+import ks43team03.service.BookingService;
 import ks43team03.service.ReviewService;
 import ks43team03.service.StadiumService;
 
@@ -33,10 +34,12 @@ public class StadiumController {
 	
 	private final StadiumService stadiumService;
 	private final ReviewService reviewService;
+	private final BookingService bookingService;
 	
-	public StadiumController(StadiumService stadiumService, ReviewService reviewService) {
+	public StadiumController(StadiumService stadiumService, ReviewService reviewService, BookingService bookingService) {
 		this.stadiumService = stadiumService;
 		this.reviewService = reviewService;
+		this.bookingService = bookingService;
 	}
 	
 

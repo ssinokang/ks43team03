@@ -56,24 +56,57 @@
 					var endTime = timeArry[timeArry.length-1];
 						sum += endTime;
 						sum++;
-					$('.startTime').val(startTime);
+					var total =  (sum - startTime);
+					var price = $('.price').text();
+					$('.totalTime').text('(' + total +'시간)');				
+					$('#bookingStartTime').val(startTime +':00');
 					$('.startTime').text(startTime + ':00 - ');
-					$('.endTime').val(sum +':00');
+					$('#bookingEndTime').val(sum +':00');
 					$('.endTime').text(sum + ':00');
+					$('#totlaPrice').text(total*price);
+					$('#bookingPrice').val(total*price);
+					console.log($('#bookingPrice').val(total*price));
+				
 			});
 		});
-		
 		
 		/*날짜 선택 값*/
 		$(function(){
 			 $('#reservationDate').change(function(){
 				var date = $('#reservationDate').val();
-				$('.dateCheck').val(date);
+				$('#bookingDate').val(date);
 				$('.dateCheck').text(date);
-				var date2 = $('.dateCheck').val();
-				console.log(date);
-				
+
 			});
+		});
+		
+	$(function(){
+			
+			function validationCheck(data){
+				if(typeof data == 'undefined' || data == '' || data == null){
+					return false;
+				}
+				return true;
+			}
+			/* 시설 등록시 유효성 검사 */
+			$('#bookingBtn').click(function(){
+				var isSubmit = true;
+				var id = $("#userId").val();
+				var bdate = $("#bookingDate").val();
+				var btime = $("#bookingStartTime").val();
+				
+				if(id == ''){
+					alert("로그인 후 이용가능합니다.");
+					return false;
+				}else if(bdate == ''){
+					alert("날짜를 선택해주세요.");
+					return false;
+				}else if(btime == ''){
+					alert("시간을 선택해주세요.");		
+					return false;
+				}
+			});
+			if(isSubmit) $('#stadiumForm').submit();
 		});
 
 	</script>
@@ -178,7 +211,7 @@
 	                            <div class="tab-pane active" id="tabs-1" role="tabpanel">	           
 	                                <section class="checkout spad" style="padding-top: 20px;">
 								        <div class="container">
-								            <form action="#" class="checkout__form">
+								            <form id="stadiumForm" th:action="@{/booking/addBooking}" method="post" class="checkout__form">
 								                <div class="row">
 								                    <div class="col-lg-8" style="padding-bottom: 25px;">
 								                        <h5>구장정보</h5>
@@ -255,28 +288,43 @@
 							                            <div class="checkout__order">
 							                                <h5>Your order</h5>
 							                                <div class="checkout__order__product">
+							         
 							                                    <ul>
 							                                        <li>
 							                                            <span class="top__text">예약정보</span>
+							                                            <input type="hidden" id="facilityCd" name="facilityCd" th:value="${l.facilityCd}">
+							                                            <input type="hidden" id="facilityGoodsCd" name="facilityGoodsCd" th:value="${l.facilityGoodsCd}">
+							                                            <input type="hidden" id="userId" name="userId" th:value="${session.SID}">
+							                                            <input type="hidden" id="goodsCtgCd" name="goodsCtgCd" value="stadium">
+							                                            
 							                                        </li>
-							                                        <li>예약날짜 <span class="dateCheck">-</span></li>
-							                                        <li>예약시간 <span class="endTime">-</span><span class="startTime"></span></li>
+							                                        <li>
+							                                        	예약날짜 
+							                                        	<span class="dateCheck">-</span>
+							                                        	<input type="hidden" id="bookingDate" name="bookingDate">	
+							                                        </li>
+							                                        <li>
+							                                        	예약시간
+							                                        	<span class="totalTime"></span>
+							                                        	<span class="endTime">-</span>
+							                                        	<input type="hidden" id="bookingEndTime" name="bookingEndTime">
+							                                        	<span class="startTime"></span>
+							                                        	<input type="hidden" id="bookingStartTime" name="bookingStartTime">
+							                                        </li>
 							                                    </ul>
 							                                </div>
 							                                <div class="checkout__order__total">
 							                                    <ul>
-							                                        <li>금액 <span>$ 750.0</span></li>
-							                                        <li>Total <span>$ 750.0</span></li>
+							                                        <li>시간 당 금액 
+							                                        	<span class="price" th:text="${l.stadiumPrice.dayPrice}"></span></li>
+							                                        <li>
+							                                        	총 금액
+							                                        	<span id="totlaPrice"></span>
+							                                        	<input type="hidden" id="bookingPrice" name="bookingPrice">
+							                                        </li>
 							                                    </ul>
 							                                </div>
-							                                <div class="checkout__order__widget">
-							                                    <label for="o-acc">
-							                                        Create an acount?
-							                                        <input type="checkbox" id="o-acc">
-							                                        <span class="checkmark"></span>
-							                                    </label>
-							                                </div>
-							                                <button type="submit" class="site-btn">예약하기</button>
+							                                <button type="submit" class="site-btn" id="bookingBtn">예약하기</button>
 							                            </div>
 							                        </div>
 								                </div>

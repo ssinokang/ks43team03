@@ -34,7 +34,8 @@ public class ReviewService {
 	/*아이디별 후기상세정보*/
 	public Review reviewInfoById(String userId) {
 		Review review = reviewMapper.reviewinfoById(userId);
-		
+		log.info("review : {} ", review);
+
 		return review;
 	}
 	
@@ -47,7 +48,7 @@ public class ReviewService {
 	/*상품코드별 후기 조회*/
 	public List<Review> getReviewListByCd(String facilityGoodsCd){
 		List<Review> reviewListByCd = reviewMapper.getReviewListByCd(facilityGoodsCd);
-		
+		log.info("reviewListByCd : {} ", reviewListByCd);
 		return reviewListByCd;
 	}
 	
@@ -64,7 +65,7 @@ public class ReviewService {
 	public List<Review> getAdminReviewListById(String userId){
 		
 		List<Review> adminReviewListById = reviewMapper.getAdminReviewListById(userId);
-		
+		log.info("adminReviewListById : {} ", adminReviewListById);
 		return adminReviewListById;
 	}
 	

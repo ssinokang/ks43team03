@@ -131,7 +131,7 @@
 	
 	
 	<select id="getStadiumInfoByCd" parameterType="String" resultMap="stadiumResultMap">
-	/*상품코드로 구장 조회*/
+	/*구장코드로 구장 조회*/
 		SELECT 
 			fs.facility_stadium_cd
 			,fs.facility_goods_cd

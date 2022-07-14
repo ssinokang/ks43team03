@@ -30,8 +30,8 @@
 				end
 			FROM
 				booking AS b
-			</selectKey>
-		INSERT INTO review
+		</selectKey>
+		INSERT INTO booking
 			(booking_cd
 			,facility_cd
 			,facility_goods_cd
@@ -42,7 +42,7 @@
 			,booking_end_time
 			,booking_state
 			,booking_price
-			,review_reg_date
+			,booking_reg_date
 			) VALUES (
 				#{bookingCd}
 				,#{facilityCd}

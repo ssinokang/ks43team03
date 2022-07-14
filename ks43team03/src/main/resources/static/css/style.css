@@ -478,7 +478,11 @@ ol {
 	position: relative;
 }
 
-.header__right__widget i {
+.header__right__widget li i {
+	color: #111111;
+}
+
+.header__right__widget li:hover i {
 	color: #ca1515;
 }
 

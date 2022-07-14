@@ -1,5 +1,7 @@
 package ks43team03.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ks43team03.dto.Facility;
 import ks43team03.dto.User;
+import ks43team03.service.AdminFacilityService;
 import ks43team03.service.UserService;
 
 
@@ -26,29 +30,37 @@ public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
 	private final UserService userService; 
-
-	public UserController(UserService userService) {
-		this.userService = userService;
+	private final AdminFacilityService adminFacilityService; 
+	
+	public UserController(UserService userService, AdminFacilityService adminFacilityService) {
+		this.userService			=	userService;
+		this.adminFacilityService	=	adminFacilityService;
 	}
 	
 	//시설 내 회원 목록 조회
 	@GetMapping("/facilityUser")
 	public String getFacilityUserList(Model model
-									 ,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
+									 ,HttpSession session) {
 		
-		String facilityCd = "ss_35011740_01";
+		String sessionId = (String)session.getAttribute("SID");
+		log.info("시설조회 아이디 : {}", sessionId);
 		
-		Map<String, Object> resultMap = userService.getFacilityUserList(currentPage, facilityCd);
+		if(sessionId != null && !sessionId.isEmpty()) {
+			
+			//아이디로 시설 검색 후 리스트에 시설 코드 담아준다.
+			List<Facility> adminFacilityListById = adminFacilityService.getAdminFacilityListById(sessionId);
+			List<String> facilityCdList = new ArrayList<String>();
+			for(int i=0; i<adminFacilityListById.size(); i++) {
+				log.info("adminFacilityListById.get("+i+") : {}", adminFacilityListById.get(i));
+				facilityCdList.add(adminFacilityListById.get(i).getFacilityCd());
+			}
+			log.info("facilityCdList:{}",facilityCdList);
+			
+			
+			List<Map<String, Object>> facilityUserList = userService.getFacilityUserList(facilityCdList);
+			model.addAttribute("facilityUserList",	facilityUserList);
+		}
 		
-		log.info("resultMap : {}",resultMap);
-		log.info("resultMap.get(\"facilityUserList\") : {}",resultMap.get("facilityUserList"));
-		
-		model.addAttribute("resultMap", 		resultMap);
-		model.addAttribute("currentPage", 		currentPage);
-		model.addAttribute("facilityUserList",	resultMap.get("facilityUserList"));
-		model.addAttribute("lastPage", 			resultMap.get("lastPage"));
-		model.addAttribute("startPageNum", 		resultMap.get("startPageNum"));
-		model.addAttribute("endPageNum", 		resultMap.get("endPageNum"));
 		model.addAttribute("title", 			"시설 내 회원 목록");
 		
 		return "user/facilityUser";

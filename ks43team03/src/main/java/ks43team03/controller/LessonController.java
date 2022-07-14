@@ -38,6 +38,7 @@ public class LessonController {
 	private final LessonService lessonService;
 	private final CommonService commonService;
 	private final SearchService searchService;
+	
 	public LessonController(LessonService lessonService, CommonService commonService, SearchService searchService) {
 		this.lessonService = lessonService;
 		this.commonService = commonService;

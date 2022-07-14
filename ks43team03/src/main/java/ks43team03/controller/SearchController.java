@@ -50,12 +50,7 @@ public class SearchController {
 		searchMap.put("areaCd"		, areaCd);
 		searchMap.put("sportsCd"	, sportsCd);
 
-		Map<String, Object> searchStrategy = new HashMap<>();
 		SearchStrategyName searchName = SearchStrategyName.valueOf(searchCtg);
-		
-		Search search = new Search(searchStrategy);
-		search.setSearchValue(sv);
-		
 		
 		log.info("searchMap : {}", searchMap);
 		searchMap.put("searchValue", sv);

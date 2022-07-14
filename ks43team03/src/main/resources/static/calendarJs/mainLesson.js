@@ -97,7 +97,7 @@ var calendar = $('#calendar').fullCalendar({
       container: 'body'
     });
 
-    return filtering(event);
+    return true;
 
   },
 
@@ -105,14 +105,17 @@ var calendar = $('#calendar').fullCalendar({
    *  일정 받아옴 
    * ************** */
   events: function (start, end, timezone, callback) {
+	  const data = {
+		lessonCd  : $('#lessonCd').val(),
+        startDate : moment(start).format('YYYY-MM-DD'),
+        endDate   : moment(end).format('YYYY-MM-DD')
+      };
     $.ajax({
-      type: "get",
-      url: "data.json",
-      data: {
-        // 화면이 바뀌면 Date 객체인 start, end 가 들어옴
-        //startDate : moment(start).format('YYYY-MM-DD'),
-        //endDate   : moment(end).format('YYYY-MM-DD')
-      },
+      type: "POST",
+      url: "/lesson/lessonReservationData",
+      dataType: 'JSON',
+	  contentType: 'application/json; charset=utf-8',
+      data: JSON.stringify(data),
       success: function (response) {
         var fixedDate = response.map(function (array) {
           if (array.allDay && array.start !== array.end) {

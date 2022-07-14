@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.common.FileUtils;
 import ks43team03.dto.Lesson;
+import ks43team03.dto.LessonReservatioin;
 import ks43team03.dto.TFile;
 import ks43team03.mapper.CommonMapper;
 import ks43team03.mapper.FacilityGoodsMapper;
@@ -146,6 +147,11 @@ public class LessonService {
 		log.info("___________________________________________________");
 		
 		return 0;
+	}
+	/*레슨 예약 목록 가져오기*/
+	public List<LessonReservatioin> getLessonReservation(Map<String, String> lessonDate) {
+		lessonMapper.getLessonReservation(lessonDate);
+		return null;
 	}
 
 }

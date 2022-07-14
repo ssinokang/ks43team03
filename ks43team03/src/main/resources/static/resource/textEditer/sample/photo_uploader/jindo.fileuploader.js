@@ -211,6 +211,9 @@ jindo.UIComponent = jindo.$Class({
         return this;
     }
 }).extend(jindo.Component);
+/*
+ * fileUploader Class
+ * */
 jindo.FileUploader = jindo.$Class({
     _bIsActivating: false,
     _aHiddenInput: [],

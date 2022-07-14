@@ -1,7 +1,6 @@
 package ks43team03.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,10 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ks43team03.dto.Area;
+import ks43team03.dto.Facility;
+import ks43team03.dto.Lesson;
 import ks43team03.dto.LessonOffer;
 import ks43team03.dto.Sports;
+import ks43team03.service.AdminFacilityService;
 import ks43team03.service.CommonService;
 import ks43team03.service.LessonOfferService;
 
@@ -26,12 +29,16 @@ public class LessonOfferController {
 	
 	private final LessonOfferService offerService;
 	private final CommonService commonService;
+	private final AdminFacilityService adminFacilityService;
 	
 	private static final Logger log = LoggerFactory.getLogger(LessonOfferController.class);
-
-	public LessonOfferController(LessonOfferService offerService, CommonService commonService) {
+	
+	
+	public LessonOfferController(LessonOfferService offerService, CommonService commonService,AdminFacilityService adminFacilityService) {
 		this.offerService = offerService;
 		this.commonService = commonService;
+		this.adminFacilityService = adminFacilityService;
+		
 	}
 	
 	
@@ -78,17 +85,34 @@ public class LessonOfferController {
 		String userId = (String)session.getAttribute("SID");
 		
 		// 시설조회
+		List<Facility> facilityList = adminFacilityService.getAdminFacilityListById(userId);
 		
+		//if(facilityList.isEmpty()) return "redirect:/admin";
 		
-		// 레슨조회
+		model.addAttribute("facility", facilityList);
 		
 		return "offer/addOffer";
 	}
 	//addOffer
 	@PostMapping("/addOffer")
-	public String addLessonOffer(LessonOffer lessonOffer) {
-		return "redirect:/";
+	public boolean addLessonOffer(LessonOffer lessonOffer) {
+		
+		offerService.addLessonOffer(lessonOffer);
+		return false;
 	}
+	
+	@GetMapping("/lessonSelect")
+	@ResponseBody
+	public List<Lesson> getLessonByFacilityCd(@RequestParam(name = "facilityCd") String facilityCd) {
+		
+		log.info("화면에서 받은 lesson data : {}", facilityCd);
+		
+		
+		List<Lesson> lessonList = offerService.getLessonByFacilityCd(facilityCd);
+		log.info("lessonList data : {}", lessonList);
+		return lessonList;
+	}
+	
 	
 	
 	//== 트레이너 구인 상세 페이지 user 이동  ==//

@@ -106,7 +106,7 @@
 
 		<div class="row">
 			<div class="col-md-12 col-sm-12">
-				<form>
+				<form method="post" id="offer-form">
 					<input type="hidden" th:value="${session.SID}">
 
 					<!--/* 시설을 관리자가 포함된 시설정보Select Box. */-->
@@ -122,21 +122,24 @@
 											<div class="row">
 												<div class="col-md-3 col-sm-3">
 													시설을 선택해주세요
-													<select class="form-control">
-														<option>ㅁㄴㅇㄹ</option>
+													<select class="form-control" name="facility">
+														
+														<th:block th:if="${not #lists.isEmpty(facility)}">
+															<option value="none">::시설을 선택해주세요::</option>
+															<th:block  th:each="facility : ${facility}">
+																<option th:value="${facility.facilityCd}">[[${facility.facilityNm}]]</option>
+															</th:block>
+														</th:block>
+														<th:block th:unless="${not #lists.isEmpty(facility)}">
+															<option>회원님이 등록하신 시설이 없습니다.</option>
+														</th:block>
 													</select>
 												</div>
-												<div class="col-md-3 col-sm-3">
-													레슨을 선택해주세요
-													<select class="form-control">
-														<option>ㅁㄴㅇㄹ</option>
-													</select>
+												<div class="col-md-3 col-sm-3" id="lesson">
+													<span>레슨을 선택해주세요</span>
 												</div>
-												<div class="col-md-3 col-sm-3">
-													종목 선택해주세요
-													<select class="form-control">
-														<option>ㅁㄴㅇㄹ</option>
-													</select>
+												<div class="col-md-3 col-sm-3" id="sports">
+													<span>종목</span>
 												</div>
 											</div>
 										</div>
@@ -144,8 +147,8 @@
 
 										<div class="col-sm-4 col-md-4">
 											<div class="form-group offset-7">
-												<button type="submit" class="btn btn-primary">Submit</button>
-												<button type="reset" class="btn btn-success">Reset</button>
+												<button id="register-btn" type="button" class="btn btn-primary">등록하기</button>
+												<button id="back-btn" type="button" class="btn btn-success">뒤로가기</button>
 											</div>
 										</div>
 									</div>
@@ -173,7 +176,16 @@
 								</div>
 								<div class="dates"></div>
 							</div>
-							<input type="text" id="period_1"> ~ <input type="text" id="period_2">
+							<div class="form-group"></div>
+							<div class="col-sm-6 col-md-6">
+								<input class="form-control" name="endDate" type="text" id="period_1">
+							</div>
+							<div class="col-sm-6 col-md-6">
+								<select class="form-control" name="offerState">
+									<option value="모집중">모집중</option>
+									<option value="모집마감">모집마감</option>
+								</select>
+							</div>
 						</div>
 					</div>
 					<div class="row form-group">
@@ -243,9 +255,133 @@
 
 		$(document).ready(function () {
 			smartEditor();
-			readyCalender();
+			readyCalender(); // 캘린더
+			readyAjax(); // Lesson ajax 
+			 // sports
 		});
+		
+		
+		/*
+			시설별 레슨종류 ajax ready
+		*/
+		
+		let lessonSelect;
+		
+		const sports = $('#sports');
+		function readyAjax(){
+			
+			const lesson = $('#lesson');
+			
+			
+			
+			lesson.css('display','none');
+			sports.css('display','none');
+			
+			const facility = $('select[name="facility"]')
+			
+			
+			
+			facility.on('change',function(){
+				
+				
+				
+				
+				const optionValue = facility.val()
+				const sportsList = [];
+				const spanLesson = $('#lesson span');
+ 				const spanSports = $('#sports span');
+ 				spanLesson.css('display', 'none');
+				spanSports.css('display', 'none');
+				if("none" == optionValue){
+					alert('시설을 선택해주세요');
+					return;
+				}
+				
+				$('select[name="lesson"]').remove();
+				
+				
+				$.ajax({
+					type : 'GET',
+					url: '/offer/lessonSelect',
+					contentType: 'application/json; charset=utf-8',
+					dataType: 'JSON',
+					data : {
+						facilityCd : optionValue
+					}
+				}).done(function(data){
+					if(typeof 'undefinded'==data || data == null || data == ''){
+						alert('등록하신 레슨정보가 없습니다.');
+						return;
+					}else{
+						let html = `<select class="form-control" name="lesson">`;
+							
+						let datas = '';
+						for(let i = 0; i < data.length; i++){
+							let sportsObj = new Object();
+							datas += '<option value=' + data[i].lessonCd +'>'+data[i].lessonName + '</option>';
+							sportsObj.sports = data[i].sports.sportsName;
+							sportsObj.lessonName = data[i].lessonName;
+							sportsObj.lessonCd= data[i].lessonCd;
+							sportsList.push(sportsObj);
+						}
+						
+						
+						lesson.append(html + datas);
+						lesson.append(`</select>`);
+						
+					
+						
+						
+						lessonSelect = $('#lesson select[name="lesson"]');
+						
+						
+						let sportsHTML = '';
+						
+						sportsHTML= `<input class="form-control" type="text" value=${data[0].sports.sportsName}>`;
+						sports.append(sportsHTML);
+					
+						
+						//readyLesson(lessonList,sportsList);
+						lesson.css('display','block');
+						spanLesson.css('display','block');
+						sports.css('display','block');
+						spanSports.css('display','block');
+						lessonOn(sportsList);
+					}
+					
+				}).fail(function(error){
+										
+				});
 
+			});
+			
+		}
+		
+		
+		function lessonOn(val){
+			lessonSelect.on('change',function(){
+				val.find(data => data.name === $(this).val());
+			})
+		}
+		
+		/*
+		
+			<input class="form-control" type="text" >
+			
+			lesson Ready
+		*/
+		
+		
+		
+		
+	
+		
+		
+		
+		
+	/*
+		Calendar
+	*/
 		let calDate = new Date();
 		let today = new Date();
 		let check = 0;
@@ -318,19 +454,30 @@
 				$("#date_" + date).css("color", "white");
 
 				$("#period_1").val(year + "-" + month + "-" + date);
-				$("#period_2").val("");
+				//$("#period_2").val("");
 				check = date;
-			} else {
-				$("#date_" + date).css("background-color", "red");
-				$("#date_" + date).css("color", "white");
-				for (let i = check + 1; i < date; i++) {
-					$("#date_" + i).css("background-color", "#FFDDDD");
-				}
-
-				$("#period_2").val(year + "-" + month + "-" + date);
-				check = 0;
 			}
+			check = 0;
 		}
+		
+		
+		/*
+			Form Data
+			@author chanbokW	
+		*/
+		const offerForm = $('#offer-form');
+		
+		
+		const registerBtn = $('#register-btn');
+		
+		
+		registerBtn.on('click', function(){
+			console.log({offerForm});
+			
+			
+		});
+		
+		
 	</script>
 </th:block>
 

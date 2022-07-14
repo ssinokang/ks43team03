@@ -2,10 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org"
  	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/adminDefault}">
-	  	<!-- 사용자 정의 title -->
+	<!-- 사용자 정의 title -->
 	<th:block layout:fragment="customTitle">
 		<title th:text="${title}"></title>
 	</th:block>	 
+	<th:block layout:fragment="customCss">
+		<style>
+			.pagination {
+				float: right;	
+			}
+		</style>
+	</th:block>	
 	
 	<!-- 사용자 정의 contents -->
 	<th:block layout:fragment="customContents">
@@ -27,12 +34,12 @@
 			</div>
 			<div class="x_content">			
 				<div class="row">
-					<div class="col-sm-12 text-center"> <!-- text-center 텍스트 중앙정렬 -->
+					<div class="col-sm-12"> 
 						<div class="card-box table-responsive">
-							<p class="text-muted font-13 m-b-30">
+							<p class="text-muted font-13 m-b-30 text-center"> <!-- text-center 텍스트 중앙정렬 -->
 								회원의 로그인 기록을 볼 수 있습니다.
 							</p>
-							<table id="datatable" class="table jambo_table bulk_action table-bordered" style="width:100%">
+							<table id="datatable" class="table jambo_table bulk_action table-bordered dt-responsive nowrap" cellspacing="0" style="width:100%">
 								<thead>
 									<tr>
 										<th>번호</th>
@@ -52,20 +59,6 @@
 										<td colspan="4">조회된 내용이 없습니다.</td>
 									</tr>
 								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="4" style="text-align: center;">
-											<a th:href="@{/loginHistory}">[맨처음]</a>
-											<a th:if="${currentPage > 1}" th:href="@{/loginHistory(currentPage=${currentPage - 1})}">이전</a>
-											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">
-												<label th:if="${currentPage eq num}" th:text="${(num<10) ? '[0' + num +']' : '[' + num +']'}"></label>
-												<a th:unless="${currentPage eq num}" th:href="@{/loginHistory(currentPage=${num})}" th:text="${(num < 10) ? '[0' + num + ']' :'[' + num + ']'}"></a>
-											</th:block>
-											<a th:if="${currentPage < lastPage}" th:href="@{/loginHistory(currentPage=${currentPage + 1})}">다음</a>
-											<a th:href="@{/loginHistory(currentPage=${lastPage})}">[마지막]</a>
-										</td>
-									</tr>
-								</tfoot>
 							</table>
 						</div>
 					</div>

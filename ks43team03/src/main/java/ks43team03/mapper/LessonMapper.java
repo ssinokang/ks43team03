@@ -29,7 +29,6 @@ public interface LessonMapper {
 	public int modifyLesson(Lesson lesson);
 	//레슨 목록을 위한 개수 구하기
 	public int getLessonCount();
-	
 	//레슨 예약 목록 가져오기
 	public List<LessonReservatioin> getLessonReservation(Map<String, String> lessonDate);
 

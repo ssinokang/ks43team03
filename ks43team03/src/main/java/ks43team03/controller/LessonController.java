@@ -16,16 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ks43team03.dto.Area;
 import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Lesson;
-import ks43team03.dto.LessonReservatioin;
 import ks43team03.service.CommonService;
 import ks43team03.service.LessonService;
 import ks43team03.service.SearchService;
@@ -44,15 +39,7 @@ public class LessonController {
 		this.commonService = commonService;
 		this.searchService = searchService;
 	}
-	/**
-	 *  레슨 예약 확인
-	 **/
-	@PostMapping("/lessonReservationData")
-	public String lessonReservationData(@RequestBody Map<String, String> lessonDate) {
-		log.info("lessonDate : {}" ,lessonDate);
-		lessonService.getLessonReservation(lessonDate);
-		return null;
-	}
+	
 	/**
 	 *  레슨 예약 페이지
 	 **/

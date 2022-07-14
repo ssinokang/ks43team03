@@ -106,13 +106,14 @@ var calendar = $('#calendar').fullCalendar({
    * ************** */
   events: function (start, end, timezone, callback) {
 	  const data = {
-		lessonCd  : $('#lessonCd').val(),
-        startDate : moment(start).format('YYYY-MM-DD'),
-        endDate   : moment(end).format('YYYY-MM-DD')
+		scheduleCtg	: "LessonReservation",
+		lessonCd  	: $('#lessonCd').val(),
+        startDate 	: moment(start).format('YYYY-MM-DD'),
+        endDate   	: moment(end).format('YYYY-MM-DD')
       };
     $.ajax({
       type: "POST",
-      url: "/lesson/lessonReservationData",
+      url: "/calendar/lessonReservationData",
       dataType: 'JSON',
 	  contentType: 'application/json; charset=utf-8',
       data: JSON.stringify(data),

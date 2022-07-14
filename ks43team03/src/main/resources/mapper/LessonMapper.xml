@@ -74,6 +74,21 @@
 			lesson
 	</select>
 	
+	<select id="getLessonReservation" parameterType="Map" resultType="LessonReservatioin">
+		SELECT
+			reservation_cd          as reservationCd
+			,lesson_cd          	 	as lessonCd
+			,reservation_id          as reservationId
+			,reservation_date        as reservationDate
+			,reservation_start_time  as reservationStartTime
+			,reservation_end_time    as reservationEndTime
+			,reservation_cancel      as reservationCancel
+		FROM
+			lesson_reservation
+		WHERE
+			reservation_date BETWEEN #{startDate} AND #{endDate}
+	</select>
+	
 	<!-- 레슨 수정하기 -->
 	<update id="modifyLesson" parameterType="Lesson">
 		UPDATE lesson

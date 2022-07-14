@@ -190,7 +190,7 @@
 					</div>
 					<div class="row form-group">
 						<div class="col-sm-12 col-md-12 col-lg-12">
-							<input class="form-control" name="email" required="required" type="text"
+							<input class="form-control" name="offerTitle" required="required" type="text"
 								placeholder="레슨구인 제목을 입력해주세요.">
 						</div>
 					</div>
@@ -227,7 +227,7 @@
 
 
 
-	<div class="" th:unless="${not #strings.isEmpty(session.SID)}">
+	<div th:unless="${not #strings.isEmpty(session.SID)}">
 		로그인이 필요한 서비스입니다.
 	</div>
 
@@ -337,7 +337,7 @@
 						
 						let sportsHTML = '';
 						
-						sportsHTML= `<input class="form-control" type="text" value=${data[0].sports.sportsName}>`;
+						sportsHTML= `<input class="form-control" name="sports" type="text" value=${data[0].sports.sportsName}>`;
 						sports.append(sportsHTML);
 					
 						
@@ -370,6 +370,35 @@
 			
 			lesson Ready
 		*/
+		
+
+		/*
+			Form Data
+			@author chanbokW	
+		*/
+		const offerForm = $('#offer-form');
+		
+		
+		const registerBtn = $('#register-btn');
+		const session = '[[${session.SID}]]';
+		
+		registerBtn.on('click', function(){
+			console.log({offerForm});
+			
+			
+			const data = {
+					facilityCd : $('input[name="facility"]'),
+					lessonCd : lessonSelect.val(),
+					userId : session,
+					lessoSports : $('input[name="sports"]').val(),
+					offerTitle : $('input[name="offerTitle"]').val(),
+					offerDetail : $('input[name="offerDetail"]').val(),
+					offerEndDate : $('input[name="endDate"]').val(),
+					offerState : $('input[name="offerState"]').val()
+			}
+			console.log(data);
+			
+		});
 		
 		
 		
@@ -461,21 +490,6 @@
 		}
 		
 		
-		/*
-			Form Data
-			@author chanbokW	
-		*/
-		const offerForm = $('#offer-form');
-		
-		
-		const registerBtn = $('#register-btn');
-		
-		
-		registerBtn.on('click', function(){
-			console.log({offerForm});
-			
-			
-		});
 		
 		
 	</script>

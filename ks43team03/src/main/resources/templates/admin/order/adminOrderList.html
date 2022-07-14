@@ -1,95 +1,63 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<!-- th:replace="경로 :: 조각이름" -->
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/adminDefault.html}">
 
-<head th:replace="adminFragments/head :: headFragment">
-</head>
-
-<body class="nav-md">
-	<div class="container body">
-		<div class="main_container">
-			<div class="col-md-3 left_col">
-				<div class="left_col scroll-view">
-					<div class="navbar nav_title" style="border: 0;">
-						<a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella
-								Alela!</span></a>
-					</div>
-
-					<div class="clearfix"></div>
-
-					<!-- menu profile quick info -->
-					<div class="profile clearfix">
-						<div class="profile_pic">
-							<img src="images/img.jpg" alt="..." class="img-circle profile_img">
-						</div>
-						<div class="profile_info">
-							<span>환영합니다</span>
-							<div th:unless="${session.SID == null}" style="text-align: left;">
-								<h2>
-									[[${session.SNAME}]]님
-								</h2>
-							</div>
-						</div>
-					</div>
-					<!-- /menu profile quick info -->
-
-					<br />
-
-					<!-- sidebar menu -->
-					<div th:replace="adminFragments/leftmenu :: leftmenuFragment"></div>
-					<!-- /sidebar menu -->
-
-					<!-- /menu footer buttons -->
-					<div class="sidebar-footer hidden-small">
-						<a data-toggle="tooltip" data-placement="top" title="Settings">
-							<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-						</a>
-						<a data-toggle="tooltip" data-placement="top" title="FullScreen">
-							<span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-						</a>
-						<a data-toggle="tooltip" data-placement="top" title="Lock">
-							<span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-						</a>
-						<a data-toggle="tooltip" data-placement="top" title="Logout" th:href="@{/login}">
-							<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-						</a>
-					</div>
-					<!-- /menu footer buttons -->
-
-				</div>
-			</div>
-
-			<!-- top navigation -->
-			<div th:replace="adminFragments/header :: headerFragment"></div>
-			<!-- /top navigation -->
-
-			<!-- page content -->
-			<div class="right_col" role="main">
-
-				<!-- 사용자 정의 contents -->
-				<th:block layout:fragment="customContents">
-					<div class="col-md-12 col-sm-12 col-xs-12">
+	<!-- 사용자 정의 contents -->
+	<th:block layout:fragment="customContents">
+				<div class="col-md-12 col-sm-12 col-xs-12">
 						<div class="x_panel">
 							<div class="x_title">
 								<h2>주문 리스트 테이블 <small>관리자</small></h2>
-
+								
 								<div class="clearfix"></div>
 							</div>
-
+							<div class="row">
+								<div class="col-sm-12 col-md-12 col-lg-12">
+									<div class="card card-warning">
+										<div class="card-header">
+											<h3 class="card-title">
+												<b>주문 조회</b>
+											</h3>
+										</div>
+										<div class="card-body">
+											<form  method="get">
+												<div class="form-group row">
+													<label class="col-sm-1 col-form-Label" style="text-align: center;">
+														검색
+													</label>
+													<div class="col-sm-2">
+														<select name="searchKey" class="form-control ">
+															<option>전체검색</option>
+															<option>어때괜찮니</option>
+															<option>넌 어때</option>
+															<option>이제는 변했어</option>
+														</select>
+													</div>
+													<div class="input-group input-group-m" style="width: 450px">
+														<input type="text" name="searchValue" class="form-control" placeholder="검색어를 입력햊쉐요">
+													</div>
+													<div class="d-flex justify-content-center" style="margin-left: 10px;">
+														<button type="button" class="btn btn-primary">검색 </button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>	
+					
+							<div class="card-body">
+							
 							<div class="x_content">
-
-
-
-								<div class="table-responsive">
+					
+								<div class="table-responsive row">
 									<table class="table table-striped jambo_table bulk_action">
 										<thead>
 											<tr class="headings">
 												<th>
 													<div class="icheckbox_flat-green" style="position: relative;"><input
-															type="checkbox" id="check-all" class="flat"
-															style="position: absolute; opacity: 0;"><ins
-															class="iCheck-helper"
-															style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+															type="checkbox" id="check-all" class="flat">
 													</div>
 												</th>
 												<th class="column-title" style="display: table-cell;">주문아이디</th>
@@ -114,10 +82,7 @@
 												<td class="a-center ">
 													<div class="icheckbox_flat-green" style="position: relative;"><input
 															type="checkbox" class="flat" name="table_records"
-															style="position: absolute; opacity: 0;"><ins
-															class="iCheck-helper"
-															style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-													</div>
+															style="position: absolute; opacity: 0;"></div>
 												</td>
 												<td class=" " th:text="${order.userId}"></td>
 												<td class=" " th:text="${order.facility.facilityNm}">땡떙체육관</td>
@@ -137,60 +102,9 @@
 
 
 							</div>
+							</div>
 						</div>
 					</div>
-				</th:block>
-
-			</div>
-			<!-- /page content -->
-
-			<!-- footer content -->
-			<div th:replace="adminFragments/footer :: footerFragment"></div>
-			<!-- /footer content -->
-		</div>
-	</div>
-
-	<!-- jQuery -->
-	<script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
-	<!-- Bootstrap -->
-	<script th:src="@{/vendors/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
-	<!-- FastClick -->
-	<script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
-	<!-- NProgress -->
-	<script th:src="@{/vendors/nprogress/nprogress.js}"></script>
-	<!-- Chart.js -->
-	<script th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
-	<!-- gauge.js -->
-	<script th:src="@{/vendors/gauge.js/dist/gauge.min.js}"></script>
-	<!-- bootstrap-progressbar -->
-	<script th:src="@{/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js}"></script>
-	<!-- iCheck -->
-	<script th:src="@{/vendors/iCheck/icheck.min.js}"></script>
-	<!-- Skycons -->
-	<script th:src="@{/vendors/skycons/skycons.js}"></script>
-	<!-- Flot -->
-	<script th:src="@{/vendors/Flot/jquery.flot.js}"></script>
-	<script th:src="@{/vendors/Flot/jquery.flot.pie.js}"></script>
-	<script th:src="@{/vendors/Flot/jquery.flot.time.js}"></script>
-	<script th:src="@{/vendors/Flot/jquery.flot.stack.js}"></script>
-	<script th:src="@{/vendors/Flot/jquery.flot.resize.js}"></script>
-	<!-- Flot plugins -->
-	<script th:src="@{/vendors/flot.orderbars/js/jquery.flot.orderBars.js}"></script>
-	<script th:src="@{/vendors/flot-spline/js/jquery.flot.spline.min.js}"></script>
-	<script th:src="@{/vendors/flot.curvedlines/curvedLines.js}"></script>
-	<!-- DateJS -->
-	<script th:src="@{/vendors/DateJS/build/date.js}"></script>
-	<!-- JQVMap -->
-	<script th:src="@{/vendors/jqvmap/dist/jquery.vmap.js}"></script>
-	<script th:src="@{/vendors/jqvmap/dist/maps/jquery.vmap.world.js}"></script>
-	<script th:src="@{/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js}"></script>
-	<!-- bootstrap-daterangepicker -->
-	<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
-	<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
-
-	<!-- Custom Theme Scripts -->
-	<script th:src="@{/build/js/custom.min.js}"></script>
-
-</body>
+	</th:block>
 
 </html>

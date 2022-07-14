@@ -37,6 +37,13 @@ public class UserController {
 		this.adminFacilityService	=	adminFacilityService;
 	}
 	
+	//시설 내 회원 승인
+	@GetMapping("/modifyFacilityUserState")
+	public String modifyFacilityUserState() {
+		
+		return "redirect:/user/facilityUser";
+	}
+	
 	//시설 내 회원 목록 조회
 	@GetMapping("/facilityUser")
 	public String getFacilityUserList(Model model

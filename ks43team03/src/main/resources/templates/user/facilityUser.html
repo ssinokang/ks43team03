@@ -73,7 +73,7 @@
 											<td th:text="${l.get('facilityApproveDate')}"></td>
 											<td>
 												<th:block th:if="${l.get('facilityApproveState') eq '승인'}">
-													<a>
+													<a th:href="@{/modifyFacilityUserState}">
 														<button type="button" class="btn btn-danger btn-sm">탈퇴</button>
 													</a>
 												</th:block>

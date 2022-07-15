@@ -156,6 +156,9 @@
 												<th:block th:each="l,status : ${trainerProfile.tFile}">
 													<li class="list-group-item">
 														<span th:text="${l.originalFileName}" th:data-fileLiSize="${status.size}"></span>
+														<a th:href="@{/trainer/modifyTrainer}">
+															<button>변경</button>
+														</a>
 													</li>
 												</th:block>
 											</ul>

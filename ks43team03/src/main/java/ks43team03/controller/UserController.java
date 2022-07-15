@@ -39,7 +39,11 @@ public class UserController {
 	
 	//시설 내 회원 승인
 	@GetMapping("/modifyFacilityUserState")
-	public String modifyFacilityUserState() {
+	public String modifyFacilityUserState(@RequestParam(name = "facilityApproveState")String facilityApproveState
+										 ,@RequestParam(name = "userId")String userId
+										 ,@RequestParam(name = "facilityCd")String facilityCd) {
+		
+		userService.modifyFacilityUserState(facilityApproveState, userId, facilityCd);
 		
 		return "redirect:/user/facilityUser";
 	}

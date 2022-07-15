@@ -131,7 +131,7 @@
 			        success : function(data) {
 			            console.log(JSON.stringify(data));
 			            console.log(data.length);
-			            var txt1='<option value="none">::  지 역(시 군 구) 선 택   ::</option>';
+			            var txt1='<option value="none">::  시 군 구 선 택   ::</option>';
 			                for(var i =0;i<data.length;i++)
 			                {
 			              	  txt1 +='<option value="'+data[i].cityCd+'" '    +'>' + data[i].cityNm +"</option>";
@@ -157,7 +157,7 @@
 				        success : function(data) {
 				            console.log(JSON.stringify(data));
 				            console.log(data.length);
-				            var txt1='<option value="none">::  지 역(읍 면 동) 선 택   ::</option>';
+				            var txt1='<option value="none">::  읍 면 동 선 택   ::</option>';
 				                for(var i =0;i<data.length;i++)
 				                {
 				              	  txt1 +='<option value="'+data[i].townCd+'" '    +'>' + data[i].townNm +"</option>";
@@ -239,7 +239,7 @@
 					<label class="col-form-label col-md-3 col-sm-3  label-align">지역<span class="required">*</span></label>
 					<div class="col-md-2 col-sm-2">
 					<select  class="form-control" name="areaCd" id="areaCd" data-validate-length-range="5,15" data-validate-words="2" required="required">
-						<option value=""> ::  지 역(시 도) 선 택   ::</option>
+						<option value=""> ::  시 도 선 택   ::</option>
 						<th:block th:if="${not #lists.isEmpty(areaList)}" th:each="l:${areaList}">
 							<option th:value="${l.areaCd}">[[${l.areaNm}]]</option>
 						</th:block>
@@ -247,13 +247,13 @@
 					</div>
 					<div class="col-md-2 col-sm-2">
 					<select class="form-control" name="cityCd" id="areaCityCd" data-validate-length-range="5,15">
-						<option value=""> ::  지 역(시 군 구) 선 택   ::</option>
+						<option value=""> ::  시 군 구 선 택   ::</option>
 						
 					</select>
 					</div>
 					<div class="col-md-2 col-sm-2">
 					<select class="form-control" name="townCd"  id="areaCityTownCd" data-validate-length-range="5,15" >
-						<option value=""> ::  지 역(읍 면 동) 선 택   ::</option>
+						<option value=""> ::  읍 면 동 선 택   ::</option>
 					</select>
 					</div>
 				</div>
@@ -269,7 +269,7 @@
 					</div>
 				</div>
 				<div class="field item form-group">
-					<label class="col-form-label col-md-3 col-sm-3  label-align" for="userId">시설주 아이디<span class="required">*</span></label>
+					<label class="col-form-label col-md-3 col-sm-3  label-align" for="userId">아이디<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
 					<input class="form-control" type="text" id="userId" name="userId" th:value="${session.SID}" data-validate-minmax="10,100" readonly="readonly"/></div>
 				</div>
@@ -281,7 +281,7 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityPostNum">시설 주소<span class="required">*</span></label>
 					<div class="col-md-4 col-sm-4">
-						<input class="form-control" type="text" name="facilityPostNum" id="facilityPostNum" placeholder="우편번호" required='required' data-validate-length-range="8,20" />
+						<input class="form-control" type="text" name="facilityPostNum" id="facilityPostNum" placeholder="우편번호" readonly="readonly" required='required' data-validate-length-range="8,20" />
 					</div>
 					<div class="col-md-2 col-sm-2">
 						<button type="button" class="btn btn-info" id="postNum" onclick="searchAddForm()">우편번호찾기</button>
@@ -290,7 +290,7 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityAddr"></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityAddr" id="facilityAddr" placeholder="시설주소" data-validate-length="6,8" required='required' /></div>
+					<input class="form-control" type="text" name="facilityAddr" id="facilityAddr" placeholder="시설주소" readonly="readonly" data-validate-length="6,8" required='required' /></div>
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityDetailAddr"></label>
@@ -329,7 +329,7 @@
 				<div class="ln_solid">
 					<div class="form-group">
 						<div class="col-md-6 offset-md-3">
-							<button type='reset' class="btn btn-primary">취소</button>
+							<button type='reset' class="btn btn-primary" onclick="history.back(-1)">취소</button>
 							<button type='submit' id="addFacilityBtn" class="btn btn-success">등록</button>
 						</div>
 					</div>

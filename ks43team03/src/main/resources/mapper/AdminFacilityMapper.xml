@@ -233,6 +233,7 @@
 				,user_id			
 				,facility_nm		
 				,facility_address
+				,facility_detail_addr
 				,facility_tell		
 				,facility_post_num	
 				,business_number	

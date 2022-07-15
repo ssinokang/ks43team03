@@ -48,9 +48,9 @@
 				$('input[name="time"]').each(function(){
 		            if($(this).is(":checked")){
 		            	timeArry.push($(this).val());		            
+					    console.log(timeArry);
 		            }
 		        });
-				   console.log(timeArry);
 				    var sum = 0;
 					var startTime = timeArry[0];
 					var endTime = timeArry[timeArry.length-1];
@@ -66,7 +66,17 @@
 					$('#totlaPrice').text(total*price);
 					$('#bookingPrice').val(total*price);
 					console.log($('#bookingPrice').val(total*price));
-				
+					
+					if($('.startTime').text() == 'undefined:00 - '){
+						$('.totalTime').text('');				
+						$('#bookingStartTime').val('');
+						$('.startTime').text('');
+						$('#bookingEndTime').val('');
+						$('.endTime').text('');
+						$('#totlaPrice').text('');
+						$('#bookingPrice').val('');
+						console.log($('#bookingPrice').val(''));
+					}
 			});
 		});
 		
@@ -242,43 +252,43 @@
 																		<input type="checkbox" name="time" value="9" class="join-btn"> &nbsp; 9 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="10" class="join-btn" style="">&nbsp; 10 &nbsp;
+																		<input type="checkbox" name="time" value="10" class="join-btn">&nbsp; 10 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="11" class="join-btn" style="">&nbsp; 11 &nbsp;
+																		<input type="checkbox" name="time" value="11" class="join-btn">&nbsp; 11 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="12" class="join-btn" style="">&nbsp; 12 &nbsp;
+																		<input type="checkbox" name="time" value="12" class="join-btn">&nbsp; 12 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="13" class="join-btn" style="">&nbsp; 13 &nbsp;
+																		<input type="checkbox" name="time" value="13" class="join-btn">&nbsp; 13 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="14" class="join-btn" style="">&nbsp; 14 &nbsp;
+																		<input type="checkbox" name="time" value="14" class="join-btn">&nbsp; 14 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="15" class="join-btn" style="">&nbsp; 15 &nbsp;
+																		<input type="checkbox" name="time" value="15" class="join-btn">&nbsp; 15 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="16" class="join-btn" style="">&nbsp; 16 &nbsp;
+																		<input type="checkbox" name="time" value="16" class="join-btn" >&nbsp; 16 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="17" class="join-btn" style="">&nbsp; 17 &nbsp;
+																		<input type="checkbox" name="time" value="17" class="join-btn">&nbsp; 17 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="18" class="join-btn" style="">&nbsp; 18 &nbsp;
+																		<input type="checkbox" name="time" value="18" class="join-btn" >&nbsp; 18 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="19" class="join-btn" style="">&nbsp; 19 &nbsp;
+																		<input type="checkbox" name="time" value="19" class="join-btn">&nbsp; 19 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="20" class="join-btn" style="">&nbsp; 20 &nbsp;
+																		<input type="checkbox" name="time" value="20" class="join-btn" >&nbsp; 20 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="21" class="join-btn" style="">&nbsp; 21 &nbsp;
+																		<input type="checkbox" name="time" value="21" class="join-btn">&nbsp; 21 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="22" class="join-btn" style="">&nbsp; 22 &nbsp;
+																		<input type="checkbox" name="time" value="22" class="join-btn">&nbsp; 22 &nbsp;
 																	</label>
 																</div>
 															</div>
@@ -306,9 +316,9 @@
 							                                        <li>
 							                                        	예약시간
 							                                        	<span class="totalTime"></span>
-							                                        	<span class="endTime">-</span>
+							                                        	<span class="endTime"></span>
 							                                        	<input type="hidden" id="bookingEndTime" name="bookingEndTime">
-							                                        	<span class="startTime"></span>
+							                                        	<span class="startTime">-</span>
 							                                        	<input type="hidden" id="bookingStartTime" name="bookingStartTime">
 							                                        </li>
 							                                    </ul>

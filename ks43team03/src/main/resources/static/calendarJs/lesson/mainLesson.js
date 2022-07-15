@@ -120,7 +120,7 @@ var calendar = $('#calendar').fullCalendar({
       success: function (response) {
         var fixedDate = response.map(function (array) {
           if (array.allDay && array.start !== array.end) {
-            array.end = moment(array.end).add(1, 'days'); // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력
+        	  array.end = moment(array.end).add(1, 'days'); // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력
           }
           return array;
         });

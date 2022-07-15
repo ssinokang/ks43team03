@@ -32,7 +32,6 @@ public class CalenderController {
 	 *  캘린더 일정 보내기
 	 **/
 	@PostMapping("/lessonReservationData")
-	@ResponseBody
 	public List<LessonReservatioin> lessonReservationData(@RequestBody Map<String, String> scheduleDate) {
 		log.info("lessonDate : {}" ,scheduleDate);
 

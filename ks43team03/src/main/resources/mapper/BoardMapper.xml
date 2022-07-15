@@ -28,7 +28,7 @@
 		</collection>
 	</resultMap>
 	<resultMap type="BoardCtgCd" 					id="BoardCtgCdResultMap">
-		<id column="board_sub_ctg_cd"				property="boardSubCtgCd"/>
+		<id column="board_ctg_cd"				property="boardCtgCd"/>
 		<result column="board_ctg_nm"				property="boardCtgNm"/>
 		<result column="board_ctg_rdg_date"			property="boardCtgRegDate"/>
 	</resultMap>
@@ -174,9 +174,9 @@
 	</insert>
 	
 	<!-- 게시글 카테고리 조회 -->
-	<select id="getBoardSubCtgCd" parameterType="String" resultMap="BoardCtgCdResultMap">
+	<select id="getBoardCtgCd" parameterType="String" resultMap="BoardCtgCdResultMap">
 		SELECT 
-			bc.board_sub_ctg_cd
+			bc.board_ctg_cd
 			, bc.board_ctg_nm
 			, bc.board_ctg_reg_date
 		FROM 

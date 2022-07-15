@@ -167,9 +167,9 @@ public class BoardService {
 	}
 	
 	/* 게시글 카테고리 조회 */
-	public List<BoardCtgCd> getBoardSubCtgCd(BoardCtgCd boardSubCtgCd){
+	public List<BoardCtgCd> getBoardCtgCd(BoardCtgCd boardSubCtgCd){
 		System.out.println("------------------------게시글 카테고리 조회 서비스-----------------------------");
-		List<BoardCtgCd> boardCtgCd = boardMapper.getBoardSubCtgCd(boardSubCtgCd);
+		List<BoardCtgCd> boardCtgCd = boardMapper.getBoardCtgCd(boardSubCtgCd);
 		System.out.println("------------------------게시글 카테고리 조회 서비스 끝-----------------------------");
 		return boardCtgCd;
 	}

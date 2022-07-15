@@ -22,7 +22,7 @@ public interface BoardMapper {
 	public int addBoard(Board board);
 	
 	// 게시글 카테고리 조회
-	public List<BoardCtgCd> getBoardSubCtgCd(BoardCtgCd boardSubCtgCd);
+	public List<BoardCtgCd> getBoardCtgCd(BoardCtgCd boardSubCtgCd);
 	
 	// 게시글 수정 
 	public int modifyBoard(Board board);

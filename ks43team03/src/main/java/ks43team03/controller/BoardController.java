@@ -159,7 +159,7 @@ public class BoardController {
 	public String addBoard(Board board, BoardCtgCd boardSubCtgCd, Model model) {
 		System.out.println("------------------------게시글 등록 페이지-----------------------------");
 		
-		List<BoardCtgCd> boardCtgCdList = boardService.getBoardSubCtgCd(boardSubCtgCd);
+		List<BoardCtgCd> boardCtgCdList = boardService.getBoardCtgCd(boardSubCtgCd);
 		
 		model.addAttribute("title", "게시글 등록");
 		model.addAttribute("boardCtgCdList", boardCtgCdList);
@@ -193,7 +193,7 @@ public class BoardController {
 		
 		Board board = boardService.getBoardDetail(boardPostCd);
 		
-		List<BoardCtgCd> boardCtgCdList = boardService.getBoardSubCtgCd(boardSubCtgCd);
+		List<BoardCtgCd> boardCtgCdList = boardService.getBoardCtgCd(boardSubCtgCd);
 		
 		model.addAttribute("title", "게시글 수정");
 		model.addAttribute("board", board);

@@ -21,10 +21,10 @@ public class LessonOfferServiceTest {
 	void offerListTest() {
 		List<LessonOffer> offer = lessonOfferService.getOfferList()
 			.stream()
-			.filter(e -> e.getLessoSports().equals("수영"))
+			.filter(e -> e.getLessonSports().equals("수영"))
 			.collect(Collectors.toList());
 		
-		Assertions.assertThat(offer.get(0).getLessoSports()).isEqualTo("수영");
+		Assertions.assertThat(offer.get(0).getLessonSports()).isEqualTo("수영");
 	}
 	
 //	@Test

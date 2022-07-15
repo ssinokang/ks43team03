@@ -122,7 +122,7 @@
 											<div class="row">
 												<div class="col-md-3 col-sm-3">
 													시설을 선택해주세요
-													<select class="form-control" name="facility">
+													<select class="form-control req" name="facility">
 														
 														<th:block th:if="${not #lists.isEmpty(facility)}">
 															<option value="none">::시설을 선택해주세요::</option>
@@ -178,10 +178,10 @@
 							</div>
 							<div class="form-group"></div>
 							<div class="col-sm-6 col-md-6">
-								<input class="form-control" name="endDate" type="text" id="period_1">
+								<input class="form-control req" name="endDate" type="text" id="period_1">
 							</div>
 							<div class="col-sm-6 col-md-6">
-								<select class="form-control" name="offerState">
+								<select class="form-control req" name="offerState">
 									<option value="모집중">모집중</option>
 									<option value="모집마감">모집마감</option>
 								</select>
@@ -190,13 +190,13 @@
 					</div>
 					<div class="row form-group">
 						<div class="col-sm-12 col-md-12 col-lg-12">
-							<input class="form-control" name="offerTitle" required="required" type="text"
+							<input class="form-control req" name="offerTitle" required="required" type="text"
 								placeholder="레슨구인 제목을 입력해주세요.">
 						</div>
 					</div>
 					<div class="row form-group">
 						<div class="col-sm-12 col-md-12">
-							<textarea class="form-control" name="contents" id="contents"
+							<textarea class="form-control req" name="contents" id="contents"
 								style="width: 100%; height:500px;"></textarea>
 						</div>
 					</div>
@@ -249,10 +249,15 @@
 					bUseVerticalResizer: false,
 					// 모드 탭(Editor | HTML | TEXT) 사용 여부
 					bUseModeChanger: true,
-				}
+				},
+				
 			});
 		}
 
+		
+		  
+		
+		
 		$(document).ready(function () {
 			smartEditor();
 			readyCalender(); // 캘린더
@@ -313,7 +318,7 @@
 						alert('등록하신 레슨정보가 없습니다.');
 						return;
 					}else{
-						let html = `<select class="form-control" name="lesson">`;
+						let html = `<select class="form-control req" name="lesson">`;
 							
 						let datas = '';
 						for(let i = 0; i < data.length; i++){
@@ -337,7 +342,7 @@
 						
 						let sportsHTML = '';
 						
-						sportsHTML= `<input class="form-control" name="sports" type="text" value=${data[0].sports.sportsName}>`;
+						sportsHTML= `<input class="form-control req" name="sports" type="text" value=${data[0].sports.sportsName}>`;
 						sports.append(sportsHTML);
 					
 						
@@ -383,27 +388,48 @@
 		const session = '[[${session.SID}]]';
 		
 		registerBtn.on('click', function(){
-			console.log({offerForm});
 			
+			
+			oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", [])
+			
+			$.each($('.req'),function(index,item){
+				if(typeof 'undefinded'==item.value || item.value == '' || item.value.trim() == ''){
+					alert('입력이 안된 폼이 있습니다.');
+					item.focus();
+					return;
+				}
+			})
 			
 			const data = {
-					facilityCd : $('input[name="facility"]'),
+					facilityCd : $('select[name="facility"]').val(),
 					lessonCd : lessonSelect.val(),
 					userId : session,
-					lessoSports : $('input[name="sports"]').val(),
+					lessonSports : $('input[name="sports"]').val(),
 					offerTitle : $('input[name="offerTitle"]').val(),
-					offerDetail : $('input[name="offerDetail"]').val(),
+					offerDetail : $('#contents').val(),
 					offerEndDate : $('input[name="endDate"]').val(),
-					offerState : $('input[name="offerState"]').val()
+					offerState : $('select[name="offerState"]').val()
 			}
-			console.log(data);
+			
+			
+			/*
+				ajax 통신 
+			*/
+			
+			$.ajax({
+				type: 'POST',
+				url: '/offer/addOffer',
+				dataType: 'JSON',
+				contentType: 'application/json; charset=utf-8',
+				data: JSON.stringify(data)
+			}).done(function(response){
+				console.log(response);
+			}).fail(function(error){
+				console.log(error,'응답요청에 실패 하였습니다.');
+			})	
 			
 		});
 		
-		
-		
-		
-	
 		
 		
 		

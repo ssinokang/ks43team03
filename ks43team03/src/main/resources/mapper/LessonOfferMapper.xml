@@ -9,7 +9,7 @@
 		<result column="facility_cd"			property="facilityCd"/>
 		<result column="lesson_cd"  				property="lessonCd"/>
 		<result column="user_id" 		property="userId"/>
-		<result column="lesson_sports" 				property="lessoSports"/>
+		<result column="lesson_sports" 				property="lessonSports"/>
 		<result column="offer_title" 			property="offerTitle"/>
 		<result column="offer_detail" 		property="offerDetail"/>
 		<result column="offer_file" 			property="offerFile"/>

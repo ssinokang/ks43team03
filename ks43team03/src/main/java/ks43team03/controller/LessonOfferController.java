@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,9 +20,11 @@ import ks43team03.dto.Facility;
 import ks43team03.dto.Lesson;
 import ks43team03.dto.LessonOffer;
 import ks43team03.dto.Sports;
+import ks43team03.dto.User;
 import ks43team03.service.AdminFacilityService;
 import ks43team03.service.CommonService;
 import ks43team03.service.LessonOfferService;
+import ks43team03.service.UserService;
 
 @Controller
 @RequestMapping("/offer")
@@ -30,14 +33,17 @@ public class LessonOfferController {
 	private final LessonOfferService offerService;
 	private final CommonService commonService;
 	private final AdminFacilityService adminFacilityService;
+	private final UserService userService;
 	
 	private static final Logger log = LoggerFactory.getLogger(LessonOfferController.class);
 	
 	
-	public LessonOfferController(LessonOfferService offerService, CommonService commonService,AdminFacilityService adminFacilityService) {
+	public LessonOfferController(LessonOfferService offerService, CommonService commonService,
+								AdminFacilityService adminFacilityService,UserService userService) {
 		this.offerService = offerService;
 		this.commonService = commonService;
 		this.adminFacilityService = adminFacilityService;
+		this.userService = userService;
 		
 	}
 	
@@ -95,10 +101,15 @@ public class LessonOfferController {
 	}
 	//addOffer
 	@PostMapping("/addOffer")
-	public boolean addLessonOffer(LessonOffer lessonOffer) {
+	@ResponseBody
+	public boolean addLessonOffer(@RequestBody LessonOffer lessonOffer) {
 		
-		offerService.addLessonOffer(lessonOffer);
-		return false;
+		
+		
+		
+		
+		//offerService.addLessonOffer(lessonOffer);
+		return true;
 	}
 	
 	@GetMapping("/lessonSelect")

@@ -1,65 +1,67 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/adminDefault.html}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/adminDefault.html}">
 
-	<!-- 사용자 정의 contents -->
-	<th:block layout:fragment="customContents">
-				<div class="col-md-12 col-sm-12 col-xs-12">
-						<div class="x_panel">
-							<div class="x_title">
-								<h2>주문 리스트 테이블 <small>관리자</small></h2>
-								
-								<div class="clearfix"></div>
-							</div>
-							<div class="row">
-								<div class="col-sm-12 col-md-12 col-lg-12">
-									<div class="card card-warning">
-										<div class="card-header">
-											<h3 class="card-title">
-												<b>주문 조회</b>
-											</h3>
-										</div>
-										<div class="card-body">
-											<form  method="get">
-												<div class="form-group row">
-													<label class="col-sm-1 col-form-Label" style="text-align: center;">
-														검색
-													</label>
-													<div class="col-sm-2">
-														<select name="searchKey" class="form-control ">
-															<option>전체검색</option>
-															<option>어때괜찮니</option>
-															<option>넌 어때</option>
-															<option>이제는 변했어</option>
+<!-- 사용자 정의 contents -->
+<th:block layout:fragment="customContents">
+
+	<div th:if="${not #strings.isEmpty(session.SID)}">
+		<div th:if="${not #strings.isEmpty(session.SLEVEL)} and ${#strings.equals(session.SLEVEL,'1')}">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>주문 리스트 테이블 <small>관리자</small></h2>
+
+						<div class="clearfix"></div>
+					</div>
+					
+					
+					<div class="row">
+						<div class="col-sm-12 col-md-12 col-lg-12">
+							<div class="card card-warning">
+								<div class="card-header">
+									<h3 class="card-title">
+										<b>주문 조회</b>
+									</h3>
+								</div>
+								<div class="card-body">
+									<form action="#" method="get">
+										<div class="form row">
+											<div class="form-group col-8">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<select class="form-control" id="exampleFormControlSelect1"
+															name="searchKey" style="font-size: 14px;">
+															<option value="ldgAddr">주문상태</option>
+															<option value="ldgName">상품명</option>
 														</select>
 													</div>
-													<div class="input-group input-group-m" style="width: 450px">
-														<input type="text" name="searchValue" class="form-control" placeholder="검색어를 입력햊쉐요">
-													</div>
-													<div class="d-flex justify-content-center" style="margin-left: 10px;">
-														<button type="button" class="btn btn-primary">검색 </button>
+													<input type="text" name="searchValue" class="form-control"
+														id="formGroupExampleInput" placeholder="검색 키워드를 입력하세요."
+														style="font-size: 14px;">
+													<div class="input-group-prepend">
+														<button type="button" class="btn btn-outline-danger"
+															style="font-size: 14px; background: #ec5552; color: #fff;">검색</button>
 													</div>
 												</div>
-											</form>
+											</div>
 										</div>
-									</div>
+									</form>
 								</div>
-							</div>	
-					
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12 col-md-12 col-lg-12">
 							<div class="card-body">
-							
-							<div class="x_content">
-					
+
+
+
 								<div class="table-responsive row">
 									<table class="table table-striped jambo_table bulk_action">
 										<thead>
 											<tr class="headings">
-												<th>
-													<div class="icheckbox_flat-green" style="position: relative;"><input
-															type="checkbox" id="check-all" class="flat">
-													</div>
-												</th>
+
 												<th class="column-title" style="display: table-cell;">주문아이디</th>
 												<th class="column-title" style="display: table-cell;">주문시설 이름</th>
 												<th class="column-title" style="display: table-cell;">카테고리 </th>
@@ -78,19 +80,17 @@
 										</thead>
 
 										<tbody>
-											<tr class="even pointer" th:if="${not #lists.isEmpty(orderList)}" th:each="order : ${orderList}">
-												<td class="a-center ">
-													<div class="icheckbox_flat-green" style="position: relative;"><input
-															type="checkbox" class="flat" name="table_records"
-															style="position: absolute; opacity: 0;"></div>
-												</td>
+											<tr class="even pointer" th:if="${not #lists.isEmpty(orderList)}"
+												th:each="order : ${orderList}">
 												<td class=" " th:text="${order.userId}"></td>
 												<td class=" " th:text="${order.facility.facilityNm}">땡떙체육관</td>
 												<td class=" " th:text="${order.goodsCtgCd}"> </td>
-												<td class=" " th:text="${order.orderPrice}"> <i class="success fa fa-long-arrow-up"></i></td>
+												<td class=" " th:text="${order.orderPrice}"> <i
+														class="success fa fa-long-arrow-up"></i></td>
 												<td class=" " th:text="${order.orderRegDate}"></td>
 												<td class=" " th:text="${order.orderPayState}"></td>
-												<td class=" last"><a th:href="@{/admin/order/orderDetail(orderCd=${order.orderCd},goodsCtgCd=${order.goodsCtgCd})}">View</a>
+												<td class=" last"><a
+														th:href="@{/admin/order/orderDetail(orderCd=${order.orderCd},goodsCtgCd=${order.goodsCtgCd})}">View</a>
 												</td>
 											</tr>
 											<tr th:unless="${not #lists.isEmpty(orderList)}">
@@ -98,13 +98,25 @@
 											</tr>
 										</tbody>
 									</table>
+
+
 								</div>
-
-
-							</div>
 							</div>
 						</div>
 					</div>
-	</th:block>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:unless="${not #strings.isEmpty(session.SID)}">
+		로그인이 필요한 서비스입니다.
+	</div>
+
+	<div th:unless="${not #strings.isEmpty(session.SLEVEL)} and ${#strings.equals(session.SLEVEL,'1')}">
+		관리자 권한만 입장 하실 수 있습니다.
+	</div>
+</th:block>
 
 </html>

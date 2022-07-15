@@ -48,4 +48,10 @@ public class AdminOrderController {
 		model.addAttribute("order", order);
 		return "admin/order/orderDetail";
 	}
+	
+	
+	@GetMapping("/order/search")
+	public String orderSearch() {
+		return "redirect:/";
+	}
 }

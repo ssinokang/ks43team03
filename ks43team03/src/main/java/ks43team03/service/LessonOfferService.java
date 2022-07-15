@@ -7,10 +7,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ks43team03.dto.Facility;
 import ks43team03.dto.Lesson;
 import ks43team03.dto.LessonOffer;
+import ks43team03.dto.User;
+import ks43team03.mapper.FacilityMapper;
 import ks43team03.mapper.LessonMapper;
 import ks43team03.mapper.LessonOfferMapper;
+import ks43team03.mapper.UserMapper;
 
 @Service
 @Transactional
@@ -21,10 +25,12 @@ public class LessonOfferService {
 
 	private final LessonOfferMapper offerMapper;
 	private final LessonMapper lessonMapper;
+	private final FacilityMapper facilityMapper;
 	
-	public LessonOfferService(LessonOfferMapper offerMapper,LessonMapper lessonMapper) {
+	public LessonOfferService(LessonOfferMapper offerMapper,LessonMapper lessonMapper,FacilityMapper facilityMapper) {
 		this.offerMapper = offerMapper;
 		this.lessonMapper = lessonMapper;
+		this.facilityMapper = facilityMapper;
 		
 	}
 	
@@ -66,18 +72,28 @@ public class LessonOfferService {
 		
 		String facilityCd = lessonOffer.getFacilityCd();
 		String lessonCd = lessonOffer.getLessonCd();
+		String userId = lessonOffer.getUserId();
+		
 		
 		
 		// 시설 조회
 		
+		Facility facility = facilityMapper.getFacilityInfoByCd(facilityCd);
 		
+		if(facility == null) {
+			return false;
+		}
 		
 		// 레슨조회
+		Lesson lesson = lessonMapper.getLessonInfoByCd(lessonCd);
 		
+		if(lesson == null) {
+			return false;
+		}
 		
 		// 레슨 구인 구직 등록 
 //		offerMapper.addLessonOffer(lessonOffer);
 		
-		return false;
+		return true;
 	}
 }

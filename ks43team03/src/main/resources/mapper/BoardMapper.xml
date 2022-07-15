@@ -148,7 +148,10 @@
 			, 0
 			, 'N')
 		<selectKey keyProperty="boardPostCd" resultType="String" order="BEFORE">
-			SELECT sf_new_board_post_cd()
+			SELECT
+				CONCAT('board_post_', LPAD(MAX(CAST(SUBSTRING_INDEX(p.board_post_cd,'_',-1) AS UNSIGNED))+1,2,0))
+			FROM
+				board_post AS p
 		</selectKey>
 	</insert>
 	
@@ -163,7 +166,11 @@
 				,board_post_comment_state
 				,board_post_comment_date
 		)VALUES	(
-				 sf_new_board_post_comment_cd()
+					(SELECT
+						CONCAT('board_post_comment_', LPAD(MAX(CAST(SUBSTRING_INDEX(p.board_post_comment_cd,'_',-1) AS UNSIGNED))+1,2,0))
+					FROM
+						board_post_comment AS p)	
+						
 				,#{boardPostCd}
 				,#{boardCtgCd}
 				,#{userId}

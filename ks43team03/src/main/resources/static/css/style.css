@@ -2060,6 +2060,10 @@ ol {
 	color: #111111;
 }
 
+.nav1 .nav-item .nav-link.active {
+	color: #0080ff;
+} 
+
 .tab-content .tab-pane h6 {
 	color: #666666;
 	font-weight: 600;

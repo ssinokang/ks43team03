@@ -25,16 +25,6 @@
 		</association>
 	</resultMap>
 	
-	<resultMap type="FacilityUser" id="FacilityuserResultMap">
-		<id column="facility_cd"				property="facilityCd"/>
-		<result column="user_id"				property="userId"/>
-		<result column="facility_user_level"	property="facilityUserLevel"/>
-		<result column="facility_approve_state"	property="facilityApproveState"/>
-		<result column="facility_approve_id"	property="facilityApproveId"/>
-		<result column="facility_approve_date"	property="facilityApproveDate"/>
-		<result column="facility_reg_date"		property="facilityRegDate"/>
-	</resultMap>
-	
 	<insert id="addUser" parameterType="User">
 		/*회원 가입*/
 		INSERT INTO user
@@ -84,43 +74,55 @@
 	<select id="getFacilityUserList" parameterType="map" resultType="map">
 		/* 시설 내 회원 목록 조회 */
 		SELECT 
-			f.facility_cd				as facilityCd
-			,f.user_id					as userId
+			 f.facility_cd				as facilityCd
+			,f.facility_nm				AS facilityNm
+			,u.user_id					as userId
 			,u.user_nm					as userName
 			,u.user_address				as userAddr
 			,u.user_tell				as userTell
 			,u.user_gender				as userGender
 			,u.user_email				as userEmail
-			,f.facility_user_level		as facilityUserLevel
-			,f.facility_approve_state	as facilityApproveState
-			,f.facility_approve_id		as facilityApproveId
-			,f.facility_approve_date	as facilityApproveDate
-			,f.facility_reg_date		as facilityRegDate
+			,fu.facility_user_level		as facilityUserLevel
+			,fu.facility_approve_state	as facilityApproveState
+			,fu.facility_approve_id		as facilityApproveId
+			,fu.facility_approve_date	as facilityApproveDate
+			,fu.facility_reg_date		as facilityRegDate
 		FROM
-			facility_user as f
+			facility AS f
 			INNER JOIN
-				user AS u
+			facility_user as fu
 			ON
-				u.user_id = f.user_id
-			AND
-				facility_cd = #{facilityCd}
-		LIMIT #{startRow}, #{rowPerPage};
+				f.facility_cd = fu.facility_cd
+			INNER JOIN
+			user AS u
+			ON
+				u.user_id = fu.user_id
+		<where>
+			<foreach item="item" collection="facilityCdList" open="f.facility_cd in (" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
 	</select>
 	
-	<select id="getFacilityUserCount" resultType="int">
+	<select id="getFacilityUserCount" parameterType="map" resultType="int">
 		/*시설 내 회원 목록 총 튜플 수*/
 		SELECT
 			COUNT(*)
 		FROM
-			facility_user AS f;
-	</select>
-	
-	<select id="getUserCount" resultType="int">
-		/*전체 회원 목록 총 튜플 수*/
-		SELECT
-			COUNT(*)
-		FROM
-			user AS u;
+			facility AS f
+			INNER JOIN
+			facility_user as fu
+			ON
+				f.facility_cd = fu.facility_cd
+			INNER JOIN
+			user AS u
+			ON
+				u.user_id = fu.user_id
+		<where>
+			<foreach item="item" collection="list" open="f.facility_cd in (" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
 	</select>
 	
 	<update id="modifyUser" parameterType="User">

@@ -38,5 +38,6 @@ public class Lesson {
 	private AreaCityTown 			areaCityTown;
 	private FacilityGoods 			facilityGoods;
 	private List<Map<String, String>> 	relFileWithGoods;
+	private List<LessonReservation> 	lessonReservation;
 	private List<TFile> 			tFile;
 }

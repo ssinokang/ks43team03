@@ -12,7 +12,7 @@ var calendar = $('#calendar').fullCalendar({
   allDaySlot                : true,
   displayEventTime          : true,
   displayEventEnd           : true,
-  firstDay                  : 0, //월요일이 먼저 오게 하려면 1
+  firstDay                  : 1, //월요일이 먼저 오게 하려면 1
   weekNumbers               : false,
   selectable                : true,
   weekNumberCalculation     : "ISO",
@@ -83,10 +83,8 @@ var calendar = $('#calendar').fullCalendar({
       }),
       content: $('<div />', {
           class: 'popoverInfoCalendar'
-        }).append('<p><strong>등록자:</strong> ' + event.username + '</p>')
-        .append('<p><strong>구분:</strong> ' + event.type + '</p>')
-        .append('<p><strong>시간:</strong> ' + getDisplayEventDate(event) + '</p>')
-        .append('<div class="popoverDescCalendar"><strong>설명:</strong> ' + event.description + '</div>'),
+        })/* 이벤트 호버시 보여줌*/
+        .append('<p><strong>구분:</strong> ' + getDisplayEventDate(event) + '</p>'),
       delay: {
         show: "800",
         hide: "50"
@@ -253,13 +251,8 @@ function getDisplayEventDate(event) {
 
   var displayEventDate;
 
-  if (event.allDay == false) {
-    var startTimeEventInfo = moment(event.start).format('HH:mm');
-    var endTimeEventInfo = moment(event.end).format('HH:mm');
-    displayEventDate = startTimeEventInfo + " - " + endTimeEventInfo;
-  } else {
-    displayEventDate = "하루종일";
-  }
+    displayEventDate = "예약 가능";
+
 
   return displayEventDate;
 }

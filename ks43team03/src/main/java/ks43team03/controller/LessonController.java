@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +29,7 @@ import ks43team03.strategy.enumeration.SearchStrategyName;
 @RequestMapping("/lesson")
 public class LessonController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
+	
 	private final LessonService lessonService;
 	private final CommonService commonService;
 	private final SearchService searchService;
@@ -40,14 +40,23 @@ public class LessonController {
 		this.searchService = searchService;
 	}
 	
+
 	/**
-	 *  레슨 예약 페이지
+	 *  레슨 예약
 	 **/
-	@GetMapping("/lessonReservation")
-	public String lessonReservateion(Model model,
-									@RequestParam(name="lessonCd") String lessonCd) {
+	@GetMapping("/lessonReserve")
+	public String lessonReservateion(@RequestParam(name		  = "lessonCd"
+												   ,required 	  = false
+												   ,defaultValue  = "error") String lessonCd
+									 ,Model model) {
 		
-		model.addAttribute("lessonCd",lessonCd);
+		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
+		
+		model.addAttribute("lesson", lesson);
+		model.addAttribute("title" , "레슨 예약");
+		
+		log.info("model : {}", model);
+		
 		return "lesson/lessonReservation";
 	}
 	/**
@@ -66,7 +75,7 @@ public class LessonController {
 		
 		log.info("model : {}", model);
 		
-		return "lesson/detailLessonForUser";
+		return "lesson/detailLessonUser";
 	}
 	
 	@GetMapping("/lessonListForUser")
@@ -91,7 +100,7 @@ public class LessonController {
 		model.addAttribute("currentPage"		, currentPage);
 		model.addAttribute("areaList"			, areaList);
 		model.addAttribute("title", 			"레슨 목록");
-		return "lesson/lessonListForUser";
+		return "lesson/lessonListUser";
 	};
 	/**
 	 * 레슨 상세 조회 
@@ -104,7 +113,7 @@ public class LessonController {
 		model.addAttribute(lesson);
 		model.addAttribute("title", "레슨상세조회");
 		log.info("model : {}", model);
-		return "lesson/detailLesson";
+		return "lesson/detailLessonAdmin";
 	}
 	/**
 	 * 레슨 수정
@@ -128,7 +137,7 @@ public class LessonController {
 		paramMap.put("lesson", lesson);
 		paramMap.put("representImg", representImg);
 		
-		int result = lessonService.modifyLesson(paramMap);
+		lessonService.modifyLesson(paramMap);
 		model.addAttribute("facilityCd", lesson.getFacilityCd());
 		return "redirect:/lesson/facilityLessonList?" + "facilityCd="+ lesson.getFacilityCd();
 	}
@@ -139,7 +148,7 @@ public class LessonController {
 		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
 		model.addAttribute("title", "레슨수정");
 		model.addAttribute("lesson", lesson);
-		return "lesson/modifyLesson";
+		return "lesson/modifyLessonAdmin";
 	}
 	/**
 	 * 시설 내에 등록된 레슨 리스트

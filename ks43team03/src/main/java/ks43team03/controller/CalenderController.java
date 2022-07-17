@@ -1,19 +1,18 @@
 package ks43team03.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import ks43team03.dto.LessonReservatioin;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ks43team03.dto.Lesson;
 import ks43team03.service.CalenderService;
 
 @RestController
@@ -32,12 +31,20 @@ public class CalenderController {
 	 *  캘린더 일정 보내기
 	 **/
 	@PostMapping("/lessonReservationData")
-	public List<LessonReservatioin> lessonReservationData(@RequestBody Map<String, String> scheduleDate) {
+	public String lessonReservationData(@RequestBody Map<String, String> scheduleDate) {
+		String scheduleJson = "";
 		log.info("lessonDate : {}" ,scheduleDate);
 
-		List<LessonReservatioin> scheduleInfo = calenderService.findSearch(scheduleDate);
+		Lesson scheduleInfo = calenderService.findSearch(scheduleDate);
 		
-		log.info("scheduleInfo : {}", scheduleInfo);
-		return scheduleInfo;
+		ObjectMapper om = new ObjectMapper();
+		try {
+			scheduleJson = om.writeValueAsString(scheduleInfo);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		log.info(scheduleJson);
+		return scheduleJson;
 	}
 }

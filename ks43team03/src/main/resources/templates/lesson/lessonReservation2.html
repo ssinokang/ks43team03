@@ -16,39 +16,6 @@
 			.none-display {
 				display: none;
 			}
-			
-	        #calendar {
-	            clear: both;
-	        }
-	        #calendar th {
-	            height: 50px;
-	            width: 70px;
-	            background-color:  #EA80FC;
-	            text-align: center;
-	        }
-	        #calendar td {
-	            text-align: center;
-	            height: 50px;
-	            width: 70px;
-	            background-color: #FFFDC5;  
-	        }
-	        #calendar input {
-	            height: 50px;
-	            width: 70px;
-	            border: none;
-	            background-color:  #EA80FC;
-	            font-size: 30px;
-	        }
-	        #calendar .year_mon{
-	            font-size: 25px;
-	        }
-	        #calendar .colToday{
-	            background-color: #FFA07A;
-	        }
-	        .possible {
-	        	background-color: blue;
-	        }
-									    
 		</style>
 	
 	</th:block>
@@ -168,6 +135,8 @@
 							<div class="tab-pane active" id="tabs-1" role="tabpanel">
 								<h6>Description</h6>
 								<p th:text="${lesson.lessonDetail}"></p>
+								   
+								
 								<p>
 								   Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
 								   dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
@@ -179,33 +148,18 @@
 								<h6>Specification</h6>
 							      
 								<div class="container">
-									<input type="hidden" id="lessonCd" th:value="${lesson.lessonCd}">
-									<div class="row">
-										<table id="calendar">
-										    <thead>
-										        <tr>
-										            <th><input name="preMon" type="button" value="<"></th>
-										            <th colspan="5" class="year_mon"></th>
-										            <th><input name="nextMon" type="button" value=">"></th>
-										        </tr>
-										        <tr>
-										            <th>일</th>
-										            <th>월</th>
-										            <th>화</th>
-										            <th>수</th>
-										            <th>목</th>
-										            <th>금</th>
-										            <th>토</th>
-										        </tr>
-										    </thead>
-										    <tbody>
-										    </tbody>
-										</table>
+								      	<input type="hidden" id="lessonCd" th:value="${lessonCd}">
+								       <div class="row">
+								       [[${lessonCd}]]
+								        <div id="wrapper" class="col-md-6">
+								            <div id="loading"></div>
+								            <div id="calendar"></div>
+								        </div>
 										<!-- 일자 클릭시 메뉴오픈 -->
 								        <div id="contextMenu" class="dropdown clearfix col-md-3">
 								            <ul class="dropdown-menu dropNewEvent" role="menu" aria-labelledby="dropdownMenu"
 								                style="display:block;position:static;margin-bottom:5px;">
-								                <li><button type="button" tabindex="-1">예약확인하기</button></li>
+								                <li><a tabindex="-1" href="#">예약확인하기</a></li>
 								                <li class="divider"></li>
 								                <li><a tabindex="-1" href="#" data-role="close">Close</a></li>
 								            </ul>
@@ -213,87 +167,85 @@
 								        <!-- 일정 추가 MODAL -->
 								        <div class="modal fade" tabindex="-1" role="dialog" id="eventModal">
 								            <div class="modal-dialog" role="document">
-								                <div class="modal-content" style="width: 580px;">
-									                <form>
-									                    <div class="modal-header">
-									                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-									                                aria-hidden="true">&times;</span></button>
-									                        <h4 class="modal-title"></h4>
-									                    </div>
-									                    <div class="modal-body">						
-									                        <div class="row">
-									                            <div class="col-md-12">
-									                                <table border="1" id="reSchedule">
-									                                	<tbody>
-									                                		<tr>
-																				<td><input class="lessonTime" type="button" value="09:00"></td>
-																				<td><input class="lessonTime" type="button" value="09:30"></td>
-																				<td><input class="lessonTime" type="button" value="10:00"></td>
-																				<td><input class="lessonTime" type="button" value="10:30"></td>
-																				<td><input class="lessonTime" type="button" value="11:00"></td>
-																				<td><input class="lessonTime" type="button" value="11:30"></td>
-																				<td><input class="lessonTime" type="button" value="12:00"></td>
-																				<td><input class="lessonTime" type="button" value="12:30"></td>
-																				<td><input class="lessonTime" type="button" value="13:00"></td>
-																				<td><input class="lessonTime" type="button" value="13:30"></td>
-																			</tr>
-																			<tr>
-																				<td><input class="lessonTime" type="button" value="14:00"></td>
-																				<td><input class="lessonTime" type="button" value="14:30"></td>
-																				<td><input class="lessonTime" type="button" value="15:00"></td>
-																				<td><input class="lessonTime" type="button" value="15:30"></td>
-																				<td><input class="lessonTime" type="button" value="16:00"></td>
-																				<td><input class="lessonTime" type="button" value="17:00"></td>
-																				<td><input class="lessonTime" type="button" value="17:30"></td>
-																				<td><input class="lessonTime" type="button" value="18:00"></td>
-																				<td><input class="lessonTime" type="button" value="18:30"></td>
-																				<td><input class="lessonTime" type="button" value="19:00"></td>
-									                                		</tr>
-									                                		<tr>
-																				<td><input class="lessonTime" type="button" value="19:30"></td>
-																				<td><input class="lessonTime" type="button" value="20:00"></td>
-																				<td><input class="lessonTime" type="button" value="20:30"></td>
-																				<td><input class="lessonTime" type="button" value="21:00"></td>
-																				<td><input class="lessonTime" type="button" value="21:30"></td>
-																				<td><input class="lessonTime" type="button" value="22:00"></td>
-																				<td><input class="lessonTime" type="button" value="22:30"></td>
-																				<td><input class="lessonTime" type="button" value="23:30"></td>
-																				<td><input class="lessonTime" type="button" value="23:00"></td>
-																				<td><input class="lessonTime" type="button" value="24:00"></td>
-									                                		</tr>
-									                                	</tbody>
-									                                </table>
-									                            </div>
-									                        </div>
-									                        <div class="row">
-									                            <div class="col-xs-12">
-									                                <label class="col-xs-4" for="edit-start">시작</label>
-									                                <!-- 30분 단위로 되게끔 수정 -->
-									                                <input class="inputModal" type="text" name="lesson-start" id="edit-start" />
-									                            </div>
-									                        </div>
-									                        <div class="row">
-									                            <div class="col-xs-12">
-									                                <label class="col-xs-4" for="edit-end">끝</label>
-									                                <!-- 30분 단위로 되게끔 수정 -->
-									                                <input class="inputModal" type="text" name="lesson-end" id="edit-end" />
-									                            </div>
-									                        </div>
-									                        <div class="row">
-									                            <div class="col-xs-12">
-									                                <label class="col-xs-4" for="edit-desc">설명</label>
-									                                <textarea rows="4" cols="50" class="inputModal" name="edit-desc"
-									                                    id="edit-desc" readonly="readonly">
-									                                    간단한 레슨 설명?
-																	</textarea>
-									                            </div>
-									                        </div>
-									                    </div>
-									                    <div class="modal-footer modalBtnContainer-modifyEvent">
-									                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-									                        <button type="button" class="btn btn-primary" id="updateEvent">예약하기</button>
-									                    </div>
-								                    </form>
+								                <div class="modal-content">
+								                    <div class="modal-header">
+								                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+								                                aria-hidden="true">&times;</span></button>
+								                        <h4 class="modal-title"></h4>
+								                    </div>
+								                    <div class="modal-body">
+								
+								                        <div class="row">
+								                            <div class="col-xs-12">
+								                                <label class="col-xs-4" for="edit-allDay">하루종일</label>
+								                                <input class='allDayNewEvent' id="edit-allDay" type="checkbox"></label>
+								                            </div>
+								                        </div>
+								
+								                        <div class="row">
+								                            <div class="col-xs-12">
+								                                <label class="col-xs-4" for="edit-title">일정명</label>
+								                                <input class="inputModal" type="text" name="edit-title" id="edit-title"
+								                                    required="required" />
+								                            </div>
+								                        </div>
+								                        <div class="row">
+								                            <div class="col-xs-12">
+								                                <label class="col-xs-4" for="edit-start">시작</label>
+								                                <input class="inputModal" type="text" name="edit-start" id="edit-start" />
+								                            </div>
+								                        </div>
+								                        <div class="row">
+								                            <div class="col-xs-12">
+								                                <label class="col-xs-4" for="edit-end">끝</label>
+								                                <input class="inputModal" type="text" name="edit-end" id="edit-end" />
+								                            </div>
+								                        </div>
+								                        <div class="row">
+								                            <div class="col-xs-12">
+								                                <label class="col-xs-4" for="edit-type">구분</label>
+								                                <select class="inputModal" type="text" name="edit-type" id="edit-type">
+								                                    <option value="카테고리1">카테고리1</option>
+								                                    <option value="카테고리2">카테고리2</option>
+								                                    <option value="카테고리3">카테고리3</option>
+								                                    <option value="카테고리4">카테고리4</option>
+								                                </select>
+								                            </div>
+								                        </div>
+								                        <div class="row">
+								                            <div class="col-xs-12">
+								                                <label class="col-xs-4" for="edit-color">색상</label>
+								                                <select class="inputModal" name="color" id="edit-color">
+								                                    <option value="#D25565" style="color:#D25565;">빨간색</option>
+								                                    <option value="#9775fa" style="color:#9775fa;">보라색</option>
+								                                    <option value="#ffa94d" style="color:#ffa94d;">주황색</option>
+								                                    <option value="#74c0fc" style="color:#74c0fc;">파란색</option>
+								                                    <option value="#f06595" style="color:#f06595;">핑크색</option>
+								                                    <option value="#63e6be" style="color:#63e6be;">연두색</option>
+								                                    <option value="#a9e34b" style="color:#a9e34b;">초록색</option>
+								                                    <option value="#4d638c" style="color:#4d638c;">남색</option>
+								                                    <option value="#495057" style="color:#495057;">검정색</option>
+								                                </select>
+								                            </div>
+								                        </div>
+								                        <div class="row">
+								                            <div class="col-xs-12">
+								                                <label class="col-xs-4" for="edit-desc">설명</label>
+								                                <textarea rows="4" cols="50" class="inputModal" name="edit-desc"
+								                                    id="edit-desc">
+																</textarea>
+								                            </div>
+								                        </div>
+								                    </div>
+								                    <div class="modal-footer modalBtnContainer-addEvent">
+								                        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+								                        <button type="button" class="btn btn-primary" id="save-event">저장</button>
+								                    </div>
+								                    <div class="modal-footer modalBtnContainer-modifyEvent">
+								                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+								                        <button type="button" class="btn btn-danger"  id="deleteEvent">삭제</button>
+								                        <button type="button" class="btn btn-primary" id="updateEvent">저장</button>
+								                    </div>
 								                </div><!-- /.modal-content -->
 								            </div><!-- /.modal-dialog -->
 								        </div><!-- /.modal -->
@@ -329,11 +281,11 @@
 			   </div>
 			   <div class="col-lg-3 col-md-4 col-sm-6">
 			      <div class="product__item">
-			         <div class="product__item__pic set-bg" data-setbg="">
+			         <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-1.jpg">
 			            <div class="label new">New</div>
 			            <ul class="product__hover">
 			               <li>
-			                  <a href="#" class="image-popup">
+			                  <a href="img/product/related/rp-1.jpg" class="image-popup">
 			                     <span class="arrow_expand"></span>
 			                  </a>
 			               </li>
@@ -366,10 +318,10 @@
 			   </div>
 			   <div class="col-lg-3 col-md-4 col-sm-6">
 			      <div class="product__item">
-			         <div class="product__item__pic set-bg" data-setbg="">
+			         <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-2.jpg">
 			            <ul class="product__hover">
 			               <li>
-			                  <a href="#" class="image-popup">
+			                  <a href="img/product/related/rp-2.jpg" class="image-popup">
 			                     <span class="arrow_expand"></span>
 			                  </a>
 			               </li>
@@ -402,11 +354,11 @@
 			   </div>
 			   <div class="col-lg-3 col-md-4 col-sm-6">
 			      <div class="product__item">
-			         <div class="product__item__pic set-bg" data-setbg="">
+			         <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-3.jpg">
 			            <div class="label stockout">out of stock</div>
 			               <ul class="product__hover">
 			                  <li>
-			                     <a href="#" class="image-popup">
+			                     <a href="img/product/related/rp-3.jpg" class="image-popup">
 			                        <span class="arrow_expand"></span>
 			                     </a>
 			                  </li>
@@ -439,10 +391,10 @@
 			      </div>
 			      <div class="col-lg-3 col-md-4 col-sm-6">
 			         <div class="product__item">
-			            <div class="product__item__pic set-bg" data-setbg="#">
+			            <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-4.jpg">
 			               <ul class="product__hover">
 			                  <li>
-			                     <a href="#" class="image-popup">
+			                     <a href="img/product/related/rp-4.jpg" class="image-popup">
 			                        <span class="arrow_expand"></span>
 			                     </a>
 			                  </li>
@@ -478,71 +430,75 @@
    </section>
    <!-- Product Details Section End -->
    
-		<div class="modal" tabindex="-1" role="dialog" id="reservationModal" aria-labelledby="reservationModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="reservationModalLabel">Modal title</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class='col-md-3 col-xs-4 resDate'>
-						    날짜 : <input type="date">
-						</div>
-						<div class='col-md-3 col-xs-4 resTime'>
-							시간 : <input type="time">
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary"    data-dismiss="modal" id="regist">등록</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal" tabindex="-1" role="dialog" id="reservationModalCheck" aria-labelledby="reservationModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="reservationModalLabel">Modal title</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<table border="1" >
-							<thead>
-								<tr>
-									<th>
-										예약 시간
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td th:each="num : ${#numbers.sequence(1,9)}" class="col-sm-1">
-										[[${num * 2 + 4}]]~[[${num * 2 + 6}]]
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary"    data-dismiss="modal" id="regist">등록</button>
-					</div>
-				</div>
-			</div>
-		</div>
+   <div class="modal" tabindex="-1" role="dialog" id="reservationModal" aria-labelledby="reservationModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="reservationModalLabel">Modal title</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+               <div class='col-md-3 col-xs-4 resDate'>
+                   날짜 : <input type="date">
+               </div>
+               <div class='col-md-3 col-xs-4 resTime'>
+                  시간 : <input type="time">
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-primary"    data-dismiss="modal" id="regist">등록</button>
+            </div>
+         </div>
+      </div>
+   </div>
+	<div class="modal" tabindex="-1" role="dialog" id="reservationModalCheck" aria-labelledby="reservationModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="reservationModalLabel">Modal title</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+               <table border="1" >
+                  <thead>
+                     <tr>
+                        <th>
+                           예약 시간
+                        </th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td th:each="num : ${#numbers.sequence(1,9)}" class="col-sm-1">
+                           [[${num * 2 + 4}]]~[[${num * 2 + 6}]]
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-primary"    data-dismiss="modal" id="regist">등록</button>
+            </div>
+         </div>
+      </div>
+   </div>
    		<script th:src="@{/calendar/js/jquery.min.js}"></script>
 		<script th:src="@{/resource/js/lesson/detailLessonForUser.js}"></script>
 		<script th:src="@{/calendar/js/bootstrap.min.js}"></script>
 		<script th:src="@{/calendar/js/moment.min.js}"></script>
 		<script th:src="@{/calendar/js/bootstrap-datetimepicker.min.js}"></script>
+		<script th:src="@{/calendar/js/fullcalendar.min.js}"></script>
 		<script th:src="@{/calendar/js/select2.min.js}"></script>
-		<script th:src="@{/calendar/js/customJs.js}"></script>
-		<script th:src="@{/calendar/js/addLesson.js}"></script>
+		<script th:src="@{/calendar/js/ko.js}"></script>
+		<script th:src="@{/calendarJs/lesson/mainLesson.js}"></script>
+		<script th:src="@{/calendarJs/etcSetting.js}"></script>
+		<script th:src="@{/calendarJs/lesson/lessonReservationEvent.js}"></script>
+		<script th:src="@{/calendarJs/addEvent.js}"></script>
    </th:block>
 </html>

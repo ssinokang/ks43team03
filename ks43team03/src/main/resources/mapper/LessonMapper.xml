@@ -65,6 +65,14 @@
 			<result	column="updated_date"			property="updatedDate"/>
 			<result	column="represent_img"		property="representImg"/>
 		</collection>
+		<collection property="lessonReservation"	 ofType="LessonReservation">
+			<id		column="reservation_cd"			property="reservationCd"/>	
+			<result	column="reservation_id"			property="reservationId"/>
+			<result	column="reservation_date"		property="reservationDate"/>
+			<result	column="reservation_start_time"	property="reservationStartTime"/>
+			<result column="reservation_end_time"	property="reservationEndTime"/>
+			<result	column="reservation_cancel"		property="reservationCancel"/>
+		</collection>
 	</resultMap>
 	<!-- 레슨 게시물 숫자 가져오기 -->
 	<select id="getLessonCount" resultType="int">
@@ -74,19 +82,29 @@
 			lesson
 	</select>
 	
-	<select id="getLessonReservation" parameterType="Map" resultType="LessonReservatioin">
+	<select id="getLessonReservation" parameterType="Map" resultMap="lessonResultMap">
 		SELECT
-			reservation_cd          as reservationCd
-			,lesson_cd          	 	as lessonCd
-			,reservation_id          as reservationId
-			,reservation_date        as reservationDate
-			,reservation_start_time  as reservationStartTime
-			,reservation_end_time    as reservationEndTime
-			,reservation_cancel      as reservationCancel
+			l.lesson_start_date,
+			l.lesson_end_time,
+			l.lesson_end_date,
+			l.lesson_start_time,
+			lr.reservation_date,
+			lr.reservation_start_time,
+			lr.reservation_end_time
 		FROM
-			lesson_reservation
+			lesson AS l
+			INNER JOIN
+			lesson_reservation AS lr
+			on
+			l.lesson_cd = lr.lesson_cd
 		WHERE
-			reservation_date BETWEEN #{startDate} AND #{endDate}
+			<![CDATA[lr.reservation_cancel <> 'Y']]>
+			AND
+			l.lesson_cd = #{lessonCd}
+			AND
+			l.lesson_end_date BETWEEN #{startDate} and #{endDate}
+			and
+			lr.reservation_date BETWEEN #{startDate} and #{endDate}
 	</select>
 	
 	<!-- 레슨 수정하기 -->

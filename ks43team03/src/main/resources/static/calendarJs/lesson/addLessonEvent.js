@@ -56,7 +56,7 @@ var newEvent = function (start, end, eventType) {
                 if(response == 1) {
 					alert("예약 가능한 시간입니다.")
 				} else {
-					alert("이미 예약되어 있는 시간입니다ㅏ.");
+					alert("이미 예약되어 있는 시간입니다.");
 				}
             }
         });

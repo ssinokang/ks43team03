@@ -241,4 +241,12 @@ public class OrderService {
 		return orderList;
 	}
 	
+	/**
+	 * 시실의 주문리스트
+	 */
+	
+	public List<Order> getOrderInfoForFacility(String facilityCd){
+		return orderMapper.getOrderInfoForFacility(facilityCd);
+	}
+	
 }

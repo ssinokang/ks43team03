@@ -1,7 +1,7 @@
 $(function(){
     var today = new Date();
     var date = new Date();
-    var $reSchedule = $('#reSchedule');
+    var realNowDate  = moment().format('YYYY-MM-DD');
 	function events (start, end, buildCalendar) {
 		const data = {
 			scheduleCtg	: "LessonReservation",
@@ -47,10 +47,9 @@ $(function(){
         firstDay  = new Date(nowYear,nowMonth,1).getDay(); //1st의 요일
         lastDate  = new Date(nowYear,nowMonth+1,0).getDate();
         
-        var lessonStartMonth  	= moment(fixedDate.lessonStartDate).format('MM');
-        var lessonEndMonth   	= moment(fixedDate.lessonEndDate).format('MM');
-        var lessonStartDay 		= moment(fixedDate.lessonStartDate).format('DD');
-        var lessonEndDay 		= moment(fixedDate.lessonEndDate).format('DD');
+        var lessonStartDate  	= moment(fixedDate.lessonStartDate).format('YYYY-MM-DD');
+        var lessonEndDate   	= moment(fixedDate.lessonEndDate).format('YYYY-MM-DD');
+
         
 		lessonEndTime		= moment(fixedDate.lessonEndTime, 'HH:mm');
 		lessonStartTime		= moment(fixedDate.lessonStartTime, 'HH:mm');
@@ -71,13 +70,12 @@ $(function(){
         	
             plusDate = newDate.getDay();
         	day 	 = newDate.toISOString().substring(0,10);
+      
             if (plusDate==0) {
                 $("#calendar tbody:last").append("<tr></tr>");
             }
-            if(nowMonth + 1> Number(lessonStartMonth) && nowMonth + 1 < Number(lessonEndMonth)) {	
-				$("#calendar tbody:last").append("<td class='date' data-date="+ i +">"+ i + "<button class=\"reservation possible\"type=\"button\" data-target=\"\#eventModal\" data-toggle=\"modal\">예약 가능</button>" +"</td>");
-			} else if(nowMonth + 1>= Number(lessonStartMonth) && nowMonth + 1<= Number(lessonEndMonth) && Number(date.getDate()) <= i && i <= Number(lessonEndDay)) {
-				$("#calendar tbody:last").append("<td class='date' data-date="+ i +">"+ i + "<button class=\"reservation possible\"type=\"button\" data-target=\"\#eventModal\" data-toggle=\"modal\">예약 가능</button>" +"</td>");
+            if(moment(day).isAfter(lessonStartDate) && moment(day).isBefore(lessonEndDate) && moment(day).isAfter(realNowDate)) {	
+				$("#calendar tbody:last").append("<td class='date' data-date="+ moment(day).add(1,'days').format('YYYY-MM-DD') +">"+ i + "<button class=\"reservation possible\"type=\"button\" data-target=\"\#eventModal\" data-toggle=\"modal\">예약 하기</button>" +"</td>");
 			} else {
 	        	$("#calendar tbody:last").append("<td class='date'>"+ i + "<button class=\"reservation impossible\"type=\"button\">예약 불가</button>" +"</td>");
 	        }
@@ -101,4 +99,4 @@ $(function(){
         addLesson(fixedDate);
     }
     events(moment().startOf('month').format('YYYY-MM-DD'), moment().endOf('month').format('YYYY-MM-DD'), buildCalendar);
-})
+});

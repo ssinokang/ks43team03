@@ -15,15 +15,23 @@ function addLesson(fixedDate) {
 	});
 
 	$(document).on('click','.reservation.possible', function() {
-		console.log($(this).parent().attr("data-date"));
-		var yearMon = $(".year_mon").attr("yearMon");
+		
+		var yearMon = $(this).parent().attr("data-date");
 		
 		fixedDate.lessonReservation.forEach(x => {
 			var lessonDate = x.reservationDate;
-			console.log(lessonDate);
-			console.log(yearMon);
-			console.log(moment(lessonDate).format('YYMM'));
-			console.log(moment(yearMon).format('YYMM'));
+			if(lessonDate == yearMon) {
+				$('.lessonTime').each(function(){
+					hours = moment($(this).val(), "HH:mm");
+					
+					startTime = moment(x.reservationStartTime, "HH:mm");
+					endTime   = moment(x.reservationEndTime, "HH:mm");
+	
+					if(moment(hours).isSameOrAfter(startTime) && moment(hours).isSameOrBefore(endTime)) {
+						$(this).removeClass('reservation-possible');
+					}
+				});
+			}
 		})
 		
 	});

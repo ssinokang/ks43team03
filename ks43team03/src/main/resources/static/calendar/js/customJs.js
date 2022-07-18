@@ -11,7 +11,7 @@ $(function(){
 		};
 	    $.ajax({
 			type: "POST",
-			url: "/calendar/lessonReservationData",
+			url: "/calendar/scheduleData",
 			dataType: 'JSON',
 			contentType: 'application/json; charset=utf-8',
 			data: JSON.stringify(data),
@@ -41,25 +41,28 @@ $(function(){
 
     function buildCalendar(fixedDate) {
         
-        nowYear = today.getFullYear();
-        nowMonth = today.getMonth();
+        nowYear   = today.getFullYear();
+        nowMonth  = today.getMonth();
         firstDate = new Date(nowYear,nowMonth,1).getDate();
-        firstDay = new Date(nowYear,nowMonth,1).getDay(); //1st의 요일
-        lastDate = new Date(nowYear,nowMonth+1,0).getDate();
+        firstDay  = new Date(nowYear,nowMonth,1).getDay(); //1st의 요일
+        lastDate  = new Date(nowYear,nowMonth+1,0).getDate();
         
         var lessonStartMonth  	= moment(fixedDate.lessonStartDate).format('MM');
         var lessonEndMonth   	= moment(fixedDate.lessonEndDate).format('MM');
         var lessonStartDay 		= moment(fixedDate.lessonStartDate).format('DD');
         var lessonEndDay 		= moment(fixedDate.lessonEndDate).format('DD');
+        
 		lessonEndTime		= moment(fixedDate.lessonEndTime, 'HH:mm');
 		lessonStartTime		= moment(fixedDate.lessonStartTime, 'HH:mm');
+		
         if((nowYear%4===0 && nowYear % 100 !==0) || nowYear%400===0) { //윤년 적용
             lastDate[1]=29;
         }
-        //모달창에 들어갈 시간 바 만들기
-		$reSchedule = $('reSchedule');
-        $(".year_mon").text(nowYear+"년 "+(nowMonth+1)+"월");
-
+        var $yearMon =  $(".year_mon");
+        
+        $yearMon.text(nowYear+"년 "+(nowMonth+1)+"월");
+        $yearMon.attr('yearMon', nowYear+(nowMonth+1+''));
+        
         for (i=0; i<firstDay; i++) { //첫번째 줄 빈칸
             $("#calendar tbody:last").append("<td></td>");
         }
@@ -71,12 +74,13 @@ $(function(){
             if (plusDate==0) {
                 $("#calendar tbody:last").append("<tr></tr>");
             }
-            if(nowMonth + 1>= Number(lessonStartMonth) && nowMonth + 1<= Number(lessonEndMonth) && Number(date.getDate()) <= i && i <= Number(lessonEndDay)) {
-				
-				$("#calendar tbody:last").append("<td class='date'>"+ i + "<button class=\"reservation possible\"type=\"button\" data-target=\"\#eventModal\" data-toggle=\"modal\">예약 가능</button>" +"</td>");
+            if(nowMonth + 1> Number(lessonStartMonth) && nowMonth + 1 < Number(lessonEndMonth)) {	
+				$("#calendar tbody:last").append("<td class='date' data-date="+ i +">"+ i + "<button class=\"reservation possible\"type=\"button\" data-target=\"\#eventModal\" data-toggle=\"modal\">예약 가능</button>" +"</td>");
+			} else if(nowMonth + 1>= Number(lessonStartMonth) && nowMonth + 1<= Number(lessonEndMonth) && Number(date.getDate()) <= i && i <= Number(lessonEndDay)) {
+				$("#calendar tbody:last").append("<td class='date' data-date="+ i +">"+ i + "<button class=\"reservation possible\"type=\"button\" data-target=\"\#eventModal\" data-toggle=\"modal\">예약 가능</button>" +"</td>");
 			} else {
-	            $("#calendar tbody:last").append("<td class='date'>"+ i + "<button class=\"reservation impossible\"type=\"button\">예약 불가</button>" +"</td>");
-			}
+	        	$("#calendar tbody:last").append("<td class='date'>"+ i + "<button class=\"reservation impossible\"type=\"button\">예약 불가</button>" +"</td>");
+	        }
         }
         if($("#calendar > tbody > td").length%7!=0) { //마지막 줄 빈칸
             for(i=1; i<= $("#calendar > tbody > td").length%7; i++) {
@@ -91,10 +95,10 @@ $(function(){
         $('.lessonTime').each(function(){
 			hours = moment($(this).val(), "HH:mm");
 			if(hours.isSameOrAfter(lessonStartTime) && hours.isSameOrBefore(lessonEndTime)) {
-				$(this).addClass('possible');
+				$(this).addClass('reservation-possible');
 			}
 		}); 
+        addLesson(fixedDate);
     }
     events(moment().startOf('month').format('YYYY-MM-DD'), moment().endOf('month').format('YYYY-MM-DD'), buildCalendar);
-    
 })

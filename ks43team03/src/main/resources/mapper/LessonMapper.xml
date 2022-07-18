@@ -93,18 +93,20 @@
 			lr.reservation_end_time
 		FROM
 			lesson AS l
-			INNER JOIN
+			LEFT JOIN
+			(SELECT
+				lr.lesson_cd,
+				lr.reservation_date,
+				lr.reservation_start_time,
+				lr.reservation_end_time
+			FROM
 			lesson_reservation AS lr
+			WHERE
+				 <![CDATA[lr.reservation_cancel <> 'Y']]>) AS lr
 			on
 			l.lesson_cd = lr.lesson_cd
-		WHERE
-			<![CDATA[lr.reservation_cancel <> 'Y']]>
-			AND
-			l.lesson_cd = #{lessonCd}
-			AND
-			l.lesson_end_date BETWEEN #{startDate} and #{endDate}
-			and
-			lr.reservation_date BETWEEN #{startDate} and #{endDate}
+		where
+		l.lesson_cd = #{lessonCd}
 	</select>
 	
 	<!-- 레슨 수정하기 -->

@@ -30,8 +30,8 @@ public class CalenderController {
 	/**
 	 *  캘린더 일정 보내기
 	 **/
-	@PostMapping("/lessonReservationData")
-	public String lessonReservationData(@RequestBody Map<String, String> scheduleDate) {
+	@PostMapping("/scheduleData")
+	public String scheduleData(@RequestBody Map<String, String> scheduleDate) {
 		String scheduleJson = "";
 		log.info("lessonDate : {}" ,scheduleDate);
 

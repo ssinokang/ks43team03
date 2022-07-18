@@ -23,30 +23,33 @@
 	        #calendar th {
 	            height: 50px;
 	            width: 70px;
-	            background-color:  #EA80FC;
+	            background-color:  #EBFBFF;
 	            text-align: center;
 	        }
 	        #calendar td {
 	            text-align: center;
 	            height: 50px;
 	            width: 70px;
-	            background-color: #FFFDC5;  
+	            background-color: #EBFBFF;  
 	        }
 	        #calendar input {
 	            height: 50px;
 	            width: 70px;
 	            border: none;
-	            background-color:  #EA80FC;
+	            background-color:  #EBFBFF;
 	            font-size: 30px;
 	        }
 	        #calendar .year_mon{
 	            font-size: 25px;
 	        }
 	        #calendar .colToday{
-	            background-color: #FFA07A;
+	            background-color: #EBFBFF;
 	        }
 	        .possible {
-	        	background-color: blue;
+	        	background-color: #BEEFFF;
+	        }
+	        .reservation-possible {
+	        	background-color: #BEEFFF;
 	        }
 									    
 		</style>
@@ -269,14 +272,14 @@
 									                            <div class="col-xs-12">
 									                                <label class="col-xs-4" for="edit-start">시작</label>
 									                                <!-- 30분 단위로 되게끔 수정 -->
-									                                <input class="inputModal" type="text" name="lesson-start" id="edit-start" />
+									                                <input class="inputModal lesson" type="text" name="lessonStartTime" id="edit-start" />
 									                            </div>
 									                        </div>
 									                        <div class="row">
 									                            <div class="col-xs-12">
 									                                <label class="col-xs-4" for="edit-end">끝</label>
 									                                <!-- 30분 단위로 되게끔 수정 -->
-									                                <input class="inputModal" type="text" name="lesson-end" id="edit-end" />
+									                                <input class="inputModal lesson" type="text" name="lessonEndTime" id="edit-end" />
 									                            </div>
 									                        </div>
 									                        <div class="row">
@@ -284,13 +287,12 @@
 									                                <label class="col-xs-4" for="edit-desc">설명</label>
 									                                <textarea rows="4" cols="50" class="inputModal" name="edit-desc"
 									                                    id="edit-desc" readonly="readonly">
-									                                    간단한 레슨 설명?
+																		간단한 레슨 설명?
 																	</textarea>
 									                            </div>
 									                        </div>
 									                    </div>
 									                    <div class="modal-footer modalBtnContainer-modifyEvent">
-									                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 									                        <button type="button" class="btn btn-primary" id="updateEvent">예약하기</button>
 									                    </div>
 								                    </form>

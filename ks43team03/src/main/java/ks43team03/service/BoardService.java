@@ -21,7 +21,7 @@ import ks43team03.mapper.FileMapper;
 @Service
 @Transactional
 public class BoardService {
-
+	
 	private final BoardMapper boardMapper;
 	private final FileMapper fileMapper;
 	
@@ -37,21 +37,21 @@ public class BoardService {
 		System.out.println("------------------------게시글 전체목록 조회 서비스-----------------------------");
 		
 		int rowPerPage = 9;
-
+		
 		double rowCount = boardMapper.getBoardCount();
-
+		
 		int lastPage = (int) Math.ceil(rowCount / rowPerPage);
-
+		
 		int startRow = (currentPage - 1) * rowPerPage;
-
+		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-
+		
 		paramMap.put("startRow", startRow);
 		paramMap.put("rowPerPage", rowPerPage);
-
+		
 		int startPageNum = 1;
 		int endPageNum = 10;
-
+		
 		if (lastPage > 10) {
 			if (currentPage >= 6) {
 				startPageNum = currentPage - 4;
@@ -167,9 +167,9 @@ public class BoardService {
 	}
 	
 	/* 게시글 카테고리 조회 */
-	public List<BoardCtgCd> getBoardCtgCd(BoardCtgCd boardSubCtgCd){
+	public List<BoardCtgCd> getBoardCtgCd(BoardCtgCd boardCtg){
 		System.out.println("------------------------게시글 카테고리 조회 서비스-----------------------------");
-		List<BoardCtgCd> boardCtgCd = boardMapper.getBoardCtgCd(boardSubCtgCd);
+		List<BoardCtgCd> boardCtgCd = boardMapper.getBoardCtgCd(boardCtg);
 		System.out.println("------------------------게시글 카테고리 조회 서비스 끝-----------------------------");
 		return boardCtgCd;
 	}

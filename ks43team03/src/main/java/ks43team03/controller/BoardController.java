@@ -24,9 +24,9 @@ import ks43team03.service.BoardService;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-
+	
 	private final BoardService boardService;
-
+	
 	public BoardController(BoardService boardService) {
 		this.boardService = boardService;
 	}
@@ -43,7 +43,7 @@ public class BoardController {
 		
 		log.info("resultMap 받기 : {}", resultMap);
 		log.info("resultMap.get(\"boardList\") : {}",resultMap.get("boardList"));
-
+		
 		model.addAttribute("title", 				"게시판");
 		model.addAttribute("resultMap", 			resultMap);
 		model.addAttribute("currentPage", 			currentPage);
@@ -156,10 +156,10 @@ public class BoardController {
 	
 	/* 게시글 등록 페이지 */
 	@GetMapping("/addBoard")
-	public String addBoard(Board board, BoardCtgCd boardSubCtgCd, Model model) {
+	public String addBoard(Board board, BoardCtgCd boardCtg, Model model) {
 		System.out.println("------------------------게시글 등록 페이지-----------------------------");
 		
-		List<BoardCtgCd> boardCtgCdList = boardService.getBoardCtgCd(boardSubCtgCd);
+		List<BoardCtgCd> boardCtgCdList = boardService.getBoardCtgCd(boardCtg);
 		
 		model.addAttribute("title", "게시글 등록");
 		model.addAttribute("boardCtgCdList", boardCtgCdList);
@@ -185,7 +185,7 @@ public class BoardController {
 	
 	/* 게시글수정 페이지 */
 	@GetMapping("/modifyBoard")
-	public String modifyBoard(Model model, BoardCtgCd boardSubCtgCd,
+	public String modifyBoard(Model model, BoardCtgCd boardCtg,
 							@RequestParam(name = "boardPostCd", required = false) String boardPostCd) {
 		System.out.println("---------------------게시글 수정 페이지-----------------------");
 		
@@ -193,7 +193,7 @@ public class BoardController {
 		
 		Board board = boardService.getBoardDetail(boardPostCd);
 		
-		List<BoardCtgCd> boardCtgCdList = boardService.getBoardCtgCd(boardSubCtgCd);
+		List<BoardCtgCd> boardCtgCdList = boardService.getBoardCtgCd(boardCtg);
 		
 		model.addAttribute("title", "게시글 수정");
 		model.addAttribute("board", board);

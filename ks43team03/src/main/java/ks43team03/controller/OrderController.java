@@ -56,7 +56,7 @@ public class OrderController {
 		log.info("userId datat {}", req.getUserId());
 		
 		// order 저장 
-		ResponseGoods responseGoods = facilityGoodsService.getFacilityGoodsCd(req.getFacilityGoodsCd());
+		ResponseGoods responseGoods = facilityGoodsService.getFacilityGoodsCd(req.getFacilityGoodsCd(),req.getGoodsCtgCd());
 		String goodsCode = responseGoods.getFacilityGoods().getFacilityGoodsCd();
 		 
 		
@@ -67,7 +67,7 @@ public class OrderController {
 	@GetMapping("/addOrder")
 	public String order(Model model,HttpSession session ,
 									 @RequestParam(name = "facilityGoodsCd" , required = false)String facilityGoodsCd,
-									 @RequestParam(name = "goodsCtgCd" , required = false)String goodsCtgCd) {
+									 @RequestParam(name = "goodsCtgCd" , required = false,defaultValue = "pass")String goodsCtgCd) {
 		
 		
 		log.info("화면에서 받은 goodsCode : {}", facilityGoodsCd);
@@ -81,7 +81,7 @@ public class OrderController {
 			throw new CustomException(ErrorMessage.USER_ERROR_USER_NOT_FOUND);
 		}
 		
-		ResponseGoods facilityGoods = facilityGoodsService.getFacilityGoodsCd(facilityGoodsCd);
+		ResponseGoods facilityGoods = facilityGoodsService.getFacilityGoodsCd(facilityGoodsCd,goodsCtgCd);
 
 		
 		model.addAttribute("title", "결제 페이지");

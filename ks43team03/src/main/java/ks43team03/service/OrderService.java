@@ -68,13 +68,15 @@ public class OrderService {
 		}
 		
 		
+		
+		if(Strings.isEmpty(userId)) {
+			throw new CustomException(ErrorMessage.IS_EMPTY_USER);
+		}
 		// 예외처리
 		User user;
 			
 		try {
-			if(Strings.isEmpty(userId)) {
-				throw new CustomException(ErrorMessage.IS_EMPTY_USER);
-			}
+			
 			user = userMapper.getUserInfoById(userId);
 			
 			if(user == null) {

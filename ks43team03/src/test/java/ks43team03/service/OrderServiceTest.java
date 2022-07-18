@@ -116,29 +116,29 @@ public class OrderServiceTest {
 	// }
 
 //== null ==//	
-//	@Test
-//	@DisplayName("세션이 풀리고 로그인되지 않은 아이디로 주문조회를 하면 예외가 발생한다.")
-//	void sessionOut(){
-//			
-//		Order.Request orderReq = new Order.Request();
-//
-//		ResponseGoods goods = responseGoods();
-//		orderReq.setFacilityGoodsCd(goods.getFacilityGoods().getFacilityCd());
-//		orderReq.setPayType(PayType.CARD);
-//		orderReq.setUserId(null);
-//		orderReq.setOrderPayPrice(400000);
-//		orderReq.setOrderPrice(goods.getPrice());
-//		orderReq.setUsedPoint(1000);
-//		orderReq.setGoodsName("고급 강좌");
-//
-//
-//		Throwable exception = Assertions.assertThrows(CustomException.class, ()->{
-//			orderService.addOrder(orderReq, goods);
-//		});
-//		
-//		log.debug("error Massage : {}", exception.getMessage());
-//		assertEquals(ErrorMessage.IS_EMPTY_USER.getMessage(), exception.getMessage());
-//	}
+	@Test
+	@DisplayName("세션이 풀리고 로그인되지 않은 아이디로 주문조회를 하면 예외가 발생한다.")
+	void sessionOut(){
+			
+		Order.Request orderReq = new Order.Request();
+
+		ResponseGoods goods = responseGoods();
+		orderReq.setFacilityGoodsCd(goods.getFacilityGoods().getFacilityCd());
+		orderReq.setPayType(PayType.CARD);
+		orderReq.setUserId(null);
+		orderReq.setOrderPayPrice(400000);
+		orderReq.setOrderPrice(goods.getPrice());
+		orderReq.setUsedPoint(1000);
+		orderReq.setGoodsName("고급 강좌");
+
+
+		Throwable exception = Assertions.assertThrows(CustomException.class, ()->{
+			orderService.addOrder(orderReq, goods);
+		});
+		
+		log.debug("error Massage : {}", exception.getMessage());
+		assertEquals(ErrorMessage.IS_EMPTY_USER.getMessage(), exception.getMessage());
+	}
 	
 	@Test
 	@DisplayName("존재하지 않은 상품으로 구매를 하였을 경우")

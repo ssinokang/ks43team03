@@ -30,7 +30,7 @@
 
 /* Template default CSS
 /*----------------------------------------*/
-
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 html,
 body {
 	height: 100%;
@@ -76,9 +76,9 @@ h6 {
 
 p {
 	font-size: 14px;
-	font-family: "Montserrat", sans-serif;
-	color: #666666;
-	font-weight: 400;
+	font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+	color: #000000;
+	font-weight: 600;
 	line-height: 24px;
 	margin: 0 0 15px 0;
 }

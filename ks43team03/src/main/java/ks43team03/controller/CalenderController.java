@@ -1,6 +1,9 @@
 package ks43team03.controller;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ks43team03.dto.Lesson;
 import ks43team03.service.CalenderService;
+import ks43team03.service.CommonService;
 
 @RestController
 @RequestMapping("/calendar")
@@ -22,12 +26,33 @@ public class CalenderController {
 	
 	private static final Logger log = LoggerFactory.getLogger(CalenderController.class);
 	private final CalenderService calenderService;
-	
-	public CalenderController(CalenderService calenderService) {
+	private final CommonService commonService;
+	public CalenderController(CalenderService calenderService, CommonService commonService) {
 		this.calenderService = calenderService;
+		this.commonService   = commonService;
 	}
 	
-	
+	/**
+	 *  예약 받기
+	 **/
+	@PostMapping("/reservation")
+	public String reservation(@RequestBody Map<String, String> reservationData, HttpSession session) {
+		Map<String, String> dataMap = new HashMap<>();
+		String data = "";
+		reservationData.put("userId", (String)session.getAttribute("SID"));
+		
+		log.info("reservationData : {}", reservationData);
+		commonService.setRservation(reservationData);
+		dataMap.put("result", "1");
+		
+		ObjectMapper om = new ObjectMapper();
+		try {
+			data = om.writeValueAsString(dataMap);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
 	/**
 	 *  캘린더 일정 보내기
 	 **/

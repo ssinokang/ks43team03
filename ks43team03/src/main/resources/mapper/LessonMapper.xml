@@ -67,6 +67,7 @@
 		</collection>
 		<collection property="lessonReservation"	 ofType="LessonReservation">
 			<id		column="reservation_cd"			property="reservationCd"/>	
+			<result	column="facility_goods_cd"		property="facilityGoodsCd"/>
 			<result	column="reservation_id"			property="reservationId"/>
 			<result	column="reservation_date"		property="reservationDate"/>
 			<result	column="reservation_start_time"	property="reservationStartTime"/>
@@ -95,7 +96,7 @@
 			lesson AS l
 			LEFT JOIN
 			(SELECT
-				lr.lesson_cd,
+				lr.facility_goods_cd,
 				lr.reservation_date,
 				lr.reservation_start_time,
 				lr.reservation_end_time
@@ -104,9 +105,9 @@
 			WHERE
 				 <![CDATA[lr.reservation_cancel <> 'Y']]>) AS lr
 			on
-			l.lesson_cd = lr.lesson_cd
+			l.facility_goods_cd = lr.facility_goods_cd
 		where
-		l.lesson_cd = #{lessonCd}
+		l.facility_goods_cd = #{facilityGoodsCd}
 	</select>
 	
 	<!-- 레슨 수정하기 -->

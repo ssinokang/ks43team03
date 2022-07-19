@@ -1,6 +1,7 @@
 package ks43team03.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,10 @@ public class CommonService {
 		log.info("___________LessonService/getSportsList_____________");
 		List<Sports> sportsList = commonMapper.getSportsList();
 		return sportsList;
+	}
+	public void setRservation(Map<String, String> reservationData) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -182,7 +182,7 @@
 								<h6>Specification</h6>
 							      
 								<div class="container">
-									<input type="hidden" id="lessonCd" th:value="${lesson.lessonCd}">
+									<input type="hidden" id="facilityGoodsCd" th:value="${lesson.facilityGoodsCd}">
 									<div class="row">
 										<table id="calendar">
 										    <thead>
@@ -217,7 +217,7 @@
 								        <div class="modal fade" tabindex="-1" role="dialog" id="eventModal">
 								            <div class="modal-dialog" role="document">
 								                <div class="modal-content" style="width: 580px;">
-									                <form action="calendar/reservation">
+									                <form action="calendar/reservation" id="reservationData">
 									                    <div class="modal-header">
 									                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
 									                                aria-hidden="true">&times;</span></button>
@@ -272,14 +272,14 @@
 									                            <div class="col-xs-12">
 									                                <label class="col-xs-4" for="edit-start">시작</label>
 									                                <!-- 30분 단위로 되게끔 수정 -->
-									                                <input class="inputModal lesson" type="text" name="lessonStartTime" id="edit-start" readonly="readonly"/>
+									                                <input class="inputModal lesson" type="text" name="reservationStartTime" id="edit-start" readonly="readonly"/>
 									                            </div>
 									                        </div>
 									                        <div class="row">
 									                            <div class="col-xs-12">
 									                                <label class="col-xs-4" for="edit-end">끝</label>
 									                                <!-- 30분 단위로 되게끔 수정 -->
-									                                <input class="inputModal lesson" type="text" name="lessonEndTime" id="edit-end" readonly="readonly"/>
+									                                <input class="inputModal lesson" type="text" name="reservationEndTime" id="edit-end" readonly="readonly"/>
 									                            </div>
 									                        </div>
 									                        <div class="row">
@@ -538,6 +538,7 @@
 				</div>
 			</div>
 		</div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
    		<script th:src="@{/calendar/js/jquery.min.js}"></script>
 		<script th:src="@{/resource/js/lesson/detailLessonForUser.js}"></script>
 		<script th:src="@{/calendar/js/bootstrap.min.js}"></script>

@@ -4,10 +4,10 @@ $(function(){
     var realNowDate  = moment().format('YYYY-MM-DD');
 	function events (start, end, buildCalendar) {
 		const data = {
-			scheduleCtg	: "LessonReservation",
-			lessonCd  	: $('#lessonCd').val(),
-			startDate 	: moment(start).format('YYYY-MM-DD'),
-			endDate   	: moment(end).format('YYYY-MM-DD')
+			scheduleCtg		: "LessonReservation",
+			facilityGoodsCd	: $('#facilityGoodsCd').val(),
+			startDate 		: moment(start).format('YYYY-MM-DD'),
+			endDate   		: moment(end).format('YYYY-MM-DD')
 		};
 	    $.ajax({
 			type: "POST",

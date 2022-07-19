@@ -78,7 +78,7 @@ public class OrderController {
 		User user = userService.getUserInfoById(userId);
 		
 		if(user == null) {
-			throw new CustomException(ErrorMessage.USER_ERROR_USER_NOT_FOUND);
+			throw new CustomException(ErrorMessage.IS_EMPTY_USER);
 		}
 		
 		ResponseGoods facilityGoods = facilityGoodsService.getFacilityGoodsCd(facilityGoodsCd,goodsCtgCd);

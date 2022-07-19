@@ -140,6 +140,33 @@ public class OrderServiceTest {
 		assertEquals(ErrorMessage.IS_EMPTY_USER.getMessage(), exception.getMessage());
 	}
 	
+	
+	@Test
+	@DisplayName("금액이 0원 미만일 경우 예외가 발생한다. ")
+	void enterNegativeAmountOfMoney(){
+		Order.Request orderReq = new Order.Request();
+
+		ResponseGoods goods = responseGoods();
+		orderReq.setFacilityGoodsCd(goods.getFacilityGoods().getFacilityCd());
+		orderReq.setPayType(PayType.CARD);
+		orderReq.setUserId(null);
+		orderReq.setOrderPayPrice(-10);
+		orderReq.setOrderPrice(goods.getPrice());
+		orderReq.setUsedPoint(1000);
+		orderReq.setGoodsName("고급 강좌");
+
+		Throwable exception = Assertions.assertThrows(CustomException.class, ()->{
+			orderService.addOrder(orderReq, goods);
+		});
+		
+		log.debug("금액이 마이너스를 입력시 exception", exception.getMessage());
+
+		log.debug("error Massage : {}", exception.getMessage());
+		assertEquals(ErrorMessage.ORDER_ERROR_ORDER_PRICE.getMessage(), exception.getMessage());
+
+	}
+
+	
 	@Test
 	@DisplayName("존재하지 않은 상품으로 구매를 하였을 경우")
 	void notFoundGoods(){

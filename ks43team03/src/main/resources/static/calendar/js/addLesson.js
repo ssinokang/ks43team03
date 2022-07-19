@@ -17,7 +17,6 @@ function addLesson(fixedDate) {
 	$(document).on('click','.reservation.possible', function() {
 		
 		var yearMon = $(this).parent().attr("data-date");
-		
 		fixedDate.lessonReservation.forEach(x => {
 			var lessonDate = x.reservationDate;
 			if(lessonDate == yearMon) {
@@ -29,6 +28,13 @@ function addLesson(fixedDate) {
 	
 					if(moment(hours).isSameOrAfter(startTime) && moment(hours).isSameOrBefore(endTime)) {
 						$(this).removeClass('reservation-possible');
+					}
+				});
+			} else {
+				$('.lessonTime').each(function(){
+					hours = moment($(this).val(), "HH:mm");
+					if(hours.isSameOrAfter(lessonStartTime) && hours.isSameOrBefore(lessonEndTime)) {
+						$(this).addClass('reservation-possible');
 					}
 				});
 			}
@@ -46,6 +52,11 @@ function addLesson(fixedDate) {
 			idx = 0;
 		}
 	});
-	//예약 가능 버튼 눌렀을 때 날짜 가져오기
+	//예약 하기
+	$('#updateEvent').on('click', function() {
+		$.ajax({
+			
+		})
+	})
 	
 }

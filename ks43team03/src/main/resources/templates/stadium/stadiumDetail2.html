@@ -12,118 +12,18 @@
 <th:block layout:fragment="customJs">
 	<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
  	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9c5dbc5a281ccc90ee278e75316bee9c&libraries=services,clusterer,drawing"></script>
-	<link rel="stylesheet" th:href="@{/resource/css/star.css}" type="text/css">
-	
-	<script>
-		/*시간 연속 선택*/
-		$(function(){
-		    $('input[name="time"]').click(function(){
-		        var time = new Array();
-		        var i=0;
-		        $('input[name="time"]').each(function(e){
-		            if($(this).is(":checked")){
-		            	time[i]= e;
-		                i++;
-		            }
-		        });
-		        if(time.length != 1){
-		            var temp = time[0];
-		            for(var k=1; k<time.length; k++){
-		                if(temp+k != time[k]){
-		                    alert("연속으로 선택해주세요.");
-		                    if($(this).is(":checked"))
-		                        $(this).is(":checked",false);
-		                    else
-		                        $(this).is(":checked",true);
-		                    return false;
-		                }
-		            }
-		        }
-		    });    
-		});
-		/*시작 시간 종료 시간 값 가져오기*/
-		$(function(){
-			 $('input[name="time"]').click(function(){
-				var timeArry = new Array();
-				$('input[name="time"]').each(function(){
-		            if($(this).is(":checked")){
-		            	timeArry.push($(this).val());		            
-		            }
-		        });
-				   console.log(timeArry);
-				    var sum = 0;
-					var startTime = timeArry[0];
-					var endTime = timeArry[timeArry.length-1];
-						sum += endTime;
-						sum++;
-					var total =  (sum - startTime);
-					var price = $('.price').text();
-					$('.totalTime').text('(' + total +'시간)');				
-					$('#bookingStartTime').val(startTime +':00');
-					$('.startTime').text(startTime + ':00 - ');
-					$('#bookingEndTime').val(sum +':00');
-					$('.endTime').text(sum + ':00');
-					$('#totlaPrice').text(total*price);
-					$('#bookingPrice').val(total*price);
-					console.log($('#bookingPrice').val(total*price));
-				
-			});
-		});
-		
-		/*날짜 선택 값*/
-		$(function(){
-			 $('#reservationDate').change(function(){
-				var date = $('#reservationDate').val();
-				$('#bookingDate').val(date);
-				$('.dateCheck').text(date);
-
-			});
-		});
-		
-	$(function(){
-			
-			function validationCheck(data){
-				if(typeof data == 'undefined' || data == '' || data == null){
-					return false;
-				}
-				return true;
-			}
-			/* 시설 등록시 유효성 검사 */
-			$('#bookingBtn').click(function(){
-				var isSubmit = true;
-				var id = $("#userId").val();
-				var bdate = $("#bookingDate").val();
-				var btime = $("#bookingStartTime").val();
-				
-				if(id == ''){
-					alert("로그인 후 이용가능합니다.");
-					return false;
-				}else if(bdate == ''){
-					alert("날짜를 선택해주세요.");
-					return false;
-				}else if(btime == ''){
-					alert("시간을 선택해주세요.");		
-					return false;
-				}
-			});
-			if(isSubmit) $('#stadiumForm').submit();
-		});
-
-	</script>
-	
+	<link rel="stylesheet" th:href="@{/resource/css/star.css}" type="text/css">s
 </th:block>
 
 <!-- 사용자 정의 css 선언 -->
 	<th:block layout:fragment="customCss">
 		<link rel="stylesheet" th:href="@{/resource/css/mapOverlay.css}" type="text/css">
-	<style>
-	#bookingTime input[type=checkbox]{
-	    display: none;
-	}
-	</style>
+		<link rel="stylesheet" th:href="@{/calendar/css/fullcalendar.min.css}" />
+	    <link rel="stylesheet" th:href="@{/calendar/css/select2.min.css}" />
+		<link rel="stylesheet" th:href="@{/calendar/css/bootstrap-datetimepicker.min.css}" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	</th:block>
-
-
 
 
 <th:block layout:fragment="customContents">
@@ -211,7 +111,7 @@
 	                            <div class="tab-pane active" id="tabs-1" role="tabpanel">	           
 	                                <section class="checkout spad" style="padding-top: 20px;">
 								        <div class="container">
-								            <form id="stadiumForm" th:action="@{/booking/addBooking}" method="post" class="checkout__form">
+								            <form action="#" class="checkout__form">
 								                <div class="row">
 								                    <div class="col-lg-8" style="padding-bottom: 25px;">
 								                        <h5>구장정보</h5>
@@ -231,100 +131,51 @@
 								                        <div class="row">
 								                       </div>
 								                        <div class="row">
-								                           <div class="col-lg-12 col-md-8 col-sm-6">
-								                               	 <span>날짜선택</span><input type="date"  class="form-control" id="reservationDate">
-								                            </div> 
-								                            
-								                            <div class="col-lg-12 col-md-8 col-sm-6" style="padding-top: 10px; overflow-x:scroll;">
-								                            	<span>시간선택</span>
-																<div id="bookingTime" class="btn-group" data-toggle="buttons">
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="9" class="join-btn"> &nbsp; 9 &nbsp;
+								                           <!--  <div class="col-lg-12 col-md-8 col-sm-6">
+								                                <input type="date" class="form-control" name="reservationStadium">
+								                            </div> -->
+								                            <div id="wrapper">
+													            <div id="loading"></div>
+													            <div id="calendar"></div>
+													        </div>
+								                            <!-- <div class="col-md-6 col-sm-6 ">
+																<div id="gender" class="btn-group" data-toggle="buttons">
+																	<label class="btn btn-secondary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
+																		<input type="checkbox" name="gender" value="9:00-10:00" class="join-btn"> &nbsp; 9:00-10:00 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="10" class="join-btn" style="">&nbsp; 10 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="11" class="join-btn" style="">&nbsp; 11 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="12" class="join-btn" style="">&nbsp; 12 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="13" class="join-btn" style="">&nbsp; 13 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="14" class="join-btn" style="">&nbsp; 14 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="15" class="join-btn" style="">&nbsp; 15 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="16" class="join-btn" style="">&nbsp; 16 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="17" class="join-btn" style="">&nbsp; 17 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="18" class="join-btn" style="">&nbsp; 18 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="19" class="join-btn" style="">&nbsp; 19 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="20" class="join-btn" style="">&nbsp; 20 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="21" class="join-btn" style="">&nbsp; 21 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="22" class="join-btn" style="">&nbsp; 22 &nbsp;
+																		<input type="checkbox" name="gender" value="10:00-11:00" class="join-btn" style=""> 10:00-11:00
 																	</label>
 																</div>
-															</div>
+															</div> -->
 								                       </div>
 								                    </div>
 							                        <div class="col-lg-4">
 							                            <div class="checkout__order">
 							                                <h5>Your order</h5>
 							                                <div class="checkout__order__product">
-							         
 							                                    <ul>
 							                                        <li>
-							                                            <span class="top__text">예약정보</span>
-							                                            <input type="hidden" id="facilityCd" name="facilityCd" th:value="${l.facilityCd}">
-							                                            <input type="hidden" id="facilityGoodsCd" name="facilityGoodsCd" th:value="${l.facilityGoodsCd}">
-							                                            <input type="hidden" id="userId" name="userId" th:value="${session.SID}">
-							                                            <input type="hidden" id="goodsCtgCd" name="goodsCtgCd" value="stadium">
-							                                            
+							                                            <span class="top__text">Product</span>
+							                                            <span class="top__text__right">Total</span>
 							                                        </li>
-							                                        <li>
-							                                        	예약날짜 
-							                                        	<span class="dateCheck">-</span>
-							                                        	<input type="hidden" id="bookingDate" name="bookingDate">	
-							                                        </li>
-							                                        <li>
-							                                        	예약시간
-							                                        	<span class="totalTime"></span>
-							                                        	<span class="endTime">-</span>
-							                                        	<input type="hidden" id="bookingEndTime" name="bookingEndTime">
-							                                        	<span class="startTime"></span>
-							                                        	<input type="hidden" id="bookingStartTime" name="bookingStartTime">
-							                                        </li>
+							                                        <li>01. Chain buck bag <span>$ 300.0</span></li>
 							                                    </ul>
 							                                </div>
 							                                <div class="checkout__order__total">
 							                                    <ul>
-							                                        <li>시간 당 금액 
-							                                        	<span class="price" th:text="${l.stadiumPrice.dayPrice}"></span></li>
-							                                        <li>
-							                                        	총 금액
-							                                        	<span id="totlaPrice"></span>
-							                                        	<input type="hidden" id="bookingPrice" name="bookingPrice">
-							                                        </li>
+							                                        <li>Subtotal <span>$ 750.0</span></li>
+							                                        <li>Total <span>$ 750.0</span></li>
 							                                    </ul>
 							                                </div>
-							                                <button type="submit" class="site-btn" id="bookingBtn">예약하기</button>
+							                                <div class="checkout__order__widget">
+							                                    <label for="o-acc">
+							                                        Create an acount?
+							                                        <input type="checkbox" id="o-acc">
+							                                        <span class="checkmark"></span>
+							                                    </label>
+							                                </div>
+							                                <button type="submit" class="site-btn">예약하기</button>
 							                            </div>
 							                        </div>
 								                </div>
@@ -473,6 +324,21 @@
 	<!-- modal end -->
 
 <script th:src="@{/resource/js/map.js}"></script>
+
+
+<script th:src="@{/calendar/js/jquery.min.js}"></script>
+	<script th:src="@{/resource/js/lesson/detailLessonForUser.js}"></script>
+	<script th:src="@{/calendar/js/bootstrap.min.js}"></script>
+	<script th:src="@{/calendar/js/moment.min.js}"></script>
+	<script th:src="@{/calendar/js/bootstrap-datetimepicker.min.js}"></script>
+	<script th:src="@{/calendar/js/fullcalendar.min.js}"></script>
+	<script th:src="@{/calendar/js/select2.min.js}"></script>
+	<script th:src="@{/calendar/js/ko.js}"></script>
+	<script th:src="@{/calendarJs/mainLesson.js}"></script>
+	<script th:src="@{/calendarJs/etcLessonSetting.js}"></script>
+	<script th:src="@{/calendarJs/editEvent.js}"></script>
+	<script th:src="@{/calendarJs/addLessonEvent.js}"></script>
+
 
 
 </th:block>	  

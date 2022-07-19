@@ -24,16 +24,31 @@ public class ReviewService {
 		this.reviewMapper = reviewMapper;
 	}
 	
-	/*결제한 회원만 리뷰작성
-	public boolean isOrderCheck(String userId, String facilityCd, String facilityGoodsCd) {
-		boolean result = reviewMapper.isOrderCheck(userId, facilityCd, facilityGoodsCd);
+	/*후기 삭제*/
+	public int removeReview(String reviewCd, String userId) {
+		int result = reviewMapper.removeReview(reviewCd, userId);
+		
 		return result;
-	}*/
+	}
+	
+	/*아이디별 후기상세정보*/
+	public Review reviewInfoById(String userId) {
+		Review review = reviewMapper.reviewinfoById(userId);
+		log.info("review : {} ", review);
+
+		return review;
+	}
+	
+	/*주문한 회원만 리뷰작성*/
+	public boolean isOrderCheck(String userId, String facilityCd) {
+		boolean result = reviewMapper.isOrderCheck(userId, facilityCd);
+		return result;
+	}
 	
 	/*상품코드별 후기 조회*/
 	public List<Review> getReviewListByCd(String facilityGoodsCd){
 		List<Review> reviewListByCd = reviewMapper.getReviewListByCd(facilityGoodsCd);
-		
+		log.info("reviewListByCd : {} ", reviewListByCd);
 		return reviewListByCd;
 	}
 	
@@ -50,7 +65,7 @@ public class ReviewService {
 	public List<Review> getAdminReviewListById(String userId){
 		
 		List<Review> adminReviewListById = reviewMapper.getAdminReviewListById(userId);
-		
+		log.info("adminReviewListById : {} ", adminReviewListById);
 		return adminReviewListById;
 	}
 	

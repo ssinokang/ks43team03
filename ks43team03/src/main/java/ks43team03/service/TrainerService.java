@@ -167,7 +167,9 @@ public class TrainerService {
 	 * 트레이너 경력 등록
 	 */
 	public int addTrainerCareer(List<TrainerCareer> trainerCareerList, String userId, String fileRealPath) {
-		
+		log.info("trainerCareerList : {} ",trainerCareerList);
+		log.info("userId : {} ",userId);
+		log.info("fileRealPath : {} ",fileRealPath);
 		
 		for(int i=0; i<trainerCareerList.size(); i++) {
 			//파일 없다면 거치지 않도록

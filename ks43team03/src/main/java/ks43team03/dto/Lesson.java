@@ -24,6 +24,7 @@ public class Lesson {
 	private String lessonTotalMember;
 	private String lessonMember;
 	private String lessonStartDate;
+	private String lessonTime;
 	private String lessonEndDate;
 	private String lessonStartTime;
 	private String lessonEndTime;
@@ -38,6 +39,6 @@ public class Lesson {
 	private AreaCityTown 			areaCityTown;
 	private FacilityGoods 			facilityGoods;
 	private List<Map<String, String>> 	relFileWithGoods;
-	private List<LessonReservation> 	lessonReservation;
+	private List<Reservation> 		reservation;
 	private List<TFile> 			tFile;
 }

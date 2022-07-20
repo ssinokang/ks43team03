@@ -27,8 +27,8 @@ implements CalenderStrategy{
 	public Lesson getData(Map<String, String> DateMap) {
 		log.info("동작!");
 		log.info("DateMap : {}", DateMap);
-		lessonMapper.getLessonReservation(DateMap);
-		return lessonMapper.getLessonReservation(DateMap);
+		lessonMapper.getReservation(DateMap);
+		return lessonMapper.getReservation(DateMap);
 	}
 
 	@Override

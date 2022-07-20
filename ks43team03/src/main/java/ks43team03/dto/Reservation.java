@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class LessonReservation {
+public class Reservation {
 	String reservationCd;
 	String facilityGoodsCd;
 	String reservationId;

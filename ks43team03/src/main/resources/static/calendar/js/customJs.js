@@ -94,6 +94,8 @@ $(function(){
 			hours = moment($(this).val(), "HH:mm");
 			if(hours.isSameOrAfter(lessonStartTime) && hours.isSameOrBefore(lessonEndTime)) {
 				$(this).addClass('reservation-possible');
+			}else {
+				$(this).addClass('reservation-impossible');
 			}
 		}); 
         addLesson(fixedDate);

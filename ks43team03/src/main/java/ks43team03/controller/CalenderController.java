@@ -42,15 +42,17 @@ public class CalenderController {
 		reservationData.put("userId", (String)session.getAttribute("SID"));
 		
 		log.info("reservationData : {}", reservationData);
-		commonService.setRservation(reservationData);
-		dataMap.put("result", "1");
+		String result = Integer.toString(commonService.setRservation(reservationData));
+		dataMap.put("result", result);
 		
 		ObjectMapper om = new ObjectMapper();
+		
 		try {
 			data = om.writeValueAsString(dataMap);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
+		
 		return data;
 	}
 	/**
@@ -61,11 +63,10 @@ public class CalenderController {
 		String scheduleJson = "";
 		log.info("lessonDate : {}" ,scheduleDate);
 
-		Lesson scheduleInfo = calenderService.findSearch(scheduleDate);
-		
+
 		ObjectMapper om = new ObjectMapper();
 		try {
-			scheduleJson = om.writeValueAsString(scheduleInfo);
+			scheduleJson = om.writeValueAsString(calenderService.findSearch(scheduleDate));
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

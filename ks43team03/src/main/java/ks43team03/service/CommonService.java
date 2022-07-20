@@ -36,9 +36,15 @@ public class CommonService {
 		List<Sports> sportsList = commonMapper.getSportsList();
 		return sportsList;
 	}
-	public void setRservation(Map<String, String> reservationData) {
-		// TODO Auto-generated method stub
-		
+	//예약 하기
+	public int setRservation(Map<String, String> reservationData) {
+		int result = 0;
+		String reservationCheck = commonMapper.reservationCheck(reservationData);
+		if(reservationCheck == null) {
+			commonMapper.setReservation(reservationData);
+			result = 1;
+		}
+		return result;
 	}
 
 }

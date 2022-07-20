@@ -4,37 +4,30 @@ function addLesson(fixedDate) {
 	var reservationStartTime = $('input[name="reservationStartTime"]');
 	var reservationEndTime   = $('input[name="reservationEndTime"]');
 	var clickDay = '';
-	var idx = 0;
-
-	//포커스 이벤트 발생시 위치 저장
-	$(document).on('focus', '.inputModal.lesson', function() {
-		if($(this).attr("name") == 'reservationStartTime') {
-			idx = 0;
-		} else if($(this).attr("name") == 'reservationEndTime') {
-			idx = 1;
-		}
-	});
+	reservationImpossibleTime = $('.reservation-impossible');
 
 	$(document).on('click','.reservation.possible', reservationPossible);
-	
+	console.log(fixedDate);
 	function reservationPossible() {
 		reservationStartTime.val('');
 		reservationEndTime.val('');
 		
 		var yearMon = $(this).parent().attr("data-date");
 		clickDay = yearMon; //전역 변수에 클릭한 날짜 저장
-		fixedDate.lessonReservation.forEach(x => {
+
+		fixedDate.reservation.forEach(x => {
 			var lessonDate = x.reservationDate;
 			if(lessonDate == yearMon) {
 				$('.lessonTime').each(function(){
 					hours = moment($(this).val(), "HH:mm");
 					
-					startTime = moment(x.reservationStartTime, "HH:mm");
-					endTime   = moment(x.reservationEndTime, "HH:mm");
-	
-					if(moment(hours).isSameOrAfter(startTime) && moment(hours).isSameOrBefore(endTime)) {
+					startTime = moment(x.reservationStartTime).format("HH:mm");
+					endTime   = moment(x.reservationEndTime).format("HH:mm");
+					
+					if(hours.isSameOrAfter(startTime) && hours.isSameOrBefore(endTime)) {
 						$(this).removeClass('reservation-possible');
-					}
+					} 
+					
 				});
 			} else {
 				$('.lessonTime').each(function(){
@@ -46,21 +39,30 @@ function addLesson(fixedDate) {
 			}
 		})
 	}
-	//이전에 포커스를 했다면 그 위치에 밸류값 삽입
+	//
 	$(document).on('click','.reservation-possible', function() {
-		if(idx == 0) {
-			reservationStartTime.val($(this).val());
-			idx = 1;
-		} else {
-			reservationEndTime.val($(this).val());
-			idx = 0;
+		reserveTime = moment($(this).val(), 'HH:mm');
+		lessonTime  = fixedDate.lessonTime;
+		reservationStartTime.val(reserveTime.format('HH:mm'));
+		//선택한 시간 + 레슨 하는 시간
+		reservationEndTime.val(reserveTime.add(lessonTime, 'hour').format('HH:mm'));
+		
+		if(reservationImpossibleTime != null) {
+			reservationImpossibleTime.each(function() {
+				if($(this).val() == reservationEndTime.val()) {
+					alert('예약할 수 없는 시간입니다.')
+				}
+				else {
+					reservationEndTime.val(reservationEndTime.val());
+				}
+			});
 		}
+		
+		
 	});
 	//예약 하기
 	$('#updateEvent').on('click', function() {
-		console.log(clickDay)
-		console.log(reservationStartTime.val())
-		console.log(reservationEndTime.val())
+
 	    const data = {
 			reservationDate 	 : clickDay,
 			reservationStartTime : reservationStartTime.val(),
@@ -95,7 +97,7 @@ function addLesson(fixedDate) {
 								//location.href = data.movePage;                      
 							});
 						}
-						else if (result == "2"){
+						else if (result == "0"){
 							swal({
 								type: 'error',
 								title: '❌예약할 수 없는 시간입니다.❗',

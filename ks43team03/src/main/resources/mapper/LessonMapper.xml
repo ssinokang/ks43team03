@@ -19,6 +19,7 @@
 		<result column="lesson_start_date" 		property="lessonStartDate"/>		
 		<result column="lesson_end_date" 		property="lessonEndDate"/>		
 		<result column="lesson_start_time" 		property="lessonStartTime"/>		
+		<result column="lesson_time" 			property="lessonTime"/>		
 		<result column="lesson_end_time" 		property="lessonEndTime"/>
 		<result column="lesson_count" 			property="lessonCount"/>
 		<result column="lesson_price" 			property="lessonPrice"/>		
@@ -65,13 +66,14 @@
 			<result	column="updated_date"			property="updatedDate"/>
 			<result	column="represent_img"		property="representImg"/>
 		</collection>
-		<collection property="lessonReservation"	 ofType="LessonReservation">
+		<collection property="reservation"	 ofType="Reservation">
 			<id		column="reservation_cd"			property="reservationCd"/>	
 			<result	column="facility_goods_cd"		property="facilityGoodsCd"/>
 			<result	column="reservation_id"			property="reservationId"/>
 			<result	column="reservation_date"		property="reservationDate"/>
 			<result	column="reservation_start_time"	property="reservationStartTime"/>
 			<result column="reservation_end_time"	property="reservationEndTime"/>
+			<result column="reservation_reg_date"	property="reservationRegDate"/>
 			<result	column="reservation_cancel"		property="reservationCancel"/>
 		</collection>
 	</resultMap>
@@ -83,12 +85,15 @@
 			lesson
 	</select>
 	
-	<select id="getLessonReservation" parameterType="Map" resultMap="lessonResultMap">
+	<select id="getReservation" parameterType="Map" resultMap="lessonResultMap">
+		<!-- 레슨 스케쥴 가져오기 -->
 		SELECT
+			l.lesson_cd,
 			l.lesson_start_date,
 			l.lesson_end_time,
 			l.lesson_end_date,
 			l.lesson_start_time,
+			l.lesson_time,
 			lr.reservation_date,
 			lr.reservation_start_time,
 			lr.reservation_end_time
@@ -101,7 +106,7 @@
 				lr.reservation_start_time,
 				lr.reservation_end_time
 			FROM
-			lesson_reservation AS lr
+			reservation AS lr
 			WHERE
 				 <![CDATA[lr.reservation_cancel <> 'Y']]>) AS lr
 			on
@@ -110,8 +115,9 @@
 		l.facility_goods_cd = #{facilityGoodsCd}
 	</select>
 	
-	<!-- 레슨 수정하기 -->
+	
 	<update id="modifyLesson" parameterType="Lesson">
+	<!-- 레슨 수정하기 -->
 		UPDATE lesson
 		SET
 			lesson_division=#{lessonDivision}
@@ -127,8 +133,9 @@
 		WHERE
 			lesson_cd=#{lessonCd}
 	</update>
-	<!-- 레슨 코드를 사용한 레슨 상세 조회 -->
-	<select id="getLessonInfoByCd" parameterType="String" resultMap="lessonResultMap">
+
+	<select id="getLessonInfoByCd" fetchSize="100" parameterType="String" resultMap="lessonResultMap">
+		<!-- 레슨 코드를 사용한 레슨 상세 조회 -->
 		SELECT
 			lesson_sub.town_cd
 			,lesson_sub.town_nm

@@ -82,7 +82,7 @@ $(function(){
         }
         if($("#calendar > tbody > td").length%7!=0) { //마지막 줄 빈칸
             for(i=1; i<= $("#calendar > tbody > td").length%7; i++) {
-                $("#calendar tbody:last").append("<td></td>");
+                $("#calenda	r tbody:last").append("<td></td>");
             }
         }
         $(".date").each(function(index){ // 오늘 날짜 표시

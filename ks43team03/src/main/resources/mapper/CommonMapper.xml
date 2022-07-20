@@ -20,7 +20,7 @@
 		)
 			VALUES 
 		(
-			sf_new_reservation_code(),
+			'reservation_003',
 			#{reservationCtg},
 			#{facilityGoodsCd},
 			#{userId},

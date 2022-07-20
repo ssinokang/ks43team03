@@ -57,10 +57,9 @@ public class PaymentService {
 		PaymentResDto paymentResDto;
 		try {
 			paymentResDto = tossApi.confirmPayment(paymentKey, orderId, amount);
-		} catch (JsonProcessingException e) {
+		} catch (Exception e) {
 			log.error("결제의 승인을 하지 못하였습니다.");
-			throw new CustomException(ErrorMessage.NOT_FOUND_PAYMENT);
-		}
+			throw new CustomException(ErrorMessage.NOT_FOUND_PAYMENT);		}
     	
         log.info("토스 응답데이터 :  {}", paymentResDto);
        
@@ -189,15 +188,14 @@ public class PaymentService {
 	 * 결제 후 데이터 조회 메소드
 	 */
 	public PaymentResDto findTossPaymentsbyOrderId(String orderId) {
-	
-		PaymentResDto paymentResDto = tossApi.findTossPaymentsbyOrderId(orderId);
-		
-		if(paymentResDto == null) {
+		try {
+			PaymentResDto paymentResDto;
+			paymentResDto = tossApi.findTossPaymentsbyOrderId(orderId);
+			log.info("조회 요청 데이터 : {}", paymentResDto);
+			return paymentResDto;
+		}catch (Exception e) {
 			throw new CustomException(ErrorMessage.NOT_FOUND_PAYMENT);
 		}
-		
-		log.info("조회 요청 데이터 : {}", paymentResDto);
-		return paymentResDto;
 	}
 	
 	

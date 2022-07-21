@@ -23,7 +23,7 @@ public class Board {
 	private char  	boardPostState;
 	
 	private BoardComment 				boardComment;
-	private BoardCtgCd 					boardSubCtgCd;
+	private BoardCtgCd 					boardCtg;
 	private List<Map<String, String>> 	relFileWithBoard;
 	private List<TFile> 				tFile;
 }

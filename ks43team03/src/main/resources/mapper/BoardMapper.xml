@@ -6,7 +6,7 @@
 	<resultMap type="Board" 						id="boardResultMap">
 		<id column="board_post_cd"					property="boardPostCd"/>
 		<result column="board_ctg_cd"				property="boardCtgCd"/>
-		<result column="facility_cd"				property="facilityCd"/>
+		<!-- <result column="facility_cd"				property="facilityCd"/> -->
 		<result column="user_id"					property="userId"/>
 		<result column="board_post_title"			property="boardPostTitle"/>
 		<result column="board_post_content"			property="boardPostContent"/>
@@ -28,7 +28,7 @@
 		</collection>
 	</resultMap>
 	<resultMap type="BoardCtgCd" 					id="BoardCtgCdResultMap">
-		<id column="board_sub_ctg_cd"				property="boardSubCtgCd"/>
+		<id column="board_ctg_cd"				property="boardCtgCd"/>
 		<result column="board_ctg_nm"				property="boardCtgNm"/>
 		<result column="board_ctg_rdg_date"			property="boardCtgRegDate"/>
 	</resultMap>
@@ -48,7 +48,7 @@
 		SELECT
 			b.board_post_cd					
 			,b.board_ctg_cd		
-			,b.facility_cd			
+			<!-- ,b.facility_cd -->			
 			,b.user_id						
 			,b.board_post_title				
 			,b.board_post_content			
@@ -74,7 +74,7 @@
 		SELECT 
 			b.board_post_cd
 			, b.board_ctg_cd
-			, b.facility_cd
+			<!-- , b.facility_cd -->
 			, b.user_id
 			, b.board_post_title
 			, b.board_post_content
@@ -116,8 +116,11 @@
 				st.file_cd = sr.file_cd) AS sub
 		on
 			sub.board_post_cd = b.board_post_cd
-		where
-			b.board_post_cd = #{boardPostCd};
+		<trim prefix="WHERE">
+			<if test="boardPostCd != null and boardPostCd != ''">
+				b.board_post_cd = #{boardPostCd}
+			</if>
+		</trim>
 	</select>
 	
 	<!-- 게시글 작성 -->
@@ -125,7 +128,7 @@
 		INSERT INTO board_post
 			(board_post_cd
 			, board_ctg_cd
-			, facility_cd
+			<!-- , facility_cd -->
 			, user_id
 			, board_post_title
 			, board_post_content
@@ -136,17 +139,19 @@
 		VALUES(
 			#{boardPostCd}	
 			, #{boardCtgCd}
+			<!-- , #{facilityCd} -->
 			, #{userId}
 			, #{boardPostTitle}
 			, #{boardPostContent}
-			, #{boardPostFile}
 			, NOW()
 			, #{boardPostViews}
 			, 0
 			, 'N')
-		
 		<selectKey keyProperty="boardPostCd" resultType="String" order="BEFORE">
-			SELECT sf_new_board_post_cd()
+			SELECT
+				CONCAT('board_post_', LPAD(MAX(CAST(SUBSTRING_INDEX(p.board_post_cd,'_',-1) AS UNSIGNED))+1,2,0))
+			FROM
+				board_post AS p
 		</selectKey>
 	</insert>
 	
@@ -161,7 +166,11 @@
 				,board_post_comment_state
 				,board_post_comment_date
 		)VALUES	(
-				 sf_new_board_post_comment_cd()
+					(SELECT
+						CONCAT('board_post_comment_', LPAD(MAX(CAST(SUBSTRING_INDEX(p.board_post_comment_cd,'_',-1) AS UNSIGNED))+1,2,0))
+					FROM
+						board_post_comment AS p)	
+						
 				,#{boardPostCd}
 				,#{boardCtgCd}
 				,#{userId}
@@ -172,9 +181,9 @@
 	</insert>
 	
 	<!-- 게시글 카테고리 조회 -->
-	<select id="getBoardSubCtgCd" parameterType="String" resultMap="BoardCtgCdResultMap">
+	<select id="getBoardCtgCd" parameterType="String" resultMap="BoardCtgCdResultMap">
 		SELECT 
-			bc.board_sub_ctg_cd
+			bc.board_ctg_cd
 			, bc.board_ctg_nm
 			, bc.board_ctg_reg_date
 		FROM 
@@ -187,8 +196,11 @@
 			board_post
 		SET
 			board_post_views = board_post_views+1
-		WHERE 
-			board_post_cd = #{boardPostCd};
+		<trim prefix="WHERE">
+			<if test="boardPostCd != null and boardPostCd != ''">
+				board_post_cd = #{boardPostCd}
+			</if>
+		</trim>
 	</update>
 	
 	<!-- 게시글 댓글 수 업데이트 -->
@@ -213,7 +225,7 @@
 		SET
 			board_post_cd=#{boardPostCd},
 			board_ctg_cd=#{boardCtgCd},
-			facility_cd=#{facilityCd},
+			<!-- facility_cd=#{facilityCd}, -->
 			user_id=#{userId},
 			board_post_title=#{boardPostTitle},
 			board_post_content=#{boardPostContent},
@@ -221,8 +233,11 @@
 			board_post_views=#{boardPostViews},
 			board_post_comment_number=0,
 			board_post_state='N'
-		WHERE 
-			board_post_cd=#{boardPostCd};
+		<trim prefix="WHERE">
+			<if test="boardPostCd != null and boardPostCd != ''">
+				board_post_cd = #{boardPostCd}
+			</if>
+		</trim>
 	</update>
 	
 	<!-- 게시글 답글 리스트 조회 -->
@@ -241,8 +256,11 @@
 			board_post AS p
 		ON
 			c.board_post_cd = p.board_post_cd
-		WHERE
-			p.board_post_cd = #{boardPostCd};
+		<trim prefix="WHERE">
+			<if test="boardPostCd != null and boardPostCd != ''">
+				p.board_post_cd = #{boardPostCd}
+			</if>
+		</trim>
 	</select>
 	
 	<!-- 게시글 답글 삭제 -->

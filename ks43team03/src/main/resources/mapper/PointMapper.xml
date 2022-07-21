@@ -14,7 +14,6 @@
 		<result column="point_how_get"			property="pointHowGet" /> 	
 		<result column="goods_nm"				property="goodsNm" /> 	
 		<!-- pay, goods_order, lesson, facility_stadium, facility_pass -->
-		<result column="pay_cd"					property="payCd"/>
 		<result column="order_cd"				property="orderCd"/>
 		<result column="facility_goods_cd"		property="facilityGoodCd"/>
 		<result column="facility_stadium_cd"	property="facilityStadiumCd"/>
@@ -23,6 +22,13 @@
 		<result column="pass_nm"				property="passNm"/>
 		<result column="lesson_cd"				property="lessonCd"/>
 		<result column="lesson_nm"				property="lessonNm"/>
+		<association property="pay" 			javaType="Pay">
+			<result column="pay_cd"				property="payCd"/>
+			<result column="user_id" 			property="userId"/>
+			<result column="pay_price" 			property="payPrice"/>
+			<result column="pay_reg_date" 		property="payRegDate"/>
+			<result column="pay_state" 			property="payState"/>
+		</association>
 	</resultMap>
 	
 	<!-- 회원 포인트 조회 -->
@@ -72,6 +78,11 @@
 			g.facility_goods_cd = fp.facility_goods_cd
 		WHERE
 			pt.user_id = #{userId};
+		<trim prefix="WHERE">
+			<if test="userId != null and userId != ''">
+				pt.user_id = #{userId}
+			</if>
+		</trim>
 	</select>
 	
 	<!-- 포인트 합계 -->
@@ -84,9 +95,34 @@
 			user_id = #{userId};
 	</select>
 	
-	<!-- 회원 포인트 적립 -->
-	<update id="reviewPointGet">
+	<!-- 결제 포인트 적립 -->
+	<insert id="payPointGet">
+		INSERT INTO point
+			(point_cd
+			, user_id
+			, pay_cd
+			, point_amount
+			, point_event_date
+			, point_save_date
+			, point_end_date
+			, point_how_get)
+		VALUES
+			( (SELECT
+					CONCAT('point_', LPAD(MAX(CAST(SUBSTRING_INDEX(p.point_cd,'_',-1) AS UNSIGNED))+1,2,0))
+				FROM
+					point AS p)
+			, #{userId}
+			, #{payCd}
+			, #{payPrice}
+			, #{payRegDate}
+			, #{payRegDate}+7
+			, #{payRegDate}+365
+			, 'N')
+	</insert>
+	
+	<!-- 리뷰 포인트 적립 -->
+	<insert id="reviewPointGet">
 		
-	</update>
+	</insert>
 	
 </mapper>

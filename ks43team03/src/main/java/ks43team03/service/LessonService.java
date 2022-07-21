@@ -1,6 +1,7 @@
 package ks43team03.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,54 +63,33 @@ public class LessonService {
 			facilityGoodsMapper.addFacilityGoods(lesson.getFacilityGoods());
 			facilityGoodsCd = lesson.getFacilityGoods().getFacilityGoodsCd();
 			
-			/***
-			 * test code: start
-			 ***/
+			
 			
 			FileUtils fu = new FileUtils(uploadfile, uproaderId, fileRealPath);
 			List<Map<String, String>> dtoFileList = fu.parseFileInfo();
-			// 1. t_file 테이블에 삽입
-			log.info(dtoFileList + "LessonService/addLesson");
-			fileMapper.uploadFile(dtoFileList);
-			/***
-			 * test code: end
-			 ***/
-			// 2. lesson 테이블에 삽입
+		
+			// 1. lesson 테이블에 삽입
 			//lessonMapper.addLesson(lesson);
 			log.info(lesson + "LessonService/addLesson/lesson");
-			
-			/*
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyymmdd");
-			
-			try {
-				Date date = formatter.parse(lesson.getLessonStartDate());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			
-			if(lesson.getFacility().getMainCtgCd().equals("gg")) {
-				lesson.setLessonState("심사 대기중");
-			} else {
-				if("현재날짜" < "레슨 시작 날짜") {
-					lesson.setLessonState("모집대기중");
-				} else if("현재 날짜" > "시작 날짜" && "끝나는 날짜" > "현재 날짜") {
-					lesson.setLessonState("모집중");
-				} else if("현재 날짜" > "시작 날짜" && "끝나는 날짜" < "현재 날짜") {
-					lesson.setLessonState("마감");
-				}
-			}
-			*/
+
 			lessonMapper.addLesson(lesson);
 			
-			// 3. 릴레이션 테이블에 삽입
-			List<Map<String, String>> relationFileList = new ArrayList<>();
-			for(Map<String, String> m : dtoFileList) {
-				m.put("facilityGoodsCd", facilityGoodsCd);
-				relationFileList.add(m);
-			}
-			log.info("relationFileList", relationFileList);
 			
-			fileMapper.uploadRelationFile(relationFileList);
+			log.info(dtoFileList + "LessonService/addLesson");
+			if(!(dtoFileList == null)) {
+				// 2. t_file 테이블에 삽입
+				fileMapper.uploadFile(dtoFileList);
+			
+				// 3. 릴레이션 테이블에 삽입
+				List<Map<String, String>> relationFileList = new ArrayList<>();
+				for(Map<String, String> m : dtoFileList) {
+					m.put("facilityGoodsCd", facilityGoodsCd);
+					relationFileList.add(m);
+				}
+				log.info("relationFileList", relationFileList);
+				
+				fileMapper.uploadRelationFile(relationFileList);
+			}
 			
 			
 			
@@ -136,12 +116,34 @@ public class LessonService {
 	}
 
 
-	public int modifyLesson(Lesson lesson) {
+	public int modifyLesson(Map<String, Object> paramMap) {
 		log.info("___________________________________________________");
 		log.info("_______________start modifyLesson");
+		/**
+		 * 조인 해서 업데이트, 대표 이미지만 컬럼 Y로 바뀌게 할 것 
+		 **/
+		log.info("lesson : {}", paramMap.get("lesson"));
+		
+		
+		String[] fileCdArray		  = (String[])paramMap.get("fileCd");
+		String[] representImgArray = (String[])paramMap.get("representImg");
+		
+		System.out.println(fileCdArray + "fileCd");
+		Lesson lesson = (Lesson)paramMap.get("lesson");
+		
+		for(int i = 0; i < fileCdArray.length; i++) {
+			Map<String, String> fileMap = new HashMap<>();
+			fileMap.put("fileCd", fileCdArray[i]);
+			fileMap.put("representImg", representImgArray[i]);
+			fileMap.put("facilityGoodsCd", lesson.getFacilityGoodsCd());
+			fileMapper.modifyFile(fileMap);
+		}
+		
 		int result = lessonMapper.modifyLesson(lesson);
+		
 		log.info("_______________end   modifyLesson");
 		log.info("___________________________________________________");
+		
 		return 0;
 	}
 

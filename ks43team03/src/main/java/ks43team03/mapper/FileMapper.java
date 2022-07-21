@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks43team03.dto.TFile;
+
 @Mapper
 public interface FileMapper {
 
@@ -20,4 +22,7 @@ public interface FileMapper {
 	
 	// 시설, 파일 릴레이션 테이블 삽입
 	public void uploadRelationFileWithFacility(List<Map<String, String>> relationFileList);
+	
+	// 파일 수정
+	public void modifyFile(Map<String, String> fileMap);
 }

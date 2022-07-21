@@ -23,7 +23,6 @@ implements SearchStrategy{
 
 	@Override
 	public SearchStrategyName getSearchStrategyName() {
-		// TODO Auto-generated method stub
 		return SearchStrategyName.FacilitySearch;
 	}
 

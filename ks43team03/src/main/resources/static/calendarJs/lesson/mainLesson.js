@@ -12,7 +12,7 @@ var calendar = $('#calendar').fullCalendar({
   allDaySlot                : true,
   displayEventTime          : true,
   displayEventEnd           : true,
-  firstDay                  : 0, //월요일이 먼저 오게 하려면 1
+  firstDay                  : 1, //월요일이 먼저 오게 하려면 1
   weekNumbers               : false,
   selectable                : true,
   weekNumberCalculation     : "ISO",
@@ -83,10 +83,8 @@ var calendar = $('#calendar').fullCalendar({
       }),
       content: $('<div />', {
           class: 'popoverInfoCalendar'
-        }).append('<p><strong>등록자:</strong> ' + event.username + '</p>')
-        .append('<p><strong>구분:</strong> ' + event.type + '</p>')
-        .append('<p><strong>시간:</strong> ' + getDisplayEventDate(event) + '</p>')
-        .append('<div class="popoverDescCalendar"><strong>설명:</strong> ' + event.description + '</div>'),
+        })/* 이벤트 호버시 보여줌*/
+        .append('<p><strong>구분:</strong> ' + getDisplayEventDate(event) + '</p>'),
       delay: {
         show: "800",
         hide: "50"
@@ -101,22 +99,26 @@ var calendar = $('#calendar').fullCalendar({
 
   },
 
-  /*****************
-   *  일정 받아옴   *
-   *****************/
+  /* ****************
+   *  일정 받아옴 
+   * ************** */
   events: function (start, end, timezone, callback) {
+	  const data = {
+		scheduleCtg	: "LessonReservation",
+		lessonCd  	: $('#lessonCd').val(),
+        startDate 	: moment(start).format('YYYY-MM-DD'),
+        endDate   	: moment(end).format('YYYY-MM-DD')
+      };
     $.ajax({
-      type: "get",
-      url: "data.json",
-      data: {
-        // 화면이 바뀌면 Date 객체인 start, end 가 들어옴
-        startDate : moment(start).format('YYYY-MM-DD'),
-        endDate   : moment(end).format('YYYY-MM-DD')
-      },
+      type: "POST",
+      url: "/calendar/lessonReservationData",
+      dataType: 'JSON',
+	  contentType: 'application/json; charset=utf-8',
+      data: JSON.stringify(data),
       success: function (response) {
         var fixedDate = response.map(function (array) {
           if (array.allDay && array.start !== array.end) {
-            array.end = moment(array.end).add(1, 'days'); // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력
+        	  array.end = moment(array.end).add(1, 'days'); // 이틀 이상 AllDay 일정인 경우 달력에 표기시 하루를 더해야 정상출력
           }
           return array;
         });
@@ -195,10 +197,10 @@ var calendar = $('#calendar').fullCalendar({
         .addClass("contextOpened")
         .css({
           display: "block",
-          
+          /*
           left: e.pageX,
           top: e.pageY
-          
+          */
         });
       return false;
     });
@@ -206,18 +208,12 @@ var calendar = $('#calendar').fullCalendar({
     var today = moment();
 
     if (view.name == "month") {
-      startDate.set({
-        hours: today.hours(),
-        minute: today.minutes()
-      });
-      startDate = moment(startDate).format('YYYY-MM-DD HH:mm');
+
+      startDate = moment(startDate).format('YYYY-MM-DD');
       endDate = moment(endDate).subtract(1, 'days');
 
-      endDate.set({
-        hours: today.hours() + 1,
-        minute: today.minutes()
-      });
-      endDate = moment(endDate).format('YYYY-MM-DD HH:mm');
+
+      endDate = moment(endDate).format('YYYY-MM-DD');
     } else {
       startDate = moment(startDate).format('YYYY-MM-DD HH:mm');
       endDate = moment(endDate).format('YYYY-MM-DD HH:mm');
@@ -255,13 +251,8 @@ function getDisplayEventDate(event) {
 
   var displayEventDate;
 
-  if (event.allDay == false) {
-    var startTimeEventInfo = moment(event.start).format('HH:mm');
-    var endTimeEventInfo = moment(event.end).format('HH:mm');
-    displayEventDate = startTimeEventInfo + " - " + endTimeEventInfo;
-  } else {
-    displayEventDate = "하루종일";
-  }
+    displayEventDate = "예약 가능";
+
 
   return displayEventDate;
 }

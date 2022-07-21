@@ -84,6 +84,21 @@
 			<result column="area_cd"  				property="areaCd"/>
 			<result column="city_cd"  				property="cityCd"/>
 		</association>
+		<association property="pay" javaType="Pay">
+			<id column="pay_cd" property="payCd"/>
+			<result column="order_cd" property="orderCd"/>
+			<result column="user_id" property="userId"/>
+			<result column="pay_used_point" property="payUsedPoint"/>
+			<result column="pay_method" property="payMethod"/>
+			<result column="payment_key" property="paymentKey"/>
+			<result column="order_uuid_id" property="orderUUID"/>
+			<result column="pay_price" property="payPrice"/>
+			<result column="pay_total_price" property="payTotalPrice"/>
+			<result column="pay_reg_date" property="payRegDate"/>
+			<result column="pay_state" property="payState"/>
+			<result column="pay_del_yn" property="payDelYN"/>
+			<result column="pay_del_date" property="payDelDate"/>
+		</association>
 	</resultMap>
 	
 	<!--  typeHandler="ks43team03.dto.type.OrderState$TypeHandler" -->
@@ -155,6 +170,43 @@
 		WHERE
 			order_cd = #{orderCd};
 	</delete>
+	
+	<!-- 시설 내 주문내역 -->
+	<select id="getOrderInfoForFacility" parameterType="String" resultMap="orderResultMap">
+		SELECT
+			o.order_cd,
+			o.user_id,
+			o.facility_goods_cd,
+			o.goods_ctg_cd,
+			o.order_uuid_id,
+			o.order_price,
+			o.order_user_point,
+			o.order_used_point,
+			o.order_pay_price,
+			o.order_reg_date,
+			o.order_pay_state,
+			o.pay_type,
+			g.facility_cd,
+			f.facility_nm,
+			p.pay_method,
+			p.pay_reg_date,
+			pay_cd
+		FROM
+			pay AS p
+			RIGHT join
+			goods_order AS o
+			on
+			o.order_cd = p.order_cd
+			INNER join
+			facility_goods AS g
+			on
+			o.facility_goods_cd = g.facility_goods_cd
+			INNER join
+			facility AS f
+			on
+			g.facility_cd = f.facility_cd
+		WHERE f.facility_cd = #{facilityCd}
+	</select>
 	
 	<!-- 카테고리별 회원 주문리스트 -->
 	<select id="orderInfomationByCategory" parameterType="String" resultMap="orderResultMap">
@@ -251,10 +303,18 @@
 			o.order_pay_price,
 			o.order_reg_date,
 			o.order_pay_state,
+			o.pay_type,
 			g.facility_cd,
-			f.facility_nm
+			f.facility_nm,
+			p.pay_method,
+			p.pay_reg_date,
+			pay_cd
 		FROM
+			pay AS p
+			RIGHT join
 			goods_order AS o
+			on
+			o.order_cd = p.order_cd
 			INNER join
 			facility_goods AS g
 			on

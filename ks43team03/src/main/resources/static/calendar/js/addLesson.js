@@ -84,7 +84,7 @@ function addLesson(fixedDate) {
 			showLoaderOnConfirm: true,
 			allowOutsideClick: false
 	    }).then((result) => {
-			if (result.value) {
+			if (result.value && reservationStartTime.val() != '' && reservationStartTime.val() != null) {
 				var request = $.ajax({
 					url: "/calendar/reservation",
 					method: "POST",
@@ -116,7 +116,14 @@ function addLesson(fixedDate) {
 					request.fail(function( jqXHR, textStatus ) {
 					alert( "Request failed: " + textStatus );
 				});
-			};
+			} else {
+				swal({
+					type: 'error',
+					title: '❌시간을 입력해 주세요.❗',
+				}).then(()=>{
+					//location.href = data.movePage;
+				});
+			}
 		})
 	});
 };

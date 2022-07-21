@@ -33,8 +33,7 @@ public interface OrderMapper {
 	// 주문정보 수정
 	public void modifyOrder(Order order);
 	
-	// 관리자페이지의 전체 주문리스트
-	public List<Order>getOrderAll();
+	
 	
 	// 회원 한명의 주문내역 조회 메소드
 	public List<Order> getOrdersByUser(Map<String, Object> maps);
@@ -47,4 +46,16 @@ public interface OrderMapper {
 	
 	// 회원한명의 주문카운트
 	public int getOrderByUserCount(String userId);
+	
+	/**
+	 * 관리자
+	 */
+	
+	// 시설의 주문정보를 조회
+	public List<Order> getOrderInfoForFacility(String faciltiyCd);
+	
+	
+	// 관리자페이지의 전체 주문리스트
+	public List<Order>getOrderAll();
+	
 }

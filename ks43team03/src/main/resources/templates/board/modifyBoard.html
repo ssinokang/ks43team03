@@ -57,8 +57,8 @@
 										</p>
 										<select name="boardCtgCd" class="tip" id="ctg-select" style="margin-bottom: 25px;">
 											<option value="" disabled selected> :: 게시글 카테고리 선택 :: </option>
-											<th:block th:if="${not #lists.isEmpty(boardCtgCdList)}" th:each="nm : ${boardCtgCdList}" name="boardSubCtgCd">
-											    <option id="boardSubCtgCd" th:value="${nm.boardSubCtgCd}">[[${nm.boardCtgNm}]]</option>
+											<th:block th:if="${not #lists.isEmpty(boardCtgCdList)}" th:each="nm : ${boardCtgCdList}" name="boardCtgCd">
+											    <option id="boardCtgCd" th:value="${nm.boardCtgCd}">[[${nm.boardCtgNm}]]</option>
 											</th:block>
 										</select>
 									</div>

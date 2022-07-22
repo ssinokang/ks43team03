@@ -45,7 +45,7 @@ public class LessonController {
 	 *  레슨 예약
 	 **/
 	@GetMapping("/lessonReserve")
-	public String lessonReservateion(@RequestParam(name		  = "lessonCd"
+	public String lessonReservateion(@RequestParam(name		  	  = "lessonCd"
 												   ,required 	  = false
 												   ,defaultValue  = "error") String lessonCd
 									 ,Model model) {

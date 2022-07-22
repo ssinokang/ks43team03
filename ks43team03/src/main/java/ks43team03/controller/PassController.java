@@ -16,6 +16,13 @@ import ks43team03.dto.Pass;
 import ks43team03.service.FacilityGoodsService;
 import ks43team03.service.PassService;
 
+/**
+ * 
+ * @author 
+ * 이용권 Controller
+ *
+ */
+
 @Controller
 @RequestMapping("/pass")
 public class PassController {
@@ -30,28 +37,15 @@ public class PassController {
 		this.facilityGoodsService = facilityGoodsService;
 		this.passService = passService;
 	}
-	
-	
-//	@GetMapping("/addPass")
-//	public String addPass(Model model) {
-//		
-//		model.addAttribute("facility", "ss_35011740_01");
-//		
-//		return "pass/adminAddPass";
-//	}
 
 	@PostMapping("/addPass")
 	public String addPass(Pass pass) {
-		//
-		log.info("goodsCtgCd : {}", pass.getFacilityGoodsCd());
-		
 		passService.addPass(pass);
 		return "redirect:/pass/admin/passList";
 	}
 	
-	
 	@GetMapping("/addPass")
-	public String addPass2(@RequestParam(name = "userId", required = false)String userId) {
+	public String addPass(@RequestParam(name = "userId", required = false)String userId) {
 		
 		//권한이 시설관리자인지 아닌지 확인 
 		

@@ -89,7 +89,8 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityStadiumCd">구장대표코드 <span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityStadiumCd" data-validate-minmax="10,100" required='required'></div>
+							<input class="form-control" type="text" name="facilityStadiumCd" data-validate-minmax="10,100" th:value="${facilityStadiumCd}" readonly="readonly">
+						</div>
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="sportsCd">종목<span class="required">*</span></label>
@@ -97,8 +98,8 @@
 						<select class="select2_single form-control" tabindex="-1" name="sportsCd" id="sportsCd" required="required">
 							<option value = "">:: 종목 선택 ::</option>
 							<th:block th:if="${not #lists.isEmpty(sportsList)}" th:each="l:${sportsList}">
-							<option th:value="${l.sportsCd}">[[${l.sportsName}]]</option>
-						</th:block>
+								<option th:value="${l.sportsCd}">[[${l.sportsName}]]</option>
+							</th:block>
 						</select>
 					</div>
 				</div>

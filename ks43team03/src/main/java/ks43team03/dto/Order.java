@@ -28,6 +28,8 @@ public class Order {
 	private String orderDelDate; // 주문삭제일시 
 	
 	
+	private Pay pay;
+	
 	
 	// 토스 주문ㅇㅏ이디
 	private String orderUUID;

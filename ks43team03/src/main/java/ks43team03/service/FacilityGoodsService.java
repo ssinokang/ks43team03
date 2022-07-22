@@ -1,5 +1,7 @@
 package ks43team03.service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -40,6 +42,7 @@ public class FacilityGoodsService {
 	public String addGoodsCode(FacilityGoods facilityGoods) {
 		log.info("addPass에서 받은 값 : {}", facilityGoods);
 		// 시설조회
+		facilityMapper.getFacilityInfoByCd(facilityGoods.getFacilityGoodsCd());
 		
 		//있다면 상품코드 생성 
 		
@@ -49,65 +52,32 @@ public class FacilityGoodsService {
 	}
 	
 	// 상폼하나 조회 
-	public ResponseGoods getFacilityGoodsCd(String facilityGoodsCd) {
-		FacilityGoods facilityGoods = facilityGoodsMapper.getFacilityGoodsCd(facilityGoodsCd)
-					.orElseThrow(()->  new CustomException(ErrorMessage.NOT_FOUND_GOODS));
-		
-		String categoryCode = facilityGoods.getGoodsCtgCd();
-		ResponseGoods responceGoods = getFacilityGoodsCd(facilityGoodsCd,categoryCode);
+	public ResponseGoods getFacilityGoodsCd(String facilityGoodsCd, String goodsCtgCd ) {
+		ResponseGoods responseGoods = null;
 
-		return responceGoods;
-	}
-	
-	
-	
-	/**
-	 * 
-	 * @param facilityGoods
-	 * @return ResponceGoods ResponceGoods
-	 * 
-	 * 상품코드 조회 레슨, 이용권, 상품
-	 */
-	private ResponseGoods getFacilityGoodsCd(String failityGoodscd, String categoryCode) {
-		int price = 0;
-		FacilityGoods facilityGoods = null;
-		String goodsName = null;
-		if("lesson".equals(categoryCode)) {
-
-		}else if("pass".equals(categoryCode)) {
-			facilityGoods = facilityGoodsMapper.getFacilityGoodsPassCd(failityGoodscd);
-			price = facilityGoods.getPass().getPassPrice();
-			goodsName = facilityGoods.getPass().getPassNm();
-		}else if("stadium".equals(categoryCode)) {
+		switch (goodsCtgCd) {
+		case "lesson":
 			
-		}else {
+			break;
+		case "stadium":
+			
+			break;
+		case "pass":
+			FacilityGoods facilityGoods = facilityGoodsMapper.getFacilityGoodsPassCd(facilityGoodsCd);
+			responseGoods = new ResponseGoods(
+					facilityGoods, 
+					facilityGoods.getPass()
+					.getPassNm(),
+					facilityGoods.getPass().getPassPrice()
+					);
+			break;
+		default: 
 			throw new CustomException(ErrorMessage.NOT_FOUND_GOODS);
 		}
 		
-		return ResponseGoods.builder()
-				.facilityGoods(facilityGoods)
-				.price(price)
-				.goodsName(goodsName)
-				.build();
+		return responseGoods;
+		
 	}
-	
-	
-	
-	private ResponseGoods getFacilityGoodsPassCd(FacilityGoods facilityGoods) {
-		return ResponseGoods.builder()
-				.facilityGoods(facilityGoods)
-				.price(facilityGoods.getPass().getPassPrice())
-				.build();
-	}
-	
-	private ResponseGoods getFacilityGoodsLessonCd(FacilityGoods facilityGoods) {
-		return ResponseGoods.builder()
-				.facilityGoods(facilityGoods)
-				.price(Integer.parseInt(facilityGoods.getLesson().getLessonPrice()))
-				.build();
-	}
-	
-	
 	
 	
 	/*

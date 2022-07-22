@@ -1,196 +1,262 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<!-- th:replace="경로 :: 조각이름" -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/adminDefault.html}">
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+<th:block layout:fragment="customJs">
+	<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
 
-<head th:replace="adminFragments/head :: headFragment">
-</head>
+</th:block>
+<!-- 사용자 정의 contents -->
+<th:block layout:fragment="customContents">
 
-<body class="nav-md">
-	<div class="container body">
-		<div class="main_container">
-			<div class="col-md-3 left_col">
-				<div class="left_col scroll-view">
-					<div class="navbar nav_title" style="border: 0;">
-						<a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella
-								Alela!</span></a>
-					</div>
+	<div th:if="${not #strings.isEmpty(session.SID)}">
+
+
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>주문 리스트 테이블 <small>관리자</small></h2>
 
 					<div class="clearfix"></div>
-
-					<!-- menu profile quick info -->
-					<div class="profile clearfix">
-						<div class="profile_pic">
-							<img src="images/img.jpg" alt="..." class="img-circle profile_img">
-						</div>
-						<div class="profile_info">
-							<span>환영합니다</span>
-							<div th:unless="${session.SID == null}" style="text-align: left;">
-								<h2>
-									[[${session.SNAME}]]님
-								</h2>
-							</div>
-						</div>
-					</div>
-					<!-- /menu profile quick info -->
-
-					<br />
-
-					<!-- sidebar menu -->
-					<div th:replace="adminFragments/leftmenu :: leftmenuFragment"></div>
-					<!-- /sidebar menu -->
-
-					<!-- /menu footer buttons -->
-					<div class="sidebar-footer hidden-small">
-						<a data-toggle="tooltip" data-placement="top" title="Settings">
-							<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-						</a>
-						<a data-toggle="tooltip" data-placement="top" title="FullScreen">
-							<span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-						</a>
-						<a data-toggle="tooltip" data-placement="top" title="Lock">
-							<span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-						</a>
-						<a data-toggle="tooltip" data-placement="top" title="Logout" th:href="@{/login}">
-							<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-						</a>
-					</div>
-					<!-- /menu footer buttons -->
-
 				</div>
-			</div>
 
-			<!-- top navigation -->
-			<div th:replace="adminFragments/header :: headerFragment"></div>
-			<!-- /top navigation -->
-
-			<!-- page content -->
-			<div class="right_col" role="main">
-
-				<!-- 사용자 정의 contents -->
-				<th:block layout:fragment="customContents">
-					<div class="col-md-12 col-sm-12 col-xs-12">
-						<div class="x_panel">
-							<div class="x_title">
-								<h2>주문 리스트 테이블 <small>관리자</small></h2>
-
-								<div class="clearfix"></div>
+				<!-- <div class="row">
+					<div class="col-sm-12 col-md-12 col-lg-12">
+							<div class="card card-warning">
+								<div class="card-header">
+									<h3 class="card-title">
+										<b>주문 조회</b>
+									</h3>
+								</div>
+								<div class="card-body">
+									
+											
+											
+											<form action="#" method="get">
+										<div class="form row">
+											<div class="form-group col-8">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<select class="form-control" id="exampleFormControlSelect1"
+															name="searchKey" style="font-size: 14px;">
+															<option value="ldgAddr">주문상태</option>
+															<option value="ldgName">상품명</option>
+														</select>
+													</div>
+													<input type="text" name="searchValue" class="form-control"
+														id="formGroupExampleInput" placeholder="검색 키워드를 입력하세요."
+														style="font-size: 14px;">
+													<div class="input-group-prepend">
+														<button type="button" class="btn btn-outline-danger"
+															style="font-size: 14px; background: #ec5552; color: #fff;">검색</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>
+										</div>
+								</div>
 							</div>
+						</div>
+				</div> -->
 
-							<div class="x_content">
 
-
-
-								<div class="table-responsive">
-									<table class="table table-striped jambo_table bulk_action">
-										<thead>
-											<tr class="headings">
-												<th>
-													<div class="icheckbox_flat-green" style="position: relative;"><input
-															type="checkbox" id="check-all" class="flat"
-															style="position: absolute; opacity: 0;"><ins
-															class="iCheck-helper"
-															style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+				<div class="row">
+					<div class="col-sm-12 col-md-12 col-lg-12">
+						<div class="card card-warning">
+							<div class="card-header">
+								<h3 class="card-title">
+									<b>주문 조회</b>
+								</h3>
+							</div>
+							<div class="card-body">
+								<div
+									th:if="${not #strings.isEmpty(session.SLEVEL)} and ${#strings.equals(session.SLEVEL,'2') or #strings.equals(session.SLEVEL,'3') or #strings.equals(session.SLEVEL,'4')}">
+									<div class="input-group-prepend">
+										<p>시설을 선택해주세요</p>
+									</div>
+									<div class="form row">
+										<div class="form-group col-12">
+											<th:block th:if="${not #lists.isEmpty(facility)}">
+												
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text" id="basic-addon1">시설명</span>
 													</div>
-												</th>
-												<th class="column-title" style="display: table-cell;">주문아이디</th>
-												<th class="column-title" style="display: table-cell;">주문시설 이름</th>
-												<th class="column-title" style="display: table-cell;">카테고리 </th>
-												<th class="column-title" style="display: table-cell;">상품가격</th>
-												<th class="column-title" style="display: table-cell;">주문일자</th>
-												<th class="column-title" style="display: table-cell;">주문상태</th>
-												<th class="column-title no-link last" style="display: table-cell;"><span
-														class="nobr">상세보기</span>
-												</th>
-												<th class="bulk-actions" colspan="7" style="display: none;">
-													<a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions (
-														<span class="action-cnt">1 Records Selected</span> ) <i
-															class="fa fa-chevron-down"></i></a>
-												</th>
-											</tr>
-										</thead>
-
-										<tbody>
-											<tr class="even pointer" th:if="${not #lists.isEmpty(orderList)}" th:each="order : ${orderList}">
-												<td class="a-center ">
-													<div class="icheckbox_flat-green" style="position: relative;"><input
-															type="checkbox" class="flat" name="table_records"
-															style="position: absolute; opacity: 0;"><ins
-															class="iCheck-helper"
-															style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-													</div>
-												</td>
-												<td class=" " th:text="${order.userId}"></td>
-												<td class=" " th:text="${order.facility.facilityNm}">땡떙체육관</td>
-												<td class=" " th:text="${order.goodsCtgCd}"> </td>
-												<td class=" " th:text="${order.orderPrice}"> <i class="success fa fa-long-arrow-up"></i></td>
-												<td class=" " th:text="${order.orderRegDate}"></td>
-												<td class=" " th:text="${order.orderPayState}"></td>
-												<td class=" last"><a th:href="@{/admin/order/orderDetail(orderCd=${order.orderCd},goodsCtgCd=${order.goodsCtgCd})}">View</a>
-												</td>
-											</tr>
-											<tr th:unless="${not #lists.isEmpty(orderList)}">
-												<td colspan="11">주문내역이 아직없습니다.</td>
-											</tr>
-										</tbody>
-									</table>
+													<select class="form-control" id="facility-select" name="searchKey"
+														style="font-size: 14px;">
+														<th:block th:each="facility : ${facility}">
+															<option th:value="${facility.facilityCd}">
+																[[${facility.facilityNm}]]</option>
+														</th:block>
+													</select>
+												</div>
+											</th:block>
+											<th:block th:unless="${not #lists.isEmpty(facility)}">
+												회원님이 등록된 시설이 없습니다.
+											</th:block>
+										</div>
+									</div>
 								</div>
 
+								<form action="#" method="get">
+									<div class="form row">
+										<div class="form-group col-12">
+											<div class="input-group">
+												
+												<div class="input-group-prepend">
+														<input type="date" id="date-before" class="form-control" style="font-size: 14px; display: inline;">
+														~
+														<input type="date" id="date-after" class="form-control" style="font-size: 14px; display: inline;">	
+													<select class="form-control" id="exampleFormControlSelect1"
+														name="searchKey" style="font-size: 14px;">
+														<option value="ldgAddr">주문상태</option>
+														<option value="ldgName">상품명</option>
+													</select>
+												</div>
+												<div class="input-group-prepend">
+													<button type="button" class="btn btn-outline-danger"
+														style="font-size: 14px; background: #ec5552; color: #fff;">검색</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12 col-md-12 col-lg-12">
+						<div class="card-body">
+
+
+
+							<div class="table-responsive row" id="orderList">
+								<table class="table table-striped jambo_table bulk_action">
+									<thead>
+										<tr class="headings">
+
+											<th class="column-title" style="display: table-cell;">주문일시</th>
+											<th class="column-title" style="display: table-cell;">결제일시</th>
+											<th class="column-title" style="display: table-cell;">주문번호 </th>
+											<th class="column-title" style="display: table-cell;">주문상태</th>
+											<th class="column-title" style="display: table-cell;">구매자명</th>
+											<th class="column-title" style="display: table-cell;">결제액</th>
+											<th class="column-title" style="display: table-cell;">결제수단</th>
+											<th class="column-title" style="display: table-cell;">구매상품</th>
+											<th class="column-title no-link last" style="display: table-cell;"><span
+													class="nobr">상세보기</span>
+											</th>
+											<th class="bulk-actions" colspan="7" style="display: none;">
+												<a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions (
+													<span class="action-cnt">1 Records Selected</span> ) <i
+														class="fa fa-chevron-down"></i></a>
+											</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr class="even pointer" th:if="${not #lists.isEmpty(orderList)}"
+											th:each="order : ${orderList}">
+											<td th:text="${order.orderRegDate}"></td>
+											<td th:text="${order.pay.payRegDate}"></td>
+											
+											<td class=" " th:text="${order.orderCd}"> </td>
+											<td class=" " th:text="${order.orderPayState}"> </td>
+											<td class=" " th:text="${order.userId}"> </td>
+											<td class=" " th:text="${order.orderPayPrice}"></td>
+											<td class=" " th:text="${order.payType.name}"></td>
+											<td class=" " th:text="${order.facility.facilityNm}">땡떙체육관</td>
+											<td class=" last"><a
+													th:href="@{/admin/order/orderDetail(orderCd=${order.orderCd},goodsCtgCd=${order.goodsCtgCd})}">View</a>
+											</td>
+										</tr>
+										<tr th:unless="${not #lists.isEmpty(orderList)}">
+											<td colspan="11">주문내역이 아직없습니다.</td>
+										</tr>
+									</tbody>
+								</table>
+
 
 							</div>
 						</div>
 					</div>
-				</th:block>
+				</div>
+
 
 			</div>
-			<!-- /page content -->
-
-			<!-- footer content -->
-			<div th:replace="adminFragments/footer :: footerFragment"></div>
-			<!-- /footer content -->
 		</div>
 	</div>
+	<div th:unless="${not #strings.isEmpty(session.SID)}">
+		로그인이 필요한 서비스입니다.
+	</div>
+	<script>
+		$(document).ready(function () {
 
-	<!-- jQuery -->
-	<script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
-	<!-- Bootstrap -->
-	<script th:src="@{/vendors/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
-	<!-- FastClick -->
-	<script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
-	<!-- NProgress -->
-	<script th:src="@{/vendors/nprogress/nprogress.js}"></script>
-	<!-- Chart.js -->
-	<script th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
-	<!-- gauge.js -->
-	<script th:src="@{/vendors/gauge.js/dist/gauge.min.js}"></script>
-	<!-- bootstrap-progressbar -->
-	<script th:src="@{/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js}"></script>
-	<!-- iCheck -->
-	<script th:src="@{/vendors/iCheck/icheck.min.js}"></script>
-	<!-- Skycons -->
-	<script th:src="@{/vendors/skycons/skycons.js}"></script>
-	<!-- Flot -->
-	<script th:src="@{/vendors/Flot/jquery.flot.js}"></script>
-	<script th:src="@{/vendors/Flot/jquery.flot.pie.js}"></script>
-	<script th:src="@{/vendors/Flot/jquery.flot.time.js}"></script>
-	<script th:src="@{/vendors/Flot/jquery.flot.stack.js}"></script>
-	<script th:src="@{/vendors/Flot/jquery.flot.resize.js}"></script>
-	<!-- Flot plugins -->
-	<script th:src="@{/vendors/flot.orderbars/js/jquery.flot.orderBars.js}"></script>
-	<script th:src="@{/vendors/flot-spline/js/jquery.flot.spline.min.js}"></script>
-	<script th:src="@{/vendors/flot.curvedlines/curvedLines.js}"></script>
-	<!-- DateJS -->
-	<script th:src="@{/vendors/DateJS/build/date.js}"></script>
-	<!-- JQVMap -->
-	<script th:src="@{/vendors/jqvmap/dist/jquery.vmap.js}"></script>
-	<script th:src="@{/vendors/jqvmap/dist/maps/jquery.vmap.world.js}"></script>
-	<script th:src="@{/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js}"></script>
-	<!-- bootstrap-daterangepicker -->
-	<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
-	<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
+			readAjax();
+			
 
-	<!-- Custom Theme Scripts -->
-	<script th:src="@{/build/js/custom.min.js}"></script>
+		});
 
-</body>
+		const checkId = '[[${session.SID}]]';
+		const level = '[[${session.SLEVEL}]]';
+
+
+		function readAjax() {
+
+
+			if (typeof 'undefinded' == checkId || checkId != null && checkId != '') {
+				let data = {
+					level: level
+				};
+				if (level == '2' || level == '3' || level == '4') {
+					console.log($('#facility-select').val());
+					//$('#orderList');
+					data.facilityCd = $('#facility-select').val()
+				}
+
+
+				$.ajax({
+					type: 'GET',
+					url: '/admin/order/facility',
+					data: data
+				}).done(function (data) {
+					$('#orderList').replaceWith(data);
+				}).fail(function (error) {
+					console.log(JSON.stringify(error));
+				})
+
+
+			} else {
+				alert('로그인이 필요한 서비스입니다.');
+				location.href = window.location.origin + '/login';
+			}
+		}
+
+		function selectFacility() {
+			if (level == '2' || level == '3' || level == '4') {
+				$('#facility-select').on('change', onChangeOption);
+			}
+
+			console.log('selectFacility');
+
+		}
+
+
+		function onChangeOption() {
+			readAjax();
+			console.log('selectFacility');
+		}
+
+
+		selectFacility();
+
+	</script>
+
+
+</th:block>
 
 </html>

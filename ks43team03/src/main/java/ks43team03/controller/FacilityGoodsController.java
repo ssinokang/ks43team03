@@ -35,34 +35,7 @@ public class FacilityGoodsController {
 	}
 
 
-	// 주문 결제화면으로 이동
-	// goodsCtg 
-	@GetMapping("/order")
-	public String order(Model model,HttpSession session ,
-									 @RequestParam(name = "facilityGoodsCd" , required = false)String facilityGoodsCd,
-									 @RequestParam(name = "goodsCtgCd" , required = false)String goodsCtgCd) {
-		
-		
-		log.info("화면에서 받은 goodsCode : {}", facilityGoodsCd);
-		
-		facilityGoodsCd = "ss_35011600_04_pass_11";
-		String userId = (String)session.getAttribute("SID");
-		log.info("화면에서 받은 session userId : {}", userId);
-		User user = userService.getUserInfoById(userId);
-		
-		if(user == null) {
-			throw new CustomException(ErrorMessage.USER_ERROR_USER_NOT_FOUND);
-		}
-		
-		ResponseGoods facilityGoods = facilityGoodsService.getFacilityGoodsCd(facilityGoodsCd);
-
-		
-		model.addAttribute("title", "결제 페이지");
-		model.addAttribute("user", user);
-		model.addAttribute("goods", facilityGoods);
-		
-		return "order/orderForm";
-	}
+	
 	
 	
 	

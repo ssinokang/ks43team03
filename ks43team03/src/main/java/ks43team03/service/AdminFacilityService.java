@@ -113,10 +113,20 @@ public class AdminFacilityService {
 	}
 
 	/* 시설등록 */
-	public String addFacility(Facility facility, MultipartFile[] facilityImgFile, String fileRealPath) {
-		
-			String uproaderId 	= facility.getUserId();
+	public void addFacility(Facility facility, MultipartFile[] facilityImgFile, String fileRealPath) {
 	
+		boolean fileCheck = true;
+		
+		for(MultipartFile multipartFile : facilityImgFile) {
+			if(!multipartFile.isEmpty()) {
+				fileCheck = false;
+			}
+		}
+		//파일이 null 아니면
+		if(!fileCheck) {
+			
+			String uproaderId 	= facility.getUserId();
+			
 			//파일 업로드 위한 객체 생성
 			FileUtils fu = new FileUtils(facilityImgFile, uproaderId, fileRealPath);
 			List<Map<String, String>> dtoFileList = fu.parseFileInfo();
@@ -124,7 +134,7 @@ public class AdminFacilityService {
 			// 1. t_file 테이블에 삽입
 			log.info(dtoFileList + "AdminFacilityService/addFacility");
 			fileMapper.uploadFile(dtoFileList);
-
+			
 			// 2. facility 테이블에 삽입
 			log.info(facility + "AdminFacilityService/addFacility/facility");
 			adminFacilityMapper.addFacility(facility);
@@ -141,10 +151,10 @@ public class AdminFacilityService {
 			}
 			
 			fileMapper.uploadRelationFileWithFacility(relationFileList);
-
-	
-			return facilityCd;
-	    }
+		}else {
+			adminFacilityMapper.addFacility(facility);
+		}
+    }
 
 
 	/* 아이디별상세정보조회 */

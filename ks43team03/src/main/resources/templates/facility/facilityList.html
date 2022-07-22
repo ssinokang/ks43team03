@@ -64,23 +64,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="sidebar__sizes">
-                            <div class="section-title">
-                                <h4>시설카테고리</h4>
-                            </div>
-                            <div class="size__list">
-                                <label for="ss">
-                                   	사설시설
-                                    <input type="checkbox" id="ss">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label for="gg">
-                                    	공공시설
-                                    <input type="checkbox" id="gg">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-9">
@@ -89,12 +72,18 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="product__item" th:if="${not #lists.isEmpty(l.tFile)}" th:each=" t : ${l.tFile}">
                             	<div th:if="${t.representImg == 'Y'}">
-	                                <div class="product__item__pic set-bg" th:data-setbg="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}"
-																	style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
+	                                <div class="product__item__pic set-bg" th:data-setbg="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}">
 	                                    <ul class="product__hover">
-	                                        <li><a href="img/shop/shop-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-	                                        <li><a class="heart" href="#"><span class="icon_heart_alt"></span></a></li>
-	                                        
+	                                        <li>
+	                                        	<a th:href="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" class="image-popup">
+	                                        		<span class="arrow_expand"></span>
+	                                        	</a>
+	                                        </li>
+	                                        <li>
+	                                        	<a class="heart" href="#">
+	                                        		<span class="icon_heart_alt"></span>
+	                                        	</a>
+	                                        </li>
 	                                        <!-- <li><a th:if="${session.SID != null && l.facilityCd != 'ss_35011770_03'}" th:href="@{/boomk/addBoomk(facilityCd=${l.facilityCd},userId=${session.SID})}"><span class="icon_heart_alt"></span></a></li> -->
 	                                    </ul>
 	                                </div>
@@ -112,11 +101,18 @@
 	                            </div> 
                      		</div>
                             <div class="product__item" th:unless="${not #lists.isEmpty(l.tFile)}">
-                                <div class="product__item__pic set-bg" th:data-setbg="@{/images/notImage.jfif}"
-																		style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
+                                <div class="product__item__pic set-bg" th:data-setbg="@{/images/notImage.jfif}">
                                     <ul class="product__hover">
-                                        <li><a href="img/shop/shop-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                        <li><a class="heart" href="#"><span class="icon_heart_alt"></span></a></li>
+                                        <li>
+                                        	<a th:href="@{/images/notImage.jfif}" class="image-popup">
+                                        		<span class="arrow_expand"></span>
+                                        	</a>
+                                        </li>
+                                        <li>
+                                        	<a class="heart" href="#">
+                                        		<span class="icon_heart_alt"></span>
+                                        	</a>
+                                        </li>
                                         
                                         <!-- <li><a th:if="${session.SID != null && l.facilityCd != 'ss_35011770_03'}" th:href="@{/boomk/addBoomk(facilityCd=${l.facilityCd},userId=${session.SID})}"><span class="icon_heart_alt"></span></a></li> -->
                                     </ul>

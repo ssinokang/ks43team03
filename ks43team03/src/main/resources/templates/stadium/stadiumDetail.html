@@ -51,23 +51,24 @@
 					    console.log(timeArry);
 		            }
 		        });
-				    var sum = 0;
-					var startTime = timeArry[0];
-					var endTime = timeArry[timeArry.length-1];
-						sum += endTime;
-						sum++;
-					var total =  (sum - startTime);
+					var startTime = ''+timeArry[0];
+					var startTime2 = Number(startTime.substring(2,0));
+					var endTime = Number((''+timeArry[timeArry.length-1]).substring(2,0))+1;
+					console.log(startTime2);
+					var total =  (endTime - startTime2);
 					var price = $('.price').text();
 					$('.totalTime').text('(' + total +'시간)');				
-					$('#bookingStartTime').val(startTime +':00');
-					$('.startTime').text(startTime + ':00 - ');
-					$('#bookingEndTime').val(sum +':00');
-					$('.endTime').text(sum + ':00');
+					$('#bookingStartTime').val(startTime);
+					$('.startTime').text(startTime);
+					$('#bookingEndTime').val(endTime +':00');
+					$('.endTime').text('-'+endTime +':00');
 					$('#totlaPrice').text(total*price);
 					$('#bookingPrice').val(total*price);
 					console.log($('#bookingPrice').val(total*price));
+					console.log($('.startTime').text());
 					
-					if($('.startTime').text() == 'undefined:00 - '){
+					
+					if($('.startTime').text() == 'undefined'){
 						$('.totalTime').text('');				
 						$('#bookingStartTime').val('');
 						$('.startTime').text('');
@@ -98,7 +99,7 @@
 				}
 				return true;
 			}
-			/* 시설 등록시 유효성 검사 */
+			/* 구장 예약시 유효성 검사 */
 			$('#bookingBtn').click(function(){
 				var isSubmit = true;
 				var id = $("#userId").val();
@@ -242,53 +243,53 @@
 								                       </div>
 								                        <div class="row">
 								                           <div class="col-lg-12 col-md-8 col-sm-6">
-								                               	 <span>날짜선택</span><input type="date"  class="form-control" id="reservationDate">
+								                               	 <span style="margin-bottom: 10px;">날짜선택</span><input type="date"  class="form-control" id="reservationDate">
 								                            </div> 
 								                            
-								                            <div class="col-lg-12 col-md-8 col-sm-6" style="padding-top: 10px; overflow-x:scroll;">
+								                            <div class="col-lg-12 col-md-8 col-sm-6" style="padding-top: 10px;">
 								                            	<span>시간선택</span>
-																<div id="bookingTime" class="btn-group" data-toggle="buttons">
+																<div id="bookingTime" class="btn-group col-lg-12 col-md-8 col-sm-6" data-toggle="buttons" style="width: 1000px; overflow-x:scroll;">
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="9" class="join-btn"> &nbsp; 9 &nbsp;
+																		<input type="checkbox" name="time" value="09:00" class="join-btn"> &nbsp; 09 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="10" class="join-btn">&nbsp; 10 &nbsp;
+																		<input type="checkbox" name="time" value="10:00" class="join-btn">&nbsp; 10 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="11" class="join-btn">&nbsp; 11 &nbsp;
+																		<input type="checkbox" name="time" value="11:00" class="join-btn">&nbsp; 11 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="12" class="join-btn">&nbsp; 12 &nbsp;
+																		<input type="checkbox" name="time" value="12:00" class="join-btn">&nbsp; 12 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="13" class="join-btn">&nbsp; 13 &nbsp;
+																		<input type="checkbox" name="time" value="13:00" class="join-btn">&nbsp; 13 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="14" class="join-btn">&nbsp; 14 &nbsp;
+																		<input type="checkbox" name="time" value="14:00" class="join-btn">&nbsp; 14 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="15" class="join-btn">&nbsp; 15 &nbsp;
+																		<input type="checkbox" name="time" value="15:00" class="join-btn">&nbsp; 15 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="16" class="join-btn" >&nbsp; 16 &nbsp;
+																		<input type="checkbox" name="time" value="16:00" class="join-btn" >&nbsp; 16 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="17" class="join-btn">&nbsp; 17 &nbsp;
+																		<input type="checkbox" name="time" value="17:00" class="join-btn">&nbsp; 17 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="18" class="join-btn" >&nbsp; 18 &nbsp;
+																		<input type="checkbox" name="time" value="18:00" class="join-btn" >&nbsp; 18 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="19" class="join-btn">&nbsp; 19 &nbsp;
+																		<input type="checkbox" name="time" value="19:00" class="join-btn">&nbsp; 19 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="20" class="join-btn" >&nbsp; 20 &nbsp;
+																		<input type="checkbox" name="time" value="20:00" class="join-btn" >&nbsp; 20 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="21" class="join-btn">&nbsp; 21 &nbsp;
+																		<input type="checkbox" name="time" value="21:00" class="join-btn">&nbsp; 21 &nbsp;
 																	</label>
 																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="22" class="join-btn">&nbsp; 22 &nbsp;
+																		<input type="checkbox" name="time" value="22:00" class="join-btn">&nbsp; 22 &nbsp;
 																	</label>
 																</div>
 															</div>

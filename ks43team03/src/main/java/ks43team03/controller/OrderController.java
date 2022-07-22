@@ -19,8 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ks43team03.dto.Order;
 import ks43team03.dto.ResponseGoods;
+import ks43team03.dto.User;
+import ks43team03.exception.CustomException;
+import ks43team03.exception.ErrorMessage;
 import ks43team03.service.FacilityGoodsService;
 import ks43team03.service.OrderService;
+import ks43team03.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -30,11 +34,13 @@ public class OrderController {
 
 	private final OrderService orderService;
 	private final FacilityGoodsService facilityGoodsService;
+	private final UserService userService;
 	
 	
-	public OrderController(OrderService orderService,FacilityGoodsService facilityGoodsService) {
+	public OrderController(OrderService orderService,FacilityGoodsService facilityGoodsService,UserService userService) {
 		this.orderService = orderService;
 		this.facilityGoodsService = facilityGoodsService;
+		this.userService = userService;
 	}
 	
 	
@@ -50,7 +56,7 @@ public class OrderController {
 		log.info("userId datat {}", req.getUserId());
 		
 		// order 저장 
-		ResponseGoods responseGoods = facilityGoodsService.getFacilityGoodsCd(req.getFacilityGoodsCd());
+		ResponseGoods responseGoods = facilityGoodsService.getFacilityGoodsCd(req.getFacilityGoodsCd(),req.getGoodsCtgCd());
 		String goodsCode = responseGoods.getFacilityGoods().getFacilityGoodsCd();
 		 
 		
@@ -58,7 +64,32 @@ public class OrderController {
 	}
 	
 	
-	
+	@GetMapping("/addOrder")
+	public String order(Model model,HttpSession session ,
+									 @RequestParam(name = "facilityGoodsCd" , required = false)String facilityGoodsCd,
+									 @RequestParam(name = "goodsCtgCd" , required = false,defaultValue = "pass")String goodsCtgCd) {
+		
+		
+		log.info("화면에서 받은 goodsCode : {}", facilityGoodsCd);
+		
+		facilityGoodsCd = "ss_35011600_04_pass_11";
+		String userId = (String)session.getAttribute("SID");
+		log.info("화면에서 받은 session userId : {}", userId);
+		User user = userService.getUserInfoById(userId);
+		
+		if(user == null) {
+			throw new CustomException(ErrorMessage.IS_EMPTY_USER);
+		}
+		
+		ResponseGoods facilityGoods = facilityGoodsService.getFacilityGoodsCd(facilityGoodsCd,goodsCtgCd);
+
+		
+		model.addAttribute("title", "결제 페이지");
+		model.addAttribute("user", user);
+		model.addAttribute("goods", facilityGoods);
+		
+		return "order/orderForm";
+	}
 
 	
 	
@@ -107,7 +138,7 @@ public class OrderController {
 		
 		
 		model.addAttribute("title", "회원님의 주문내역입니다.");
-		return "order/회원한명주문리스트";
+		return "order/ordersByUser";
 	}
 	
 	@GetMapping("/orderAfter")

@@ -33,14 +33,14 @@ public class SearchController {
 	
 	@PostMapping("/search")
 	public String searchfsorUser(
-			@RequestParam(name = "mainCtgCd", required = false, defaultValue = "") String mainCtgCd
-			,@RequestParam(name = "areaCd", required = false, defaultValue = "") String areaCd
-			,@RequestParam(name = "CityCd", required = false, defaultValue = "") String CityCd
-			,@RequestParam(name = "searchCtg", required = false, defaultValue = "") String searchCtg
-			,@RequestParam(name = "sportsCd", required = false, defaultValue = "") String sportsCd
-			,Model 		  model
-			,String		  sv
-			,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
+			 @RequestParam(name = "mainCtgCd"	,required = false, defaultValue = "") String mainCtgCd
+			,@RequestParam(name = "areaCd"		,required = false, defaultValue = "") String areaCd
+			,@RequestParam(name = "CityCd"		,required = false, defaultValue = "") String CityCd
+			,@RequestParam(name = "searchCtg"	,required = false, defaultValue = "") String searchCtg
+			,@RequestParam(name = "sportsCd"	,required = false, defaultValue = "") String sportsCd
+			,@RequestParam(name = "sv"			,required = false, defaultValue = "") String sv
+			,@RequestParam(name = "currentPage"	,required = false, defaultValue = "1") int currentPage 
+			,Model 		  model																			){
 		
 		
 		Map<String, Object> searchMap = new HashMap<String, Object>();
@@ -50,12 +50,7 @@ public class SearchController {
 		searchMap.put("areaCd"		, areaCd);
 		searchMap.put("sportsCd"	, sportsCd);
 
-		Map<String, Object> searchStrategy = new HashMap<>();
 		SearchStrategyName searchName = SearchStrategyName.valueOf(searchCtg);
-		
-		Search search = new Search(searchStrategy);
-		search.setSearchValue(sv);
-		
 		
 		log.info("searchMap : {}", searchMap);
 		searchMap.put("searchValue", sv);
@@ -71,8 +66,10 @@ public class SearchController {
 		model.addAttribute("startPageNum"		, resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum"			, resultMap.get("endPageNum"));
 		model.addAttribute("currentPage"		, currentPage);
-		model.addAttribute("title", 			"레슨 목록");
+		model.addAttribute("title", 			  resultMap.get("title"));
 		
-		return "lesson/lessonListForUser";
+		log.info((String)resultMap.get("path") , "무사 통과");
+		
+		return (String)resultMap.get("path");
 	}
 }

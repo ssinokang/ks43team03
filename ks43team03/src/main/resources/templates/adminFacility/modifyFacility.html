@@ -53,14 +53,6 @@
 					return false;
 				}
 			});
-			if(isSubmit){
-				if($("#facilityCd").val() == ""){
-				    alert("시설을 선택해주세요");
-				    $("#facilityCd").focus();
-				    isSubmit = false;
-				    return false;
-				}
-			}
 			console.log('유효여부 폼전송할건지?' + isSubmit )
 			
 			if(isSubmit) $('#addFacilityForm').submit();
@@ -291,7 +283,7 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align"></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityDetailAddr" id="facilityDetailAddr" th:value="${facility.facilityAddr}" placeholder="시설상세주소" data-validate-length="6,8" required='required' readonly="readonly" /></div>
+					<input class="form-control" type="text" name="facilityDetailAddr" id="facilityDetailAddr" th:value="${facility.facilityDetailAddr}" placeholder="시설상세주소" data-validate-length="6,8" required='required' readonly="readonly" /></div>
 				</div>
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align">시설전화번호<span class="required">*</span></label>

@@ -15,7 +15,7 @@ public interface ReviewMapper {
 	public int removeReview(String reviewCd, String userId);
 	
 	//후기코드로 후기 조회
-	public Review reviewinfoById(String userId);
+	public Review reviewInfoById(String userId);
 	
 	//결제한 회원만 리뷰작성(시설별)
 	public boolean isOrderCheck(String userId, String facilityCd);

@@ -373,6 +373,7 @@
 	
 	<insert id="addStadiumPrice" parameterType="StadiumPrice">
 		/*구장단가등록*/
+		
 		INSERT INTO stadium_price
 			(stadium_price_cd
 			,facility_stadium_cd
@@ -392,6 +393,9 @@
 	
 	<insert id="addStadium" parameterType="Stadium">
 	/*구장등록*/
+		<selectKey resultType="String" keyProperty="facilityStadiumCd" order="BEFORE">
+			SELECT sf_new_stadium_cd()
+		</selectKey>
 		INSERT INTO facility_stadium
 			(facility_stadium_cd
 			,facility_goods_cd

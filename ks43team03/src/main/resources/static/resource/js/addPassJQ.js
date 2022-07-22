@@ -190,8 +190,23 @@ $(function() {
 *	});
 */
     /**
+     * 파일 업로드 보안 검사
+     */
+   
+    $("input:file[name='file']").change(function () {
+        var str = $(this).val();
+        var fileName = str.split('\\').pop().toLowerCase();
+        //alert(fileName);
+ 
+        checkFileName(fileName);
+    });
+	
+ 
+ 
+    /**
      *유효성 검사
      **/
+	
     
     $('#lesson-btn').on('click' ,function() {
     	var $lessonNm 	  		= $('#lessonNm');
@@ -233,3 +248,21 @@ $(function() {
     });
 
 });
+
+function checkFileName(str){
+	 
+	    //1. 확장자 체크
+	    var ext =  str.split('.').pop().toLowerCase();
+	    if($.inArray(ext, ['bmp' , 'hwp', 'jpg', 'pdf', 'png', 'xls', 'zip', 'pptx', 'xlsx', 'jpeg', 'doc', 'gif']) == -1) {
+	 
+	        //alert(ext);
+	        alert(ext+'파일은 업로드 하실 수 없습니다.');
+	    }
+	 
+	    //2. 파일명에 특수문자 체크
+	    var pattern =   /[\{\}\/?,;:|*~`!^\+<>@\#$%&\\\=\'\"]/gi;
+	    if(pattern.test(str) ){
+	        //alert("파일명에 허용된 특수문자는 '-', '_', '(', ')', '[', ']', '.' 입니다.");
+	        alert('파일명에 특수문자를 제거해주세요.');
+	    }
+	}

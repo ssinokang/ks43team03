@@ -43,4 +43,5 @@ public class FacilityGoods {
 		this.sportsCd = sportsCd;
 	}
 	
+	
 }

@@ -19,6 +19,7 @@
 		<result column="lesson_start_date" 		property="lessonStartDate"/>		
 		<result column="lesson_end_date" 		property="lessonEndDate"/>		
 		<result column="lesson_start_time" 		property="lessonStartTime"/>		
+		<result column="lesson_time" 			property="lessonTime"/>		
 		<result column="lesson_end_time" 		property="lessonEndTime"/>
 		<result column="lesson_count" 			property="lessonCount"/>
 		<result column="lesson_price" 			property="lessonPrice"/>		
@@ -65,6 +66,16 @@
 			<result	column="updated_date"			property="updatedDate"/>
 			<result	column="represent_img"		property="representImg"/>
 		</collection>
+		<collection property="reservation"	 ofType="Reservation">
+			<id		column="reservation_cd"			property="reservationCd"/>	
+			<result	column="facility_goods_cd"		property="facilityGoodsCd"/>
+			<result	column="reservation_id"			property="reservationId"/>
+			<result	column="reservation_date"		property="reservationDate"/>
+			<result	column="reservation_start_time"	property="reservationStartTime"/>
+			<result column="reservation_end_time"	property="reservationEndTime"/>
+			<result column="reservation_reg_date"	property="reservationRegDate"/>
+			<result	column="reservation_cancel"		property="reservationCancel"/>
+		</collection>
 	</resultMap>
 	<!-- 레슨 게시물 숫자 가져오기 -->
 	<select id="getLessonCount" resultType="int">
@@ -74,29 +85,57 @@
 			lesson
 	</select>
 	
-	<!-- 레슨 수정하기 -->
+	<select id="getReservation" parameterType="Map" resultMap="lessonResultMap">
+		<!-- 레슨 스케쥴 가져오기 -->
+		SELECT
+			l.lesson_cd,
+			l.lesson_start_date,
+			l.lesson_end_time,
+			l.lesson_end_date,
+			l.lesson_start_time,
+			l.lesson_time,
+			lr.reservation_date,
+			lr.reservation_start_time,
+			lr.reservation_end_time
+		FROM
+			lesson AS l
+			LEFT JOIN
+			(SELECT
+				lr.facility_goods_cd,
+				lr.reservation_date,
+				lr.reservation_start_time,
+				lr.reservation_end_time
+			FROM
+			reservation AS lr
+			WHERE
+				 <![CDATA[lr.reservation_cancel <> 'Y']]>) AS lr
+			on
+			l.facility_goods_cd = lr.facility_goods_cd
+		where
+		l.facility_goods_cd = #{facilityGoodsCd}
+	</select>
+	
+	
 	<update id="modifyLesson" parameterType="Lesson">
+	<!-- 레슨 수정하기 -->
 		UPDATE lesson
 		SET
 			lesson_division=#{lessonDivision}
 			,facility_goods_cd=#{facilityGoodsCd}
-			,facility_cd=#{facilityCd}
-			,goods_ctg_cd=#{goodsCtgCd}
 			,sports_cd=#{sportsCd}
 			,user_id=#{userId}
-			,sports_nm=#{sportsNm}
-			,lesson_nm=#{lessonNm}
+			,lesson_nm=#{lessonName}
 			,lesson_detail=#{lessonDetail}
 			,lesson_total_member=#{lessonTotalMember}
 			,lesson_start_date=#{lessonStartDate}
 			,lesson_end_date=#{lessonEndDate}
 			,lesson_price=#{lessonPrice}
-			,lesson_reg_date=NOW()
 		WHERE
 			lesson_cd=#{lessonCd}
 	</update>
-	<!-- 레슨 코드를 사용한 레슨 상세 조회 -->
-	<select id="getLessonInfoByCd" parameterType="String" resultMap="lessonResultMap">
+
+	<select id="getLessonInfoByCd" fetchSize="100" parameterType="String" resultMap="lessonResultMap">
+		<!-- 레슨 코드를 사용한 레슨 상세 조회 -->
 		SELECT
 			lesson_sub.town_cd
 			,lesson_sub.town_nm
@@ -386,7 +425,10 @@
 		   on
 		   tf.file_cd = rfwg.flie_cd
 		WHERE
-			tf.deleted_yn != 'Y') AS lesson_file
+			tf.deleted_yn != 'Y'
+			and
+			tf.represent_img ='Y' OR null
+		ORDER BY tf.represent_img	) AS lesson_file
 		on
 		lesson_file.facility_goods_cd = lesson_sub.facility_goods_cd
 		
@@ -406,10 +448,8 @@
 	   		<if test="searchValue != null and searchValue != '' ">		
 				and lesson_sub.lesson_nm LIKE CONCAT('%', #{searchValue}, '%')
 	   		</if>
-	   		
 	   	</trim>
-   			GROUP BY
-		lesson_sub.facility_goods_cd
+	   	order by lesson_sub.lesson_reg_date desc
 		limit #{startRow}, #{rowPerPage}
 	</select>
 

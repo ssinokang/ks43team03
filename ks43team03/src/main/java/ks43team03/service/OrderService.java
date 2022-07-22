@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -67,9 +68,15 @@ public class OrderService {
 		}
 		
 		
+		
+		if(Strings.isEmpty(userId)) {
+			throw new CustomException(ErrorMessage.IS_EMPTY_USER);
+		}
 		// 예외처리
 		User user;
+			
 		try {
+			
 			user = userMapper.getUserInfoById(userId);
 			
 			if(user == null) {
@@ -229,6 +236,8 @@ public class OrderService {
 		return orderList;
 	}
 	
+	
+	
 	/**
 	 * 관리자 주문리스트 
 	 * @return
@@ -237,6 +246,14 @@ public class OrderService {
 	public List<Order> getOrderAll(){
 		List<Order> orderList =  orderMapper.getOrderAll();
 		return orderList;
+	}
+	
+	/**
+	 * 시실의 주문리스트
+	 */
+	
+	public List<Order> getOrderInfoForFacility(String facilityCd){
+		return orderMapper.getOrderInfoForFacility(facilityCd);
 	}
 	
 }

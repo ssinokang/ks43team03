@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ks43team03.dto.GoodsCategoryDto;
 import ks43team03.dto.Order;
 import ks43team03.dto.ResponseGoods;
 import ks43team03.dto.User;
+import ks43team03.dto.type.GoodsType;
 import ks43team03.exception.CustomException;
 import ks43team03.exception.ErrorMessage;
 import ks43team03.service.FacilityGoodsService;
@@ -51,12 +53,13 @@ public class OrderController {
 	
 	
 	@PostMapping("/addOrder")
-	public ResponseEntity<Order> addOrder(@RequestBody Order.Request req) {
+	@ResponseBody
+	public Order addOrder(@RequestBody Order.Request req) {
 
 		// order 저장 
 		ResponseGoods responseGoods = facilityGoodsService.getFacilityGoodsCd(req.getFacilityGoodsCd(),req.getGoodsCtgCd());
-		String goodsCode = responseGoods.getFacilityGoods().getFacilityGoodsCd();
-		return ResponseEntity.ok(orderService.addOrder(req, responseGoods));
+		Order order = orderService.addOrder(req, responseGoods);
+		return order;
 	}
 	
 	
@@ -76,7 +79,6 @@ public class OrderController {
 		
 		ResponseGoods facilityGoods = facilityGoodsService.getFacilityGoodsCd(facilityGoodsCd,goodsCtgCd);
 
-		
 		model.addAttribute("title", "결제 페이지");
 		model.addAttribute("user", user);
 		model.addAttribute("goods", facilityGoods);
@@ -93,9 +95,7 @@ public class OrderController {
 		log.info("화면에서 받은  orderCd 데이터 : {}", orderCd);
 		log.info("화면에서 받은 userId 데이터 : {}", userId);
 		Order order = orderService.getOrderByCode(orderCd);
-		
 		// 상품 코드 goodsService vs orderService 에서 
-		
 		model.addAttribute("title", userId + "님의 구매하신 상품상세정보");
 		model.addAttribute("order", order);
 		
@@ -111,8 +111,8 @@ public class OrderController {
 						 HttpSession session) {
 		
 		String sessionId = (String)session.getAttribute("SID");
-		if(!userId.equals(sessionId)) {
-			return "redirect:/";
+		if(userId == null || session == null) {
+			return "redirect:/login";
 		}
 		
 		Map<String,Object> orderList = orderService.getOrdersByUser(currentPage,userId);
@@ -144,17 +144,38 @@ public class OrderController {
 	}
 	
 	//==판매자 주문예약/결제 정보 조회==//
-	@GetMapping("/{category}/orders")
-	@ResponseBody
-	public List<Order> orderInfomationByCategory(@PathVariable("category")String category,
-												  @RequestParam String userId) {
-		List<Order> orderList = orderService.orderInfomationByCategory(category, userId);
-		return orderList;
+	@GetMapping("/orders/{id}/category")
+	public String orderInfomationByCategory(@RequestBody GoodsCategoryDto category,
+												  @PathVariable("id") String userId,
+												  Model model) {
+		log.info("goodsCategory data : {}", category);
+		log.info("userId data : {}", userId);
+		List<Order> orderList = orderService.orderInfomationByCategory(category.getCode(), userId);
+		model.addAttribute("orderList",orderList);
+		model.addAttribute("title","회원님이 주문하신 예약내역.");
+		return "order/ordersByUser";
 	}
 	
 	
+	//== 주문 후 주문 취소 ==//
+	@GetMapping("/cancel/{orderId}")
+	public String cancelOrder() {
+		return "/";
+	}
 	
+	/**
+	 * Json Enum Test
+	 * JSON는 가
+	 */
 	
+	@ResponseBody
+	@GetMapping("/test")
+	public GoodsType enumTypeTest(@RequestBody GoodsCategoryDto category) {
+		
+		log.info("Enum Json Data : {}", category.getCode());
+		
+		return category.getCode();
+	}
 	
 	//== 화면연결 임시메소드 ==//
 	/**

@@ -29,7 +29,6 @@ public class Pass{
 	
 	public Pass() {}
 	
-	@Builder
 	public FacilityGoods toFacilityGoods() {
 		return FacilityGoods.builder()
 					.facilityCd(facilityCd)

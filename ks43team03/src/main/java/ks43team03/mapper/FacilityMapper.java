@@ -15,9 +15,7 @@ import ks43team03.dto.FacilityUser;
 public interface FacilityMapper {
 	
 
-	//시설검색
-	public List<Map<String, Object>> searchFacilityList(Map<String, Object> paramMap);
-	
+
 	//시설에 가입한 회원 체크
 	public boolean isUserCheck(String userId, String facilityCd);
 	

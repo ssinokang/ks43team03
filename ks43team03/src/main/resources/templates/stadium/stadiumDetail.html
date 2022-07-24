@@ -115,11 +115,58 @@
 
 <!-- 사용자 정의 css 선언 -->
 	<th:block layout:fragment="customCss">
+	
 		<link rel="stylesheet" th:href="@{/resource/css/mapOverlay.css}" type="text/css">
+		<link rel="stylesheet" th:href="@{/calendar/css/fullcalendar.min.css}" />
+	    <link rel="stylesheet" th:href="@{/calendar/css/bootstrap.min.css}">
+	    <link rel="stylesheet" th:href="@{/calendar/css/select2.min.css}" />
+	    <link rel="stylesheet" th:href="@{/calendar/css/bootstrap-datetimepicker.min.css}" />
+	
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	    
 	<style>
-	#bookingTime input[type=checkbox]{
-	    display: none;
-	}
+		#bookingTime input[type=checkbox]{
+		    display: none;
+		}
+		.none-display {
+			display: none;
+		}
+		
+        #calendar {
+            clear: both;
+        }
+        #calendar th {
+            height: 50px;
+            width: 70px;
+            background-color:  #EBFBFF;
+            text-align: center;
+        }
+        #calendar td {
+            text-align: center;
+            height: 50px;
+            width: 70px;
+            background-color: #EBFBFF;  
+        }
+        #calendar input {
+            height: 50px;
+            width: 70px;
+            border: none;
+            background-color:  #EBFBFF;
+            font-size: 30px;
+        }
+        #calendar .year_mon{
+            font-size: 25px;
+        }
+        #calendar .colToday{
+            background-color: #EBFBFF;
+        }
+        .possible {
+        	background-color: #BEEFFF;
+        }
+        .reservation-possible {
+        	background-color: #BEEFFF;
+        }
 	</style>
 	</th:block>
 
@@ -229,60 +276,104 @@
 								                    <div class="col-lg-8">
 								                        <h5>구장예약</h5>
 								                        <div class="row">
-								                       </div>
+								                        </div>
 								                        <div class="row">
-								                           <div class="col-lg-12 col-md-8 col-sm-6">
-								                               	 <span>날짜선택</span><input type="date"  class="form-control" id="reservationDate">
-								                            </div> 
-								                            
-								                            <div class="col-lg-12 col-md-8 col-sm-6" style="padding-top: 10px; overflow-x:scroll;">
-								                            	<span>시간선택</span>
-																<div id="bookingTime" class="btn-group" data-toggle="buttons">
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="9" class="join-btn"> &nbsp; 9 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="10" class="join-btn" style="">&nbsp; 10 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="11" class="join-btn" style="">&nbsp; 11 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="12" class="join-btn" style="">&nbsp; 12 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="13" class="join-btn" style="">&nbsp; 13 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="14" class="join-btn" style="">&nbsp; 14 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="15" class="join-btn" style="">&nbsp; 15 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="16" class="join-btn" style="">&nbsp; 16 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="17" class="join-btn" style="">&nbsp; 17 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="18" class="join-btn" style="">&nbsp; 18 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="19" class="join-btn" style="">&nbsp; 19 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="20" class="join-btn" style="">&nbsp; 20 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="21" class="join-btn" style="">&nbsp; 21 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="22" class="join-btn" style="">&nbsp; 22 &nbsp;
-																	</label>
+								                        	<div class="container">
+																<div class="row">
+																	<table id="calendar">
+																	    <thead>
+																	        <tr>
+																	            <th><input name="preMon" type="button" value="<"></th>
+																	            <th colspan="5" class="year_mon"></th>
+																	            <th><input name="nextMon" type="button" value=">"></th>
+																	        </tr>
+																	        <tr>
+																	            <th>일</th>
+																	            <th>월</th>
+																	            <th>화</th>
+																	            <th>수</th>
+																	            <th>목</th>
+																	            <th>금</th>
+																	            <th>토</th>
+																	        </tr>
+																	    </thead>
+																	    <tbody>
+																	    </tbody>
+																	</table>
+																	
+															        <!-- 일정 추가 MODAL -->
+															        <div class="modal fade" tabindex="-1" role="dialog" id="eventModal">
+															            <div class="modal-dialog" role="document">
+															                <div class="modal-content" style="width: 580px;">
+																                <form action="calendar/reservation" id="reservationData">
+																                    <div class="modal-header">
+																                        <button type="button" class="close modalClose" data-dismiss="modal" aria-label="Close"><span
+																                                aria-hidden="true">&times;</span></button>
+																                        <h4 class="modal-title"></h4>
+																                    </div>
+																                    <div class="modal-body">						
+																                        <div class="row">
+																                            <div class="col-md-12">
+																                                <table border="1" id="reSchedule">
+																                                	<tbody>
+																                                		<tr>
+																											<td><input class="reservationTime" type="button" value="09:00"></td>
+																											<td><input class="reservationTime" type="button" value="10:00"></td>
+																											<td><input class="reservationTime" type="button" value="11:00"></td>
+																											<td><input class="reservationTime" type="button" value="12:00"></td>
+																											<td><input class="reservationTime" type="button" value="13:00"></td>
+																											<td><input class="reservationTime" type="button" value="14:00"></td>
+																											<td><input class="reservationTime" type="button" value="15:00"></td>
+																											<td><input class="reservationTime" type="button" value="16:00"></td>
+																                                		</tr>
+																                                		<tr>
+																											<td><input class="reservationTime" type="button" value="17:00"></td>
+																											<td><input class="reservationTime" type="button" value="18:00"></td>
+																											<td><input class="reservationTime" type="button" value="19:00"></td>
+																											<td><input class="reservationTime" type="button" value="20:00"></td>
+																											<td><input class="reservationTime" type="button" value="21:00"></td>
+																											<td><input class="reservationTime" type="button" value="22:00"></td>
+																											<td><input class="reservationTime" type="button" value="23:00"></td>
+																											<td><input class="reservationTime" type="button" value="24:00"></td>
+																                                		</tr>
+																                                	</tbody>
+																                                </table>
+																                            </div>
+																                        </div>
+																                        <div class="row">
+																                            <div class="col-xs-12">
+																                                <label class="col-xs-4" for="edit-start">시작</label>
+																                                <!-- 30분 단위로 되게끔 수정 -->
+																                                <input class="inputModal lesson" type="text" name="reservationStartTime" id="edit-start" readonly="readonly"/>
+																                            </div>
+																                        </div>
+																                        <div class="row">
+																                            <div class="col-xs-12">
+																                                <label class="col-xs-4" for="edit-end">끝</label>
+																                                <!-- 30분 단위로 되게끔 수정 -->
+																                                <input class="inputModal lesson" type="text" name="reservationEndTime" id="edit-end" readonly="readonly"/>
+																                            </div>
+																                        </div>
+																                        <div class="row">
+																                            <div class="col-xs-12">
+																                                <label class="col-xs-4" for="edit-desc">설명</label>
+																                                <textarea rows="4" cols="50" class="inputModal" name="edit-desc"
+																                                    id="edit-desc" readonly="readonly">
+																									간단한 레슨 설명?
+																								</textarea>
+																                            </div>
+																                        </div>
+																                    </div>
+																                    <div class="modal-footer modalBtnContainer-modifyEvent">
+																                        <button type="button" class="btn btn-primary" id="updateEvent">예약하기</button>
+																                    </div>
+															                    </form>
+															                </div><!-- /.modal-content -->
+															            </div><!-- /.modal-dialog -->
+															        </div><!-- /.modal -->
 																</div>
 															</div>
-								                       </div>
+								                        </div>
 								                    </div>
 							                        <div class="col-lg-4">
 							                            <div class="checkout__order">
@@ -473,7 +564,14 @@
 	<!-- modal end -->
 
 <script th:src="@{/resource/js/map.js}"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+<script th:src="@{/calendar/js/jquery.min.js}"></script>
+<script th:src="@{/calendar/js/bootstrap.min.js}"></script>
+<script th:src="@{/calendar/js/moment.min.js}"></script>
+<script th:src="@{/calendar/js/bootstrap-datetimepicker.min.js}"></script>
+<script th:src="@{/calendar/js/select2.min.js}"></script>
+<script th:src="@{/calendar/js/customStadium.js}"></script>
+<script th:src="@{/calendar/js/addReservation.js}"></script>
 
 </th:block>	  
 	  

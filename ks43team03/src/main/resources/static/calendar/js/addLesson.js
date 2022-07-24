@@ -6,7 +6,7 @@ function addLesson(fixedDate) {
 	var clickDay = '';
 	var orderCheck = true;
 
-	$(document).on('click','.reservation.possible', reservationPossible);
+	$(document).off().on('click','.reservation.possible', reservationPossible);
 	
 	function reservationPossible() {
 

@@ -33,7 +33,7 @@ public class ReviewService {
 	
 	/*아이디별 후기상세정보*/
 	public Review reviewInfoById(String userId) {
-		Review review = reviewMapper.reviewinfoById(userId);
+		Review review = reviewMapper.reviewInfoById(userId);
 		log.info("review : {} ", review);
 
 		return review;

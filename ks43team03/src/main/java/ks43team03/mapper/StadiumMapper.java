@@ -58,5 +58,7 @@ public interface StadiumMapper {
 	
 	//구장 조회
 	public List<Map<String, Object>> getAdminStadiumList(Map<String, Object> paramMap);
+
+	public Stadium getReservation(Map<String, String> dateMap);
 	
 }

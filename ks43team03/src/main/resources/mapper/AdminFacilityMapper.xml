@@ -233,6 +233,7 @@
 				,user_id			
 				,facility_nm		
 				,facility_address
+				,facility_detail_addr
 				,facility_tell		
 				,facility_post_num	
 				,business_number	
@@ -248,6 +249,9 @@
 
 		<insert id="addFacility" parameterType="Facility" >
 		/*시설등록*/
+		<selectKey resultType="String" keyProperty="facilityCd" order="BEFORE">
+			SELECT sf_new_facility_cd()
+		</selectKey>
 			INSERT INTO facility
 				(facility_cd
 				,main_ctg_cd
@@ -265,7 +269,7 @@
 				,city_cd
 				,facility_detail
 				)VALUES (
-					sf_facility_new_cd()
+					sf_new_facility_cd()
 					,#{mainCtgCd}
 					,#{townCd}
 					,#{facilityUseCd}

@@ -34,12 +34,11 @@ public class StadiumController {
 	
 	private final StadiumService stadiumService;
 	private final ReviewService reviewService;
-	private final BookingService bookingService;
+
 	
-	public StadiumController(StadiumService stadiumService, ReviewService reviewService, BookingService bookingService) {
+	public StadiumController(StadiumService stadiumService, ReviewService reviewService) {
 		this.stadiumService = stadiumService;
 		this.reviewService = reviewService;
-		this.bookingService = bookingService;
 	}
 	
 
@@ -139,8 +138,7 @@ public class StadiumController {
 	/*구장 단가 등록 처리*/
 	@PostMapping("/addStadiumPrice") 
 	  public String addStadiumPrice(StadiumPrice stadiumPrice
-			  					,@RequestParam(name="facilityStadiumCd", required = false) String facilityStadiumCd
-			  					,HttpServletRequest request) {
+			  						,HttpServletRequest request) {
 		  log.info("구장단가등록화면에서 입력한 data : {}", stadiumPrice);
 		  
 		  stadiumService.addStadiumPrice(stadiumPrice); 
@@ -151,10 +149,15 @@ public class StadiumController {
 	
 	/*구장 단가 등록 화면*/
 	@GetMapping("/addStadiumPrice")
-	public String addStadiumPrice(Model model) {
+	public String addStadiumPrice(Model model
+								 ,@RequestParam(name="facilityStadiumCd", required=false) String facilityStadiumCd) {
 		List<Sports> sportsList = stadiumService.getSportsList();
+		
+		log.info("facilityStadiumCd : {}", facilityStadiumCd);
+		
 		model.addAttribute("title", "구장 등록");
 		model.addAttribute("sportsList", sportsList);
+		model.addAttribute("facilityStadiumCd", facilityStadiumCd);
 		
 		return "stadium/addStadiumPrice";
 	}
@@ -163,7 +166,6 @@ public class StadiumController {
 	@PostMapping("/addStadium") 
 	public String addStadium(FacilityGoods facilityGoods
 							,Stadium stadium
-							,@RequestParam(name="facilityStadiumCd", required = false) String facilityStadiumCd
 							,@RequestParam MultipartFile[] stadiumImgFile, Model model
 							,HttpServletRequest request) {
 		stadium.setFacilityGoods(facilityGoods);
@@ -173,12 +175,12 @@ public class StadiumController {
 		String fileRealPath = "";
 		if("localhost".equals(serverName)) {				
 			fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
-			//fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
 		}else {
 			fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
 		}
 		
 		stadiumService.addStadium(stadium, stadiumImgFile, fileRealPath);
+		log.info("facilityStadiumCd : {}", stadium.getFacilityStadiumCd());
 		
 		return "redirect:/stadium/addStadiumPrice?" + "facilityStadiumCd="+ stadium.getFacilityStadiumCd();
 		
@@ -194,8 +196,8 @@ public class StadiumController {
 		
 		List<Facility> facilityListById = stadiumService.getFacilityListById(sessionId);
 		List<Sports> sportsList = stadiumService.getSportsList();
-		log.info("컨트롤러", facilityListById);
-		log.info("컨트롤러", sessionId);
+		log.info("facilityListById : {}", facilityListById);
+		log.info("sessionId : {}", sessionId);
 		
 		model.addAttribute("title", "구장 등록");
 		model.addAttribute("facilityListById", facilityListById);
@@ -209,7 +211,7 @@ public class StadiumController {
 	
 	//본인 시설 내 구장 조회
 	@GetMapping("/adminStadiumListByCd")
-	public String getAdminStadiumListById(Model model
+	public String getAdminStadiumListByCd(Model model
 										,HttpSession session) {
 		
 		String sessionId = (String) session.getAttribute("SID");

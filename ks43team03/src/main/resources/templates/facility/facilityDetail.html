@@ -124,6 +124,15 @@
 					}
 				});
 		 });
+		 $(function(){
+			if($('#sList').hasClass('sList') == true){
+				$('.sName').text('구장');
+			}
+			if($('#lList').hasClass('lList') == true){
+				$('.lName').text('레슨');
+			}
+			
+		 });
 		 
 		 
 		 
@@ -217,12 +226,12 @@
 	                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
 	                                <h6>상세정보</h6>
 	                                <pre><p th:text="${l.facilityDetail}" style="border-bottom: 1px solid #e1e1e1; padding-bottom: 20px;"></p></pre>                                
-		                                <h6>구장</h6>		                                                
-	                               		<section class="trend spad" style="border-bottom: 1px solid #e1e1e1; padding: 10px; margin-bottom: 10px;">
+		                                <h6 class="sName"></h6>		                                                
+	                               		<section class="trend spad" style="padding: 10px; margin-bottom: 10px;">
 									    <div class="container">
 									        <div class="row">
-				                               	<th:block th:if="${not #lists.isEmpty(stadiumList)}" th:each="l : ${stadiumList}">
-									            <div class="col-lg-6 col-md-6 col-sm-12" th:if="${not #lists.isEmpty(l.tFile)}" th:each=" t : ${l.tFile}">
+			                               	<th:block th:if="${not #lists.isEmpty(stadiumList)}" th:each="l : ${stadiumList}">
+									            <div class="col-lg-6 col-md-6 col-sm-12 sList" id="sList" th:if="${not #lists.isEmpty(l.tFile)}" th:each=" t : ${l.tFile}">
 												<div th:if="${t.representImg == 'Y'}">
 									                <div class="trend__content">				
 									                    <div class="trend__item">
@@ -244,12 +253,11 @@
 									                </div>
 									            </div>
 									            </div>
-									            <div class="col-lg-6 col-md-6 col-sm-12" th:unless="${not #lists.isEmpty(l.tFile)}">
+									            <div class="col-lg-6 col-md-6 col-sm-12 sList" id="sList"th:unless="${not #lists.isEmpty(l.tFile)}">
 									                <div class="trend__content">				
 									                    <div class="trend__item">
 									                        <div class="trend__item__pic set-bg " th:data-setbg="@{/images/notImage.jfif}"
 																											style="background-image: url(&quot;img/shop/shop-1.jpg&quot;);">
-																
 									                        </div>
 									                        <div class="trend__item__text">
 									                            <h6 ><a th:href="@{/stadium/stadiumDetail(facilityStadiumCd=${l.facilityStadiumCd})}" th:text="${l.facilityStadiumNm}" style="color: black;"></a></h6>
@@ -268,12 +276,12 @@
 									        </div>
 									    </div>
 										</section>
-		                                <h6>레슨</h6>		                                                
-	                               		<section class="trend spad" style="border-bottom: 1px solid #e1e1e1; padding: 10px; margin-bottom: 10px;">
+		                                <h6 class="lName"></h6>		                                                
+	                               		<section class="trend spad" style="padding: 10px; margin-bottom: 10px;">
 									    <div class="container">
 									        <div class="row">
-				                               	<th:block th:if="${not #lists.isEmpty(lessonList)}" th:each="l : ${lessonList}">
-									            <div class="col-lg-6 col-md-6 col-sm-12" th:if="${not #lists.isEmpty(l.tFile)}" th:each=" t : ${l.tFile}">
+			                               	<th:block th:if="${not #lists.isEmpty(lessonList)}" th:each="l : ${lessonList}">
+									            <div class="col-lg-6 col-md-6 col-sm-12 lList" id="lList" th:if="${not #lists.isEmpty(l.tFile)}" th:each=" t : ${l.tFile}">
 												<div th:if="${t.representImg == 'Y'}">
 									                <div class="trend__content">				
 									                    <div class="trend__item">
@@ -295,7 +303,7 @@
 									                </div>
 									            </div>
 									            </div>
-									            <div class="col-lg-6 col-md-6 col-sm-12" th:unless="${not #lists.isEmpty(l.tFile)}">
+									            <div class="col-lg-6 col-md-6 col-sm-12 lList" id="lList" th:unless="${not #lists.isEmpty(l.tFile)}">
 									                <div class="trend__content">				
 									                    <div class="trend__item">
 									                        <div class="trend__item__pic set-bg " th:data-setbg="@{/images/notImage.jfif}"
@@ -388,11 +396,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="related__title">
-                        <h5>RELATED PRODUCTS</h5>
-                    </div>
-                </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-1.jpg">
@@ -503,9 +506,7 @@
 						</div>
 						<div class="form-group row">
 							<div class="col-md-12 col-sm-12">
-								
-								<textarea  class="form-control" name="reviewDetail" placeholder="후기를 작성해주세요.">
-								</textarea>
+								<textarea class="form-control" rows="3"  name="reviewDetail" placeholder="후기를 입력해주세요."></textarea>
 							</div>
 						</div>
 					</div>

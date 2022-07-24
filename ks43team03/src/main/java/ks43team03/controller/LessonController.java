@@ -113,7 +113,7 @@ public class LessonController {
 		searchMap.put("searchCtg", searchCtg);
 		Map<String, Object> resultMap = searchService.findSearch(searchName, searchMap, currentPage);
 		
-		model.addAttribute("title", 			"레슨 목록");
+		
 		model.addAttribute("lessonList"			, resultMap.get("LessonListForUser"));
 		model.addAttribute("lessonList"			, resultMap.get("LessonListForUser"));
 		model.addAttribute("lastPage"			, resultMap.get("lastPage"));
@@ -176,6 +176,7 @@ public class LessonController {
 		lessonService.modifyLesson(paramMap, lessonImgFile);
 		
 		model.addAttribute("facilityCd", lesson.getFacilityCd());
+		
 		return "redirect:/lesson/facilityLessonList?" + "facilityCd="+ lesson.getFacilityCd();
 	}
 	

@@ -17,6 +17,13 @@ import ks43team03.dto.PaymentResDto;
 import ks43team03.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * @author 
+ * @class 결제 controller 
+ *
+ */
+
 @Slf4j
 @Controller
 @RequestMapping("/pay")
@@ -55,14 +62,9 @@ public class PaymentController {
 							   @RequestParam(name = "userId", required = false)String userId
 							   , Model model) {
 		
-//		log.info("결과 처리후 success에 orderUUID 요청 데이터 : {}" , dto);
-		log.info("결과 처리후 success에 orderUUID 요청 데이터 : {}" , orderId);
-		log.info("결과 처리후 success에 userId 요청 데이터 : {}" , userId);
-		
 		PaymentResDto payResDto = paymentService.findTossPaymentsbyOrderId(orderId);
 		model.addAttribute("pay", payResDto);
 		model.addAttribute("userId", userId);
-		
 		return "order/orderSuccess";
 	}
     
@@ -80,9 +82,6 @@ public class PaymentController {
 	@ResponseStatus(HttpStatus.OK)
 	public void handleVirtualAccountCallback(@RequestBody Payload payload) {
 		log.info("payload 값 : {}", payload);
-		
-		
-	
 	    }
 
 	

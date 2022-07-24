@@ -67,6 +67,16 @@
 		<result column="facility_approve_date"	property="facilityApproveDate"/>
 		<result column="facility_reg_date"		property="facilityRegDate"/>
 		</collection>
+		<collection property="reservation"	 ofType="Reservation">
+			<id		column="reservation_cd"			property="reservationCd"/>	
+			<result	column="facility_goods_cd"		property="facilityGoodsCd"/>
+			<result	column="reservation_id"			property="reservationId"/>
+			<result	column="reservation_date"		property="reservationDate"/>
+			<result	column="reservation_start_time"	property="reservationStartTime"/>
+			<result column="reservation_end_time"	property="reservationEndTime"/>
+			<result column="reservation_reg_date"	property="reservationRegDate"/>
+			<result	column="reservation_cancel"		property="reservationCancel"/>
+		</collection>
 	</resultMap>
 	<resultMap type="stadiumPrice" id="stadiumPriceResultMap">
 			<id 	column="stadium_price_cd" 		property="stadiumPriceCd"/>
@@ -76,7 +86,29 @@
 			<result column="night_price"			property="nightPrice"/>
 			<result column="hol_price"				property="holPrice"/>
 	</resultMap>
-	
+	<select id="getReservation" resultMap="stadiumResultMap" parameterType="Map">
+		SELECT
+			fs.facility_goods_cd,
+			sp.day_price,
+			sp.night_price,
+			sp.hol_price,
+			r.reservation_id,
+			r.reservation_date,
+			r.reservation_start_time,
+			r.reservation_end_time
+		FROM
+			facility_stadium AS fs
+			INNER JOIN
+			stadium_price AS sp
+			on
+			sp.facility_stadium_cd = fs.facility_stadium_cd
+			LEFT JOIN
+			reservation AS r
+			on
+			fs.facility_goods_cd = r.facility_goods_cd
+				WHERE
+			fs.facility_goods_cd = #{facilityGoodsCd}
+	</select>
 	
 	<select id="getStadiumListByCd" resultType="Stadium" resultMap="stadiumResultMap">
 	/*시설내 구장 목록*/
@@ -373,6 +405,7 @@
 	
 	<insert id="addStadiumPrice" parameterType="StadiumPrice">
 		/*구장단가등록*/
+		
 		INSERT INTO stadium_price
 			(stadium_price_cd
 			,facility_stadium_cd
@@ -392,6 +425,9 @@
 	
 	<insert id="addStadium" parameterType="Stadium">
 	/*구장등록*/
+		<selectKey resultType="String" keyProperty="facilityStadiumCd" order="BEFORE">
+			SELECT sf_new_stadium_cd()
+		</selectKey>
 		INSERT INTO facility_stadium
 			(facility_stadium_cd
 			,facility_goods_cd

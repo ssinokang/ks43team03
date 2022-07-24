@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import ks43team03.common.TossApi;
 import ks43team03.dto.Order;
@@ -24,6 +23,7 @@ import ks43team03.exception.CustomException;
 import ks43team03.exception.ErrorMessage;
 import ks43team03.mapper.OrderMapper;
 import ks43team03.mapper.PayMapper;
+
 
 
 @Service

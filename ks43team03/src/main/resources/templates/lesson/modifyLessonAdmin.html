@@ -171,12 +171,13 @@
 								</div>
 							</div>
 							<div class="item form-group" style = "list-style:none;">
-								<div class="col-form-label col-md-3 col-sm-3 label-align" id="lesson-img-label">대표 이미지 변경</div>
+								<div class="col-form-label col-md-3 col-sm-3 label-align" id="lesson-img-label">이미지 수정</div>
 								<div class="col-md-6 col-sm-6 ">
 									<ul class="lesson-file-line">
-										<li th:if="${not #lists.isEmpty(lesson.tFile)}" th:each="t ,status : ${lesson.tFile}">>
-											<img th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="..." style="width: 10vw; min-width: 50px;"/>
-											<input type="radio" class="representImgCheck" th:value="${status.count}" th:data-representImg="${t.representImg}" name="check">
+										<li th:if="${not #lists.isEmpty(lesson.tFile)}" th:each="t ,status : ${lesson.tFile}">
+											<img id="prev" th:src="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" alt="..." style="width: 10vw; min-width: 50px;"/>
+											대표 이미지 변경<input type="radio" 	  class="representImgCheck" th:value="${status.count}" th:data-representImg="${t.representImg}" name="check">
+											삭제<input type="checkbox" class="deleteImg" th:value="${t.fileCd}" name="deleteImg">
 											<input type="hidden" th:value="N" class="representImg" name="representImg">
 											<input type="hidden" th:value="${t.fileCd}" name="fileCd">
 										</li>
@@ -192,15 +193,27 @@
 							      <textarea id="lessonDetail" class="form-control" name="lessonDetail">[[${lesson.lessonDetail}]]</textarea>
 							   </div>
 							</div>
+							<div class="item form-group">   
+								<label for="lessonDetail" class="col-form-label col-md-3 col-sm-3 label-align">레슨 정보</label>
+								<div class="col-md-6 col-sm-6 ">
+									<ul class="lesson-file-line">
+								  <li>
+								      추가<input type="file" name="lessonImgFile" class="form-control newLine" accept="image/*">
+								      <button type= "button" id="plus-button">플러스</button>
+								      <button type= "button" id="minus-button">마이너스</button>
+								   </li>
+								</ul>
+								</div>
+							</div>
 							<div class="item form-group">
 							   <label class="col-form-label col-md-3 col-sm-3 label-align">개인/단체</label>
 							   <div class="col-md-6 col-sm-6 ">
 							      <div id="solo-party" class="btn-group" data-toggle="buttons">
 							         <label class="btn btn-secondary lessonDivision" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-							            <input type="radio" name="lessonDivision" value="단체" class="join-btn"> &nbsp; 단체레슨 &nbsp;
+							            <input type="radio" name="lessonDivision" value="단체" class="join-btn" th:data-division = "${lesson.lessonDivision}"> &nbsp; 단체레슨 &nbsp;
 							         </label>
 							         <label class="btn btn-primary lessonDivision" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-							            <input type="radio" name="lessonDivision" value="개인" class="join-btn"> 개인 레슨
+							            <input type="radio" name="lessonDivision" value="개인" class="join-btn" th:data-division = "${lesson.lessonDivision}"> 개인 레슨
 							         </label>
 							      </div>
 							   </div>

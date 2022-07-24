@@ -7,7 +7,7 @@ import ks43team03.strategy.enumeration.CalenderStrategyName;
 
 public interface CalenderStrategy {
 	//캘린더(Lesson,)
-	Lesson getData(Map<String, String> scheduleDate);
+	Map<String, Object> getData(Map<String, String> scheduleDate);
 	
 	CalenderStrategyName getCalendarStrategyName();
 } 

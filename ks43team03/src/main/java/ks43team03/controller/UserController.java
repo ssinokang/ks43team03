@@ -193,7 +193,7 @@ public class UserController {
 	
 	//회원 가입
 	@PostMapping("/addUser")
-	public String addMember(User user) {
+	public String addUser(User user) {
 		
 		log.info("회원가입폼 시작");
 		

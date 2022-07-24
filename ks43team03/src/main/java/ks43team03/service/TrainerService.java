@@ -88,19 +88,6 @@ public class TrainerService {
 	}
 	
 	/**
-	 * 트레이너 코드로 트레이너 프로필 조회
-	 */
-	public TrainerProfile getTrainerProfileByTrainerCd(String trainerCd) {
-		
-		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("trainerCd", trainerCd);
-		
-		TrainerProfile	trainerProfile	= trainerMapper.getTrainerProfileInfoByMap(paramMap);
-		
-		return trainerProfile;
-	}
-	
-	/**
 	 * 트레이너 코드로 트레이너 정보 조회
 	 * @param trainerCd
 	 * @return

@@ -134,7 +134,7 @@ public class TrainerController {
 	// 닉네임 중복체크 여부
 	@PostMapping("/nicknameCheck")
 	@ResponseBody
-	public boolean isIdCheck(@RequestParam(value = "trainerNickname") String trainerNickname) {
+	public boolean isNickCheck(@RequestParam(value = "trainerNickname") String trainerNickname) {
 		boolean nicknameCheck = false;
 		log.info("닉네임중복체크 클릭시 요청받은 userId의 값: {}", trainerNickname);
 		

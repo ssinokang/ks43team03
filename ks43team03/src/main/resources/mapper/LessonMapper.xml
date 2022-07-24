@@ -145,6 +145,7 @@
 			,lesson_sub.facility_use_cd
 			,lesson_sub.sports_cd
 			,lesson_sub.user_id
+			,lesson_sub.lesson_division
 			,lesson_sub.facility_nm
 			,lesson_sub.facility_address
 			,lesson_sub.facility_tell

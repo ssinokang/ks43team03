@@ -25,4 +25,9 @@ public interface FileMapper {
 	
 	// 파일 수정
 	public void modifyFile(Map<String, String> fileMap);
+
+	//파일 삭제
+	public void deleteFile(String deleteImg);
+	// goods 릴레이션 테이블 삭제
+	public void deleteRelFileWithGoods(String deleteImg);
 }

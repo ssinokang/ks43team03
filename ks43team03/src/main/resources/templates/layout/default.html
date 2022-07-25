@@ -21,16 +21,14 @@
 			<li><span class="icon_search search-switch"></span></li>
 			<!-- 모바일 메뉴 화면 아이콘 하트 / 장바구니임-->
 			<li>
-				<a href="#">
-					<span class="icon_heart_alt"></span>
-					<div class="tip">2</div>
-				</a>
-			</li>
-			<li>
-				<a href="#">
-					<span class="icon_bag_alt"></span>
-					<div class="tip">2</div>
-				</a>
+				<th:block th:unless="${session.SLEVEL == '5'}">
+					<i class="fa fa-heart" title="일반회원만 이용 가능합니다"></i>
+				</th:block>
+				<th:block th:if="${session.SLEVEL == '5'}">
+					<a href="/boomk/boomkList" title="즐겨찾기 페이지">
+						<i class="fa fa-heart"></i>
+					</a>
+				</th:block>
 			</li>
 			<li>
 				<a href="/admin" title="관리자페이지">

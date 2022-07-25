@@ -51,7 +51,10 @@
 	
 		<!-- 트레이너 정보 -->
 		<section class="board-details spad">
-			<div class="container">
+			<div class="container" th:if="${trainerProfile == null}">
+				<h4>로그인이 필요한 서비스입니다.</h4>
+			</div>
+			<div class="container" th:unless="${trainerProfile == null}">
 				<input type="hidden" id="trainerData" th:value="${trainerProfile.trainerCd}">
 				<div class="row" style="padding-bottom: 80px">
 					<div class="product__details__pic col-lg-6 col-md-6">

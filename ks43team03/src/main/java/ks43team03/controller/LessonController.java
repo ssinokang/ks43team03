@@ -113,9 +113,7 @@ public class LessonController {
 		searchMap.put("searchCtg", searchCtg);
 		Map<String, Object> resultMap = searchService.findSearch(searchName, searchMap, currentPage);
 		
-		
-		model.addAttribute("lessonList"			, resultMap.get("LessonListForUser"));
-		model.addAttribute("lessonList"			, resultMap.get("LessonListForUser"));
+		model.addAttribute("searchList"			, resultMap.get("searchList"));
 		model.addAttribute("lastPage"			, resultMap.get("lastPage"));
 		model.addAttribute("startPageNum"		, resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum"			, resultMap.get("endPageNum"));

@@ -15,6 +15,9 @@ public interface BoardMapper {
 	//게시글 전체 목록 조회 
 	public List<Map<String, Object>> getBoardList(Map<String, Object> paramMap);
 	
+	//시설 내 게시글 목록 조회
+	public List<Board> getBoardListByFacility(String facilityCd);
+	
 	//게시글 코드로 상세 조회 
 	public Board getBoardDetail(String boardPostCd);
 	

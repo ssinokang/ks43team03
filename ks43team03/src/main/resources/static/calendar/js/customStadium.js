@@ -89,7 +89,7 @@ $(function(){
             }
         })
  
-        addLesson(fixedDate);
+        addReservation(fixedDate);
     }
     events(moment().startOf('month').format('YYYY-MM-DD'), moment().endOf('month').format('YYYY-MM-DD'), buildCalendar);
 });

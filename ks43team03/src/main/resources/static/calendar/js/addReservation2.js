@@ -99,24 +99,22 @@ function addReservation(fixedDate) {
       var mEndTime   = moment(endTime, "HH:mm");
       var mStartTime = moment(startTime, "HH:mm");
 
+      console.log((moment.duration(nightTime.diff(mEndTime)).asHours()));
       var price       = 0;
       var dayPrice    = Number(fixedDate.stadiumPrice.dayPrice);
       var nightPrice  = Number(fixedDate.stadiumPrice.nightPrice);
       var holPrice    = Number(fixedDate.stadiumPrice.holPrice);
 
+      console.log(moment.duration(nightTime.diff(mEndTime)).asHours());
       var afterPrice  = 0;
       var beforePrice = 0;
       var day = new Date(clickDay).getDay()
-      
-      console.log(mEndTime);
-      console.log(mStartTime);
-      
       if(day == 0 || day == 6) {
-    	  afterPrice  = nightTime.isSameOrBefore(mEndTime)   ? (dayPrice + nightPrice + holPrice)  : dayPrice + holPrice;
-    	  beforePrice = nightTime.isBefore(mStartTime) ? (dayPrice + nightPrice + holPrice)  : dayPrice + holPrice;
+         afterPrice  = nightTime.isAfter(mEndTime)   ? (dayPrice + nightPrice + holPrice)  : (dayPrice + holPrice));
+         beforePrice = nightTime.isAfter(mStartTime) ? (dayPrice + nightPrice + holPrice)  : (dayPrice + holPrice));
       } else {
-    	  afterPrice  = nightTime.isSameOrBefore(mEndTime)   ? (dayPrice + nightPrice)  : dayPrice;
-    	  beforePrice = nightTime.isBefore(mStartTime) ? (dayPrice + nightPrice)  : dayPrice;
+         afterPrice  = nightTime.isAfter(mEndTime)   ? (dayPrice + nightPrice)  : dayPrice));
+         beforePrice = nightTime.isAfter(mStartTime) ? (dayPrice + nightPrice)  : dayPrice));
       }
     
       var sumPrice = afterPrice + beforePrice;

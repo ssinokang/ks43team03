@@ -1,6 +1,7 @@
 package ks43team03.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,6 +12,8 @@ import ks43team03.dto.Sports;
 @Mapper
 public interface CommonMapper {
 
+
+	
 	/**
 	 * 사용법 
 	 * @param colunm  테이블의 pk칼럼명과 일치해야된다. 예를들어 
@@ -20,6 +23,7 @@ public interface CommonMapper {
 	 * @return pk의 값을 리턴한다.
 	 * 하지만 문제점이 있을 수 있음 
 	 */
+	
 	public String createNewCode(String column,String tableName);
 	
 	/**
@@ -40,6 +44,11 @@ public interface CommonMapper {
 	 ****/
 	public List<Sports> getSportsList();
 	
+	/**
+	 * 레슨/대관 예약 시간 확인하기
+	 **/
+	public String reservationCheck(Map<String, String> reservationData);
+	
 	/***
 	 * 
 	 * 어떤 도시의 시/군/구 가져오기
@@ -53,4 +62,11 @@ public interface CommonMapper {
 	 *
 	 ****/
 	public List<Area> getAreaList();
+	
+	/**
+	 *레슨/대관 예약 하기
+	 **/
+	public int setReservation(Map<String, String> reservationData);
+	
+
 }

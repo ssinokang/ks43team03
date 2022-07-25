@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,13 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.dto.Area;
-import ks43team03.dto.AreaCity;
-import ks43team03.dto.AreaCityTown;
-import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Lesson;
-import ks43team03.dto.Search;
-import ks43team03.dto.Sports;
 import ks43team03.service.CommonService;
 import ks43team03.service.LessonService;
 import ks43team03.service.SearchService;
@@ -33,21 +29,43 @@ import ks43team03.strategy.enumeration.SearchStrategyName;
 @RequestMapping("/lesson")
 public class LessonController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
+	
 	private final LessonService lessonService;
 	private final CommonService commonService;
 	private final SearchService searchService;
+	
 	public LessonController(LessonService lessonService, CommonService commonService, SearchService searchService) {
 		this.lessonService = lessonService;
 		this.commonService = commonService;
 		this.searchService = searchService;
+	}
+	
+
+	/**
+	 *  레슨 예약
+	 **/
+	@GetMapping("/lessonReserve")
+	public String lessonReservateion(@RequestParam(name		  = "lessonCd"
+												   ,required 	  = false
+												   ,defaultValue  = "error") String lessonCd
+									 ,Model model) {
+		
+		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
+		
+		model.addAttribute("lesson", lesson);
+		model.addAttribute("title" , "레슨 예약");
+		
+		log.info("model : {}", model);
+		
+		return "lesson/lessonReservation";
 	}
 	/**
 	 *  회원이 보는 레슨 리스트 
 	 **/
 	@GetMapping("/detailLessonForUser")
 	public String detailLessonForUser(@RequestParam(name		  = "lessonCd"
-													,required 	  = false
-													,defaultValue = "error") String lessonCd
+												   ,required 	  = false
+												   ,defaultValue  = "error") String lessonCd
 									 ,Model model) {
 		
 		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
@@ -57,17 +75,18 @@ public class LessonController {
 		
 		log.info("model : {}", model);
 		
-		return "lesson/detailLessonForUser";
+		return "lesson/detailLessonUser";
 	}
 	
 	@GetMapping("/lessonListForUser")
 	public String lessonListforUser(Model model
 									,@RequestParam(name="searchCtg", required = false) String searchCtg
 									,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage){
-		Map<String, Object> searchMap	  = new HashMap<>();
+		Map<String, Object> searchMap = new HashMap<>();
 		SearchStrategyName searchName = SearchStrategyName.valueOf(searchCtg);
 		
 		
+		List<Area> areaList = commonService.getAreaList();
 		
 		searchMap.put("searchCtg", searchCtg);
 		Map<String, Object> resultMap = searchService.findSearch(searchName, searchMap, currentPage);
@@ -79,8 +98,9 @@ public class LessonController {
 		model.addAttribute("startPageNum"		, resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum"			, resultMap.get("endPageNum"));
 		model.addAttribute("currentPage"		, currentPage);
+		model.addAttribute("areaList"			, areaList);
 		model.addAttribute("title", 			"레슨 목록");
-		return "lesson/lessonListForUser";
+		return "lesson/lessonListUser";
 	};
 	/**
 	 * 레슨 상세 조회 
@@ -93,25 +113,42 @@ public class LessonController {
 		model.addAttribute(lesson);
 		model.addAttribute("title", "레슨상세조회");
 		log.info("model : {}", model);
-		return "lesson/detailLesson";
+		return "lesson/detailLessonAdmin";
 	}
 	/**
 	 * 레슨 수정
 	 **/
-	@PostMapping("/modyfyLesson")
+	@PostMapping("/modifyLesson")
 	public String modifyLesson(Lesson lesson
-							   ,Model model) {
-		int result = lessonService.modifyLesson(lesson);
+							   ,Model model
+							   ,HttpSession session
+							   ,String[] fileCd
+							   ,String[] representImg) {
+		
+		String userId = (String)session.getAttribute("SID");
+		log.info(userId);
+		
+		lesson.setUserId(userId);
+		Map<String, Object> paramMap = new HashMap<>();
+		
+		System.out.println(lesson.getSportsCd());
+		
+		paramMap.put("fileCd", fileCd);
+		paramMap.put("lesson", lesson);
+		paramMap.put("representImg", representImg);
+		
+		lessonService.modifyLesson(paramMap);
 		model.addAttribute("facilityCd", lesson.getFacilityCd());
-		return "lesson/facilitylessonList";
+		return "redirect:/lesson/facilityLessonList?" + "facilityCd="+ lesson.getFacilityCd();
 	}
+	
 	@GetMapping("/modifyLesson")
 	public String modifyLesson(Model model
 								,@RequestParam(name="lessonCd") String lessonCd) {
 		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
 		model.addAttribute("title", "레슨수정");
 		model.addAttribute("lesson", lesson);
-		return "lesson/modifyLesson";
+		return "lesson/modifyLessonAdmin";
 	}
 	/**
 	 * 시설 내에 등록된 레슨 리스트

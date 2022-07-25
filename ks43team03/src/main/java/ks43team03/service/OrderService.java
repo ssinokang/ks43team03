@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -67,9 +68,15 @@ public class OrderService {
 		}
 		
 		
+		
+		if(Strings.isEmpty(userId)) {
+			throw new CustomException(ErrorMessage.IS_EMPTY_USER);
+		}
 		// 예외처리
 		User user;
+			
 		try {
+			
 			user = userMapper.getUserInfoById(userId);
 			
 			if(user == null) {
@@ -94,7 +101,9 @@ public class OrderService {
 		return order;
 	}
 
-	
+	/**
+	 * request데이터 order로 변환 메소드 
+	 */
 	private Order createOrder(Order.Request req, ResponseGoods goods) {
 		return Order.builder()
 				.facilityGoodsCd(goods.getFacilityGoods().getFacilityGoodsCd())
@@ -201,12 +210,8 @@ public class OrderService {
 		default: 
 			throw new CustomException(ErrorMessage.NOT_FOUND_ORDER);
 		}
-		
-		
 		return order;
 	}
-
-	
 	
 	/**
 	 * orderUUID로 주문 완전 삭제 메소드 
@@ -218,14 +223,12 @@ public class OrderService {
 	
 	
 	public List<Order> orderInfomationByCategory(String category, String userId) {
-		
 		if("main".equals(category)) {
 			category = "";
 		}else if("reserve".equals(category)) {
 			category = "pass";
 		}
 		List<Order> orderList = orderMapper.orderInfomationByCategory(category, userId);
-		
 		return orderList;
 	}
 	
@@ -236,6 +239,14 @@ public class OrderService {
 	@Transactional(readOnly = true)
 	public List<Order> getOrderAll(){
 		List<Order> orderList =  orderMapper.getOrderAll();
+		return orderList;
+	}
+	
+	/**
+	 * 시실의 주문리스트
+	 */
+	public List<Order> getOrderInfoForFacility(String facilityCd){
+		List<Order> orderList = orderMapper.getOrderInfoForFacility(facilityCd);
 		return orderList;
 	}
 	

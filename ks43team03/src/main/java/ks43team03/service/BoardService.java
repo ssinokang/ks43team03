@@ -80,6 +80,14 @@ public class BoardService {
 		return resultMap;
 	}
 	
+	/* 시설 내 게시글 목록 조회 */
+	public List<Board> getBoardListByFacility(String facilityCd){
+		System.out.println("------------------------ 시설 내 게시글 목록 조회 서비스-----------------------------");
+		List<Board> boardListByFacility = boardMapper.getBoardListByFacility(facilityCd);
+		System.out.println("------------------------ 시설 내 게시글 목록 조회 서비스 끝-----------------------------");
+		return boardListByFacility;
+	}
+	
 	/* 게시글 코드로 상세 조회   */
 	public Board getBoardDetail(String boardPostCd) { 
 		System.out.println("------------------------게시글 상세조회 서비스-----------------------------");

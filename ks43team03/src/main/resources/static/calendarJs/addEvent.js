@@ -43,7 +43,7 @@ var newEvent = function (start, end, eventType) {
 
         var eventData = {
             _id: eventId,
-            title: editTitle.val(),
+            title: editTitle.val(	),
             start: editStart.val(),
             end: editEnd.val(),
             description: editDesc.val(),

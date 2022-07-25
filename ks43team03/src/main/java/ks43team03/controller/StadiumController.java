@@ -1,5 +1,6 @@
 package ks43team03.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,15 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import ks43team03.dto.Area;
 import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Review;
 import ks43team03.dto.Sports;
 import ks43team03.dto.Stadium;
 import ks43team03.dto.StadiumPrice;
-import ks43team03.service.BookingService;
+import ks43team03.service.CommonService;
 import ks43team03.service.ReviewService;
+import ks43team03.service.SearchService;
 import ks43team03.service.StadiumService;
+import ks43team03.strategy.enumeration.SearchStrategyName;
 
 @Controller
 @RequestMapping("/stadium")
@@ -34,11 +38,15 @@ public class StadiumController {
 	
 	private final StadiumService stadiumService;
 	private final ReviewService reviewService;
+	private final CommonService commonService;
+	private final SearchService searchService;
 
 	
-	public StadiumController(StadiumService stadiumService, ReviewService reviewService) {
+	public StadiumController(StadiumService stadiumService, ReviewService reviewService,CommonService commonService, SearchService searchService) {
 		this.stadiumService = stadiumService;
 		this.reviewService = reviewService;
+		this.commonService = commonService;
+		this.searchService = searchService;
 	}
 	
 
@@ -64,19 +72,25 @@ public class StadiumController {
 	/*회원이 구장 리스트 조회*/
 	@GetMapping("/stadiumList")
 	public String getStadiumList(Model model
-			,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage){
+			,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage
+			,@RequestParam(name="searchCtg", required = false) String searchCtg){
 		
-		Map<String, Object> resultMap = stadiumService.getStadiumList(currentPage);
+		Map<String, Object> searchMap = new HashMap<>();
+		SearchStrategyName searchName = SearchStrategyName.valueOf(searchCtg);
 		
+		List<Area> areaList = commonService.getAreaList();
+		
+		searchMap.put("searchCtg", searchCtg);
+		
+		Map<String, Object> resultMap = searchService.findSearch(searchName, searchMap, currentPage);
 		log.info("resultMap : {}",resultMap);
-		log.info("resultMap.get(\"stadiumList\") : {}",resultMap.get("stadiumList"));
-		
-		model.addAttribute("resultMap", 			resultMap);
+	
 		model.addAttribute("currentPage", 			currentPage);
-		model.addAttribute("stadiumList",		resultMap.get("stadiumList"));
+		model.addAttribute("searchList",		resultMap.get("searchList"));
 		model.addAttribute("lastPage", 				resultMap.get("lastPage"));
 		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
+		model.addAttribute("areaList",				areaList);
 		model.addAttribute("title", "구장 조회");
 		return "stadium/stadiumList";
 	}

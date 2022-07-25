@@ -227,13 +227,14 @@
 	</select>
 	
 	
-	<select id="getStadiumList" parameterType="map" resultType="map" resultMap="stadiumResultMap">
-	/*회원이 구장 조회*/
-		SELECT 
+	<select id="getStadiumList" parameterType="Map" resultMap="stadiumResultMap">
+			SELECT 
 			fs.facility_stadium_cd			
 			,fs.facility_goods_cd 			
 			,fs.facility_cd					
-			,f.facility_nm					
+			,f.facility_nm
+			,f.main_ctg_cd
+			,f.town_cd						
 			,fs.goods_ctg_cd				
 			,fs.sports_cd					
 			,s.sports_nm 					
@@ -279,6 +280,24 @@
 				tf.deleted_yn != 'Y') AS stadium_file
 			on
 			fs.facility_goods_cd = stadium_file.facility_goods_cd
+			<trim prefix="WHERE" prefixOverrides="and">
+		   		<if test="mainCtgCd != null and mainCtgCd != '' ">
+		   			f.main_ctg_cd = #{mainCtgCd}
+		   		</if>
+		   		<if test="cityCd != null and cityCd != ''">
+		   			and f.city_cd = #{cityCd}
+		   		</if>
+		   		<if test="townCd != null and townCd != ''">
+		   			 and f.town_cd = #{townCd}
+		   		</if>
+		   		<if test="sportsCd != null and sportsCd != '' ">
+		   			and fs.sports_cd = #{sportsCd}
+		   		</if>
+		   		<if test="searchValue != null and searchValue != '' ">		
+					and f.facility_nm LIKE CONCAT('%', #{searchValue}, '%')
+		   		</if>
+	   		</trim>
+	   			ORDER BY fs.facility_stadium_reg_date DESC
 				LIMIT #{startRow}, #{rowPerPage};
 	</select>
 	

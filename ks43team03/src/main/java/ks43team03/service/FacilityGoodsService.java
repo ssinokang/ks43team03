@@ -1,7 +1,5 @@
 package ks43team03.service;
 
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -31,8 +29,6 @@ public class FacilityGoodsService {
 		this.facilityMapper = facilityMapper;
 	}
 	
-
-	
 	/**
 	 * 
 	 * @param facilityGoods  lesson pass stadium 레슨 이용권 대관
@@ -43,9 +39,6 @@ public class FacilityGoodsService {
 		log.info("addPass에서 받은 값 : {}", facilityGoods);
 		// 시설조회
 		facilityMapper.getFacilityInfoByCd(facilityGoods.getFacilityGoodsCd());
-		
-		//있다면 상품코드 생성 
-		
 		facilityGoodsMapper.addFacilityGoods(facilityGoods);
 		return facilityGoods.getFacilityGoodsCd();
 		
@@ -53,30 +46,17 @@ public class FacilityGoodsService {
 	
 	// 상폼하나 조회 
 	public ResponseGoods getFacilityGoodsCd(String facilityGoodsCd, String goodsCtgCd ) {
-		ResponseGoods responseGoods = null;
 
 		switch (goodsCtgCd) {
 		case "lesson":
-			
-			break;
+			return new ResponseGoods();
 		case "stadium":
-			
-			break;
+			return new ResponseGoods();
 		case "pass":
 			FacilityGoods facilityGoods = facilityGoodsMapper.getFacilityGoodsPassCd(facilityGoodsCd);
-			responseGoods = new ResponseGoods(
-					facilityGoods, 
-					facilityGoods.getPass()
-					.getPassNm(),
-					facilityGoods.getPass().getPassPrice()
-					);
-			break;
-		default: 
-			throw new CustomException(ErrorMessage.NOT_FOUND_GOODS);
+			return facilityGoods.passDto();
 		}
-		
-		return responseGoods;
-		
+		throw new CustomException(ErrorMessage.NOT_FOUND_GOODS);
 	}
 	
 	
@@ -86,15 +66,5 @@ public class FacilityGoodsService {
 	public List<FacilityGoods> getFacilityGoodsList(){
 		return null;
 	}
-	
-	
-	/**
-	 * 화면에 뿌릴 리스트
-	 */
-	public List<FacilityGoods> tempGoodsList(){
-		return null;
-	}
-	
-	
 	
 }

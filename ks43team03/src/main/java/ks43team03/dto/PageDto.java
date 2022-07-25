@@ -1,7 +1,8 @@
 package ks43team03.dto;
 
+import java.util.List;
 
-public class PageDto {
+public class PageDto<T> {
 	private int rowPerPage;
 	
 	private int startRow;
@@ -16,9 +17,10 @@ public class PageDto {
 	
 	private int currentPage;
 	
+	private List<T> list;
 	
 	// 만약 회원아이디가 있을경우
-	private String userId;
+	private String id;
 	
 	public PageDto() {
 		
@@ -34,9 +36,9 @@ public class PageDto {
 	}
 	
 	// 회원아이디가 있는 경우
-	public PageDto(double rowCount, int currentPage, int rowPerPage,String userId) {
+	public PageDto(double rowCount, int currentPage, int rowPerPage,String id) {
 		this(rowCount,currentPage,rowPerPage);
-		this.userId = userId;
+		this.id = id;
 	}
 	
 	private void startRowAndLastPage(double rowCount, int currentPage, int rowPerPage) {
@@ -63,7 +65,13 @@ public class PageDto {
 	}
 	
 	
+	public void setList(List<T> list) {
+		this.list = list;
+	}
 	
+	public List<T> getList() {
+		return list;
+	}
 	
 	public int getCurrentPage() {
 		return currentPage;
@@ -93,8 +101,8 @@ public class PageDto {
 		return endPage;
 	}
 
-	public String getUserId() {
-		return userId;
+	public String getId() {
+		return id;
 	}
 	
 	

@@ -2,9 +2,7 @@ package ks43team03.service;
 
 
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.apache.logging.log4j.util.Strings;
@@ -127,27 +125,9 @@ public class OrderService {
 	 *  페이징 처리 개선이 필요하다.
 	 */
 	@Transactional(readOnly = true)
-	public Map<String, Object> getOrdersByUser(int currentPage, String userId){
-		
-		
-		double rowCount = orderMapper.getOrderByUserCount(userId);
-
-		PageDto page = new PageDto(rowCount, currentPage, 6,userId);
-		List<Order> orderList = orderMapper.getOrdersByUser(page);
-		
-		log.info("db 조회 데이터 : {}", orderList);
-		Map<String, Object> resultMap = new HashMap<>();
-		log.info("dto에담긴값 : {}", page);
-//		resultMap.put("lastPage", lastPage);
-//		resultMap.put("orderList", orderList);
-//		resultMap.put("startPage", startPage);
-//		resultMap.put("endPage", endPage);
-
-		resultMap.put("lastPage", page.getLastPage());
-		resultMap.put("orderList", orderList);
-		resultMap.put("startPage", page.getStartPage());
-		resultMap.put("endPage", page.getEndPage());
-		return resultMap;
+	public List<Order> getOrdersByUser(String userId, String dateMonth,String searchValue){
+		List<Order> orderList = orderMapper.getOrdersByUser(userId,dateMonth,searchValue);
+		return orderList ;
 	}
 	
 	
@@ -199,17 +179,27 @@ public class OrderService {
 	 * @return
 	 */
 	@Transactional(readOnly = true)
-	public List<Order> getOrderAll(){
-		List<Order> orderList =  orderMapper.getOrderAll();
-		return orderList;
+	public PageDto<Order> getOrderAll(int currentPage){
+		double rowCount = orderMapper.getOrderCount();
+		PageDto<Order> page = new PageDto<Order>(rowCount, currentPage, 10);
+		List<Order> orderList =  orderMapper.getOrderAll(page);
+		page.setList(orderList);
+		return page;
 	}
 	
-	/**
+	/*
+	 * 
 	 * 시실의 주문리스트
+	 * 중복되는 코드 개선 해야 함.
 	 */
-	public List<Order> getOrderInfoForFacility(String facilityCd){
-		List<Order> orderList = orderMapper.getOrderInfoForFacility(facilityCd);
-		return orderList;
+	public PageDto<Order> getOrderInfoForFacility(String facilityCd,int currentPage){
+		double rowCount = orderMapper.getOrderByFacilityCount(facilityCd);
+		PageDto<Order> page = new PageDto<Order>(rowCount, currentPage, 10,facilityCd);
+		List<Order> orderList = orderMapper.getOrderInfoForFacility(page);
+		log.info("db 조회 데이터 : {}", orderList);
+		
+		page.setList(orderList);
+		return page;
 	}
 	
 }

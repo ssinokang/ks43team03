@@ -39,7 +39,7 @@ public interface OrderMapper {
 	
 	// 회원 한명의 주문내역 조회 메소드
 //	public List<Order> getOrdersByUser(Map<String, Object> maps);
-	public List<Order> getOrdersByUser(PageDto maps);
+	public List<Order> getOrdersByUser(String userId,String dateMonth,String searchValue);
 	
 	// 주문 삭제 uuid 
 	public int removeOrderByOrderUUID(String orderUUID);
@@ -55,10 +55,16 @@ public interface OrderMapper {
 	 */
 	
 	// 시설의 주문정보를 조회
-	public List<Order> getOrderInfoForFacility(String faciltiyCd);
+	public List<Order> getOrderInfoForFacility(PageDto<Order> faciltiyCd);
 	
 	
 	// 관리자페이지의 전체 주문리스트
-	public List<Order>getOrderAll();
+	public List<Order>getOrderAll(PageDto<Order> page);
+	
+	//관리자페이지 전체주문 카운트
+	public int getOrderCount();
+	
+	// 시설관리자 주문카운트
+	public int getOrderByFacilityCount(String facilityCd);
 	
 }

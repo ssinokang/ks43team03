@@ -39,6 +39,7 @@
 										<div class="form-group col-12">
 											<th:block th:if="${not #lists.isEmpty(facility)}">
 												
+								
 												<div class="input-group">
 													<div class="input-group-prepend">
 														<span class="input-group-text" id="basic-addon1" style="font-size: 14px;">시설명</span>
@@ -59,7 +60,7 @@
 									</div>
 								</div>
 
-								<form action="#" method="get">
+							<form id="search-form">	
 									<div class="form row">
 										<div class="form-group col-12">
 											
@@ -70,10 +71,10 @@
 											</div>
 											<div class="input-group">
 												<div class="input-group-prepend">
-														
-														<input type="date" id="date-before" name="date-before" class="form-control" style="font-size: 14px; display: inline;">
+														<input type="date" id="date-after" name="date-after" class="form-control" style="font-size: 14px; display: inline;">
 														~
-														<input type="date" id="date-after" name="date-after" class="form-control" style="font-size: 14px; display: inline;">	
+														<input type="date" id="date-before" name="date-before" class="form-control" style="font-size: 14px; display: inline;">
+														
 													<select class="form-control" id="exampleFormControlSelect1"
 														name="searchKey" style="font-size: 14px;">
 														<option value="ldgAddr">주문상태</option>
@@ -81,14 +82,14 @@
 													</select>
 												</div>
 												<div class="input-group-prepend">
-													<button type="button" class="btn btn-outline-danger"
+													<button type="button" id="search-btn" class="btn btn-outline-danger"
 														style="font-size: 14px; background: #ec5552; color: #fff;">검색</button>
 												</div>
 											</div>
 										</div>
 									</div>
-								</form>
-							</div>
+									</form>
+								</div>
 						</div>
 					</div>
 				</div>
@@ -102,7 +103,7 @@
 								<table class="table jambo_table bulk_action">
 									<thead>
 										<tr class="headings">
-
+											<th class="column-title" style="display: table-cell;">no.</th>
 											<th class="column-title" style="display: table-cell;">주문일시</th>
 											<th class="column-title" style="display: table-cell;">결제일시</th>
 											<th class="column-title" style="display: table-cell;">주문번호 </th>
@@ -124,7 +125,8 @@
 
 									<tbody>
 										<tr th:if="${not #lists.isEmpty(orderList)}"
-											th:each="order : ${orderList}">
+											th:each="order,idx : ${orderList}">
+											<td th:text="${idx.count}"></td>
 											<td th:text="${order.orderRegDate}"></td>
 											<td th:text="${order.pay.payRegDate}"></td>
 											
@@ -168,30 +170,26 @@
 		const checkId = '[[${session.SID}]]';
 		const level = '[[${session.SLEVEL}]]';
 
-
+		const data = { 
+				facilityCd :$('#facility-select').val(),
+				level : level,
+				
+			}
 		function readAjax() {
 
 
 			if (typeof 'undefinded' == checkId || checkId != null && checkId != '') {
-				let data = {
+				/* let data = {
 					level: level
-				};
+				}; */
 				if (level == '2' || level == '3' || level == '4') {
-					console.log($('#facility-select').val());
+					 console.log($('#facility-select').val());
 					//$('#orderList');
 					data.facilityCd = $('#facility-select').val()
 				}
 
 
-				$.ajax({
-					type: 'GET',
-					url: '/admin/order/facility',
-					data: data
-				}).done(function (data) {
-					$('#orderList').replaceWith(data);
-				}).fail(function (error) {
-					console.log(JSON.stringify(error));
-				})
+				searchajax(data);
 
 
 			} else {
@@ -216,6 +214,31 @@
 		}
 
 
+		const searchajax = (data) =>{
+			console.log(data);
+			$.ajax({
+				type: 'GET',
+				url: '/admin/order/search',
+				data: data,
+			}).done(function (data) {
+				$('#orderList').replaceWith(data);
+			}).fail(function (error) {
+				console.log(JSON.stringify(error));
+			})
+		}
+		
+		
+		$('#search-btn').on('click',function(){
+			data.dateAfter = $('#date-after').val();
+			data.dateBefore = $('#date-before').val();
+			
+			
+			console.log(data);
+			
+			searchajax(data);
+			
+		});
+		
 		selectFacility();
 
 	</script>

@@ -1,8 +1,18 @@
 package ks43team03.service;
 
 
+import static ks43team03.exception.ErrorMessage.DATABASE_ERROR;
+import static ks43team03.exception.ErrorMessage.IS_EMPTY_USER;
+import static ks43team03.exception.ErrorMessage.NOT_EXITS_PAYMENT_TYPE_ERROR;
+import static ks43team03.exception.ErrorMessage.NOT_FOUND_ORDER;
+import static ks43team03.exception.ErrorMessage.ORDER_DELETE_ERROR;
+import static ks43team03.exception.ErrorMessage.ORDER_ERROR_ORDER_PRICE;
+import static ks43team03.exception.ErrorMessage.USER_ERROR_USER_NOT_FOUND;
+
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.logging.log4j.util.Strings;
@@ -12,13 +22,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks43team03.dto.Order;
+import ks43team03.dto.OrderSearchDto;
 import ks43team03.dto.PageDto;
 import ks43team03.dto.ResponseGoods;
 import ks43team03.dto.User;
 import ks43team03.dto.type.GoodsType;
 import ks43team03.dto.type.OrderState;
 import ks43team03.exception.CustomException;
-import static ks43team03.exception.ErrorMessage.*;
 import ks43team03.mapper.OrderMapper;
 import ks43team03.mapper.UserMapper;
 
@@ -186,6 +196,20 @@ public class OrderService {
 		page.setList(orderList);
 		return page;
 	}
+	
+	public PageDto<Order> getSearchOrderList(OrderSearchDto orderSearchDto,int currentPage){
+ 		double rowCount =  orderMapper.getSearchOrderCount(orderSearchDto);
+
+		PageDto<Order> page = new PageDto<>(rowCount, currentPage, 10);
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("search", orderSearchDto);
+		param.put("page", page);
+		
+		List<Order> orderList = orderMapper.getSearchOrderList(param);
+		page.setList(orderList);
+		return page;
+	}
+	
 	
 	/*
 	 * 

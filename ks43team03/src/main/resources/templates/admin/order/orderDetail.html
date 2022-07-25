@@ -6,7 +6,6 @@
 	<!-- 사용자 정의 contents -->
 	<th:block layout:fragment="customContents">
 	<div th:if="${not #strings.isEmpty(session.SID)}">
-		<div th:if="${not #strings.isEmpty(session.SLEVEL)} and ${#strings.equals(session.SLEVEL,'1')}">
 			<div class="col-md-12 col-sm-12 col-xs-12">
 						<div class="x_panel">
 							<div class="x_title">
@@ -79,16 +78,11 @@
 							
 						</div>
 					</div>
-				</div>
 		
 		</div>
 					
 				<div th:unless="${not #strings.isEmpty(session.SID)}">
 					로그인이 필요한 서비스입니다. 
-				</div>
-				
-				<div th:unless="${not #strings.isEmpty(session.SLEVEL)} and ${#strings.equals(session.SLEVEL,'1')}">
-					관리자 권한만 입장하실수 있습니다.
 				</div>
 	</th:block>
 

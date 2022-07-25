@@ -17,24 +17,33 @@
 				<div class="col-lg-9 col-md-9">
 					<div class="row">
 						<div class="col-lg-8 col-sm-8">
-							<form action="#" method="get">
+							<form th:action="@{/order/orders/{id}(id=${session.SID})}" method="GET">
 								<div class="form row">
 									<div class="form-group col-8">
 										<div class="input-group">
-											<div class="input-group-prepend">
-												<select class="form-control" id="exampleFormControlSelect1" name="searchKey" style="font-size: 14px;">
-													<option value="ldgAddr">주문상태</option>
-													<option value="ldgName">상품명</option>
-												</select>
-											</div>
+											<input type="hidden" name="dateMonth" th:value="${dateMonth}">
 											<input type="text" name="searchValue" class="form-control" id="formGroupExampleInput" placeholder="검색 키워드를 입력하세요." style="font-size: 14px;">
 											<div class="input-group-prepend">
-												<button type="button" class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;">검색</button>
+												<button type="submit" class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;">검색</button>
 											</div>
 										</div>
 									</div>
 								</div>
 							</form>
+						</div>
+						
+						<div class="col-lg-12 col-sm-12 mt-4">
+							<label th:if="${#strings.equals(dateMonth, 3)}">3개월 이내</label>
+							<a class="btn btn-outline-secondary" th:unless="${#strings.equals(dateMonth, 3)}" th:href="@{/order/orders/{id}(id=${session.SID},dateMonth=${3})}">3개월 이내</a>
+							
+							<label th:if="${#strings.equals(dateMonth, 6)}">6개월 이내</label>
+							<a class="btn btn-outline-secondary" th:unless="${#strings.equals(dateMonth, 6)}" th:href="@{/order/orders/{id}(id=${session.SID},dateMonth=${6})}">6개월 이내</a>
+							
+							<label th:if="${#strings.equals(dateMonth, 9)}">9개월 이내</label>
+							<a class="btn btn-outline-secondary" th:unless="${#strings.equals(dateMonth, 9)}" th:href="@{/order/orders/{id}(id=${session.SID},dateMonth=${9})}">9개월 이내</a>
+							
+							<label th:if="${#strings.equals(dateMonth, 12)}">12개월 이내</label>
+							<a class="btn btn-outline-secondary" th:unless="${#strings.equals(dateMonth, 12)}" th:href="@{/order/orders/{id}(id=${session.SID},dateMonth=${12})}">12개월 이내</a>
 						</div>
 					</div>
 					
@@ -44,18 +53,11 @@
 								<li class="nav-item">
 									<a class="nav-link active" id="order-main" data-toggle="tab" href="#tabs-1" role="tab">전체주문</a>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link" id="book-id" data-toggle="tab"  role="tab">예약</a>
-								</li>
-								<li class="nav-item">
-									
-									<a class="nav-link" id="lesson-id" data-toggle="tab" href="#tabs-3" role="tab">레슨</a>
-								</li>
 							</ul>	
 							<div class="tab-content">
 								<div class="tab-pane active" id="tabs-1" role="tabpanel">
 									<div class="row">
-										<div class="col-sm-12 col-lg-12">
+										<div class="col-sm-12 col-lg-12" id="orderList">
 											<h6>전체주문</h6>
 											<th:block th:if="${not #lists.isEmpty(orderList)}" th:each="order : ${orderList}">
 											<div class="card mb-4">
@@ -68,7 +70,7 @@
 																	<tbody>
 																		<tr>
 																			<th class="col-sm-2 col-lg-2">주문코드</th>
-																			<td th:text="${order.orderUUID}">order_cd_3306789785</td>
+																			<td th:text="${order.orderCd}">order_cd_3306789785</td>
 																			<th rowspan="4" class="col-sm-3 col-lg-3">
 																				<div class="div btn-box ml-5" style="margin-top: 60px;">
 																					<a th:href="@{/order/orderDetail/{id}(id=${order.userId},orderCd=${order.orderCd})}" class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;">상세보기</a>
@@ -95,35 +97,13 @@
 												</div>
 											</div>
 											</th:block>
-											<th:block th:if="${not #lists.isEmpty(orderList)}")>
-												<a class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;" th:if="${currentPage > 1}" th:href="@{/order/orders/{id}(id=${session.SID})}">맨처음</a>
-												<a class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;" th:if="${currentPage > 1}" th:href="@{/order/orders/{id}(id=${session.SID},currentPage=${currentPage - 1})}">이전</a>
-												<th:block th:each="num : ${#numbers.sequence(startPage,endPage)}">
-													<label th:if="${currentPage eq num}" th:text="${(num<10) ? '0' + num  :  num }"></label>
-													<a class="btn btn-outline-secondary" th:unless="${currentPage eq num}" th:href="@{/order/orders/{id}(id=${session.SID},currentPage=${num})}" th:text="${(num<10) ? '0' + num  :  num }"></a>
-												</th:block>
-												<a class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;" th:if="${currentPage < lastPage}" th:href="@{/order/orders/{id}(id=${userId},currentPage=${currentPage + 1})}">다음</a>
-												<a class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;" th:href="@{/order/orders/{id}(id=${session.SID},currentPage=${lastPage})}">마지막</a>
-											</th:block>
-											
 											<th:block th:unless="${not #lists.isEmpty(orderList)}">
 													<div><span>비워있습니다.</span></div>
-											
 											</th:block>
-											
-											
 										</div>
 	
 									</div>
 									
-								</div>
-								<div class="tab-pane" id="tabs-2" role="tabpanel">
-									<h6>예약</h6>
-									<div><span>예약정보만 출력</span></div>
-								</div>
-								<div class="tab-pane" id="tabs-3" role="tabpanel">
-									<h6>레슨</h6>
-									<div><span>레슨정보만 출력</span></div>
 								</div>
 							</div>
 						</div>
@@ -135,52 +115,6 @@
 		</div>
 	</section>
 	
-	<script>
-	
-		// 예약 
-		const $reserve = $('#book-id');
-		// 전체주문리스트
-		const $ordreMain = $('#order-main');
-		
-		const $lesson = $('#lesson-id');
-		
-		
-		//   href="#tabs-2"
-		
-		$reserve.on('click',function(){
-			console.log('hello world');
-			
-			const category = 'reserve';
-		
-			console.log('categoroy : ', category);
-			categorySearch(category);
-		});
-		
-		
-		const categorySearch = (category) =>{
-			const sessionId = '[[${session.SID}]]';
-			
-			console.log('sessionId : ', sessionId);
-			console.log('data : ', category);
-			
-			$.ajax({
-				type: 'GET',
-				url: '/order/' + category + '/orders',
-	   		   	dataType : 'JSON',
-				data:{
-					userId : sessionId
-				}
-			}).done(function (data) {
-				
-				if(category == 'reserve'){
-					
-				}
-				console.log(data.length);
-			}).fail(function (error) {
-				console.log(error);
-			});
-		}
-		</script>
 </th:block>
 
 </html>

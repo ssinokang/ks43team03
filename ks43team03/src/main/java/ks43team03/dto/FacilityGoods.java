@@ -43,5 +43,34 @@ public class FacilityGoods {
 		this.sportsCd = sportsCd;
 	}
 	
+	public ResponseGoods passDto() {
+		return ResponseGoods.builder()
+				.facilityGoods(this)
+				.goodsName(this.pass.getPassNm())
+				.price(this.pass.getPassPrice())
+				.build();
+	}
+	
+	
+	public ResponseGoods lessonDto() {
+		return ResponseGoods.builder()
+				.facilityGoods(this)
+				.goodsName(this.lesson.getLessonName())
+				.price(Integer.parseInt(this.lesson.getLessonPrice()))
+				.build();
+	}
+	
+	/**
+	 * 
+	 * 대관 가격 수정해야됨 시간대별로 다르기 때문에
+	 *
+	 */
+	public ResponseGoods stadiumDto() {
+		return ResponseGoods.builder()
+				.facilityGoods(this)
+				.goodsName(this.stadium.getFacilityStadiumNm())
+				.price(Integer.parseInt(this.stadium.getStadiumPrice().getDayPrice()))
+				.build();
+	}
 	
 }

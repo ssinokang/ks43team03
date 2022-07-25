@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import ks43team03.dto.Facility;
 import ks43team03.dto.User;
 import ks43team03.dto.UserLevel;
 import ks43team03.mapper.UserMapper;
@@ -43,9 +43,9 @@ public class UserService {
 	 * 시설 내 회원 목록
 	 * @return
 	 */
-	public List<Map<String, Object>> getFacilityUserList(List<String> facilityCdList){
+	public List<Map<String, Object>> getFacilityUserList(List<Facility> adminFacilityListById){
 		
-		List<Map<String, Object>> facilityUserList = userMapper.getFacilityUserList(facilityCdList);
+		List<Map<String, Object>> facilityUserList = userMapper.getFacilityUserList(adminFacilityListById);
 		
 		if(facilityUserList != null) {
 			for(Map<String, Object> userMap : facilityUserList) {

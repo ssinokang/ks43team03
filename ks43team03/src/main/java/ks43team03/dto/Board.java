@@ -14,6 +14,7 @@ public class Board {
 
 	private String  boardPostCd;
 	private String  boardCtgCd;
+	private String  facilityCd;
 	private String  userId;
 	private String  boardPostTitle;
 	private String  boardPostContent;

@@ -39,7 +39,7 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<div th:include="/adminFacility/adminFaciliySearch :: searchFacilityFragment"></div>	
+					<div th:include="/adminFacility/adminFacilitySearch :: adminSearchFacilityFragment"></div>	
 					<div class="table-responsive">
 						
 						<th:block th:if="${not #lists.isEmpty(adminFacilityList)}" th:each="l:${adminFacilityList}">

@@ -1,5 +1,6 @@
 package ks43team03.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,16 +22,21 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ks43team03.dto.TrainerCareer;
 import ks43team03.dto.TrainerLicense;
 import ks43team03.dto.TrainerProfile;
+import ks43team03.service.SearchService;
 import ks43team03.service.TrainerService;
+import ks43team03.strategy.enumeration.SearchStrategyName;
 
 @Controller
 @RequestMapping("/trainer")
 public class TrainerController {
 	
 	private final TrainerService trainerService;
+	private final SearchService searchService;
 	
-	public TrainerController(TrainerService trainerService) {
+	public TrainerController(TrainerService trainerService
+							,SearchService searchService) {
 		this.trainerService = trainerService;
+		this.searchService = searchService;
 	}
 	
 	private static final Logger log = LoggerFactory.getLogger(TrainerController.class);
@@ -85,10 +91,13 @@ public class TrainerController {
 		String userId = (String)session.getAttribute("SID");
 		
 		log.info("트레이너 정보조회 코드 : {}", userId);
+		if(userId != null && !userId.isEmpty()) {
+			
+			TrainerProfile trainerProfile = trainerService.getTrainerProfileByUserId(userId);
+			
+			model.addAttribute("trainerProfile",	trainerProfile);
+		}
 		
-		TrainerProfile trainerProfile = trainerService.getTrainerProfileByUserId(userId);
-		
-		model.addAttribute("trainerProfile",	trainerProfile);
 		model.addAttribute("title",				"트레이너 정보 수정");
 		
 		return "trainer/modifyTrainer";
@@ -97,21 +106,47 @@ public class TrainerController {
 	//프로필 조회 페이지 이동
 	@GetMapping("/trainerDetail")
 	public String getTrainerDetail(Model model
-								  ,@RequestParam (value = "trainerCd")String trainerCd) {
+								  ,HttpSession session
+								  ,@RequestParam (value = "trainerCd", required = false)String trainerCd) {
 		
 		
 		log.info("트레이너 정보조회 코드 : {}", trainerCd);
+		String userId = (String)session.getAttribute("SID");
 		
-		Map<String, Object> trainerMap = trainerService.getTrainerInfoByTrainerCd(trainerCd);
+		
+		Map<String, Object> trainerMap = null;
+		Map<String, String> paramMap = new HashMap<String, String>();
+		model.addAttribute("trainerProfile",	null);
+		
+		if(trainerCd == null || trainerCd.isEmpty()) {
+			if(userId != null && !userId.isEmpty()) {
+				paramMap.put("userId", userId);
+				
+				trainerMap = trainerService.getTrainerInfoByTrainerCd(paramMap);
+				
+				log.info("트레이너 정보 : {}",		trainerMap.get("trainerProfile"));
+				log.info("트레이너 경력 정보 : {}",	trainerMap.get("trainerCareer"));
+				log.info("트레이너 자격증 정보 : {}",	trainerMap.get("trainerLicense"));
+				
+				model.addAttribute("trainerProfile",	trainerMap.get("trainerProfile"));
+				model.addAttribute("trainerCareer",		trainerMap.get("trainerCareer"));
+				model.addAttribute("trainerLicense",	trainerMap.get("trainerLicense"));
+			}
+		}else {
+			paramMap.put("trainerCd", trainerCd);
+			
+			trainerMap = trainerService.getTrainerInfoByTrainerCd(paramMap);
+			
+			log.info("트레이너 정보 : {}",		trainerMap.get("trainerProfile"));
+			log.info("트레이너 경력 정보 : {}",	trainerMap.get("trainerCareer"));
+			log.info("트레이너 자격증 정보 : {}",	trainerMap.get("trainerLicense"));
+			
+			model.addAttribute("trainerProfile",	trainerMap.get("trainerProfile"));
+			model.addAttribute("trainerCareer",		trainerMap.get("trainerCareer"));
+			model.addAttribute("trainerLicense",	trainerMap.get("trainerLicense"));
+		}
 		
 		
-		log.info("트레이너 정보 : {}",		trainerMap.get("trainerProfile"));
-		log.info("트레이너 경력 정보 : {}",	trainerMap.get("trainerCareer"));
-		log.info("트레이너 자격증 정보 : {}",	trainerMap.get("trainerLicense"));
-		
-		model.addAttribute("trainerProfile",	trainerMap.get("trainerProfile"));
-		model.addAttribute("trainerCareer",		trainerMap.get("trainerCareer"));
-		model.addAttribute("trainerLicense",	trainerMap.get("trainerLicense"));
 		model.addAttribute("title",				"트레이너 정보");
 		
 		return "trainer/trainerDetail";
@@ -119,14 +154,22 @@ public class TrainerController {
 	
 	//트레이너 리스트 페이지 이동
 	@GetMapping("/trainerList")
-	public String getTrainerList(Model model) {
+	public String getTrainerList(Model model
+								,@RequestParam(name = "searchCtg", required = false) String searchCtg
+								,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage) {
 		
-		List<TrainerProfile> trainerList = trainerService.getTrainerList();
+		Map<String, Object> searchMap	  = new HashMap<>();
+		SearchStrategyName searchName = SearchStrategyName.valueOf(searchCtg);
 		
-		log.info("trainerList : {}", trainerList);
+		searchMap.put("searchCtg", searchCtg);
+		Map<String, Object> resultMap = searchService.findSearch(searchName, searchMap, currentPage);
 		
-		model.addAttribute("trainerList",	trainerList);
-		model.addAttribute("title",			"트레이너 리스트");
+		model.addAttribute("trainerList"		, resultMap.get("trainerList"));
+		model.addAttribute("lastPage"			, resultMap.get("lastPage"));
+		model.addAttribute("startPageNum"		, resultMap.get("startPageNum"));
+		model.addAttribute("endPageNum"			, resultMap.get("endPageNum"));
+		model.addAttribute("currentPage"		, currentPage);
+		model.addAttribute("title"				, "트레이너 리스트");
 		
 		return "trainer/trainerList";
 	}
@@ -134,7 +177,7 @@ public class TrainerController {
 	// 닉네임 중복체크 여부
 	@PostMapping("/nicknameCheck")
 	@ResponseBody
-	public boolean isIdCheck(@RequestParam(value = "trainerNickname") String trainerNickname) {
+	public boolean isNickCheck(@RequestParam(value = "trainerNickname") String trainerNickname) {
 		boolean nicknameCheck = false;
 		log.info("닉네임중복체크 클릭시 요청받은 userId의 값: {}", trainerNickname);
 		

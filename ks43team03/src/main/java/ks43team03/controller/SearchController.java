@@ -59,6 +59,20 @@ public class SearchController {
 		List<Area> 	 areaList		  = commonService.getAreaList();
 		List<Sports> sportsList		  = commonService.getSportsList();
 		
+		// 트레이너 검색 일 경우
+		if(searchCtg.equals("TrainerSearch")) {
+			model.addAttribute("sportsList"			, sportsList);
+			model.addAttribute("areaList"			, areaList);
+			model.addAttribute("trainerList"		, resultMap.get("trainerList"));
+			model.addAttribute("lastPage"			, resultMap.get("lastPage"));
+			model.addAttribute("startPageNum"		, resultMap.get("startPageNum"));
+			model.addAttribute("endPageNum"			, resultMap.get("endPageNum"));
+			model.addAttribute("currentPage"		, currentPage);
+			model.addAttribute("title", 			"트레이너 목록");
+			
+			return "trainer/trainerList";
+		}
+		
 		model.addAttribute("sportsList"			, sportsList);
 		model.addAttribute("areaList"			, areaList);
 		model.addAttribute("lessonList"			, resultMap.get("LessonListForUser"));
@@ -70,6 +84,7 @@ public class SearchController {
 		
 		log.info((String)resultMap.get("path") , "무사 통과");
 		
+
 		return (String)resultMap.get("path");
 	}
 }

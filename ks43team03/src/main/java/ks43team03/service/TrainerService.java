@@ -88,27 +88,11 @@ public class TrainerService {
 	}
 	
 	/**
-	 * 트레이너 코드로 트레이너 프로필 조회
-	 */
-	public TrainerProfile getTrainerProfileByTrainerCd(String trainerCd) {
-		
-		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("trainerCd", trainerCd);
-		
-		TrainerProfile	trainerProfile	= trainerMapper.getTrainerProfileInfoByMap(paramMap);
-		
-		return trainerProfile;
-	}
-	
-	/**
-	 * 트레이너 코드로 트레이너 정보 조회
+	 * 트레이너 paramMap 으로 트레이너 정보 조회
 	 * @param trainerCd
 	 * @return
 	 */
-	public Map<String, Object> getTrainerInfoByTrainerCd(String trainerCd) {
-		
-		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("trainerCd", trainerCd);
+	public Map<String, Object> getTrainerInfoByTrainerCd(Map<String, String> paramMap) {
 		
 		TrainerProfile	trainerProfile	= trainerMapper.getTrainerProfileInfoByMap(paramMap);
 		TrainerProfile	trainerCareer	= trainerMapper.getTrainerCareerInfoByMap(paramMap);
@@ -121,17 +105,6 @@ public class TrainerService {
 		trainerMap.put("trainerLicense",	trainerLicense);
 		
 		return trainerMap;
-	}
-	
-	/**
-	 * 트레이너 리스트 조회
-	 * @return
-	 */
-	public List<TrainerProfile> getTrainerList() {
-		
-		List<TrainerProfile> trainerList = trainerMapper.getTrainerList();
-		
-		return trainerList;
 	}
 	
 	/**
@@ -167,7 +140,9 @@ public class TrainerService {
 	 * 트레이너 경력 등록
 	 */
 	public int addTrainerCareer(List<TrainerCareer> trainerCareerList, String userId, String fileRealPath) {
-		
+		log.info("trainerCareerList : {} ",trainerCareerList);
+		log.info("userId : {} ",userId);
+		log.info("fileRealPath : {} ",fileRealPath);
 		
 		for(int i=0; i<trainerCareerList.size(); i++) {
 			//파일 없다면 거치지 않도록

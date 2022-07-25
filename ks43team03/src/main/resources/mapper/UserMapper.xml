@@ -25,6 +25,18 @@
 		</association>
 	</resultMap>
 	
+	<update id="modifyFacilityUserState" parameterType="String">
+		/*시설 내 회원 승인*/
+		UPDATE
+			facility_user
+		SET
+			facility_approve_state = #{facilityApproveState}
+		WHERE
+			user_id = #{userId}
+			and
+			facility_cd = #{facilityCd};
+	</update>
+	
 	<insert id="addUser" parameterType="User">
 		/*회원 가입*/
 		INSERT INTO user

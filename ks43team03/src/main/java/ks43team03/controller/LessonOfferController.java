@@ -67,7 +67,7 @@ public class LessonOfferController {
 	 * ajax 셀렉트박스 할때마다 검색
 	 */
 	@GetMapping("/offers/city")
-	public String offers(@RequestParam(name = "areaCd", required = false)String areaCd,
+	public String selectedOffers(@RequestParam(name = "areaCd", required = false)String areaCd,
 						 @RequestParam(name = "sportsName", required = false)String sportsName, Model model){
 		log.info("request AreaCd : {}", areaCd);
 		log.info("request sportsName : {}", sportsName);
@@ -89,12 +89,9 @@ public class LessonOfferController {
 		
 		String level = (String)session.getAttribute("SLEVEL");
 		String userId = (String)session.getAttribute("SID");
-		
 		// 시설조회
 		List<Facility> facilityList = adminFacilityService.getAdminFacilityListById(userId);
-		
 		//if(facilityList.isEmpty()) return "redirect:/admin";
-		
 		model.addAttribute("facility", facilityList);
 		
 		return "offer/addOffer";
@@ -103,10 +100,6 @@ public class LessonOfferController {
 	@PostMapping("/addOffer")
 	@ResponseBody
 	public boolean addLessonOffer(@RequestBody LessonOffer lessonOffer) {
-		
-		
-		
-		
 		
 		//offerService.addLessonOffer(lessonOffer);
 		return true;

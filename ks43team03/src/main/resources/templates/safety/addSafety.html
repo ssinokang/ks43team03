@@ -97,13 +97,13 @@
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="safetyCheckCd">안전점검 등록코드 <span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="safetyCheckCd" data-validate-minmax="10,100" required='required'>
+					<input class="form-control" type="text" name="safetyCheckCd" data-validate-minmax="10,100" >
 					</div>
 				</div>		
 				<div class="field item form-group">
 					<label class="col-form-label col-md-3 col-sm-3  label-align" for="facilityCd">시설대표코드<span class="required">*</span></label>
 					<div class="col-md-6 col-sm-6">
-					<input class="form-control" type="text" name="facilityCd" data-validate-minmax="10,100" required='required' />
+					<input class="form-control" type="text" name="facilityCd" data-validate-minmax="10,100"  />
 					</div>
 				</div>		
 				<div class="item form-group">
@@ -112,21 +112,13 @@
 					<div class="col-md-6 col-sm-6 ">
 						<ul class="safety-file-line" style="list-style: none;">
 							<li>
-								<input type="file" id="safetyFile"  class="safety-file" name="safetyFile" required multiple>
+								<input type="file" id="safetyFile"  class="safety-file" name="safetyFile" multiple>
 								<button id="plus-button">플러스</button>
 								<button id="minus-button">마이너스</button>
 							</li>
 						</ul>
 					</div>
-				</div>				
-				
-<!-- 				<div class="item form-group" style = "list-style:none;">
-					<div class="col-form-label col-md-3 col-sm-3 label-align" id="safety-File-label">안전점검 결과 첨부 파일<span class="required">*</span></div>
-					<div class="col-md-6 col-sm-6">
-					<input type="file" name="safetyCheckFile" class="safety-file" required multiple>			
-					</div>
-				</div>	 -->			
-			
+				</div>									
 				<div class="item form-group">
 					<label class="col-form-label col-md-3 col-sm-3 label-align" for="safetyCheckDate">안전 점검일
 						<span class="required">*</span>
@@ -139,7 +131,7 @@
 					<div class="form-group">
 						<div class="col-md-6 offset-md-3">
 							<button type='reset' class="btn btn-primary">취소</button>
-							<button type='submit' id="addSafetyBtn" class="btn btn-success">등록</button>
+							<button type='button' id="addSafetyBtn" class="btn btn-success">등록</button>
 						</div>
 					</div>
 				</div>		

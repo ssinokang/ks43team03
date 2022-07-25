@@ -30,6 +30,15 @@ public class UserService {
 
 	private static final Logger log = LoggerFactory.getLogger(UserService.class);
 	
+	/*
+	 * 시설 내 회원 승인
+	 */
+	public void modifyFacilityUserState(String facilityApproveState, String userId, String facilityCd) {
+		
+		userMapper.modifyFacilityUserState(facilityApproveState, userId, facilityCd);
+		
+	}
+	
 	/**
 	 * 시설 내 회원 목록
 	 * @return

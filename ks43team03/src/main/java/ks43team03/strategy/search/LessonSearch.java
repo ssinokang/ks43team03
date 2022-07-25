@@ -70,11 +70,11 @@ implements SearchStrategy{
 		lessonMap.put("startRow", startRow);
 		lessonMap.put("rowPerPage", rowPerPage);
 		log.info("lessonMap : {}", lessonMap);
-		List<Lesson> LessonListForUser = lessonMapper.getLessonListForUser(lessonMap);
+		List<Lesson> searchList = lessonMapper.getLessonListForUser(lessonMap);
 	
-		resultMap.put("LessonListForUser", LessonListForUser);
+		resultMap.put("searchList", searchList);
 		resultMap.put("title", "레슨목록");
-		resultMap.put("path", "lesson/lessonListForUser");
+		resultMap.put("path", "lesson/lessonListUser");
 		log.info("_______________end   LessonSearch__________________");
 		log.info("___________________________________________________");
 		

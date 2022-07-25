@@ -73,12 +73,12 @@
 											<td th:text="${l.get('facilityApproveDate')}"></td>
 											<td>
 												<th:block th:if="${l.get('facilityApproveState') eq '승인'}">
-													<a>
+													<a th:href="@{/user/modifyFacilityUserState(facilityApproveState='N',userId=${l.get('userId')},facilityCd=${l.get('facilityCd')})}">
 														<button type="button" class="btn btn-danger btn-sm">탈퇴</button>
 													</a>
 												</th:block>
 												<th:block th:unless="${l.get('facilityApproveState') eq '승인'}">
-													<a>
+													<a th:href="@{/user/modifyFacilityUserState(facilityApproveState='Y',userId=${l.get('userId')},facilityCd=${l.get('facilityCd')})}">
 														<button type="button" class="btn btn-secondary btn-sm">승인</button>
 													</a>
 												</th:block>

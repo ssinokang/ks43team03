@@ -134,7 +134,19 @@
 			
 		 });
 		 
-		 
+		 //게시판
+		 $(function(){
+			var $boardTr = $('#boardBody tr');
+
+			$boardTr.click(function(){
+				console.log(this);
+
+				var boardPostCd = $(this).find('input').val();
+				console.log(boardPostCd);
+					
+				$(location).attr('href','/board/boardDetail?boardPostCd='+boardPostCd);
+			});
+		});
 		 
 	</script>
  
@@ -354,7 +366,35 @@
 	                            </div>
 	                            <div class="tab-pane" id="tabs-3" role="tabpanel">
 	                                <h6>게시판</h6>
-	                                <p></p>
+	                                <table class="table table-sm">
+										<thead>
+											<tr id="tableHead">
+												<th id="boardPostTitle">제목</th>
+												<th id="boardPostDate">등록일</th>
+												<th id="boardPostViews">조회수</th>
+												<th id="boardPostCommentNum">댓글 수</th>
+												<th id="userId">작성자</th>
+											</tr>
+										</thead>
+										<tbody id="boardBody">
+											<tr th:if="${not #lists.isEmpty(boardListByFacility)}" th:each="l : ${boardListByFacility}">
+												<input type="hidden" th:value="${l.boardPostCd}">
+												<td th:text="${l.boardPostTitle}"></td>
+												<td th:text="${l.boardPostDate}"></td>
+												<td th:text="${l.boardPostViews}"></td>
+												<td th:text="${l.boardPostCommentNum}"></td>
+												<td th:text="${l.userId}"></td>
+											</tr>
+											<tr th:unless="${not #lists.isEmpty(boardListByFacility)}">
+												<td colspan="5">조회된 내용이 없습니다.</td>
+											</tr>
+										</tbody>
+									</table>
+									<div class="cart__btn update__btn">
+	                                <a th:href="@{/board/addBoard(facilityCd=${facilityCd})}" 
+									   	th:if="${session.SLEVEL =='1'or session.SLEVEL =='2' or session.SLEVEL =='3' or session.SLEVEL =='4' or session.SLEVEL =='5'}">
+									   	게시글 등록</a>
+									</div>
 	                            </div>
 	                            <div class="tab-pane" id="tabs-4" role="tabpanel">
 							    	<div class="board__details__comment">

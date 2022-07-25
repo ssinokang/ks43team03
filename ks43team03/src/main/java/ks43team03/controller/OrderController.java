@@ -27,6 +27,12 @@ import ks43team03.service.OrderService;
 import ks43team03.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * @author 
+ * 주문 Controller
+ *
+ */
 @Controller
 @RequestMapping("/order")
 @Slf4j
@@ -46,20 +52,10 @@ public class OrderController {
 	
 	@PostMapping("/addOrder")
 	public ResponseEntity<Order> addOrder(@RequestBody Order.Request req) {
-		
-		
-		log.info("화면에서 받은 데이터 : {}", req.getGoodsName());
-		
-		log.info("데이터 userId 요청 : {}", req.getUserId());
-		log.info("데이터 facilityGoodsCd 요청 : {}", req.getFacilityGoodsCd());
-		
-		log.info("userId datat {}", req.getUserId());
-		
+
 		// order 저장 
 		ResponseGoods responseGoods = facilityGoodsService.getFacilityGoodsCd(req.getFacilityGoodsCd(),req.getGoodsCtgCd());
 		String goodsCode = responseGoods.getFacilityGoods().getFacilityGoodsCd();
-		 
-		
 		return ResponseEntity.ok(orderService.addOrder(req, responseGoods));
 	}
 	
@@ -70,11 +66,8 @@ public class OrderController {
 									 @RequestParam(name = "goodsCtgCd" , required = false,defaultValue = "pass")String goodsCtgCd) {
 		
 		
-		log.info("화면에서 받은 goodsCode : {}", facilityGoodsCd);
-		
 		facilityGoodsCd = "ss_35011600_04_pass_11";
 		String userId = (String)session.getAttribute("SID");
-		log.info("화면에서 받은 session userId : {}", userId);
 		User user = userService.getUserInfoById(userId);
 		
 		if(user == null) {
@@ -110,23 +103,18 @@ public class OrderController {
 	}
 	
 	/*
-	 * Session
+	 * 회원이 주문했었던 주문리스트로 페이지 전환																
 	 */
 	@GetMapping("/orders/{id}")
 	public String orders(@PathVariable("id") String userId, Model model,
 						 @RequestParam(name = "currentPage", required = false, defaultValue = "1")int currentPage,
 						 HttpSession session) {
 		
-		
 		String sessionId = (String)session.getAttribute("SID");
-		
-		log.info("session Id : {}", sessionId);
-		
 		if(!userId.equals(sessionId)) {
 			return "redirect:/";
 		}
 		
-		log.info("userId : {}", userId);
 		Map<String,Object> orderList = orderService.getOrdersByUser(currentPage,userId);
 		
 		model.addAttribute("orderList", orderList.get("orderList"));
@@ -135,8 +123,6 @@ public class OrderController {
 		model.addAttribute("startPage", orderList.get("startPage"));
 		model.addAttribute("endPage", orderList.get("endPage"));
 		model.addAttribute("userId", userId);
-		
-		
 		model.addAttribute("title", "회원님의 주문내역입니다.");
 		return "order/ordersByUser";
 	}
@@ -158,19 +144,11 @@ public class OrderController {
 	}
 	
 	//==판매자 주문예약/결제 정보 조회==//
-	/*
-	 * Session
-	 */
-	
 	@GetMapping("/{category}/orders")
 	@ResponseBody
 	public List<Order> orderInfomationByCategory(@PathVariable("category")String category,
 												  @RequestParam String userId) {
-		
-		
-		log.info("session UserId : {}", userId);
 		List<Order> orderList = orderService.orderInfomationByCategory(category, userId);
-		
 		return orderList;
 	}
 	

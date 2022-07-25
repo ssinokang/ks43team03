@@ -101,7 +101,9 @@ public class OrderService {
 		return order;
 	}
 
-	
+	/**
+	 * request데이터 order로 변환 메소드 
+	 */
 	private Order createOrder(Order.Request req, ResponseGoods goods) {
 		return Order.builder()
 				.facilityGoodsCd(goods.getFacilityGoods().getFacilityGoodsCd())
@@ -208,12 +210,8 @@ public class OrderService {
 		default: 
 			throw new CustomException(ErrorMessage.NOT_FOUND_ORDER);
 		}
-		
-		
 		return order;
 	}
-
-	
 	
 	/**
 	 * orderUUID로 주문 완전 삭제 메소드 
@@ -225,18 +223,14 @@ public class OrderService {
 	
 	
 	public List<Order> orderInfomationByCategory(String category, String userId) {
-		
 		if("main".equals(category)) {
 			category = "";
 		}else if("reserve".equals(category)) {
 			category = "pass";
 		}
 		List<Order> orderList = orderMapper.orderInfomationByCategory(category, userId);
-		
 		return orderList;
 	}
-	
-	
 	
 	/**
 	 * 관리자 주문리스트 
@@ -251,9 +245,9 @@ public class OrderService {
 	/**
 	 * 시실의 주문리스트
 	 */
-	
 	public List<Order> getOrderInfoForFacility(String facilityCd){
-		return orderMapper.getOrderInfoForFacility(facilityCd);
+		List<Order> orderList = orderMapper.getOrderInfoForFacility(facilityCd);
+		return orderList;
 	}
 	
 }

@@ -227,6 +227,7 @@
 		   			f.main_ctg_cd = #{mainCtgCd}
 		   		</if>
 	   		</trim>
+	   		ORDER BY facility_reg_date DESC
 			LIMIT #{startRow}, #{rowPerPage}
 		</select>
 	

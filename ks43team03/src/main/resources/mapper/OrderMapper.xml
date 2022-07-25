@@ -236,7 +236,7 @@
 				g.facility_cd = f.facility_cd
 			<trim prefix="WHERE" prefixOverrides="and || or">
 				<if test="category != null and category != ''">
-					g.goods_ctg_cd <![CDATA[<>]]> #{category}
+					g.goods_ctg_cd = #{category}
 				</if>
 				<if test="userId != null and userId != ''">
 					and o.user_id = #{userId}
@@ -326,7 +326,7 @@
 	</select>
 	
 	<!-- 사용자 주문내역 조회 -->
-	<select id="getOrdersByUser" resultType="Order" resultMap="orderResultMap" parameterType="java.util.Map">
+	<select id="getOrdersByUser" resultType="Order" resultMap="orderResultMap" parameterType="PageDto">
 		SELECT
 			o.order_cd
 			,o.user_id
@@ -501,6 +501,41 @@
 			AND
 			o.order_del_yn = 'N'
 	</select>
+	<select id="getOrderAndPayInfomationByOrderCd" parameterType="String" resultMap="orderResultMap">
+		SELECT
+			o.order_cd,
+			o.user_id,
+			o.facility_goods_cd,
+			o.goods_ctg_cd,
+			o.order_uuid_id,
+			o.order_price,
+			o.order_user_point,
+			o.order_used_point,
+			o.order_pay_price,
+			o.order_reg_date,
+			o.order_pay_state,
+			o.pay_type,
+			g.facility_cd,
+			f.facility_nm,
+			p.pay_method,
+			p.pay_reg_date,
+			pay_cd
+		FROM
+			pay AS p
+			RIGHT join
+			goods_order AS o
+			on
+			o.order_cd = p.order_cd
+			INNER join
+			facility_goods AS g
+			on
+			o.facility_goods_cd = g.facility_goods_cd
+			INNER join
+			facility AS f
+			on
+			g.facility_cd = f.facility_cd
+		WHERE 	o.order_cd = #{orderCd}
+	</select>
 	
 	<update id="modifyOrder" parameterType="Order">
 		UPDATE goods_order
@@ -528,6 +563,12 @@
 			</if>
 			<if test="orderPayState != null and orderPayState !=''">
 				,order_pay_state = #{orderPayState} 
+			</if>
+			<if test="orderDelYN != null and orderDelYN !=''">
+				order_del_yn = #{orderDelYN} 
+			</if>
+			<if test="orderDelDate != null and orderDelDate !=''">
+				,order_del_date = NOW()
 			</if>
 		</trim>
 		WHERE order_cd=#{orderCd}

@@ -61,14 +61,14 @@
 											<div class="card mb-4">
 												<div class="card-body">
 													<div class="tab-content">
-														<div><span>주문일시 : </span> [[${order.orderRegDate}]]</div>
+														<div><span>주문일시 : </span> [[${order.orderRegDate}]] [[${T(ks43team03.dto.type.GoodsType).LESSON.code}]] </div>
 														<div class="row">
 															<div class="col-sm-12 col-lg-12">
 																<table class="table">
 																	<tbody>
 																		<tr>
 																			<th class="col-sm-2 col-lg-2">주문코드</th>
-																			<td th:text="${order.orderUUID}">order_cd_3306789785</td>
+																			<td th:text="${order.orderCd}">order_cd_3306789785</td>
 																			<th rowspan="4" class="col-sm-3 col-lg-3">
 																				<div class="div btn-box ml-5" style="margin-top: 60px;">
 																					<a th:href="@{/order/orderDetail/{id}(id=${order.userId},orderCd=${order.orderCd})}" class="btn btn-outline-danger" style="font-size: 14px; background: #ec5552; color: #fff;">상세보기</a>
@@ -138,7 +138,7 @@
 	<script>
 	
 		// 예약 
-		const $reserve = $('#book-id');
+		const $bookId = $('#book-id');
 		// 전체주문리스트
 		const $ordreMain = $('#order-main');
 		
@@ -147,13 +147,25 @@
 		
 		//   href="#tabs-2"
 		
-		$reserve.on('click',function(){
+		$bookId.on('click',function(){
+			const sessionId = '[[${session.SID}]]';
 			console.log('hello world');
+			const goodsCategoryDto = {
+					code : 'pass',
+					userId : sessionId
+			}
+			location.href='order/orders/'+sessionId + '/category' + goodsCategoryDto; 
 			
-			const category = 'reserve';
+		
+			
+			
+			/*
+				const category = 'pass';
 		
 			console.log('categoroy : ', category);
 			categorySearch(category);
+			*/
+			
 		});
 		
 		
@@ -165,17 +177,15 @@
 			
 			$.ajax({
 				type: 'GET',
-				url: '/order/' + category + '/orders',
-	   		   	dataType : 'JSON',
-				data:{
-					userId : sessionId
-				}
+				url: '/order/orders/' + sessionId + '/category',
+	   		   	contentType : 'application/json; charset=utf-8',
+				data:JSON.stringify({
+					code : category,
+					user : sessionId
+				})
 			}).done(function (data) {
+				console.log(data);
 				
-				if(category == 'reserve'){
-					
-				}
-				console.log(data.length);
 			}).fail(function (error) {
 				console.log(error);
 			});

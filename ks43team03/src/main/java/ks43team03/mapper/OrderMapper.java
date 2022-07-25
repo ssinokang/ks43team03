@@ -1,12 +1,12 @@
 package ks43team03.mapper;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import ks43team03.dto.Order;
+import ks43team03.dto.PageDto;
 
 @Mapper
 public interface OrderMapper {
@@ -20,6 +20,8 @@ public interface OrderMapper {
 	// 주문 uuid로 주문정보를 보는 메소드 
 	public Optional<Order> getOrderByOrderUUID(String orderId);
 	
+	// 주문코드 주문및결제정보 
+	public Order getOrderAndPayInfomationByOrderCd(String orderCd);
 	
 	//대관 주문내역 상세
 	public Order getOrderDetailWithStadium(String orderCd);
@@ -31,18 +33,19 @@ public interface OrderMapper {
 	public List<Order> orderInfomationByCategory(String category, String userId);
 	
 	// 주문정보 수정
-	public void modifyOrder(Order order);
+	public int modifyOrder(Order order);
 	
 	
 	
 	// 회원 한명의 주문내역 조회 메소드
-	public List<Order> getOrdersByUser(Map<String, Object> maps);
+//	public List<Order> getOrdersByUser(Map<String, Object> maps);
+	public List<Order> getOrdersByUser(PageDto maps);
 	
 	// 주문 삭제 uuid 
-	public void removeOrderByOrderUUID(String orderUUID);
+	public int removeOrderByOrderUUID(String orderUUID);
 	
 	// 주문삭제 기본키
-	public void removeOrderByOrderCd(String orderCd);
+	public int removeOrderByOrderCd(String orderCd);
 	
 	// 회원한명의 주문카운트
 	public int getOrderByUserCount(String userId);

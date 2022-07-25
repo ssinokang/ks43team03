@@ -14,11 +14,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks43team03.dto.Order;
+import ks43team03.dto.PageDto;
 import ks43team03.dto.ResponseGoods;
 import ks43team03.dto.User;
+import ks43team03.dto.type.GoodsType;
 import ks43team03.dto.type.OrderState;
 import ks43team03.exception.CustomException;
-import ks43team03.exception.ErrorMessage;
+import static ks43team03.exception.ErrorMessage.*;
 import ks43team03.mapper.OrderMapper;
 import ks43team03.mapper.UserMapper;
 
@@ -32,10 +34,6 @@ public class OrderService {
 	
 	private static final Logger log = LoggerFactory.getLogger(OrderService.class);
 
-	
-//	private final static String COLUMN_NAME = "order_cd";
-//	private final static String TABLE_NAME = "goods_order";
-	
 	
 	public OrderService(OrderMapper orderMapper,UserMapper userMapper) {
 		this.orderMapper = orderMapper;
@@ -56,31 +54,25 @@ public class OrderService {
 		String userId = req.getUserId();
 		int orderPayPrice = req.getOrderPayPrice();
 		
-		
-		
-		
 		if(!paytype.equals("카드") && !paytype.equals("가상계좌")) {
-			throw new CustomException(ErrorMessage.NOT_EXITS_PAYMENT_TYPE_ERROR);
+			throw new CustomException(NOT_EXITS_PAYMENT_TYPE_ERROR);
 		}
 		
 		if(orderPayPrice < 0 || orderPayPrice > goods.getPrice()) {
-			throw new CustomException(ErrorMessage.ORDER_ERROR_ORDER_PRICE);
+			throw new CustomException(ORDER_ERROR_ORDER_PRICE);
 		}
 		
-		
-		
 		if(Strings.isEmpty(userId)) {
-			throw new CustomException(ErrorMessage.IS_EMPTY_USER);
+			throw new CustomException(IS_EMPTY_USER);
 		}
 		// 예외처리
 		User user;
 			
 		try {
-			
 			user = userMapper.getUserInfoById(userId);
 			
 			if(user == null) {
-				throw new CustomException(ErrorMessage.USER_ERROR_USER_NOT_FOUND);
+				throw new CustomException(USER_ERROR_USER_NOT_FOUND);
 			}else {
 				log.info("userName : {} , " , user.getUserName());
 				
@@ -89,9 +81,8 @@ public class OrderService {
 				//
 			}
 		}catch(Exception e){
-			throw new CustomException(ErrorMessage.DATABASE_ERROR);
+			throw new CustomException(DATABASE_ERROR);
 		}
-		
 		
 		//String code = commonMapper.createNewCode(COLUMN_NAME, TABLE_NAME);
 		Order order = createOrder(req, goods );
@@ -120,19 +111,6 @@ public class OrderService {
 	}
 	
 	
-//	private void orderRollback(String userId) {
-//		TransactionSynchronizationManager.registerSynchronization(
-//				new TransactionSynchronizationAdapter() {
-//				@Override
-//				public void afterCompletion(int status) {
-//					if(status == STATUS_ROLLED_BACK) {
-//						
-//					}
-//				}
-//			});
-//	}
-	
-	
 	/**
 	 * 
 	 * @return
@@ -140,7 +118,7 @@ public class OrderService {
 	
 	//== 주문 상세 조회 ==//
 	public Order getOrderByCode(String orderCd) {
-		Order order = orderMapper.getOrderByCode(orderCd).orElseThrow(()-> new CustomException(ErrorMessage.NOT_FOUND_ORDER));
+		Order order = orderMapper.getOrderByCode(orderCd).orElseThrow(()-> new CustomException(NOT_FOUND_ORDER));
 		return order;
 	}
 	
@@ -151,44 +129,24 @@ public class OrderService {
 	@Transactional(readOnly = true)
 	public Map<String, Object> getOrdersByUser(int currentPage, String userId){
 		
-		int rowPerPage = 6;
 		
 		double rowCount = orderMapper.getOrderByUserCount(userId);
-		
-		int lastPage = (int)Math.ceil(rowCount / rowPerPage);
-		
-		int startRow = (currentPage - 1) * rowPerPage;
-		
-		Map<String, Object> maps = new HashMap<>();
-		
-		maps.put("startRow", startRow);
-		maps.put("rowPerPage", rowPerPage);
-		maps.put("userId", userId);
-		
-		int startPage = 1;
-		int endPage = 10;
-		
-		if(lastPage > 10) {
-			if(currentPage >= 6) {
-				startPage = currentPage - 4;
-				endPage = currentPage + 5;
-				if(endPage >= lastPage) {
-					startPage = lastPage - 9;
-					endPage = lastPage;
-				}
-			}
-		}else {
-			endPage = lastPage;
-		}
-		List<Order> orderList = orderMapper.getOrdersByUser(maps);
+
+		PageDto page = new PageDto(rowCount, currentPage, 6,userId);
+		List<Order> orderList = orderMapper.getOrdersByUser(page);
 		
 		log.info("db 조회 데이터 : {}", orderList);
 		Map<String, Object> resultMap = new HashMap<>();
-		resultMap.put("lastPage", lastPage);
+		log.info("dto에담긴값 : {}", page);
+//		resultMap.put("lastPage", lastPage);
+//		resultMap.put("orderList", orderList);
+//		resultMap.put("startPage", startPage);
+//		resultMap.put("endPage", endPage);
+
+		resultMap.put("lastPage", page.getLastPage());
 		resultMap.put("orderList", orderList);
-		resultMap.put("startPage", startPage);
-		resultMap.put("endPage", endPage);
-		
+		resultMap.put("startPage", page.getStartPage());
+		resultMap.put("endPage", page.getEndPage());
 		return resultMap;
 	}
 	
@@ -208,7 +166,7 @@ public class OrderService {
 			order = orderMapper.getOrderDetailWithPass(orderCd);
 			break;
 		default: 
-			throw new CustomException(ErrorMessage.NOT_FOUND_ORDER);
+			throw new CustomException(NOT_FOUND_ORDER);
 		}
 		return order;
 	}
@@ -217,20 +175,24 @@ public class OrderService {
 	 * orderUUID로 주문 완전 삭제 메소드 
 	 */
 	public void removeOrderByOrderUUID(String orderUUID){
-		log.info("uuid 주문 정보 삭제 log");
-		orderMapper.removeOrderByOrderUUID(orderUUID);
+		try {
+			log.info("uuid 주문 정보 삭제 log");
+			int result = orderMapper.removeOrderByOrderUUID(orderUUID);
+			if(result == 0) {
+				throw new CustomException(ORDER_DELETE_ERROR);
+			}
+		}catch (Exception e) {
+			throw new CustomException(DATABASE_ERROR);
+		}
 	}
 	
 	
-	public List<Order> orderInfomationByCategory(String category, String userId) {
-		if("main".equals(category)) {
-			category = "";
-		}else if("reserve".equals(category)) {
-			category = "pass";
-		}
-		List<Order> orderList = orderMapper.orderInfomationByCategory(category, userId);
+	public List<Order> orderInfomationByCategory(GoodsType category, String userId) {
+		log.info("category data : {}", category.getCode());
+		List<Order> orderList = orderMapper.orderInfomationByCategory(category.getCode(), userId);
 		return orderList;
 	}
+	
 	
 	/**
 	 * 관리자 주문리스트 

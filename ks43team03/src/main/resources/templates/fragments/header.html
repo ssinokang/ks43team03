@@ -54,12 +54,12 @@
 								<li><a href="#">말씀해주세요~</a></li>
 							</ul>
 						</li>
-						<li><a href="/trainer/trainerList">트레이너!<br/><small>(강신호)</small></a>
+						<li><a th:href="@{/trainer/trainerList(searchCtg='TrainerSearch')}">트레이너!<br/><small>(강신호)</small></a>
 							<ul class="dropdown">
-								<li><a href="#">넣기전에</a></li>
-								<li><a href="#">항상</a></li>
-								<li><a href="#">먼저</a></li>
-								<li><a href="#">말씀해주세요~</a></li>
+								<li><a th:href="@{/trainer/trainerList(searchCtg='TrainerSearch')}">트레이너 목록</a></li>
+								<li><a th:href="@{/trainer/addTrainer}">트레이너 등록</a></li>
+								<li><a th:href="@{/trainer/trainerDetail}">트레이너 프로필</a></li>
+								<li><a th:href="@{/trainer/modifyTrainer}">프로필 수정</a></li>
 							</ul>
 						</li>
 					</ul>

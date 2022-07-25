@@ -164,7 +164,7 @@ public class TrainerController {
 		searchMap.put("searchCtg", searchCtg);
 		Map<String, Object> resultMap = searchService.findSearch(searchName, searchMap, currentPage);
 		
-		model.addAttribute("trainerList"		, resultMap.get("trainerList"));
+		model.addAttribute("searchList"			, resultMap.get("searchList"));
 		model.addAttribute("lastPage"			, resultMap.get("lastPage"));
 		model.addAttribute("startPageNum"		, resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum"			, resultMap.get("endPageNum"));

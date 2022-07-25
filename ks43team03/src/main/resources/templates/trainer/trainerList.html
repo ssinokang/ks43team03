@@ -57,7 +57,7 @@
 				</div>
 			</div>
 			<div class="row property__gallery">
-				<th:block th:if="${not #lists.isEmpty(trainerList)}" th:each="l : ${trainerList}">
+				<th:block th:if="${not #lists.isEmpty(searchList)}" th:each="l : ${searchList}">
 					<div class="col-lg-3 col-md-4 col-sm-6 mix women">
 						<div class="product__item">
 							<th:block th:if="${not #lists.isEmpty(l.tFile)}" th:each="t : ${l.tFile}">
@@ -173,7 +173,7 @@
 					
 				</th:block>
 				
-				<th:block th:unless="${not #lists.isEmpty(trainerList)}">
+				<th:block th:unless="${not #lists.isEmpty(searchList)}">
 					등록된 게시물이 없습니다.
 				</th:block>
 			</div>

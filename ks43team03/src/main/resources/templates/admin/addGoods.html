@@ -57,16 +57,11 @@
          </div>
       </div>
       <div class="clearfix"></div>
-   
-   
-   
-   
       <div class="row" id="goods-re">
          <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                <div class="x_title">
                   <h2>상품등록 <small>different form elements</small></h2>
-   
                   <div class="clearfix"></div>
                </div>
                <div class="x_content">
@@ -78,8 +73,16 @@
                               class="required">*</span></label>
                         <div class="col-md-6 col-sm-6">
                            <!-- ***임시 시설 대표 코드*** -->
-                           <input type="text" class="form-control" id="facilityCd" data-parsley-id="5"
-                              name="facilityCd" value="ss_35011740_01">
+							<select id="facilitySelect" id="facilityCd" name="facilityCd">
+								<!-- ***임시 시설 대표 코드*** -->
+								<option>:: 레슨을 등록하는 시설을 입력해주세요::</option>
+								<th:block th:if="${not #lists.isEmpty(adminFacilityListById)}" th:each="t : ${adminFacilityListById}">
+									<option th:value="${t.facilityCd}">[[${t.facilityNm}]]</option>
+								</th:block>
+								<th:block th:unless="${not #lists.isEmpty(adminFacilityListById)}">
+									<option>:: 관리하시는 시설이 없습니다 ::</option>
+								</th:block>
+							</select>
                         </div>
                      </div>
                      <div class="item form-group">
@@ -117,7 +120,7 @@
                         </div>
                      </div>
    
-                     <div class="ln_solid"></div>
+					 <div class="ln_solid"></div>
    
                   </form>
                   <div class="item form-group">
@@ -128,12 +131,7 @@
                </div>
             </div>
          </div>
-      </div>
-   
-   
-   
-   
-   
+	  </div>
       <!-- 대관 등록 폼-->
       <div class="row col-row none-display" id="stadium">
          <div class="col-md-12 col-sm-12 ">
@@ -231,12 +229,6 @@
             </div>
          </div>
       </div>
-   
-   
-   
-   
-   
-   
       <!-- 이용권 등록 폼-->
       <div class="row none-display" id="pass">
          <div class="col-md-12 col-sm-12 ">

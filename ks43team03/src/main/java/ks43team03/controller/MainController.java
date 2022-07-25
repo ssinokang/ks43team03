@@ -1,6 +1,10 @@
 package ks43team03.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ks43team03.dto.Facility;
 import ks43team03.service.AdminFacilityService;
 
 
@@ -39,10 +44,15 @@ public class MainController {
 	 *임시 addGoods 컨트롤러  
 	 ***/
 	@GetMapping("/admin/addGoods")
-	public String addGoods(@RequestParam(name="goodsCtgCd", required = false) String goodsCtgCd,
-					Model model) {
-		
+	public String addGoods(@RequestParam(name="goodsCtgCd", required = false) String goodsCtgCd
+							,HttpSession session
+							,Model model) {
+		String sessionId = (String)session.getAttribute("SID");
+		List<Facility> adminFacilityListById = adminFacilityService.getAdminFacilityListById(sessionId);
+
+
 		model.addAttribute("goodsCtgCd", goodsCtgCd);
+		model.addAttribute("adminFacilityListById", adminFacilityListById);
 		
 		return "admin/addGoods";
 	}

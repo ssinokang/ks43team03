@@ -58,17 +58,12 @@ public class UserController {
 		
 		if(sessionId != null && !sessionId.isEmpty()) {
 			
-			//아이디로 시설 검색 후 리스트에 시설 코드 담아준다.
+			//아이디로 시설 검색
 			List<Facility> adminFacilityListById = adminFacilityService.getAdminFacilityListById(sessionId);
-			List<String> facilityCdList = new ArrayList<String>();
-			for(int i=0; i<adminFacilityListById.size(); i++) {
-				log.info("adminFacilityListById.get("+i+") : {}", adminFacilityListById.get(i));
-				facilityCdList.add(adminFacilityListById.get(i).getFacilityCd());
-			}
-			log.info("facilityCdList:{}",facilityCdList);
+			log.info("adminFacilityListById:{}",adminFacilityListById);
 			
-			
-			List<Map<String, Object>> facilityUserList = userService.getFacilityUserList(facilityCdList);
+			//시설에 가입된 회원 조회
+			List<Map<String, Object>> facilityUserList = userService.getFacilityUserList(adminFacilityListById);
 			model.addAttribute("facilityUserList",	facilityUserList);
 		}
 		

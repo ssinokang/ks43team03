@@ -25,14 +25,14 @@ public class MainController {
 	private static final Logger log = LoggerFactory.getLogger(MainController.class);
 
 	
-	@GetMapping("/admin")
+	@GetMapping("/user")
 	public String adminIndex() {
-		return "admin/adminIndex";
+		return "index";
 	}
 	
 	@GetMapping("/")
 	public String index() {
-		return "index";
+		return "admin/adminIndex";
 	}
 	
 	/**

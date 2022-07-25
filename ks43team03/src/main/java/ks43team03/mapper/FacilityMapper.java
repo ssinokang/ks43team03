@@ -27,7 +27,7 @@ public interface FacilityMapper {
 	public Facility getFacilityInfoByCd(String facilityCd);
 	
 	//사용자가 시설 조회
-	public List<Map<String, Object>> getFacilityList(Map<String, Object> paramMap);
+	public List<Facility> getFacilityList(Map<String, Object> facilityMap);
 	
 	//시설 테이블 총 row(튜플) 수
 	public int getFacilityCount();

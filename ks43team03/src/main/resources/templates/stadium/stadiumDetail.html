@@ -131,6 +131,14 @@
 	#bookingTime input[type=checkbox]{
 	    display: none;
 	}
+	.pre{
+			font-size: 15px;
+			font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+			color: #000000;
+			font-weight: 400;
+			line-height: 24px;
+			margin: 0 0 10px 0;
+		}
 	</style>
 	</th:block>
 
@@ -224,21 +232,21 @@
 								        <div class="container">
 								            <form id="stadiumForm" th:action="@{/booking/addBooking}" method="post" class="checkout__form">
 								                <div class="row">
-								                    <div class="col-lg-8" style="padding-bottom: 25px;">
-								                        <h5>구장정보</h5>
-								                        <div class="row">
+								                    <div class="col-lg-8" style="padding-bottom: 20px;">
+								                        <h6>구장정보</h6>
+								                        <div class="row" style="border-bottom: 1px solid #e1e1e1; padding-bottom: 20px;">
 								                            <div class="col-lg-6 col-md-6 col-sm-6">
 								                                <div class="checkout__form__input">
-									                                <p th:text="${l.facilityStadiumDetail}"></p>
+									                                <pre class="pre" th:text="${l.facilityStadiumDetail}"></pre>
 								                                </div>
 								                                <div class="checkout__form__input">
-									                                 <p th:text="${l.facility.facilityTell}"></p>
+									                                 <pre class="pre" th:text="${l.facility.facilityTell}"></pre>
 								                                </div>
 								                            </div>
 								                       </div>
 								                    </div>
 								                    <div class="col-lg-8">
-								                        <h5>구장예약</h5>
+								                        <h6>구장예약</h6>
 								                        <div class="row">
 								                       </div>
 								                        <div class="row">
@@ -345,7 +353,7 @@
 	                            </div>
 	                            <div class="tab-pane" id="tabs-2" role="tabpanel">
 	                                <h6><i class="fa fa-map-marker"></i>위치정보</h6>
-	                                <p th:text="${l.facility.facilityAddr} + ' ' + ${l.facility.facilityDetailAddr}" ></p>
+	                                <p class="pre" th:text="${l.facility.facilityAddr} + ' ' + ${l.facility.facilityDetailAddr}" ></p>
                              		<div class="x_content">
 										<div class="table-responsive">
 												<input type="hidden" th:value ="${l.facility.facilityAddr}" class="placeAddr">

@@ -18,7 +18,9 @@ public enum ErrorMessage {
 	NOT_EXITS_PAYMENT_TYPE_ERROR("존재하지 않은 결제타입으로 결제가 진행되었습니다."),
 	ORDER_ERROR_ORDER_PRICE("주문하신 주문의 금액이 형식에 맞지않습니다."),
 	NOT_FOUND_PAYMENT("존재하지 않는 결제 정보 입니다."),
-	IS_EMPTY_USER("회원아이디가 입력되지 않았습니다.");
+	IS_EMPTY_USER("회원아이디가 입력되지 않았습니다."),
+	ORDER_DELETE_ERROR("주문하신 상품 삭제에 실패 하였습니다."),
+	ORDER_MODIFY_ERROR("주문 수정에 실패하였습니다.");
 	
 	
 	private final String message;

@@ -73,6 +73,7 @@ public class PaymentController {
 	@GetMapping("/fail")
 	public String failPayment(@RequestParam String message, @RequestParam String code, @RequestParam String orderId, Model model) {
 	    log.info("=======결제실패=======");
+	    paymentService.failPayment(orderId);
 		model.addAttribute("message", message);
 	    model.addAttribute("code", code);
 	    return "fail";
@@ -82,7 +83,9 @@ public class PaymentController {
 	@ResponseStatus(HttpStatus.OK)
 	public void handleVirtualAccountCallback(@RequestBody Payload payload) {
 		log.info("payload 값 : {}", payload);
-	    }
+		paymentService.handleVirtualAccountCallback(payload);
+		
+	}
 
 	
 	

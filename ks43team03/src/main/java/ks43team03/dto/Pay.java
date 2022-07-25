@@ -1,16 +1,11 @@
 package ks43team03.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class Pay {
 
 	
@@ -40,7 +35,20 @@ public class Pay {
 	private String accountNumber; // 가상계좌 번호
 	private String payDueDate; //입금 기한 
 	
+	public Pay() {}
 	
-	
+	@Builder
+	public Pay(String orderCd, String userId, int payUsedPoint, String payMethod, String paymentKey, String orderUUID,
+			int payPrice, String payTotalPrice, String payState) {
+		this.orderCd = orderCd;
+		this.userId = userId;
+		this.payUsedPoint = payUsedPoint;
+		this.payMethod = payMethod;
+		this.paymentKey = paymentKey;
+		this.orderUUID = orderUUID;
+		this.payPrice = payPrice;
+		this.payTotalPrice = payTotalPrice;
+		this.payState = payState;
+	}
 	
 }

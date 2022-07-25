@@ -154,6 +154,40 @@
 			,'N'
 		)
 	</insert>
+	
+	<!-- 전체 주문 횟수 -->
+	<select id="getOrderCount" resultType="int">
+		SELECT
+			COUNT(o.order_cd)
+		FROM
+			goods_order AS o
+	</select>
+	
+	<!-- 시설 주문횟수  -->
+	<select id="getOrderByFacilityCount" parameterType="String" resultType="int">
+		SELECT
+			COUNT(o.order_cd)
+		FROM
+			goods_order AS o
+			INNER JOIN 
+			facility_goods AS g
+			ON
+			o.facility_goods_cd = g.facility_goods_cd
+		WHERE
+			g.facility_cd = #{facilityCd}
+	</select>
+	
+	<select id="orderSearch" resultMap="orderResultMap">
+		SELECT
+			*
+		FROM
+			goods_order AS o
+		WHERE
+		 	o.order_reg_date <![CDATA[>=]]> '2022-07-04'
+		 	and
+		 	o.order_reg_date <![CDATA[<=]]> '2022-07-18'
+	</select>
+	
 	<!-- 주문 정보 uuid로 삭제 -->
 	<delete id="removeOrderByOrderUUID" parameterType="String">
 		DELETE
@@ -172,7 +206,7 @@
 	</delete>
 	
 	<!-- 시설 내 주문내역 -->
-	<select id="getOrderInfoForFacility" parameterType="String" resultMap="orderResultMap">
+	<select id="getOrderInfoForFacility" parameterType="PageDto" resultMap="orderResultMap">
 		SELECT
 			o.order_cd,
 			o.user_id,
@@ -205,7 +239,9 @@
 			facility AS f
 			on
 			g.facility_cd = f.facility_cd
-		WHERE f.facility_cd = #{facilityCd}
+		WHERE f.facility_cd = #{id}
+		ORDER BY o.order_reg_date DESC
+		LIMIT #{startRow}, #{rowPerPage};
 	</select>
 	
 	<!-- 카테고리별 회원 주문리스트 -->
@@ -236,7 +272,7 @@
 				g.facility_cd = f.facility_cd
 			<trim prefix="WHERE" prefixOverrides="and || or">
 				<if test="category != null and category != ''">
-					g.goods_ctg_cd <![CDATA[<>]]> #{category}
+					g.goods_ctg_cd = #{category}
 				</if>
 				<if test="userId != null and userId != ''">
 					and o.user_id = #{userId}
@@ -290,7 +326,7 @@
 			o.order_del_yn = 'N'
 	</select>
 	<!-- 시설명과 상품코드 주문내역조회 -->
-	<select id="getOrderAll" resultMap="orderResultMap" resultType="Order">
+	<select id="getOrderAll" resultMap="orderResultMap" parameterType="PageDto">
 		SELECT
 			o.order_cd,
 			o.user_id,
@@ -323,10 +359,12 @@
 			facility AS f
 			on
 			g.facility_cd = f.facility_cd
+			ORDER BY o.order_reg_date DESC
+		LIMIT #{startRow}, #{rowPerPage};
 	</select>
 	
 	<!-- 사용자 주문내역 조회 -->
-	<select id="getOrdersByUser" resultType="Order" resultMap="orderResultMap" parameterType="java.util.Map">
+	<select id="getOrdersByUser" resultType="Order" resultMap="orderResultMap" parameterType="String">
 		SELECT
 			o.order_cd
 			,o.user_id
@@ -356,11 +394,17 @@
 			on
 			o.user_id = u.user_id
 		WHERE
+			1=1
+			AND
 			o.user_id = #{userId}
 			AND
+			o.order_reg_date <![CDATA[>=]]> DATE_ADD(NOW(), INTERVAL- #{dateMonth} month)
+			AND
 			o.order_del_yn = 'N'
+			<if test="searchValue != null and searchValue !=''">
+				AND f.facility_nm LIKE CONCAT('%', #{searchValue}, '%')
+			</if>
 		ORDER BY o.order_reg_date DESC
-		LIMIT #{startRow}, #{rowPerPage};
 	</select>
 	
 	<select id="getOrderByUserCount" parameterType="String" resultType="int">
@@ -501,6 +545,41 @@
 			AND
 			o.order_del_yn = 'N'
 	</select>
+	<select id="getOrderAndPayInfomationByOrderCd" parameterType="String" resultMap="orderResultMap">
+		SELECT
+			o.order_cd,
+			o.user_id,
+			o.facility_goods_cd,
+			o.goods_ctg_cd,
+			o.order_uuid_id,
+			o.order_price,
+			o.order_user_point,
+			o.order_used_point,
+			o.order_pay_price,
+			o.order_reg_date,
+			o.order_pay_state,
+			o.pay_type,
+			g.facility_cd,
+			f.facility_nm,
+			p.pay_method,
+			p.pay_reg_date,
+			pay_cd
+		FROM
+			pay AS p
+			RIGHT join
+			goods_order AS o
+			on
+			o.order_cd = p.order_cd
+			INNER join
+			facility_goods AS g
+			on
+			o.facility_goods_cd = g.facility_goods_cd
+			INNER join
+			facility AS f
+			on
+			g.facility_cd = f.facility_cd
+		WHERE 	o.order_cd = #{orderCd}
+	</select>
 	
 	<update id="modifyOrder" parameterType="Order">
 		UPDATE goods_order
@@ -528,6 +607,12 @@
 			</if>
 			<if test="orderPayState != null and orderPayState !=''">
 				,order_pay_state = #{orderPayState} 
+			</if>
+			<if test="orderDelYN != null and orderDelYN !=''">
+				order_del_yn = #{orderDelYN} 
+			</if>
+			<if test="orderDelDate != null and orderDelDate !=''">
+				,order_del_date = NOW()
 			</if>
 		</trim>
 		WHERE order_cd=#{orderCd}

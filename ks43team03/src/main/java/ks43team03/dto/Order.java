@@ -101,7 +101,6 @@ public class Order {
 
 
 	@Getter
-	@Builder
 	public static class Response{
 		private String orderId;
 		private String customerName;

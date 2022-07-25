@@ -37,6 +37,17 @@ public class UserController {
 		this.adminFacilityService	=	adminFacilityService;
 	}
 	
+	//시설 내 회원 승인
+	@GetMapping("/modifyFacilityUserState")
+	public String modifyFacilityUserState(@RequestParam(name = "facilityApproveState")String facilityApproveState
+										 ,@RequestParam(name = "userId")String userId
+										 ,@RequestParam(name = "facilityCd")String facilityCd) {
+		
+		userService.modifyFacilityUserState(facilityApproveState, userId, facilityCd);
+		
+		return "redirect:/user/facilityUser";
+	}
+	
 	//시설 내 회원 목록 조회
 	@GetMapping("/facilityUser")
 	public String getFacilityUserList(Model model
@@ -182,7 +193,7 @@ public class UserController {
 	
 	//회원 가입
 	@PostMapping("/addUser")
-	public String addMember(User user) {
+	public String addUser(User user) {
 		
 		log.info("회원가입폼 시작");
 		

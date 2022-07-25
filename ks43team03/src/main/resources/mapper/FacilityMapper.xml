@@ -178,7 +178,7 @@
 		</select>
 	
 	
-	<select id="getFacilityList" parameterType="map" resultMap="facilityResultMap">
+	<select id="getFacilityList" parameterType="Map" resultMap="facilityResultMap">
 		/*시설전체조회*/
 			SELECT 
 				f.facility_cd 					
@@ -226,10 +226,22 @@
 		   		<if test="mainCtgCd != null and mainCtgCd != '' ">
 		   			f.main_ctg_cd = #{mainCtgCd}
 		   		</if>
+		   		<if test="cityCd != null and cityCd != ''">
+		   			and f.city_cd = #{cityCd}
+		   		</if>
+		   		<if test="townCd != null and townCd != ''">
+		   			and f.town_cd = #{townCd}
+		   		</if>
+		   		<if test="sportsCd != null and sportsCd != '' ">
+		   			and f.sports_cd = #{sportsCd}
+		   		</if>
+		   		<if test="searchValue != null and searchValue != '' ">		
+					and f.facility_nm LIKE CONCAT('%', #{searchValue}, '%')
+		   		</if>
 	   		</trim>
+	   		ORDER BY facility_reg_date DESC
 			LIMIT #{startRow}, #{rowPerPage}
 		</select>
-	
 	
 
 </mapper>

@@ -56,7 +56,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		}else {
 			String sessionLevel = (String)session.getAttribute("SLEVEL");
 			String requestURI = request.getRequestURI();
-			
+			log.info(requestURI, "requestURI__________________");
 			if("2".equals(sessionLevel)) {
 				if(requestURI.indexOf("/")		> -1) {
 					

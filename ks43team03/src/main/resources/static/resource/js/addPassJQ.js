@@ -28,7 +28,7 @@ $(function() {
 			const data = {
 				facilityCd: $('#facilityCd').val(),
 				goodsCtgCd: $('#goodsCtg').val(),
-				sportsCd: 	$('#sportCtg').val()
+				sportsCd: 	$('#sportCtg').val(),
 				userId: 	$('#user-id').val(),
 			};
 

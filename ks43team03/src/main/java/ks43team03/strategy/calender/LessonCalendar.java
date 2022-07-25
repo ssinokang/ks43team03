@@ -1,5 +1,6 @@
 package ks43team03.strategy.calender;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -24,11 +25,14 @@ implements CalenderStrategy{
 	
 	@Override
 	//@ResponseBody
-	public Lesson getData(Map<String, String> DateMap) {
+	public Map<String, Object> getData(Map<String, String> DateMap) {
 		log.info("동작!");
 		log.info("DateMap : {}", DateMap);
-		lessonMapper.getReservation(DateMap);
-		return lessonMapper.getReservation(DateMap);
+		Map<String, Object> dateMap = new HashMap<>();
+		Lesson lesson = lessonMapper.getReservation(DateMap);
+		log.info(lesson.getLessonEndDate());
+		dateMap.put("scheduleDate", lesson);
+		return dateMap;
 	}
 
 	@Override

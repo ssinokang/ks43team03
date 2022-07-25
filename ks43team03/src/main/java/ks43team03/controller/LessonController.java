@@ -11,15 +11,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.dto.Area;
 import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Lesson;
+import ks43team03.dto.Order;
 import ks43team03.service.CommonService;
 import ks43team03.service.LessonService;
 import ks43team03.service.SearchService;
@@ -40,7 +44,25 @@ public class LessonController {
 		this.searchService = searchService;
 	}
 	
-
+	/**
+	 *  레슨 체크
+	 **/
+	@ResponseBody
+	@PostMapping("/lessonOrderCheck")
+	public Boolean lessonOrderCheck(HttpSession session,
+									@RequestBody Map<String, String> paramMap) {
+		String userId = (String)session.getAttribute("SID");
+		paramMap.put("userId", userId);
+		
+		Boolean result = false;
+		
+		Order order = commonService.goodsOrderCheck(paramMap);
+		
+		if(!ObjectUtils.isEmpty(order)) {
+			result = true;
+		}
+		return result;
+	}
 	/**
 	 *  레슨 예약
 	 **/
@@ -48,7 +70,7 @@ public class LessonController {
 	public String lessonReservateion(@RequestParam(name		  = "lessonCd"
 												   ,required 	  = false
 												   ,defaultValue  = "error") String lessonCd
-									 ,Model model) {
+									 			   ,Model model) {
 		
 		Lesson lesson = lessonService.getLessonInfoByCd(lessonCd);
 		
@@ -120,8 +142,20 @@ public class LessonController {
 	public String modifyLesson(Lesson lesson
 							   ,Model model
 							   ,HttpSession session
+							   ,@RequestParam(name="lessonImgFile", required = false) MultipartFile[] lessonImgFile
+							   ,HttpServletRequest request
 							   ,String[] fileCd
-							   ,String[] representImg) {
+							   ,String[] representImg
+							   ,String[] deleteImg) {
+		
+		String serverName = request.getServerName();
+		String fileRealPath = "";
+		if("localhost".equals(serverName)) {				
+			fileRealPath = System.getProperty("user.dir") + "/src/main/resources/static/";
+			//fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}else {
+			fileRealPath = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/static/");
+		}
 		
 		String userId = (String)session.getAttribute("SID");
 		log.info(userId);
@@ -134,9 +168,13 @@ public class LessonController {
 		paramMap.put("fileCd", fileCd);
 		paramMap.put("lesson", lesson);
 		paramMap.put("representImg", representImg);
+		paramMap.put("deleteImg", deleteImg);
+		paramMap.put("fileRealPath", fileRealPath);
 		
-		lessonService.modifyLesson(paramMap);
+		lessonService.modifyLesson(paramMap, lessonImgFile);
+		
 		model.addAttribute("facilityCd", lesson.getFacilityCd());
+		
 		return "redirect:/lesson/facilityLessonList?" + "facilityCd="+ lesson.getFacilityCd();
 	}
 	
@@ -153,8 +191,7 @@ public class LessonController {
 	 **/
 	@GetMapping("/facilityLessonList")
 	public String facilityLessonList(@RequestParam(name="facilityCd") String facilityCd
-							 ,Model model) {
-		
+									,Model model) {
 		
 		System.out.println(facilityCd + "lessonController/facilityLesosnLilst");
 		List<Lesson> lessonList = lessonService.getfacilityLessonList(facilityCd);

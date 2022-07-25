@@ -91,7 +91,7 @@ public class LessonOfferController {
 		String userId = (String)session.getAttribute("SID");
 		// 시설조회
 		List<Facility> facilityList = adminFacilityService.getAdminFacilityListById(userId);
-		//if(facilityList.isEmpty()) return "redirect:/admin";
+		//if(facilityList.isEmpty()) return "redirect:/";
 		model.addAttribute("facility", facilityList);
 		
 		return "offer/addOffer";

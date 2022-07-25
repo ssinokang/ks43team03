@@ -377,7 +377,7 @@
 											</tr>
 										</thead>
 										<tbody id="boardBody">
-											<tr th:if="${not #lists.isEmpty(boardListByFacility)}" th:each="l : ${boardListByFacility}">
+											<tr th:if="${not #lists.isEmpty(boardListByFacility)}" th:each="l : ${BoardListByFacility}">
 												<input type="hidden" th:value="${l.boardPostCd}">
 												<td th:text="${l.boardPostTitle}"></td>
 												<td th:text="${l.boardPostDate}"></td>

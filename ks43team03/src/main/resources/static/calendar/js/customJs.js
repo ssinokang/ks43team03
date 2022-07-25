@@ -17,6 +17,7 @@ $(function(){
 			data: JSON.stringify(data),
 			})
 		.done(function (response) {
+			console.log(response.lessonCd);
 			buildCalendar(response);
 		})
 		.fail(function (e) {
@@ -74,6 +75,12 @@ $(function(){
             if (plusDate==0) {
                 $("#calendar tbody:last").append("<tr></tr>");
             }
+            console.log(moment(day).isAfter(lessonStartDate), 1);
+            console.log(moment(day).isBefore(lessonEndDate), 2);
+            console.log(lessonStartDate);
+            console.log(lessonEndDate);
+            console.log(moment(day).isAfter(realNowDate), 3);
+            
             if(moment(day).isAfter(lessonStartDate) && moment(day).isBefore(lessonEndDate) && moment(day).isAfter(realNowDate)) {	
 				$("#calendar tbody:last").append("<td class='date' data-date="+ moment(day).add(1,'days').format('YYYY-MM-DD') +">"+ i + "<button class=\"reservation possible\"type=\"button\" data-target=\"\#eventModal\" data-toggle=\"modal\">예약 하기</button>" +"</td>");
 			} else {

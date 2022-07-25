@@ -83,7 +83,7 @@
 			user_level AS l;
 	</select>
 	
-	<select id="getFacilityUserList" parameterType="map" resultType="map">
+	<select id="getFacilityUserList" parameterType="List" resultType="map">
 		/* 시설 내 회원 목록 조회 */
 		SELECT 
 			 f.facility_cd				as facilityCd
@@ -110,8 +110,8 @@
 			ON
 				u.user_id = fu.user_id
 		<where>
-			<foreach item="item" collection="facilityCdList" open="f.facility_cd in (" separator="," close=")">
-				#{item}
+			<foreach item="item" collection="list" open="f.facility_cd in (" separator="," close=")">
+				#{item.facilityCd}
 			</foreach>
 		</where>
 	</select>

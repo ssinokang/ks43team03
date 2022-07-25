@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ks43team03.dto.Area;
 import ks43team03.dto.AreaCity;
+import ks43team03.dto.Order;
 import ks43team03.dto.Sports;
 import ks43team03.mapper.CommonMapper;
 
@@ -23,14 +24,15 @@ public class CommonService {
 	public CommonService(CommonMapper commonMapper) {
 		this.commonMapper = commonMapper;
 	}
+	//시/도 지역 조회
 	public List<AreaCity> getAreaCityList(String areaCd) {
 		List<AreaCity> areaCity = commonMapper.getAreaCityList(areaCd);
 		return areaCity;
-	}
+	}//시/군/구 조회
 	public List<Area> getAreaList() {
 		List<Area> area = commonMapper.getAreaList();
 		return area;
-	}
+	}// 스포츠 종목 조회
 	public List<Sports> getSportsList() {
 		log.info("___________LessonService/getSportsList_____________");
 		List<Sports> sportsList = commonMapper.getSportsList();
@@ -44,6 +46,12 @@ public class CommonService {
 			commonMapper.setReservation(reservationData);
 			result = 1;
 		}
+		return result;
+	}
+	//상품 구매 여부 조회
+	public Order goodsOrderCheck(Map<String, String> paramMap) {
+		
+		Order result = commonMapper.goodsOrderCheck(paramMap);
 		return result;
 	}
 

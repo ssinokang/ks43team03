@@ -6,7 +6,7 @@
 	<resultMap type="Board" 						id="boardResultMap">
 		<id column="board_post_cd"					property="boardPostCd"/>
 		<result column="board_ctg_cd"				property="boardCtgCd"/>
-		<!-- <result column="facility_cd"				property="facilityCd"/> -->
+		<result column="facility_cd"				property="facilityCd"/>
 		<result column="user_id"					property="userId"/>
 		<result column="board_post_title"			property="boardPostTitle"/>
 		<result column="board_post_content"			property="boardPostContent"/>
@@ -67,6 +67,29 @@
 			COUNT(*)
 		FROM
 			board_post;
+	</select>
+	
+	<!-- 시설 내 게시글 목록 조회 -->
+	<select id="getBoardListByFacility" parameterType="map" resultType="map" resultMap="boardResultMap">
+		SELECT 
+			b.board_post_cd
+			, b.board_ctg_cd
+			, b.facility_cd
+			, b.user_id
+			, b.board_post_title
+			, b.board_post_content
+			, b.board_post_date
+			, b.board_post_views
+			, b.board_post_comment_number
+			, b.board_post_state
+		FROM 
+			board_post AS b
+		INNER JOIN 
+			facility AS f
+		ON
+			b.facility_cd = f.facility_cd
+		WHERE
+			b.facility_cd = #{facilityCd};
 	</select>
 	
 	<!-- 게시글 상세보기 -->

@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ks43team03.dto.Board;
 import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityUser;
 import ks43team03.dto.Lesson;
 import ks43team03.dto.Review;
 import ks43team03.dto.Stadium;
+import ks43team03.service.BoardService;
 import ks43team03.service.FacilityService;
 
 @Controller
@@ -27,12 +29,13 @@ public class FacilityController {
 	private static final Logger log = LoggerFactory.getLogger(FacilityController.class);
 
 	private final FacilityService facilityService;
+	private final BoardService boardService;
 
-	public FacilityController(FacilityService facilityService) {
+	public FacilityController(FacilityService facilityService
+							, BoardService boardService) {
 		this.facilityService = facilityService;
+		this.boardService = boardService;
 	}
-
-	
 	
 	/*시설 가입 중복 체크*/
 	@PostMapping("/userCheck")
@@ -86,6 +89,11 @@ public class FacilityController {
 			model.addAttribute("reviewList", reviewList);
 			model.addAttribute("reviewCount", reviewCount);
 			
+			List<Board> boardListByFacility = boardService.getBoardListByFacility(facilityCd);
+			
+			log.info("BoardListByFacility : {}", boardListByFacility);
+			
+			model.addAttribute("BoardListByFacility", boardListByFacility);
 			
 			return "facility/facilityDetail";
 			

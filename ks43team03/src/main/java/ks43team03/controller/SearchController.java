@@ -61,7 +61,7 @@ public class SearchController {
 		
 		model.addAttribute("sportsList"			, sportsList);
 		model.addAttribute("areaList"			, areaList);
-		model.addAttribute("lessonList"			, resultMap.get("LessonListForUser"));
+		model.addAttribute("searchList"			, resultMap.get("searchList"));
 		model.addAttribute("lastPage"			, resultMap.get("lastPage"));
 		model.addAttribute("startPageNum"		, resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum"			, resultMap.get("endPageNum"));
@@ -70,6 +70,7 @@ public class SearchController {
 		
 		log.info((String)resultMap.get("path") , "무사 통과");
 		
+
 		return (String)resultMap.get("path");
 	}
 }

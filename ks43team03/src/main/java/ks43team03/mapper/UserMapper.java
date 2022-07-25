@@ -11,6 +11,9 @@ import ks43team03.dto.UserLevel;
 @Mapper
 public interface UserMapper {
 	
+	//시설 내 회원 승인
+	public void modifyFacilityUserState(String facilityApproveState, String userId, String facilityCd);
+	
 	//회원 가입
 	public int addUser(User user);
 	

@@ -68,9 +68,11 @@ implements SearchStrategy{
 		
 		log.info("searchMap : {}", searchMap);
 		
-		List<TrainerProfile> trainerList = trainerMapper.getTrainerList(searchMap);
+		List<TrainerProfile> searchList = trainerMapper.getTrainerList(searchMap);
 	
-		resultMap.put("trainerList", trainerList);
+		resultMap.put("searchList", 	searchList);
+		resultMap.put("title",			"트레이너 목록");
+		resultMap.put("path", 			"trainer/trainerList");
 		log.info("_______________end   TrainerSearch__________________");
 		
 		return resultMap;

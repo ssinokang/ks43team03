@@ -2,11 +2,9 @@ package ks43team03.controller;
 
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ks43team03.dto.GoodsCategoryDto;
 import ks43team03.dto.Order;
 import ks43team03.dto.ResponseGoods;
 import ks43team03.dto.User;
@@ -51,12 +50,13 @@ public class OrderController {
 	
 	
 	@PostMapping("/addOrder")
-	public ResponseEntity<Order> addOrder(@RequestBody Order.Request req) {
+	@ResponseBody
+	public Order addOrder(@RequestBody Order.Request req) {
 
 		// order 저장 
 		ResponseGoods responseGoods = facilityGoodsService.getFacilityGoodsCd(req.getFacilityGoodsCd(),req.getGoodsCtgCd());
-		String goodsCode = responseGoods.getFacilityGoods().getFacilityGoodsCd();
-		return ResponseEntity.ok(orderService.addOrder(req, responseGoods));
+		Order order = orderService.addOrder(req, responseGoods);
+		return order;
 	}
 	
 	
@@ -73,14 +73,10 @@ public class OrderController {
 		if(user == null) {
 			throw new CustomException(ErrorMessage.IS_EMPTY_USER);
 		}
-		
 		ResponseGoods facilityGoods = facilityGoodsService.getFacilityGoodsCd(facilityGoodsCd,goodsCtgCd);
-
-		
 		model.addAttribute("title", "결제 페이지");
 		model.addAttribute("user", user);
 		model.addAttribute("goods", facilityGoods);
-		
 		return "order/orderForm";
 	}
 
@@ -88,17 +84,13 @@ public class OrderController {
 	
 	//==회원의 주문상세내역 조회==//
 	@GetMapping("/orderDetail/{id}")
-	public String orderDetail(@PathVariable("id") String userId,Model model
+	public String orderDetail(@PathVariable("id") String userId, Model model
 							 ,@RequestParam(name = "orderCd")String orderCd) {
 		log.info("화면에서 받은  orderCd 데이터 : {}", orderCd);
 		log.info("화면에서 받은 userId 데이터 : {}", userId);
 		Order order = orderService.getOrderByCode(orderCd);
-		
-		// 상품 코드 goodsService vs orderService 에서 
-		
 		model.addAttribute("title", userId + "님의 구매하신 상품상세정보");
 		model.addAttribute("order", order);
-		
 		return "order/orderDetail";
 	}
 	
@@ -107,22 +99,23 @@ public class OrderController {
 	 */
 	@GetMapping("/orders/{id}")
 	public String orders(@PathVariable("id") String userId, Model model,
-						 @RequestParam(name = "currentPage", required = false, defaultValue = "1")int currentPage,
+						 @RequestParam(name = "dateMonth", required = false, defaultValue = "3")String dateMonth,
+						 @RequestParam(name = "searchValue", required = false)String searchValue,
 						 HttpSession session) {
 		
+		log.info("searchValue: {}", searchValue);
+		log.info("dateMonth: {}", dateMonth);
+		log.info("userId: {}", userId);
+		
+		
 		String sessionId = (String)session.getAttribute("SID");
-		if(!userId.equals(sessionId)) {
-			return "redirect:/";
-		}
-		
-		Map<String,Object> orderList = orderService.getOrdersByUser(currentPage,userId);
-		
-		model.addAttribute("orderList", orderList.get("orderList"));
-		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("lastPage", orderList.get("lastPage"));
-		model.addAttribute("startPage", orderList.get("startPage"));
-		model.addAttribute("endPage", orderList.get("endPage"));
+
+		if(userId == null || sessionId == null) return "redirect:/login";
+
+		List<Order> orderList = orderService.getOrdersByUser(userId, dateMonth,searchValue);
+		model.addAttribute("orderList", orderList);
 		model.addAttribute("userId", userId);
+		model.addAttribute("dateMonth", dateMonth);
 		model.addAttribute("title", "회원님의 주문내역입니다.");
 		return "order/ordersByUser";
 	}
@@ -144,29 +137,25 @@ public class OrderController {
 	}
 	
 	//==판매자 주문예약/결제 정보 조회==//
-	@GetMapping("/{category}/orders")
+	@GetMapping("/orders/{id}/category")
 	@ResponseBody
-	public List<Order> orderInfomationByCategory(@PathVariable("category")String category,
-												  @RequestParam String userId) {
-		List<Order> orderList = orderService.orderInfomationByCategory(category, userId);
+	public List<Order> orderInfomationByCategory(@RequestBody GoodsCategoryDto category,
+												  @PathVariable("id") String userId) {
+		
+		log.info("goodsCategory data : {}", category);
+		log.info("userId data : {}", userId);
+		List<Order> orderList = orderService.orderInfomationByCategory(category.getCode(), userId);
 		return orderList;
 	}
 	
 	
-	
-	
-	
-	//== 화면연결 임시메소드 ==//
-	/**
-	 *  화면연결 임시메소드   
-	 */
-	@GetMapping("/goods")
-	public String goodsRead() {
-		return "goods/goodsRead";
+	//== 주문 후 주문 취소 ==//
+	@GetMapping("/cancel/{orderId}")
+	public String cancelOrder(@PathVariable("orderId")String orderCd,
+			@RequestParam String goodsCood, @RequestParam String userId) {
+		
+		
+		return "order/cancel";
 	}
-	
-	@GetMapping("/tempgoods")
-	public String goodsTemp() {
-		return "goods/하나의 상품페이지";
-	}
+
 }

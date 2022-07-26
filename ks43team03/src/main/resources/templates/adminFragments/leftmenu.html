@@ -7,8 +7,8 @@
 			<ul class="nav side-menu">
 				<li><a><i class="fa fa-hand-o-right"></i> 페이지 이동 <span class="fa fa-chevron-down"></span></a>
 					<ul class="nav child_menu">
-						<li><a th:href="@{/}">사용자 페이지</a></li>
-						<li><a th:href="@{/admin}">관리자 페이지</a></li>
+						<li><a th:href="@{/user}">사용자 페이지</a></li>
+						<li><a th:href="@{/}">관리자 페이지</a></li>
 					</ul>
 				</li>
 				<li><a><i class="fa fa-bank"></i> 시설관리!(정다운) <span class="fa fa-chevron-down"></span></a>
@@ -41,11 +41,11 @@
 				</li>
 				<li><a><i class="fa fa-medkit"></i> 안전점검(김지혜) <span class="fa fa-chevron-down"></span></a>
 					<ul class="nav child_menu">
-						<li><a th:if="${session.SLEVEL == '1' or session.SLEVEL == '2' or session.SLEVEL == '3'}" th:href="@{/safety/addSafety}">안전점검 등록</a></li>
-						<li><a th:if="${session.SLEVEL == '1' or session.SLEVEL == '2' or session.SLEVEL == '3'}" th:href="@{/safety/safetyList}">안전점검 등록 전체 시설 목록</a></li>
-						<li><a th:if="${session.SLEVEL == '1' or session.SLEVEL == '2' or session.SLEVEL == '3'}" th:href="@{/safety/safetyListById}">안전점검 등록 시설 목록(시설관리자)</a></li>
-						<li><a th:unless="${session.SID == null}" th:href="@{/safety/safetyResultList}">전체 시설 안전점검 결과 목록</a></li>
-						<li><a th:if="${session.SLEVEL == '1' or session.SLEVEL == '2' or session.SLEVEL == '3'}" th:href="@{/safety/safetyResultListById}">시설 안전점검 결과 목록(시설관리자)</a></li>
+						<li><a th:href="@{/safety/addSafety}">안전점검 등록</a></li>
+						<li><a th:href="@{/safety/safetyList}">안전점검 등록 전체 시설 목록</a></li>
+						<li><a th:href="@{/safety/safetyListById}">안전점검 등록 시설 목록(시설관리자)</a></li>
+						<li><a th:href="@{/safety/safetyResultList}">전체 시설 안전점검 결과 목록</a></li>
+						<li><a th:href="@{/safety/safetyResultListById}">시설 안전점검 결과 목록(시설관리자)</a></li>
 					</ul>
 				</li>
 				<li><a><i class="fa fa-shopping-cart"></i> 주문목록<span class="fa fa-chevron-down"></span></a>

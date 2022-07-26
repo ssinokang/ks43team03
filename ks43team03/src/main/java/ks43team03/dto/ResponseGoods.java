@@ -18,6 +18,6 @@ public class ResponseGoods {
 	}
 	
 	
-
+	public ResponseGoods(){}
 	
 }

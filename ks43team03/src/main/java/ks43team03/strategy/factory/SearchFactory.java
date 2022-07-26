@@ -21,6 +21,7 @@ public class SearchFactory {
   
 	@Autowired
 	public SearchFactory(Set<SearchStrategy> strategySet) {
+		//SearchStrategy 인터페이스로 부터 구현을 명령 받은 모든 클래스를 bean에서 찾아서 가져 옴
 		log.info("searchStrategy 바인딩 : {}", strategySet);
 		createStrategy(strategySet);
 	}

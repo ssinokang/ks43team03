@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ks43team03.dto.Facility;
 import ks43team03.dto.Order;
+import ks43team03.dto.PageDto;
 import ks43team03.service.AdminFacilityService;
 import ks43team03.service.OrderService;
 
@@ -39,15 +40,9 @@ public class AdminOrderController {
 		String userId = (String)session.getAttribute("SID");
 		String level = (String)session.getAttribute("SLEVEL");
 		
-		
-		
-		
 		log.info("권한은 : {}", level);
-		
 		if(!"1".equals(level)) {
-			
 			List<Facility> facility = adminFacilityService.getAdminFacilityListById(userId);
-			
 			model.addAttribute("facility", facility);
 			
 		}
@@ -64,25 +59,22 @@ public class AdminOrderController {
 	 */
 	
 	@GetMapping("/order/facility")
-	public String facilityOrderList(@RequestParam(required = false) String facilityCd, @RequestParam(required = false)String level  ,Model model) {
+	public String facilityOrderList(@RequestParam(required = false) String facilityCd, @RequestParam(required = false)String level  
+			,Model model,@RequestParam(required = false, defaultValue = "1")int currentPage) {
 		
-		log.info("로딩시 받는 facility Cd : {}", facilityCd);
-		log.info("로딩시 받는 level: {}", level);
-		
-		List<Order> orderList = null;
-		
+		PageDto<Order> page = null;
 		if("1".equals(level)) {
-			orderList = orderService.getOrderAll();
+			page = orderService.getOrderAll(currentPage);
 		}else if(!"1".equals(level)) {
-			orderList = orderService.getOrderInfoForFacility(facilityCd);
+			page = orderService.getOrderInfoForFacility(facilityCd,currentPage);
 		}
-		
-		if(orderList == null) 
-		
-		log.info("orderList : {}", orderList);
-		
-		model.addAttribute("orderList", orderList);
-		
+		log.info("orderList : {}", page);
+		model.addAttribute("orderList", page.getList());
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", page.getLastPage());
+		model.addAttribute("startPage", page.getStartPage());
+		model.addAttribute("endPage", page.getEndPage());
+		model.addAttribute("title", "회원님의 주문내역입니다.");
 		return "admin/order/adminOrderList :: #orderList";
 	}
 	

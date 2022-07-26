@@ -4,7 +4,6 @@
 	layout:decorate="~{layout/adminDefault.html}">
 	<th:block layout:fragment="customTitle">
 		<title>관리자 페이지</title>
-		<link href="img/title.png" rel="shortcut icon" type="image/x-icon">
 	</th:block>
 
 	<!-- 사용자 정의 Css -->
@@ -39,8 +38,8 @@
 						<div class="clearfix"></div>
 					</div>
 					<div class="text-center">
-						<img alt="로고" src="/img/adminLogo.png"> <!-- 로고 이미지 -->
-						<img alt="이름, 역할" src="/img/adminLogo3.png"> <!-- 이름, 역할 이미지 -->
+						<img alt="로고" th:src="@{/img/adminLogo.png}"> <!-- 로고 이미지 -->
+						<img alt="이름, 역할" th:src="@{/img/adminLogo3.png}"> <!-- 이름, 역할 이미지 -->
 					</div>
 				</div>
 			</div>

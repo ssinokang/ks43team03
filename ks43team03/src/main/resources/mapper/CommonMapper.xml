@@ -5,6 +5,19 @@
   
 <mapper namespace="ks43team03.mapper.CommonMapper">
   
+	<select id="goodsOrderCheck" parameterType="Map" resultType="Order">
+	SELECT
+		go.order_cd as orderCd
+	FROM
+		goods_order AS go
+	WHERE
+		go.user_id = #{userId}
+		and
+		go.facility_goods_cd = #{facilityGoodsCd}
+		and
+		go.order_del_yn = 'N'
+	</select>
+	
 	<insert id="setReservation" parameterType="Map">
 		INSERT INTO reservation
 		(

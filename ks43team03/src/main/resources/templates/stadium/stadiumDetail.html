@@ -48,36 +48,25 @@
 				$('input[name="time"]').each(function(){
 		            if($(this).is(":checked")){
 		            	timeArry.push($(this).val());		            
-					    console.log(timeArry);
 		            }
 		        });
-					var startTime = ''+timeArry[0];
-					var startTime2 = Number(startTime.substring(2,0));
-					var endTime = Number((''+timeArry[timeArry.length-1]).substring(2,0))+1;
-					console.log(startTime2);
-					var total =  (endTime - startTime2);
+				   console.log(timeArry);
+				    var sum = 0;
+					var startTime = timeArry[0];
+					var endTime = timeArry[timeArry.length-1];
+						sum += endTime;
+						sum++;
+					var total =  (sum - startTime);
 					var price = $('.price').text();
 					$('.totalTime').text('(' + total +'시간)');				
-					$('#bookingStartTime').val(startTime);
-					$('.startTime').text(startTime);
-					$('#bookingEndTime').val(endTime +':00');
-					$('.endTime').text('-'+endTime +':00');
+					$('#bookingStartTime').val(startTime +':00');
+					$('.startTime').text(startTime + ':00 - ');
+					$('#bookingEndTime').val(sum +':00');
+					$('.endTime').text(sum + ':00');
 					$('#totlaPrice').text(total*price);
 					$('#bookingPrice').val(total*price);
 					console.log($('#bookingPrice').val(total*price));
-					console.log($('.startTime').text());
-					
-					
-					if($('.startTime').text() == 'undefined'){
-						$('.totalTime').text('');				
-						$('#bookingStartTime').val('');
-						$('.startTime').text('');
-						$('#bookingEndTime').val('');
-						$('.endTime').text('');
-						$('#totlaPrice').text('');
-						$('#bookingPrice').val('');
-						console.log($('#bookingPrice').val(''));
-					}
+				
 			});
 		});
 		
@@ -99,7 +88,7 @@
 				}
 				return true;
 			}
-			/* 구장 예약시 유효성 검사 */
+			/* 시설 등록시 유효성 검사 */
 			$('#bookingBtn').click(function(){
 				var isSubmit = true;
 				var id = $("#userId").val();
@@ -126,19 +115,58 @@
 
 <!-- 사용자 정의 css 선언 -->
 	<th:block layout:fragment="customCss">
+	
 		<link rel="stylesheet" th:href="@{/resource/css/mapOverlay.css}" type="text/css">
+		<link rel="stylesheet" th:href="@{/calendar/css/fullcalendar.min.css}" />
+	    <link rel="stylesheet" th:href="@{/calendar/css/bootstrap.min.css}">
+	    <link rel="stylesheet" th:href="@{/calendar/css/select2.min.css}" />
+	    <link rel="stylesheet" th:href="@{/calendar/css/bootstrap-datetimepicker.min.css}" />
+	
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	    
 	<style>
-	#bookingTime input[type=checkbox]{
-	    display: none;
-	}
-	.pre{
-			font-size: 15px;
-			font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
-			color: #000000;
-			font-weight: 400;
-			line-height: 24px;
-			margin: 0 0 10px 0;
+		#bookingTime input[type=checkbox]{
+		    display: none;
 		}
+		.none-display {
+			display: none;
+		}
+		
+        #calendar {
+            clear: both;
+        }
+        #calendar th {
+            height: 50px;
+            width: 70px;
+            background-color:  #EBFBFF;
+            text-align: center;
+        }
+        #calendar td {
+            text-align: center;
+            height: 50px;
+            width: 70px;
+            background-color: #EBFBFF;  
+        }
+        #calendar input {
+            height: 50px;
+            width: 70px;
+            border: none;
+            background-color:  #EBFBFF;
+            font-size: 30px;
+        }
+        #calendar .year_mon{
+            font-size: 25px;
+        }
+        #calendar .colToday{
+            background-color: #EBFBFF;
+        }
+        .possible {
+        	background-color: #BEEFFF;
+        }
+        .reservation-possible {
+        	background-color: #BEEFFF;
+        }
 	</style>
 	</th:block>
 
@@ -232,76 +260,120 @@
 								        <div class="container">
 								            <form id="stadiumForm" th:action="@{/booking/addBooking}" method="post" class="checkout__form">
 								                <div class="row">
-								                    <div class="col-lg-8" style="padding-bottom: 20px;">
-								                        <h6>구장정보</h6>
-								                        <div class="row" style="border-bottom: 1px solid #e1e1e1; padding-bottom: 20px;">
+								                    <div class="col-lg-8" style="padding-bottom: 25px;">
+								                        <h5>구장정보</h5>
+								                        <div class="row">
 								                            <div class="col-lg-6 col-md-6 col-sm-6">
 								                                <div class="checkout__form__input">
-									                                <pre class="pre" th:text="${l.facilityStadiumDetail}"></pre>
+									                                <p th:text="${l.facilityStadiumDetail}"></p>
 								                                </div>
 								                                <div class="checkout__form__input">
-									                                 <pre class="pre" th:text="${l.facility.facilityTell}"></pre>
+									                                 <p th:text="${l.facility.facilityTell}"></p>
 								                                </div>
 								                            </div>
 								                       </div>
 								                    </div>
 								                    <div class="col-lg-8">
-								                        <h6>구장예약</h6>
+								                        <h5>구장예약</h5>
 								                        <div class="row">
-								                       </div>
+								                        </div>
 								                        <div class="row">
-								                           <div class="col-lg-12 col-md-8 col-sm-6">
-								                               	 <span style="margin-bottom: 10px;">날짜선택</span><input type="date"  class="form-control" id="reservationDate">
-								                            </div> 
-								                            
-								                            <div class="col-lg-12 col-md-8 col-sm-6" style="padding-top: 10px;">
-								                            	<span>시간선택</span>
-																<div id="bookingTime" class="btn-group col-lg-12 col-md-8 col-sm-6" data-toggle="buttons" style="width: 1000px; overflow-x:scroll;">
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="09:00" class="join-btn"> &nbsp; 09 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="10:00" class="join-btn">&nbsp; 10 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="11:00" class="join-btn">&nbsp; 11 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="12:00" class="join-btn">&nbsp; 12 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="13:00" class="join-btn">&nbsp; 13 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="14:00" class="join-btn">&nbsp; 14 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="15:00" class="join-btn">&nbsp; 15 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="16:00" class="join-btn" >&nbsp; 16 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="17:00" class="join-btn">&nbsp; 17 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="18:00" class="join-btn" >&nbsp; 18 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="19:00" class="join-btn">&nbsp; 19 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="20:00" class="join-btn" >&nbsp; 20 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="21:00" class="join-btn">&nbsp; 21 &nbsp;
-																	</label>
-																	<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-																		<input type="checkbox" name="time" value="22:00" class="join-btn">&nbsp; 22 &nbsp;
-																	</label>
+								                        	<div class="container">
+																<div class="row">
+																	<table id="calendar">
+																	    <thead>
+																	        <tr>
+																	            <th><input name="preMon" type="button" value="<"></th>
+																	            <th colspan="5" class="year_mon"></th>
+																	            <th><input name="nextMon" type="button" value=">"></th>
+																	        </tr>
+																	        <tr>
+																	            <th>일</th>
+																	            <th>월</th>
+																	            <th>화</th>
+																	            <th>수</th>
+																	            <th>목</th>
+																	            <th>금</th>
+																	            <th>토</th>
+																	        </tr>
+																	    </thead>
+																	    <tbody>
+																	    </tbody>
+																	</table>
+																	
+															        <!-- 일정 추가 MODAL -->
+															        <div class="modal fade" tabindex="-1" role="dialog" id="eventModal">
+															            <div class="modal-dialog" role="document">
+															                <div class="modal-content" style="width: 580px;">
+																                <form action="calendar/reservation" id="reservationData">
+																                    <div class="modal-header">
+																                        <button type="button" class="close modalClose" data-dismiss="modal" aria-label="Close"><span
+																                                aria-hidden="true">&times;</span></button>
+																                        <h4 class="modal-title"></h4>
+																                    </div>
+																                    <div class="modal-body">						
+																                        <div class="row">
+																                            <div class="col-md-12">
+																                                <table border="1" id="reSchedule">
+																                                	<tbody>
+																                                		<tr>
+																											<td><input class="reservationTime" type="button" value="09:00"></td>
+																											<td><input class="reservationTime" type="button" value="10:00"></td>
+																											<td><input class="reservationTime" type="button" value="11:00"></td>
+																											<td><input class="reservationTime" type="button" value="12:00"></td>
+																											<td><input class="reservationTime" type="button" value="13:00"></td>
+																											<td><input class="reservationTime" type="button" value="14:00"></td>
+																											<td><input class="reservationTime" type="button" value="15:00"></td>
+																											<td><input class="reservationTime" type="button" value="16:00"></td>
+																                                		</tr>
+																                                		<tr>
+																											<td><input class="reservationTime" type="button" value="17:00"></td>
+																											<td><input class="reservationTime" type="button" value="18:00"></td>
+																											<td><input class="reservationTime" type="button" value="19:00"></td>
+																											<td><input class="reservationTime" type="button" value="20:00"></td>
+																											<td><input class="reservationTime" type="button" value="21:00"></td>
+																											<td><input class="reservationTime" type="button" value="22:00"></td>
+																											<td><input class="reservationTime" type="button" value="23:00"></td>
+																											<td><input class="reservationTime" type="button" value="24:00"></td>
+																                                		</tr>
+																                                	</tbody>
+																                                </table>
+																                            </div>
+																                        </div>
+																                        <div class="row">
+																                            <div class="col-xs-12">
+																                                <label class="col-xs-4" for="edit-start">시작</label>
+																                                <!-- 30분 단위로 되게끔 수정 -->
+																                                <input class="inputModal lesson" type="text" name="reservationStartTime" id="edit-start" readonly="readonly"/>
+																                            </div>
+																                        </div>
+																                        <div class="row">
+																                            <div class="col-xs-12">
+																                                <label class="col-xs-4" for="edit-end">끝</label>
+																                                <!-- 30분 단위로 되게끔 수정 -->
+																                                <input class="inputModal lesson" type="text" name="reservationEndTime" id="edit-end" readonly="readonly"/>
+																                            </div>
+																                        </div>
+																                        <div class="row">
+																                            <div class="col-xs-12">
+																                                <label class="col-xs-4" for="edit-desc">설명</label>
+																                                <textarea rows="4" cols="50" class="inputModal" name="edit-desc"
+																                                    id="edit-desc" readonly="readonly">
+																									간단한 레슨 설명?
+																								</textarea>
+																                            </div>
+																                        </div>
+																                    </div>
+																                    <div class="modal-footer modalBtnContainer-modifyEvent">
+																                        <button type="button" class="btn btn-primary" id="updateEvent">예약하기</button>
+																                    </div>
+															                    </form>
+															                </div><!-- /.modal-content -->
+															            </div><!-- /.modal-dialog -->
+															        </div><!-- /.modal -->
 																</div>
 															</div>
-								                       </div>
+								                        </div>
 								                    </div>
 							                        <div class="col-lg-4">
 							                            <div class="checkout__order">
@@ -325,9 +397,9 @@
 							                                        <li>
 							                                        	예약시간
 							                                        	<span class="totalTime"></span>
-							                                        	<span class="endTime"></span>
+							                                        	<span class="endTime">-</span>
 							                                        	<input type="hidden" id="bookingEndTime" name="bookingEndTime">
-							                                        	<span class="startTime">-</span>
+							                                        	<span class="startTime"></span>
 							                                        	<input type="hidden" id="bookingStartTime" name="bookingStartTime">
 							                                        </li>
 							                                    </ul>
@@ -353,7 +425,7 @@
 	                            </div>
 	                            <div class="tab-pane" id="tabs-2" role="tabpanel">
 	                                <h6><i class="fa fa-map-marker"></i>위치정보</h6>
-	                                <p class="pre" th:text="${l.facility.facilityAddr} + ' ' + ${l.facility.facilityDetailAddr}" ></p>
+	                                <p th:text="${l.facility.facilityAddr} + ' ' + ${l.facility.facilityDetailAddr}" ></p>
                              		<div class="x_content">
 										<div class="table-responsive">
 												<input type="hidden" th:value ="${l.facility.facilityAddr}" class="placeAddr">
@@ -492,7 +564,14 @@
 	<!-- modal end -->
 
 <script th:src="@{/resource/js/map.js}"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+<script th:src="@{/calendar/js/jquery.min.js}"></script>
+<script th:src="@{/calendar/js/bootstrap.min.js}"></script>
+<script th:src="@{/calendar/js/moment.min.js}"></script>
+<script th:src="@{/calendar/js/bootstrap-datetimepicker.min.js}"></script>
+<script th:src="@{/calendar/js/select2.min.js}"></script>
+<script th:src="@{/calendar/js/customStadium.js}"></script>
+<script th:src="@{/calendar/js/addReservation.js}"></script>
 
 </th:block>	  
 	  

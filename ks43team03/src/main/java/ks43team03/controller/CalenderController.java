@@ -61,12 +61,14 @@ public class CalenderController {
 	@PostMapping("/scheduleData")
 	public String scheduleData(@RequestBody Map<String, String> scheduleDate) {
 		String scheduleJson = "";
-		log.info("lessonDate : {}" ,scheduleDate);
+		log.info("scheduleDate : {}" ,scheduleDate);
 
 
 		ObjectMapper om = new ObjectMapper();
 		try {
-			scheduleJson = om.writeValueAsString(calenderService.findSearch(scheduleDate));
+			log.info("date : {}", calenderService.findSearch(scheduleDate));
+			Map<String, Object> dateMap = calenderService.findSearch(scheduleDate);
+			scheduleJson = om.writeValueAsString(dateMap.get("scheduleDate"));
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

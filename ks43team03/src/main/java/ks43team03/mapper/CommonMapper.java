@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import ks43team03.dto.Area;
 import ks43team03.dto.AreaCity;
+import ks43team03.dto.Order;
 import ks43team03.dto.Sports;
 
 @Mapper
@@ -67,6 +68,8 @@ public interface CommonMapper {
 	 *레슨/대관 예약 하기
 	 **/
 	public int setReservation(Map<String, String> reservationData);
+
+	public Order goodsOrderCheck(Map<String, String> paramMap);
 	
 
 }

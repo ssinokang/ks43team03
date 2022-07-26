@@ -21,48 +21,6 @@
 
 					<div class="clearfix"></div>
 				</div>
-
-				<!-- <div class="row">
-					<div class="col-sm-12 col-md-12 col-lg-12">
-							<div class="card card-warning">
-								<div class="card-header">
-									<h3 class="card-title">
-										<b>주문 조회</b>
-									</h3>
-								</div>
-								<div class="card-body">
-									
-											
-											
-											<form action="#" method="get">
-										<div class="form row">
-											<div class="form-group col-8">
-												<div class="input-group">
-													<div class="input-group-prepend">
-														<select class="form-control" id="exampleFormControlSelect1"
-															name="searchKey" style="font-size: 14px;">
-															<option value="ldgAddr">주문상태</option>
-															<option value="ldgName">상품명</option>
-														</select>
-													</div>
-													<input type="text" name="searchValue" class="form-control"
-														id="formGroupExampleInput" placeholder="검색 키워드를 입력하세요."
-														style="font-size: 14px;">
-													<div class="input-group-prepend">
-														<button type="button" class="btn btn-outline-danger"
-															style="font-size: 14px; background: #ec5552; color: #fff;">검색</button>
-													</div>
-												</div>
-											</div>
-										</div>
-									</form>
-										</div>
-								</div>
-							</div>
-						</div>
-				</div> -->
-
-
 				<div class="row">
 					<div class="col-sm-12 col-md-12 col-lg-12">
 						<div class="card card-warning">
@@ -83,7 +41,7 @@
 												
 												<div class="input-group">
 													<div class="input-group-prepend">
-														<span class="input-group-text" id="basic-addon1">시설명</span>
+														<span class="input-group-text" id="basic-addon1" style="font-size: 14px;">시설명</span>
 													</div>
 													<select class="form-control" id="facility-select" name="searchKey"
 														style="font-size: 14px;">
@@ -104,12 +62,18 @@
 								<form action="#" method="get">
 									<div class="form row">
 										<div class="form-group col-12">
-											<div class="input-group">
+											
+											<div class="form row">
+												<div class="form-group col-12">
 												
+												</div>
+											</div>
+											<div class="input-group">
 												<div class="input-group-prepend">
-														<input type="date" id="date-before" class="form-control" style="font-size: 14px; display: inline;">
+														
+														<input type="date" id="date-before" name="date-before" class="form-control" style="font-size: 14px; display: inline;">
 														~
-														<input type="date" id="date-after" class="form-control" style="font-size: 14px; display: inline;">	
+														<input type="date" id="date-after" name="date-after" class="form-control" style="font-size: 14px; display: inline;">	
 													<select class="form-control" id="exampleFormControlSelect1"
 														name="searchKey" style="font-size: 14px;">
 														<option value="ldgAddr">주문상태</option>
@@ -135,7 +99,7 @@
 
 
 							<div class="table-responsive row" id="orderList">
-								<table class="table table-striped jambo_table bulk_action">
+								<table class="table jambo_table bulk_action">
 									<thead>
 										<tr class="headings">
 
@@ -159,19 +123,19 @@
 									</thead>
 
 									<tbody>
-										<tr class="even pointer" th:if="${not #lists.isEmpty(orderList)}"
+										<tr th:if="${not #lists.isEmpty(orderList)}"
 											th:each="order : ${orderList}">
 											<td th:text="${order.orderRegDate}"></td>
 											<td th:text="${order.pay.payRegDate}"></td>
 											
-											<td class=" " th:text="${order.orderCd}"> </td>
-											<td class=" " th:text="${order.orderPayState}"> </td>
-											<td class=" " th:text="${order.userId}"> </td>
-											<td class=" " th:text="${order.orderPayPrice}"></td>
-											<td class=" " th:text="${order.payType.name}"></td>
-											<td class=" " th:text="${order.facility.facilityNm}">땡떙체육관</td>
+											<td th:text="${order.orderCd}"> </td>
+											<td th:text="${order.orderPayState}"> </td>
+											<td th:text="${order.userId}"> </td>
+											<td th:text="${order.orderPayPrice}"></td>
+											<td th:text="${order.payType.name}"></td>
+											<td th:text="${order.facility.facilityNm}">땡떙체육관</td>
 											<td class=" last"><a
-													th:href="@{/admin/order/orderDetail(orderCd=${order.orderCd},goodsCtgCd=${order.goodsCtgCd})}">View</a>
+													th:href="@{/admin/order/orderDetail(orderCd=${order.orderCd},goodsCtgCd=${order.goodsCtgCd})}">상세보기</a>
 											</td>
 										</tr>
 										<tr th:unless="${not #lists.isEmpty(orderList)}">

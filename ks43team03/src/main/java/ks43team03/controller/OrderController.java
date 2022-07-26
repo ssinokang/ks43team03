@@ -90,7 +90,7 @@ public class OrderController {
 							 ,@RequestParam(name = "orderCd")String orderCd) {
 		log.info("화면에서 받은  orderCd 데이터 : {}", orderCd);
 		log.info("화면에서 받은 userId 데이터 : {}", userId);
-		Order order = orderService.getOrderByCode(orderCd);
+		Order order = orderService.getOrderDetailByOrderCd(orderCd);
 		model.addAttribute("title", userId + "님의 구매하신 상품상세정보");
 		model.addAttribute("order", order);
 		return "order/orderDetail";

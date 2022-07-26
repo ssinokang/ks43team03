@@ -1,15 +1,10 @@
 package ks43team03.service;
 
 
-import static ks43team03.exception.ErrorMessage.DATABASE_ERROR;
-import static ks43team03.exception.ErrorMessage.IS_EMPTY_USER;
-import static ks43team03.exception.ErrorMessage.NOT_EXITS_PAYMENT_TYPE_ERROR;
-import static ks43team03.exception.ErrorMessage.NOT_FOUND_ORDER;
-import static ks43team03.exception.ErrorMessage.ORDER_DELETE_ERROR;
-import static ks43team03.exception.ErrorMessage.ORDER_ERROR_ORDER_PRICE;
-import static ks43team03.exception.ErrorMessage.USER_ERROR_USER_NOT_FOUND;
+import static ks43team03.exception.ErrorMessage.*;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,11 +119,39 @@ public class OrderService {
 	 * @return
 	 */
 	
-	//== 주문 상세 조회 ==//
+	//== 주문 조회 ==//
 	public Order getOrderByCode(String orderCd) {
 		Order order = orderMapper.getOrderByCode(orderCd).orElseThrow(()-> new CustomException(NOT_FOUND_ORDER));
 		return order;
 	}
+	
+	//== 주문 상세조회  ==//
+	public Order getOrderDetailByOrderCd(String orderCd) {
+		Order order = orderMapper.getOrderDetailByOrderCd(orderCd)
+				.orElseThrow(()-> new CustomException(NOT_FOUND_ORDER));
+		dayCheck(order);
+		
+		return order;
+	}
+	
+	private void dayCheck(Order order) {
+		
+		LocalDate orderDate = LocalDate.parse(order.getOrderRegDate());
+		
+		LocalDate now = LocalDate.now();
+		log.info("now Date : {}", now);
+		long day = orderDate.until(now,ChronoUnit.DAYS);
+		log.info("day date : {}", day);
+		if(day > 7L) {
+			order.setCancelDay(true);
+		}else {
+			order.setCancelDay(false);
+		}
+		
+		
+		
+	}
+	
 	
 	//== 회원이 주문한 내역 ==//
 	/**

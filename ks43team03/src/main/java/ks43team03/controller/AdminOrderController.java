@@ -63,6 +63,10 @@ public class AdminOrderController {
 	public String facilityOrderList(@RequestParam(required = false, defaultValue = "1")int currentPage, OrderSearchDto order ,Model model){
 		
 		String level = order.getLevel();
+		if(!"1".equals(level) && order.getFacilityCd() == null) {
+			return "admin/order/adminOrderList :: #orderList";
+		}
+		
 		PageDto<Order> page  = orderService.getSearchOrderList(order,currentPage);
 		log.info("orderList : {}", page);
 		model.addAttribute("orderList", page.getList());

@@ -25,6 +25,9 @@ public interface OrderMapper {
 	// 주문코드 주문및결제정보 
 	public Order getOrderAndPayInfomationByOrderCd(String orderCd);
 	
+	// 주문 상품 상세조회
+	public Optional<Order> getOrderDetailByOrderCd(String orderCd);
+	
 	//대관 주문내역 상세
 	public Order getOrderDetailWithStadium(String orderCd);
 	//레슨 주문내역 상세

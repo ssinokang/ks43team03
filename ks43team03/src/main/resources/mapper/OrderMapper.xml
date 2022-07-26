@@ -154,6 +154,39 @@
 			,'N'
 		)
 	</insert>
+	<!-- 주문하신 상품 디테일  -->
+	<select id="getOrderDetailByOrderCd" resultMap="orderResultMap" parameterType="String">
+		SELECT
+			g.facility_goods_cd, g.facility_cd, g.goods_ctg_cd, g.sports_cd, g.user_id, g.facility_goods_reg_date, g.facility_goods_state,
+			o.order_cd,
+			o.user_id,
+			o.facility_goods_cd,
+			o.goods_ctg_cd,
+			o.order_uuid_id,
+			o.order_price,
+			o.order_user_point,
+			o.order_used_point,
+			o.order_pay_price,
+			o.order_reg_date,
+			o.order_pay_state,
+			o.pay_type,
+			f.facility_cd,
+			f.facility_nm,
+			f.facility_tell
+		FROM
+			goods_order AS o 
+			INNER join
+			facility_goods AS g
+			on
+			o.facility_goods_cd = g.facility_goods_cd
+			INNER join
+			facility AS f
+			on
+			f.facility_cd = g.facility_cd
+		WHERE
+			o.order_cd = #{orderCd}
+			
+	</select>
 	
 	<!-- 전체 주문 횟수 -->
 	<select id="getOrderCount" resultType="int">
@@ -491,16 +524,18 @@
 	<!-- 대관 주문내역 -->
 	<select id="getOrderDetailWithStadium" parameterType="String" resultMap="orderResultMap">
 		SELECT
-			o.order_cd
-			,o.user_id
-			,o.facility_goods_cd
-			,o.goods_ctg_cd
-			,o.order_price
-			,o.order_user_point
-			,o.order_used_point
-			,o.order_pay_price
-			,o.order_reg_date
-			,o.order_pay_state
+			o.order_cd,
+			o.user_id,
+			o.facility_goods_cd,
+			o.goods_ctg_cd,
+			o.order_uuid_id,
+			o.order_price,
+			o.order_user_point,
+			o.order_used_point,
+			o.order_pay_price,
+			o.order_reg_date,
+			o.order_pay_state,
+			o.pay_type,
 			,g.sports_cd
 			,g.facility_cd
 			,g.user_id
@@ -533,16 +568,18 @@
 	<!-- 레슨 주문 내역 -->
 	<select id="getOrderDetailWithLesson" parameterType="String" resultMap="orderResultMap">
 		SELECT
-			o.order_cd
-			,o.user_id
-			,o.facility_goods_cd
-			,o.goods_ctg_cd
-			,o.order_price
-			,o.order_user_point
-			,o.order_used_point
-			,o.order_pay_price
-			,o.order_reg_date
-			,o.order_pay_state
+			o.order_cd,
+			o.user_id,
+			o.facility_goods_cd,
+			o.goods_ctg_cd,
+			o.order_uuid_id,
+			o.order_price,
+			o.order_user_point,
+			o.order_used_point,
+			o.order_pay_price,
+			o.order_reg_date,
+			o.order_pay_state,
+			o.pay_type,
 			,g.sports_cd
 			,g.facility_cd
 			,g.user_id
@@ -577,16 +614,18 @@
 	<!-- 이용권 주문내역 -->
 	<select id="getOrderDetailWithPass" parameterType="String" resultMap="orderResultMap">
 		SELECT
-			o.order_cd
-			,o.user_id
-			,o.facility_goods_cd
-			,o.goods_ctg_cd
-			,o.order_price
-			,o.order_user_point
-			,o.order_used_point
-			,o.order_pay_price
-			,o.order_reg_date
-			,o.order_pay_state
+			o.order_cd,
+			o.user_id,
+			o.facility_goods_cd,
+			o.goods_ctg_cd,
+			o.order_uuid_id,
+			o.order_price,
+			o.order_user_point,
+			o.order_used_point,
+			o.order_pay_price,
+			o.order_reg_date,
+			o.order_pay_state,
+			o.pay_type,
 			,g.sports_cd
 			,g.facility_cd
 			,g.user_id
@@ -630,6 +669,7 @@
 			o.order_pay_price,
 			o.order_reg_date,
 			o.order_pay_state,
+			o.pay_type,
 			o.pay_type,
 			g.facility_cd,
 			f.facility_nm,

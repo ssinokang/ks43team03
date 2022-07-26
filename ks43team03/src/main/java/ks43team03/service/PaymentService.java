@@ -203,15 +203,4 @@ public class PaymentService {
 		}
 	}
 
-	public List<Pay> getAllPayment() {
-
-		return null;
-	}
-
-	// 회원이 조회한 결제정보
-	public List<Pay> getAllPaymentByUserId(String userId) {
-
-		return null;
-	}
-
 }

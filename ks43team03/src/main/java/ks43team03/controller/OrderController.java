@@ -41,7 +41,6 @@ public class OrderController {
 	private final FacilityGoodsService facilityGoodsService;
 	private final UserService userService;
 	
-	
 	public OrderController(OrderService orderService,FacilityGoodsService facilityGoodsService,UserService userService) {
 		this.orderService = orderService;
 		this.facilityGoodsService = facilityGoodsService;
@@ -63,10 +62,12 @@ public class OrderController {
 	@GetMapping("/addOrder")
 	public String order(Model model,HttpSession session ,
 									 @RequestParam(name = "facilityGoodsCd" , required = false)String facilityGoodsCd,
-									 @RequestParam(name = "goodsCtgCd" , required = false,defaultValue = "pass")String goodsCtgCd) {
+									 @RequestParam(name = "goodsCtgCd" , required = false)String goodsCtgCd) {
 		
 		
-		facilityGoodsCd = "ss_35011600_04_pass_11";
+		log.info("facilityGoodsCd : {}", facilityGoodsCd);
+		log.info("goodsCtgCd : {}", goodsCtgCd);
+		
 		String userId = (String)session.getAttribute("SID");
 		User user = userService.getUserInfoById(userId);
 		
@@ -88,7 +89,7 @@ public class OrderController {
 							 ,@RequestParam(name = "orderCd")String orderCd) {
 		log.info("화면에서 받은  orderCd 데이터 : {}", orderCd);
 		log.info("화면에서 받은 userId 데이터 : {}", userId);
-		Order order = orderService.getOrderByCode(orderCd);
+		Order order = orderService.getOrderDetailByOrderCd(orderCd);
 		model.addAttribute("title", userId + "님의 구매하신 상품상세정보");
 		model.addAttribute("order", order);
 		return "order/orderDetail";

@@ -39,5 +39,21 @@ public class WebConfig implements WebMvcConfigurer{
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}
 	*/
-	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		
+		registry.addInterceptor(loginInterceptor)
+				.addPathPatterns("/admin/**")
+				.addPathPatterns("/trainer/addTrainer")
+				.addPathPatterns("/trainer/modifyTrainer")
+				.addPathPatterns("/adminFacility/addFacility")
+				.addPathPatterns("/stadium/addStadium")
+				.excludePathPatterns("/css/**")
+				.excludePathPatterns("/js/**")
+				.excludePathPatterns("/favicon.ico")
+				.excludePathPatterns("/");
+				
+		
+		WebMvcConfigurer.super.addInterceptors(registry);
+	}
 }

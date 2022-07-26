@@ -82,16 +82,7 @@ function addReservation(fixedDate) {
       console.log(clickDay);
    });
    //가격 구하기 함수
-   /*
-      if(예약 날짜 == 공휴일)
-         반절 가격a = 끝나는 시간 - 야간기준시 ? > 0 (일반가+야간가+공휴일가)*(야간기준시 - 끝나는 시간) : (일반가+공휴일가)*(|야간가 - 끝나는 시간|)
-         반절 가격b = 시작하는 시간 - 야간기준시 ? > 0 (일반가+야간가+공휴일가)*(야간기준시 - 시작하는 시간) : (일반가+공휴일가)*(|야간가 - 시작하는 시간|)
-         최종 가격 = a+
-      else
-         반절 가격a = 끝나는 시간 - 야간기준시 ? > 0 (일반가+야간가)*(야간가 - 끝나는 시간) : (일반가)*(|야간가 - 끝나는 시간|)
-         반절 가격b = 시작하는 시간 - 야간기준시 ? > 0 (일반가+야간가)*(야간가 - 시작하는 시간) : (일반가)*(|야간가 - 시작하는 시간|)
-         최종 가격 = a+b
-    */
+
    function getPrice(fixedDate, endTime, startTime) {
       
       var nightTime  = moment("18:00", "HH:mm");
@@ -99,22 +90,24 @@ function addReservation(fixedDate) {
       var mEndTime   = moment(endTime, "HH:mm");
       var mStartTime = moment(startTime, "HH:mm");
 
-      console.log((moment.duration(nightTime.diff(mEndTime)).asHours()));
       var price       = 0;
       var dayPrice    = Number(fixedDate.stadiumPrice.dayPrice);
       var nightPrice  = Number(fixedDate.stadiumPrice.nightPrice);
       var holPrice    = Number(fixedDate.stadiumPrice.holPrice);
 
-      console.log(moment.duration(nightTime.diff(mEndTime)).asHours());
       var afterPrice  = 0;
       var beforePrice = 0;
       var day = new Date(clickDay).getDay()
+      
+      console.log(mEndTime);
+      console.log(mStartTime);
+      
       if(day == 0 || day == 6) {
-         afterPrice  = nightTime.isAfter(mEndTime)   ? (dayPrice + nightPrice + holPrice)  : (dayPrice + holPrice));
-         beforePrice = nightTime.isAfter(mStartTime) ? (dayPrice + nightPrice + holPrice)  : (dayPrice + holPrice));
+    	  afterPrice  = nightTime.isSameOrBefore(mEndTime)   ? (dayPrice + nightPrice + holPrice)  : dayPrice + holPrice;
+    	  beforePrice = nightTime.isBefore(mStartTime) 		 ? (dayPrice + nightPrice + holPrice)  : dayPrice + holPrice;
       } else {
-         afterPrice  = nightTime.isAfter(mEndTime)   ? (dayPrice + nightPrice)  : dayPrice));
-         beforePrice = nightTime.isAfter(mStartTime) ? (dayPrice + nightPrice)  : dayPrice));
+    	  afterPrice  = nightTime.isSameOrBefore(mEndTime)   ? (dayPrice + nightPrice)  : dayPrice;
+    	  beforePrice = nightTime.isBefore(mStartTime) 		 ? (dayPrice + nightPrice)  : dayPrice;
       }
     
       var sumPrice = afterPrice + beforePrice;

@@ -1,5 +1,6 @@
 package ks43team03.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +22,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import ks43team03.dto.Area;
+import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityGoods;
 import ks43team03.dto.Lesson;
 import ks43team03.dto.Order;
+import ks43team03.service.AdminFacilityService;
 import ks43team03.service.CommonService;
 import ks43team03.service.LessonService;
 import ks43team03.service.SearchService;
@@ -34,14 +37,16 @@ import ks43team03.strategy.enumeration.SearchStrategyName;
 public class LessonController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	
-	private final LessonService lessonService;
-	private final CommonService commonService;
-	private final SearchService searchService;
+	private final LessonService 	   lessonService;
+	private final CommonService 	   commonService;
+	private final SearchService 	   searchService;
+	private final AdminFacilityService adminFacilityService;
 	
-	public LessonController(LessonService lessonService, CommonService commonService, SearchService searchService) {
-		this.lessonService = lessonService;
-		this.commonService = commonService;
-		this.searchService = searchService;
+	public LessonController(LessonService lessonService, CommonService commonService, SearchService searchService, AdminFacilityService adminFacilityService) {
+		this.lessonService 		  = lessonService;
+		this.commonService 		  = commonService;
+		this.searchService		  = searchService;
+		this.adminFacilityService = adminFacilityService;
 	}
 	
 	/**
@@ -108,8 +113,6 @@ public class LessonController {
 		SearchStrategyName searchName = SearchStrategyName.valueOf(searchCtg);
 		
 		
-		List<Area> areaList = commonService.getAreaList();
-		
 		searchMap.put("searchCtg", searchCtg);
 		Map<String, Object> resultMap = searchService.findSearch(searchName, searchMap, currentPage);
 		
@@ -118,7 +121,6 @@ public class LessonController {
 		model.addAttribute("startPageNum"		, resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum"			, resultMap.get("endPageNum"));
 		model.addAttribute("currentPage"		, currentPage);
-		model.addAttribute("areaList"			, areaList);
 		model.addAttribute("title", 			"레슨 목록");
 		return "lesson/lessonListUser";
 	};
@@ -190,14 +192,25 @@ public class LessonController {
 	 * 시설 내에 등록된 레슨 리스트
 	 **/
 	@GetMapping("/facilityLessonList")
-	public String facilityLessonList(@RequestParam(name="facilityCd") String facilityCd
+	public String facilityLessonList(HttpSession session
 									,Model model) {
+		String sessionId = (String) session.getAttribute("SID");
+		List<Facility> adminFacilityListById = adminFacilityService.getAdminFacilityListById(sessionId);
+		log.info(adminFacilityListById + "{} : lessonController/facilityLesosnLilst");
 		
-		System.out.println(facilityCd + "lessonController/facilityLesosnLilst");
-		List<Lesson> lessonList = lessonService.getfacilityLessonList(facilityCd);
-		model.addAttribute("lessonList", lessonList);
+		List<Map<String, Object>> resultMap = new ArrayList<>();
+		for (Facility facility : adminFacilityListById) {
+			Map<String, Object> midMap = new HashMap<>();
+			List<Lesson> lessonList = lessonService.getfacilityLessonList(facility.getFacilityCd());
+			midMap.put("lessonList", lessonList);
+			midMap.put("facility", facility);
+			
+			resultMap.add(midMap);
+		}
+		log.info("resultMap : {}", resultMap);
+		model.addAttribute("resultMap", resultMap);
 		model.addAttribute("title", "레슨리스트");
-		log.info("lessonList = {}", lessonList);
+		
 		return "lesson/lessonList";
 	}
 	

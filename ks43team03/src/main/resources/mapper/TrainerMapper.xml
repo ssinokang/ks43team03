@@ -214,13 +214,13 @@
 				AND
 				fu.facility_user_level = '트레이너'
 			</if>
-			<if test="cityCd != null and cityCd != ''">
+			<if test="areaCd != null and areaCd != ''">
 			AND
-				act.city_cd = #{cityCd}
+				act.area_cd = #{areaCd}
 			</if>
-	   		<if test="townCd != null and townCd != ''">
+	   		<if test="cityCd != null and cityCd != ''">
 			AND
-				f.town_cd = #{townCd}
+				f.city_cd LIKE CONCAT(#{cityCd}, '%')
 			</if>
 	   		<if test="searchValue != null and searchValue != '' ">
 			AND

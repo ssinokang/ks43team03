@@ -27,7 +27,8 @@
 			<result column="facility_post_num"			property="facilityPostNum"/>
 			<result column="facility_detail_addr"		property="facilityDetailAddr"/>
 			<result column="area_cd"					property="areaCd"/>
-			<result column="city_cd"					property="cityCd"/>			
+			<result column="city_cd"					property="cityCd"/>	
+			<result column="facility_detail"  			property="facilityDetail"/>		
 		</association>
 		
 		<association property="user" javaType="User">

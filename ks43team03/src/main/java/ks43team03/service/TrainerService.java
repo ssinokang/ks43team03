@@ -178,6 +178,9 @@ public class TrainerService {
 		// uproaderId
 		String userId = trainerProfile.getUserId();
 		
+		// 트레이너 등록 - 트레이너 코드 selectKey로 담아 줌
+		trainerMapper.addtrainer(trainerProfile);
+		
 		//파일 업로드 위한 객체 생성 
 		FileUtils fu = new FileUtils(trainerImgFile, userId, fileRealPath);
 		List<Map<String, String>> dtoFileList = fu.parseFileInfo();
@@ -186,8 +189,6 @@ public class TrainerService {
 		log.info("addTrainer dtoFileList : {}", dtoFileList);
         fileMapper.uploadFile(dtoFileList);
 		
-		// 트레이너 등록 - 트레이너 코드 selectKey로 담아 줌
-		trainerMapper.addtrainer(trainerProfile);
 		log.info("add 이후 trainerProfile : {}", trainerProfile);
 		
 		String trainerCd = trainerProfile.getTrainerCd();

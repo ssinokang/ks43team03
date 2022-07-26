@@ -227,10 +227,10 @@
 		   			f.main_ctg_cd = #{mainCtgCd}
 		   		</if>
 		   		<if test="cityCd != null and cityCd != ''">
-		   			and f.city_cd = #{cityCd}
+		   			and f.city_cd LIKE CONCAT(#{cityCd}, '%')
 		   		</if>
-		   		<if test="townCd != null and townCd != ''">
-		   			and f.town_cd = #{townCd}
+		   		<if test="areaCd != null and areaCd != ''">
+		   			and f.area_cd = #{areaCd}
 		   		</if>
 		   		<if test="sportsCd != null and sportsCd != '' ">
 		   			and f.sports_cd = #{sportsCd}
@@ -239,7 +239,7 @@
 					and f.facility_nm LIKE CONCAT('%', #{searchValue}, '%')
 		   		</if>
 	   		</trim>
-	   		ORDER BY facility_reg_date DESC
+	   		ORDER BY facility_reg_date asc
 			LIMIT #{startRow}, #{rowPerPage}
 		</select>
 	

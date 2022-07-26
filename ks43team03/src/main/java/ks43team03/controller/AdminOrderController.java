@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ks43team03.dto.Facility;
 import ks43team03.dto.Order;
+import ks43team03.dto.OrderSearchDto;
 import ks43team03.dto.PageDto;
 import ks43team03.service.AdminFacilityService;
 import ks43team03.service.OrderService;
@@ -58,16 +59,15 @@ public class AdminOrderController {
 	 *   facility Cd 받음 :: 
 	 */
 	
-	@GetMapping("/order/facility")
-	public String facilityOrderList(@RequestParam(required = false) String facilityCd, @RequestParam(required = false)String level  
-			,Model model,@RequestParam(required = false, defaultValue = "1")int currentPage) {
+	@GetMapping("/order/search")
+	public String facilityOrderList(@RequestParam(required = false, defaultValue = "1")int currentPage, OrderSearchDto order ,Model model){
 		
-		PageDto<Order> page = null;
-		if("1".equals(level)) {
-			page = orderService.getOrderAll(currentPage);
-		}else if(!"1".equals(level)) {
-			page = orderService.getOrderInfoForFacility(facilityCd,currentPage);
+		String level = order.getLevel();
+		if(!"1".equals(level) && order.getFacilityCd() == null) {
+			return "admin/order/adminOrderList :: #orderList";
 		}
+		
+		PageDto<Order> page  = orderService.getSearchOrderList(order,currentPage);
 		log.info("orderList : {}", page);
 		model.addAttribute("orderList", page.getList());
 		model.addAttribute("currentPage", currentPage);
@@ -93,9 +93,4 @@ public class AdminOrderController {
 		return "admin/order/orderDetail";
 	}
 	
-	
-	@GetMapping("/order/search")
-	public String orderSearch() {
-		return "redirect:/";
-	}
 }

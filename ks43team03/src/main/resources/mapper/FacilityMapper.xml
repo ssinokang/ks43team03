@@ -229,8 +229,8 @@
 		   		<if test="cityCd != null and cityCd != ''">
 		   			and f.city_cd = #{cityCd}
 		   		</if>
-		   		<if test="townCd != null and townCd != ''">
-		   			and f.town_cd = #{townCd}
+		   		<if test="areaCd != null and areaCd != ''">
+		   			and f.area_cd = #{areaCd}
 		   		</if>
 		   		<if test="sportsCd != null and sportsCd != '' ">
 		   			and f.sports_cd = #{sportsCd}

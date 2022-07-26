@@ -284,11 +284,11 @@
 		   		<if test="mainCtgCd != null and mainCtgCd != '' ">
 		   			f.main_ctg_cd = #{mainCtgCd}
 		   		</if>
-		   		<if test="cityCd != null and cityCd != ''">
-		   			and f.city_cd = #{cityCd}
+		   		<if test="areaCd != null and areaCd != ''">
+		   			and f.area_cd = #{areaCd}
 		   		</if>
-		   		<if test="townCd != null and townCd != ''">
-		   			 and f.town_cd = #{townCd}
+		   		<if test="cityCd != null and cityCd != ''">
+		   			 and f.city_cd = #{cityCd}
 		   		</if>
 		   		<if test="sportsCd != null and sportsCd != '' ">
 		   			and fs.sports_cd = #{sportsCd}

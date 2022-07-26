@@ -1,8 +1,13 @@
 package ks43team03.service;
 
 
+import static ks43team03.exception.ErrorMessage.*;
+
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.logging.log4j.util.Strings;
@@ -12,13 +17,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks43team03.dto.Order;
+import ks43team03.dto.OrderSearchDto;
 import ks43team03.dto.PageDto;
 import ks43team03.dto.ResponseGoods;
 import ks43team03.dto.User;
 import ks43team03.dto.type.GoodsType;
 import ks43team03.dto.type.OrderState;
 import ks43team03.exception.CustomException;
-import static ks43team03.exception.ErrorMessage.*;
 import ks43team03.mapper.OrderMapper;
 import ks43team03.mapper.UserMapper;
 
@@ -114,11 +119,39 @@ public class OrderService {
 	 * @return
 	 */
 	
-	//== 주문 상세 조회 ==//
+	//== 주문 조회 ==//
 	public Order getOrderByCode(String orderCd) {
 		Order order = orderMapper.getOrderByCode(orderCd).orElseThrow(()-> new CustomException(NOT_FOUND_ORDER));
 		return order;
 	}
+	
+	//== 주문 상세조회  ==//
+	public Order getOrderDetailByOrderCd(String orderCd) {
+		Order order = orderMapper.getOrderDetailByOrderCd(orderCd)
+				.orElseThrow(()-> new CustomException(NOT_FOUND_ORDER));
+		dayCheck(order);
+		
+		return order;
+	}
+	
+	private void dayCheck(Order order) {
+		
+		LocalDate orderDate = LocalDate.parse(order.getOrderRegDate());
+		
+		LocalDate now = LocalDate.now();
+		log.info("now Date : {}", now);
+		long day = orderDate.until(now,ChronoUnit.DAYS);
+		log.info("day date : {}", day);
+		if(day > 7L) {
+			order.setCancelDay(true);
+		}else {
+			order.setCancelDay(false);
+		}
+		
+		
+		
+	}
+	
 	
 	//== 회원이 주문한 내역 ==//
 	/**
@@ -186,6 +219,20 @@ public class OrderService {
 		page.setList(orderList);
 		return page;
 	}
+	
+	public PageDto<Order> getSearchOrderList(OrderSearchDto orderSearchDto,int currentPage){
+ 		double rowCount =  orderMapper.getSearchOrderCount(orderSearchDto);
+
+		PageDto<Order> page = new PageDto<>(rowCount, currentPage, 10);
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("search", orderSearchDto);
+		param.put("page", page);
+		
+		List<Order> orderList = orderMapper.getSearchOrderList(param);
+		page.setList(orderList);
+		return page;
+	}
+	
 	
 	/*
 	 * 

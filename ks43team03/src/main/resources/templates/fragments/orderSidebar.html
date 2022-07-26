@@ -17,8 +17,7 @@
 							<div id="collapseOne" class="collapse" data-parent="#mypagelink">
 								<div class="card-body">
 									<ul>
-										<li><a href="#">주문목록/주문조회</a></li>
-										<li><a href="#">CSS</a></li>
+										<li><a th:href="@{/order/orders/{id}(id=${session.SID})}">주문목록/주문조회</a></li>
 										<li><a href="#">취소/환불내역</a></li>
 									</ul>
 								</div>
@@ -62,7 +61,7 @@
 							<div id="collapseFour" class="collapse" data-parent="#mypagelink">
 								<div class="card-body">
 									<ul>
-										<li><a href="#">개인정보 확인</a></li>
+										<li><a th:href="@{/user/userDetail}">개인정보 확인</a></li>
 										<li><a href="#">결제 수단 관리</a></li>
 									</ul>
 								</div>

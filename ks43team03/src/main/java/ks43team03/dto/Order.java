@@ -30,6 +30,7 @@ public class Order {
 	
 	private Pay pay;
 	
+	private boolean isCancelDay;
 	
 	// 토스 주문ㅇㅏ이디
 	private String orderUUID;

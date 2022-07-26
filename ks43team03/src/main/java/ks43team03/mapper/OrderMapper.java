@@ -1,11 +1,13 @@
 package ks43team03.mapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import ks43team03.dto.Order;
+import ks43team03.dto.OrderSearchDto;
 import ks43team03.dto.PageDto;
 
 @Mapper
@@ -22,6 +24,9 @@ public interface OrderMapper {
 	
 	// 주문코드 주문및결제정보 
 	public Order getOrderAndPayInfomationByOrderCd(String orderCd);
+	
+	// 주문 상품 상세조회
+	public Optional<Order> getOrderDetailByOrderCd(String orderCd);
 	
 	//대관 주문내역 상세
 	public Order getOrderDetailWithStadium(String orderCd);
@@ -67,4 +72,9 @@ public interface OrderMapper {
 	// 시설관리자 주문카운트
 	public int getOrderByFacilityCount(String facilityCd);
 	
+	// 주문 관리 검색 카운트
+	public int getSearchOrderCount(OrderSearchDto orderSearchDto);
+	
+	// 주문관리 검색
+	public List<Order> getSearchOrderList(Map<String,Object> param);
 }

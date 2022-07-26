@@ -49,12 +49,14 @@ public class FacilityGoodsService {
 
 		switch (goodsCtgCd) {
 		case "lesson":
-			return new ResponseGoods();
+			FacilityGoods lessonGoods = facilityGoodsMapper.getFacilityGoodsLesson(facilityGoodsCd);
+			return lessonGoods.lessonDto();
 		case "stadium":
-			return new ResponseGoods();
+			FacilityGoods stadiumGoods = facilityGoodsMapper.getFacilityGoodsStadium(facilityGoodsCd);
+			return stadiumGoods.stadiumDto();
 		case "pass":
-			FacilityGoods facilityGoods = facilityGoodsMapper.getFacilityGoodsPassCd(facilityGoodsCd);
-			return facilityGoods.passDto();
+			FacilityGoods passGoods = facilityGoodsMapper.getFacilityGoodsPass(facilityGoodsCd);
+			return passGoods.passDto();
 		}
 		throw new CustomException(ErrorMessage.NOT_FOUND_GOODS);
 	}

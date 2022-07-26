@@ -19,6 +19,10 @@ public interface FacilityGoodsMapper {
 	public Optional<FacilityGoods> getFacilityGoodsCd(String facilityGoodsCd);
 	
 	
-	public FacilityGoods getFacilityGoodsPassCd(String facilityGoodsCd);
+	public FacilityGoods getFacilityGoodsPass(String facilityGoodsCd);
+	
+	public FacilityGoods getFacilityGoodsLesson(String facilityGoodsCd);
+	
+	public FacilityGoods getFacilityGoodsStadium(String facilityGoodsCd);
 	
 }

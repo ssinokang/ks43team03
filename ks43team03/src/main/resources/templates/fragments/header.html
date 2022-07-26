@@ -23,20 +23,7 @@
 							</ul>
 						</li>
 						<li><a th:href="@{/lesson/lessonListForUser(searchCtg=LessonSearch)}">레슨!<br/><small>(김선원)</small></a>
-							<ul class="dropdown">
-								<li><a href="#">넣기전에</a></li>
-								<li><a href="#">항상</a></li>
-								<li><a href="#">먼저</a></li>
-								<li><a href="#">말씀해주세요~</a></li>
-							</ul>
-						</li>
-						<li><a href="#">이용권#<br/><small>(위찬복)</small></a>
-							<ul class="dropdown">
-								<li><a href="#">넣기전에</a></li>
-								<li><a href="#">항상</a></li>
-								<li><a href="#">먼저</a></li>
-								<li><a href="#">말씀해주세요~</a></li>
-							</ul>
+							
 						</li>
 						<li><a th:href="@{/stadium/stadiumList(searchCtg=StadiumSearch)}">구장!<br/><small>(정다운)</small></a>
 							<ul class="dropdown">
@@ -76,12 +63,21 @@
 								[[${session.SNAME}]]님 마이페이지!
 							</a>
 							<a th:href="@{/logout}">Logout<br/><small>(강신호) / (김지혜)</small></a>
+							
+							
 						</th:block>
 						<!-- <a href="#">Register</a> -->
 					</div>
 					<ul class="header__right__widget">
+						<th:block th:unless="${session.SID == null}">
+							<li>
+								<a th:href="@{/order/orders/{id}(id=${session.SID})}" title="회원주문페이지가기"><i class="fa fa-database"></i></a>
+							</li>
+						</th:block>
+						
 						<li><span class="icon_search search-switch"></span></li>
 						<li>
+						
 							<th:block th:unless="${session.SLEVEL == '5'}">
 								<i class="fa fa-heart" title="일반회원만 이용 가능합니다"></i>
 							</th:block>

@@ -17,7 +17,7 @@ $(function() {
 		$('#reservation-view').removeClass('none-display');
 	})
 	$('.order-button').on('click', function() {
-		console.log('작동')
+		console.log($('#userId').val());
 		if($('#userId').val() == null || $('#userId').val() =='') {
 			alert('로그인 후 이용해 주세요');
 		} else {

@@ -29,8 +29,8 @@
 			$('#bookingBtn').click(function(){
 				var isSubmit = true;
 				var id = $("#userId").val();
-				var bdate = $("#bookingDate").val();
-				var btime = $("#bookingStartTime").val();
+				var bdate = $("#resesrvationDate").val();
+				var btime = $("#reservationStartTime").val();
 				
 				if(id == ''){
 					alert("로그인 후 이용가능합니다.");
@@ -195,7 +195,7 @@
 	                            <div class="tab-pane active" id="tabs-1" role="tabpanel">	           
 	                                <section class="checkout spad" style="padding-top: 20px;">
 								        <div class="container">
-								            <form id="stadiumForm" th:action="@{/booking/addBooking}" method="post" class="checkout__form">
+								            <form id="stadiumForm" th:action="#" method="post" class="checkout__form">
 								                <div class="row">
 								                    <div class="col-lg-8" style="padding-bottom: 25px;">
 								                        <h5>구장정보</h5>
@@ -299,7 +299,7 @@
 																                        </div>
 																                    </div>
 																                    <div class="modal-footer modalBtnContainer-modifyEvent">
-																                        <button type="button" class="btn btn-primary" id="updateEvent">저장하기</button>
+																                        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="close" id="updateEvent">저장하기</button>
 																                    </div>
 															                    </form>
 															                </div><!-- /.modal-content -->
@@ -326,7 +326,7 @@
 							                                        <li>
 							                                        	예약날짜 
 							                                        	<span class="dateCheck">-</span>
-							                                        	<input type="hidden" id="bookingDate" name="reservationDate">	
+							                                        	<input type="hidden" id="reservationDate" name="reservationDate">	
 							                                        </li>
 							                                        <li>
 							                                        	예약시간

@@ -57,17 +57,19 @@ implements SearchStrategy{
 		}
 		
 		
-		List<Facility> searchList = facilityMapper.getFacilityList(facilityMap);
 		
 		resultMap.put("startRow", startRow);
 		resultMap.put("rowPerPage", rowPerPage);
 		resultMap.put("lastPage", 			lastPage);
-		resultMap.put("searchList",	searchList);
 		resultMap.put("startPageNum",		startPageNum);
 		resultMap.put("endPageNum",			endPageNum);
-		log.info("startRow : {}", startRow);
+		
 		facilityMap.put("startRow", startRow);
 		facilityMap.put("rowPerPage", rowPerPage);
+		log.info("facilityMap : {}", facilityMap);
+		List<Facility> searchList = facilityMapper.getFacilityList(facilityMap);
+		
+		resultMap.put("searchList",	searchList);
 		resultMap.put("path", "facility/facilityList");
 		
 		return resultMap;

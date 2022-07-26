@@ -222,7 +222,7 @@
 						tf.deleted_yn != 'Y') AS facility_file
 				on
 				f.facility_cd = facility_file.facility_cd
-			<trim prefix="WHERE" prefixOverrides="AND /OR ">
+			<trim prefix="WHERE" prefixOverrides="and">
 		   		<if test="mainCtgCd != null and mainCtgCd != '' ">
 		   			f.main_ctg_cd = #{mainCtgCd}
 		   		</if>

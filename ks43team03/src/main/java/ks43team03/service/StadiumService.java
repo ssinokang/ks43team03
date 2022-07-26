@@ -47,51 +47,6 @@ public class StadiumService {
 	
 	
 
-	/*회원이 구장 전체 조회*/
-	public Map<String, Object> getStadiumList(int currentPage) {
-		int rowPerPage = 9;
-
-		double rowCount = stadiumMapper.getStadiumCount();
-
-		int lastPage = (int) Math.ceil(rowCount / rowPerPage);
-
-		int startRow = (currentPage - 1) * rowPerPage;
-
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-
-		paramMap.put("startRow", startRow);
-		paramMap.put("rowPerPage", rowPerPage);
-
-		int startPageNum = 1;
-		int endPageNum = 10;
-
-		if (lastPage > 10) {
-			if (currentPage >= 6) {
-				startPageNum = currentPage - 4;
-				endPageNum = currentPage + 5;
-
-				if (endPageNum >= lastPage) {
-					startPageNum = lastPage - 9;
-					endPageNum = lastPage;
-				}
-			}
-		} else {
-			endPageNum = lastPage;
-		}
-
-		log.info("paramMap : {}", paramMap);
-
-		List<Map<String, Object>> stadiumList = stadiumMapper.getStadiumList(paramMap);
-
-	
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("lastPage", lastPage);
-		resultMap.put("stadiumList", stadiumList);
-		resultMap.put("startPageNum", startPageNum);
-		resultMap.put("endPageNum", endPageNum);
-		return resultMap;
-	}	
-	
 	
 	/*단가 수정*/
 	public int modifyStadiumPrice(StadiumPrice stadiumPrice) {

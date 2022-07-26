@@ -46,6 +46,8 @@ public class WebConfig implements WebMvcConfigurer{
 				.addPathPatterns("/admin/**")
 				.addPathPatterns("/trainer/addTrainer")
 				.addPathPatterns("/trainer/modifyTrainer")
+				.addPathPatterns("/adminFacility/addFacility")
+				.addPathPatterns("/stadium/addStadium")
 				.excludePathPatterns("/css/**")
 				.excludePathPatterns("/js/**")
 				.excludePathPatterns("/favicon.ico")

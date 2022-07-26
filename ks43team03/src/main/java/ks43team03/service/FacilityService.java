@@ -1,8 +1,7 @@
 package ks43team03.service;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,62 +95,6 @@ public class FacilityService {
 		
 		return facilityDetail;
 	}
-	
-	
-
-	/*시설조회*/
-	public Map<String, Object> getFacilityList(int currentPage, String mainCtgCd){
-		
-		int rowPerPage = 9;
-		int startPageNum = 1;
-		int endPageNum = 10;
-		
-		double rowCount = facilityMapper.getFacilityCount();
-		
-		int lastPage = (int)Math.ceil(rowCount/rowPerPage);
-		
-		int startRow = (currentPage - 1) * rowPerPage;
-		
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		
-		paramMap.put("startRow", startRow);
-		paramMap.put("rowPerPage", rowPerPage);
-		paramMap.put("mainCtgCd", mainCtgCd);
-		
-	
-		
-		if(lastPage > 10) {
-			if(currentPage >= 6) {
-				startPageNum = currentPage - 4;
-				endPageNum = currentPage + 5;
-				
-				if(endPageNum >= lastPage) {
-					startPageNum = lastPage - 9;
-					endPageNum = lastPage;
-				}
-			}
-		}else {
-			endPageNum = lastPage;
-		}
-		List<Map<String, Object>> facilityList = facilityMapper.getFacilityList(paramMap);
-		
-		log.info("paramMap : {}", paramMap);
-		
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("lastPage", 			lastPage);
-		resultMap.put("facilityList",	facilityList);
-		resultMap.put("startPageNum",		startPageNum);
-		resultMap.put("endPageNum",			endPageNum);
-		return resultMap;
-
-	
-	}
-
-	
-	
-	
-	
-	
 	
 	
 	

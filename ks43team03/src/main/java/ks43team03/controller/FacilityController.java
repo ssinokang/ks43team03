@@ -1,6 +1,7 @@
 package ks43team03.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ks43team03.dto.Area;
 import ks43team03.dto.Board;
 import ks43team03.dto.Facility;
 import ks43team03.dto.FacilityUser;
@@ -21,7 +23,10 @@ import ks43team03.dto.Lesson;
 import ks43team03.dto.Review;
 import ks43team03.dto.Stadium;
 import ks43team03.service.BoardService;
+import ks43team03.service.CommonService;
 import ks43team03.service.FacilityService;
+import ks43team03.service.SearchService;
+import ks43team03.strategy.enumeration.SearchStrategyName;
 
 @Controller
 @RequestMapping("/facility")
@@ -30,11 +35,17 @@ public class FacilityController {
 
 	private final FacilityService facilityService;
 	private final BoardService boardService;
+	private final CommonService commonService;
+	private final SearchService searchService;
 
 	public FacilityController(FacilityService facilityService
-							, BoardService boardService) {
+							, BoardService boardService
+							,CommonService commonService
+							,SearchService searchService) {
 		this.facilityService = facilityService;
 		this.boardService = boardService;
+		this.commonService = commonService;
+		this.searchService = searchService;
 	}
 	
 	/*시설 가입 중복 체크*/
@@ -104,20 +115,24 @@ public class FacilityController {
 	@GetMapping("/facilityList")
 	public String getFacilityList(Model model
 								 ,@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage
-								 ,@RequestParam(name = "mainCtgCd", required = false) String mainCtgCd){
-		Map<String, Object> resultMap = facilityService.getFacilityList(currentPage, mainCtgCd);
+								 ,@RequestParam(name="searchCtg", required = false) String searchCtg){
 		
-		log.info("resultMap : {}",resultMap);
-		log.info("resultMap.get(\"facilityList\") : {}",resultMap.get("facilityList"));
+		Map<String, Object> searchMap = new HashMap<>();
+		SearchStrategyName searchName = SearchStrategyName.valueOf(searchCtg);
 	
-
+		List<Area> areaList = commonService.getAreaList();
 		
-		model.addAttribute("resultMap", 			resultMap);
-		model.addAttribute("currentPage", 			currentPage);
-		model.addAttribute("facilityList",		resultMap.get("facilityList"));
+		searchMap.put("searchCtg", searchCtg);
+	
+		Map<String, Object> resultMap = searchService.findSearch(searchName, searchMap, currentPage);
+		log.info("resultMap : {}",resultMap);
+
+		model.addAttribute("searchList",			resultMap.get("searchList"));
 		model.addAttribute("lastPage", 				resultMap.get("lastPage"));
 		model.addAttribute("startPageNum", 			resultMap.get("startPageNum"));
 		model.addAttribute("endPageNum", 			resultMap.get("endPageNum"));
+		model.addAttribute("currentPage", 			currentPage);
+		model.addAttribute("areaList",				areaList);
 		model.addAttribute("title", "시설");
 		return "facility/facilityList";
 	}

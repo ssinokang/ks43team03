@@ -14,7 +14,7 @@
 				<nav class="header__menu">
 					<ul>
 
-						<li><a th:href="@{/facility/facilityList}">시설!<br/><small>(정다운)</small></a>
+						<li><a th:href="@{/facility/facilityList(searchCtg=FacilitySearch)}">시설!<br/><small>(정다운)</small></a>
 							<ul class="dropdown">
 								<li><a href="#">넣기전에</a></li>
 								<li><a href="#">항상</a></li>
@@ -38,7 +38,7 @@
 								<li><a href="#">말씀해주세요~</a></li>
 							</ul>
 						</li>
-						<li><a th:href="@{/stadium/stadiumList}">구장!<br/><small>(정다운)</small></a>
+						<li><a th:href="@{/stadium/stadiumList(searchCtg=StadiumSearch)}">구장!<br/><small>(정다운)</small></a>
 							<ul class="dropdown">
 								<li><a href="#">넣기전에</a></li>
 								<li><a href="#">항상</a></li>
@@ -121,7 +121,7 @@
 				<div class="row">
 					<div class="mx-auto col-8 input-group">
 						<p class="col-2">
-							시/도
+							시/도 :
 						</p>
 						<select class="col-4" name="areaCd" id="area">
 							<option value="">:: 전체 ::</option>
@@ -173,7 +173,7 @@
 					</div>
 				</div>
 				
-				<div class="row">
+				<div class="row" style="padding: 10px;">
 					<div class="mx-auto col-8 search-bar input-group">
 						<input name="sv" type="text" class="form-control rounded-pill" id="searchBar" placeholder="검색 또는 URL 입력" aria-label="Recipient's username" aria-describedby="button-addon2">
 					</div>

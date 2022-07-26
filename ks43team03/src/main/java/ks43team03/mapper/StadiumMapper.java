@@ -24,7 +24,7 @@ public interface StadiumMapper {
 	public Stadium getStadiumInfoByCd(String facilityGoodsCd);
 	
 	//회원이 구장 조회
-	public List<Map<String, Object>> getStadiumList(Map<String, Object> paramMap);
+	public List<Stadium> getStadiumList(Map<String, Object> stadiumMap);
 	
 	//구장 단가 수정 
 	public int modifyStadiumPrice(StadiumPrice stadiumPrice);

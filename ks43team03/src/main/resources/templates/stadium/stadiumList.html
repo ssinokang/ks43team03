@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a th:href="@{/}"><i class="fa fa-home"></i> Home</a>
+                        <a th:href="@{/user}"><i class="fa fa-home"></i> Home</a>
                         <span>구장</span>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                                 <div class="accordion" id="accordionExample">
                                     <div class="card">
                                         <div class="card-heading active">
-                                            <a data-toggle="collapse" data-target="#collapseOne">시설카테고리</a>
+                                            <a data-toggle="collapse" data-target="#collapseOne">구장카테고리</a>
                                         </div>
                                         <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
                                             <div class="card-body">
@@ -53,29 +53,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="sidebar__sizes">
-                            <div class="section-title">
-                                <h4>시설카테고리</h4>
-                            </div>
-                            <div class="size__list">
-                                <label for="ss">
-                                   	사설시설
-                                    <input type="checkbox" id="ss">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label for="gg">
-                                    	공공시설
-                                    <input type="checkbox" id="gg">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-9">
                     <div class="row">
                     	<a></a>
-                        <div class="col-lg-4 col-md-6" th:if="${not #lists.isEmpty(stadiumList)}" th:each="l : ${stadiumList}">
+                        <div class="col-lg-4 col-md-6" th:if="${not #lists.isEmpty(searchList)}" th:each="l : ${searchList}">
                             <div class="product__item" th:if="${not #lists.isEmpty(l.tFile)}" th:each=" t : ${l.tFile}">
                              	<div th:if="${t.representImg == 'Y'}">
 	                                <div class="product__item__pic set-bg" th:data-setbg="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}"
@@ -122,14 +105,19 @@
 								</div>
 							</div>
 	                    </div>
+	                     <th:block  th:unless="${not #lists.isEmpty(searchList)}">
+							<div class="col-lg-4 col-md-6">
+								<div style="text-align: center;">등록된 게시물이 없습니다.</div>
+							</div>
+						</th:block>
                     <div class="col-lg-12 text-center">
                         <div class="pagination__option">
-                        	<a th:if="${currentPage > 1}" th:href="@{/stadium/stadiumList(currentPage=${currentPage - 1})}"><i class="fa fa-angle-left"></i></a>
+                        	<a th:if="${currentPage > 1}" th:href="@{/stadium/stadiumList(currentPage=${currentPage - 1},searchCtg=stadiumSearch))}"><i class="fa fa-angle-left"></i></a>
                             <th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">
 								<label th:if="${currentPage eq num}" th:text="${(num<10) ? '0' + num  :  num }"></label>
-								<a th:unless="${currentPage eq num}" th:href="@{/stadium/stadiumList(currentPage=${num})}" th:text="${(num<10) ? '0' + num  :  num }"></a>
+								<a th:unless="${currentPage eq num}" th:href="@{/stadium/stadiumList(currentPage=${num}, searchCtg=stadiumSearch)}" th:text="${(num<10) ? '0' + num  :  num }"></a>
 							</th:block>
-                            <a th:if="${currentPage < lastPage}" th:href="@{/stadium/stadiumList(currentPage=${currentPage + 1})}"><i class="fa fa-angle-right"></i></a>
+                            <a th:if="${currentPage < lastPage}" th:href="@{/stadium/stadiumList(currentPage=${currentPage + 1},searchCtg=stadiumSearch)}"><i class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -138,6 +126,7 @@
     	</div>
     </section>
     <!-- Shop Section End -->
+
 
 
 </th:block>	  

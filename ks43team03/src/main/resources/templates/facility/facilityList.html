@@ -27,7 +27,7 @@
 	            <div class="row">
 	                <div class="col-lg-12">
 	                    <div class="breadcrumb__links">
-	                        <a th:href="@{/}"><i class="fa fa-home"></i> Home</a>
+	                        <a th:href="@{/user}"><i class="fa fa-home"></i> Home</a>
 	                        <span>시설</span>
 	                    </div>
 	                </div>
@@ -55,8 +55,8 @@
                                         <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
                                             <div class="card-body">
                                                 <ul>
-                                                    <li><a th:href="@{/facility/facilityList(mainCtgCd=ss)}">사설시설</a></li>
-                                                    <li><a th:href="@{/facility/facilityList(mainCtgCd=gg)}">공공시설</a></li>
+                                                    <li><a href="#">사설시설</a></li>
+                                                    <li><a href="#">공공시설</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -68,14 +68,47 @@
                 </div>
                 <div class="col-lg-9 col-md-9">
                    <div class="row">
-                    <th:block th:if="${not #lists.isEmpty(facilityList)}" th:each="l : ${facilityList}">
-                        <div class="col-lg-4 col-md-6">
-                            <div class="product__item" th:if="${not #lists.isEmpty(l.tFile)}" th:each=" t : ${l.tFile}">
-                            	<div th:if="${t.representImg == 'Y'}">
-	                                <div class="product__item__pic set-bg" th:data-setbg="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}">
+                    <th:block th:if="${not #lists.isEmpty(searchList)}" th:each="l : ${searchList}">
+                    	<th:block th:if="${not #lists.isEmpty(l.tFile)}" th:each=" t : ${l.tFile}">
+	                    	<th:block th:if="${t.representImg == 'Y'}">
+		                       <div class="col-lg-4 col-md-6">
+		                           <div class="product__item">
+		                             <div class="product__item__pic set-bg" th:data-setbg="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}">
+		                                 <ul class="product__hover">
+		                                     <li>
+		                                       	<a th:href="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" class="image-popup">
+		                                       		<span class="arrow_expand"></span>
+		                                       	</a>
+		                                       </li>
+		                                       <li>
+		                                       	<a class="heart" href="#">
+		                                       		<span class="icon_heart_alt"></span>
+		                                       	</a>
+		                                       </li>
+		                                       <!-- <li><a th:if="${session.SID != null && l.facilityCd != 'ss_35011770_03'}" th:href="@{/boomk/addBoomk(facilityCd=${l.facilityCd},userId=${session.SID})}"><span class="icon_heart_alt"></span></a></li> -->
+		                                   </ul>
+		                               </div>
+		                               <div class="product__item__text" style="margin-top: 10px;">
+		                                   <h6><a th:href="@{/facility/facilityDetail(facilityCd=${l.facilityCd})}" th:text="${l.facilityNm}"></a></h6>
+		                                   <div class="rating">
+		                                       <i class="fa fa-star"></i>
+		                                       <i class="fa fa-star"></i>
+		                                       <i class="fa fa-star"></i>
+		                                       <i class="fa fa-star"></i>
+		                                       <i class="fa fa-star"></i>
+		                                   </div>
+		                               </div>
+		                           </div>
+								</div>
+							</th:block>
+						</th:block>
+                    	<th:block th:unless="${not #lists.isEmpty(l.tFile)}">        
+                    		<div class="col-lg-4 col-md-6">
+	                            <div class="product__item">
+	                                <div class="product__item__pic set-bg" th:data-setbg="@{/images/notImage.jfif}">
 	                                    <ul class="product__hover">
 	                                        <li>
-	                                        	<a th:href="@{'/' + ${#strings.replace(t.storedFilePath,'\','/')}}" class="image-popup">
+	                                        	<a th:href="@{/images/notImage.jfif}" class="image-popup">
 	                                        		<span class="arrow_expand"></span>
 	                                        	</a>
 	                                        </li>
@@ -84,6 +117,7 @@
 	                                        		<span class="icon_heart_alt"></span>
 	                                        	</a>
 	                                        </li>
+	                                        
 	                                        <!-- <li><a th:if="${session.SID != null && l.facilityCd != 'ss_35011770_03'}" th:href="@{/boomk/addBoomk(facilityCd=${l.facilityCd},userId=${session.SID})}"><span class="icon_heart_alt"></span></a></li> -->
 	                                    </ul>
 	                                </div>
@@ -98,47 +132,23 @@
 	                                        <i class="fa fa-star"></i>
 	                                    </div>
 	                                </div>
-	                            </div> 
-                     		</div>
-                            <div class="product__item" th:unless="${not #lists.isEmpty(l.tFile)}">
-                                <div class="product__item__pic set-bg" th:data-setbg="@{/images/notImage.jfif}">
-                                    <ul class="product__hover">
-                                        <li>
-                                        	<a th:href="@{/images/notImage.jfif}" class="image-popup">
-                                        		<span class="arrow_expand"></span>
-                                        	</a>
-                                        </li>
-                                        <li>
-                                        	<a class="heart" href="#">
-                                        		<span class="icon_heart_alt"></span>
-                                        	</a>
-                                        </li>
-                                        
-                                        <!-- <li><a th:if="${session.SID != null && l.facilityCd != 'ss_35011770_03'}" th:href="@{/boomk/addBoomk(facilityCd=${l.facilityCd},userId=${session.SID})}"><span class="icon_heart_alt"></span></a></li> -->
-                                    </ul>
-                                </div>
-                          
-                                <div class="product__item__text" style="margin-top: 10px;">
-                                    <h6><a th:href="@{/facility/facilityDetail(facilityCd=${l.facilityCd})}" th:text="${l.facilityNm}"></a></h6>
-                                    <div class="rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                     		</div>
-                        </div>
+	                     		</div>
+                      		 </div>
+                        </th:block>
+                        <th:block  th:unless="${not #lists.isEmpty(searchList)}">
+							<div class="col-lg-4 col-md-6">
+								<div style="text-align: center;">등록된 게시물이 없습니다.</div>
+							</div>
+						</th:block>
                     </div>
                     <div class="col-lg-12 text-center">
                         <div class="pagination__option">
-                        	<a th:if="${currentPage > 1}" th:href="@{/facility/facilityList(currentPage=${currentPage - 1})}"><i class="fa fa-angle-left"></i></a>
+                        	<a th:if="${currentPage > 1}" th:href="@{/facility/facilityList(currentPage=${currentPage - 1}, searchCtg=FacilitySearch)}"><i class="fa fa-angle-left"></i></a>
                             <th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}">
 								<label th:if="${currentPage eq num}" th:text="${(num<10) ? '0' + num  :  num }"></label>
-								<a th:unless="${currentPage eq num}" th:href="@{/facility/facilityList(currentPage=${num})}" th:text="${(num<10) ? '0' + num  :  num }"></a>
+								<a th:unless="${currentPage eq num}" th:href="@{/facility/facilityList(currentPage=${num}, searchCtg=FacilitySearch))}" th:text="${(num<10) ? '0' + num  :  num }"></a>
 							</th:block>
-                            <a th:if="${currentPage < lastPage}" th:href="@{/facility/facilityList(currentPage=${currentPage + 1})}"><i class="fa fa-angle-right"></i></a>
+                            <a th:if="${currentPage < lastPage}" th:href="@{/facility/facilityList(currentPage=${currentPage + 1}, searchCtg=FacilitySearch))}"><i class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
                 </div>

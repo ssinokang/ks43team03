@@ -58,7 +58,32 @@
 		<div class="container">
 			<div class="row">
 				<!-- shop 왼쪽 메뉴 -->
-				<div th:replace="fragments/shopLeftMenu :: shopLeftMenuFragment"></div>
+				<div class="col-lg-3 col-md-3">
+                    <div class="shop__sidebar">
+                        <div class="sidebar__categories">
+                            <div class="section-title">
+                                <h4>Categories</h4>
+                            </div>
+                            <div class="categories__accordion">
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                        <div class="card-heading active">
+                                            <a data-toggle="collapse" data-target="#collapseOne">레슨카테고리</a>
+                                        </div>
+                                        <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <ul>
+                                                    <li><a href="#">사설레슨</a></li>
+                                                    <li><a href="#">공공레슨</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 				<div class="col-lg-9 col-md-9">
 					<div class="row">
 						<th:block th:if="${not #lists.isEmpty(searchList)}" th:each="l : ${searchList}">

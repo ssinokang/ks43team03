@@ -65,8 +65,11 @@ function addReservation(fixedDate) {
                } else {
                   console.log('동작2')
                   var prame = getPrice(fixedDate, reservationStartTime.val(), reservationEndTime.val());
-                  console.log(prame);
+                  $('#totlaPrice').html(prame);
                   $('#price').val(prame);
+                  $('.startTime').html(reservationStartTime.val());
+ 		          $('.endTime').html(reservationEndTime.val());
+ 		          $('.dateCheck').html(clickDay);
                }
             });
          } else {
@@ -76,15 +79,18 @@ function addReservation(fixedDate) {
 		         console.log('동작3');
 		         var price = 0;
 		         price = getPrice(fixedDate, reservationStartTime.val(), reservationEndTime.val());
-		         console.log(price)
-		         $('#price').val(price);
+                 $('#totlaPrice').html(price);
+                 $('#price').val(price);
+		         $('.startTime').html(reservationStartTime.val());
+		         $('.endTime').html(reservationEndTime.val());
+		         $('.dateCheck').html(clickDay);
            	 }
          }
       }
    });
    //예약 하기
    $('#updateEvent').on('click', function() {
-      console.log(clickDay);
+      
    });
    
    //가격 구하기 함수

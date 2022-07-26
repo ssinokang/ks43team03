@@ -63,10 +63,12 @@ public class OrderController {
 	@GetMapping("/addOrder")
 	public String order(Model model,HttpSession session ,
 									 @RequestParam(name = "facilityGoodsCd" , required = false)String facilityGoodsCd,
-									 @RequestParam(name = "goodsCtgCd" , required = false,defaultValue = "pass")String goodsCtgCd) {
+									 @RequestParam(name = "goodsCtgCd" , required = false)String goodsCtgCd) {
 		
 		
-		facilityGoodsCd = "ss_35011600_04_pass_11";
+		log.info("facilityGoodsCd : {}", facilityGoodsCd);
+		log.info("goodsCtgCd : {}", goodsCtgCd);
+		
 		String userId = (String)session.getAttribute("SID");
 		User user = userService.getUserInfoById(userId);
 		

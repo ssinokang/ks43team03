@@ -70,8 +70,8 @@
 								</div>
 								<div class="row">
 									<div class="col-md-6 col-sm-6 offset-md-4">
-										<button class="btn btn-primary" type="button">시설상세보기</button>
-										<button class="btn btn-primary" type="button">카테고리상품정보보기</button>
+										<a class="btn btn-primary" th:href="@{/facility/facilityDetail(facilityCd=${order.facility.facilityCd})}">시설상세보기</a>
+										<button class="btn btn-primary" type="button" onclick="history.back()">뒤로가기</button>
 									</div>
 								</div>
 							</div>

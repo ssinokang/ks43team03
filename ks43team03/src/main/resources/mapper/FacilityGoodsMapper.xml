@@ -52,6 +52,14 @@
 			<result column="facility_stadium_nm" 		property="facilityStadiumNm"/>
 			<result column="facility_stadium_reg_date"	property="facilityStadiumRegDate"/>
 			<result column="facility_stadium_detail"	property="facilityStadiumDetail"/>
+			<association property="stadiumPrice" javaType="StadiumPrice">
+				<id 	column="stadium_price_cd" 		property="stadiumPriceCd"/>
+				<result column="facility_stadium_cd"	property="facilityStadiumCd"/>
+				<result column="sports_cd"				property="sportsCd"/>
+				<result column="day_price"				property="dayPrice"/>
+				<result column="night_price"			property="nightPrice"/>
+				<result column="hol_price"				property="holPrice"/>
+			</association>
 		</association>
 		<association property="sports" javaType="Sports">
 			<id 	column="sports_cd"	property="sportsCd"/>
@@ -139,7 +147,7 @@ FROM
 		WHERE
 			g.facility_goods_cd = #{facilityGoodsCd};
 	</select>
-	<select id="getFacilityGoodsPassCd" parameterType="String" resultType="FacilityGoods" resultMap="facilityGoodsResultMap">
+	<select id="getFacilityGoodsPass" parameterType="String" resultType="FacilityGoods" resultMap="facilityGoodsResultMap">
 		SELECT
 			f.main_ctg_cd,
 			f.town_cd,
@@ -221,5 +229,92 @@ FROM
 			g.facility_goods_cd = p.facility_goods_cd
 			and
 			g.facility_goods_cd = #{facilityGoodsCd};
+	</select>
+	<select id="getFacilityGoodsLesson" parameterType="String" resultMap="facilityGoodsResultMap">
+		SELECT
+			f.main_ctg_cd,
+			f.town_cd,
+			f.facility_use_cd,
+			f.facility_nm,
+			f.facility_address,
+			f.facility_tell,
+			f.business_number,
+			f.area_cd,
+			f.city_cd,
+			g.facility_goods_cd,
+			g.facility_cd,
+			g.goods_ctg_cd,
+			g.sports_cd,
+			g.user_id,
+			g.facility_goods_reg_date,
+			g.facility_goods_state,
+			l.lesson_cd,
+			l.lesson_division,
+			l.facility_goods_cd,
+			l.facility_cd,
+			l.goods_ctg_cd,
+			l.sports_cd,
+			l.user_id,
+			l.lesson_nm,
+			l.lesson_detail,
+			l.lesson_total_member,
+			l.lesson_price,
+			l.lesson_member,
+			l.lesson_start_date,
+			l.lesson_end_date,
+			l.lesson_start_time,
+			l.lesson_end_time,
+			l.lesson_count,
+			l.lesson_state,
+			l.lesson_reg_date
+		from
+			facility AS f
+			INNER join
+			facility_goods AS g
+			on
+			f.facility_cd= g.facility_cd
+			INNER join
+			lesson AS l
+			on
+			l.facility_goods_cd = g.facility_goods_cd
+			and
+			g.facility_goods_cd = #{facilityGoodsCd}
+	</select>
+	<select id="getFacilityGoodsStadium" parameterType="String" resultMap="facilityGoodsResultMap">
+		SELECT
+			f.main_ctg_cd,
+			f.town_cd,
+			f.facility_use_cd,
+			f.facility_nm,
+			f.facility_address,
+			f.facility_tell,
+			f.business_number,
+			f.area_cd,
+			f.city_cd,
+			g.facility_goods_cd,
+			g.facility_cd,
+			g.goods_ctg_cd,
+			g.sports_cd,
+			g.user_id,
+			g.facility_goods_reg_date,
+			g.facility_goods_state,
+			s.*,
+			p.*
+		FROM
+			facility AS f
+			INNER join
+			facility_goods AS g
+			on
+			f.facility_cd= g.facility_cd
+			INNER JOIN
+			facility_stadium AS s
+			on
+			s.facility_goods_cd = g.facility_goods_cd
+			INNER join
+			stadium_price AS p
+			on
+			p.facility_stadium_cd = s.facility_stadium_cd
+			and
+			g.facility_goods_cd = #{facilityGoodsCd}
 	</select>
 </mapper>

@@ -15,32 +15,6 @@
 	<link rel="stylesheet" th:href="@{/resource/css/star.css}" type="text/css">
 	
 	<script>
-		/*시간 연속 선택*/
-		$(function(){
-		    $('input[name="time"]').click(function(){
-		        var time = new Array();
-		        var i=0;
-		        $('input[name="time"]').each(function(e){
-		            if($(this).is(":checked")){
-		            	time[i]= e;
-		                i++;
-		            }
-		        });
-		        if(time.length != 1){
-		            var temp = time[0];
-		            for(var k=1; k<time.length; k++){
-		                if(temp+k != time[k]){
-		                    alert("연속으로 선택해주세요.");
-		                    if($(this).is(":checked"))
-		                        $(this).is(":checked",false);
-		                    else
-		                        $(this).is(":checked",true);
-		                    return false;
-		                }
-		            }
-		        }
-		    });    
-		});
 		/*시작 시간 종료 시간 값 가져오기*/
 		$(function(){
 			 $('input[name="time"]').click(function(){

@@ -35,7 +35,7 @@ public class SearchController {
 	public String searchfsorUser(
 			 @RequestParam(name = "mainCtgCd"	,required = false, defaultValue = "") String mainCtgCd
 			,@RequestParam(name = "areaCd"		,required = false, defaultValue = "") String areaCd
-			,@RequestParam(name = "CityCd"		,required = false, defaultValue = "") String CityCd
+			,@RequestParam(name = "cityCd"		,required = false, defaultValue = "") String cityCd
 			,@RequestParam(name = "searchCtg"	,required = false, defaultValue = "") String searchCtg
 			,@RequestParam(name = "sportsCd"	,required = false, defaultValue = "") String sportsCd
 			,@RequestParam(name = "sv"			,required = false, defaultValue = "") String sv
@@ -45,7 +45,7 @@ public class SearchController {
 		
 		Map<String, Object> searchMap = new HashMap<String, Object>();
 		
-		searchMap.put("CityCd"		, CityCd);
+		searchMap.put("cityCd"		, cityCd);
 		searchMap.put("mainCtgCd"	, mainCtgCd);
 		searchMap.put("areaCd"		, areaCd);
 		searchMap.put("sportsCd"	, sportsCd);

@@ -440,8 +440,8 @@
 	   		<if test="cityCd != null and cityCd != ''">
 	   			and lesson_sub.city_cd = #{cityCd}
 	   		</if>
-	   		<if test="townCd != null and townCd != ''">
-	   			and lesson_sub.town_cd = #{townCd}
+	   		<if test="areaCd != null and areaCd != ''">
+	   			and lesson_sub.area_cd = #{areaCd}
 	   		</if>
 	   		<if test="sportsCd != null and sportsCd != '' ">
 	   			and lesson_sub.sports_cd = #{sportsCd}

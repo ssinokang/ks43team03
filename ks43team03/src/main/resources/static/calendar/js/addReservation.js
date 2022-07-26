@@ -62,18 +62,23 @@ function addReservation(fixedDate) {
                   alert('예약할 수 없는 시간입니다.')
                   reservationStartTime.val('');
                   reservationEndTime.val('');
-               }
-               else {
+               } else {
                   console.log('동작2')
-                  var prame = getPrice(fixedDate, reservationStartTime, reservationEndTime);
+                  var prame = getPrice(fixedDate, reservationStartTime.val(), reservationEndTime.val());
                   console.log(prame);
+                  $('#price').val(prame);
                }
             });
          } else {
-	         console.log('동작3');
-	         var price = 0;
-	         price = getPrice(fixedDate, reservationStartTime.val(), reservationEndTime.val());
-	         console.log(price)
+        	 if(Number(moment(reservationEndTime.val(), 'HH:mm').format("HH")) > 0 && Number(moment(reservationEndTime.val(), 'HH:mm').format("HH")) <9) {
+        		 alert('예약할 수 없는 시간입니다.');
+        	 } else {
+		         console.log('동작3');
+		         var price = 0;
+		         price = getPrice(fixedDate, reservationStartTime.val(), reservationEndTime.val());
+		         console.log(price)
+		         $('#price').val(price);
+           	 }
          }
       }
    });
@@ -81,46 +86,42 @@ function addReservation(fixedDate) {
    $('#updateEvent').on('click', function() {
       console.log(clickDay);
    });
+   
    //가격 구하기 함수
-
-   function getPrice(fixedDate, endTime, startTime) {
+   function getPrice(fixedDate, startTime, endTime) {
       
-		var nightTime  = 18;
-      
+		var nightTime  = 18;      
       	var mEndTime   = Number(moment(endTime, 'HH:mm').format("HH"));
-      	console.log(mEndTime)
+
 		if(mEndTime == 0) {
 			mEndTime = 24;
 			console.log('동작');
 		}
-      console.log(mEndTime + "mEndTime");
-      var mStartTime = Number(moment(startTime, 'HH:mm').format("HH"));
-
-      
-      
-      var dayPrice    = Number(fixedDate.stadiumPrice.dayPrice);
-      var nightPrice  = Number(fixedDate.stadiumPrice.nightPrice);
-      var holPrice    = Number(fixedDate.stadiumPrice.holPrice);
-
-      var afterPrice  = 0;
-      var beforePrice = 0;
-      var day = new Date(clickDay).getDay()
-      
-      console.log(mEndTime);
-      console.log(mStartTime);
-      
-    
-      
-      if(day == 0 || day == 6) {
-    	  afterPrice  = nightTime <= mEndTime   ? (dayPrice + nightPrice + holPrice)  : dayPrice + holPrice;
-    	  beforePrice = nightTime <= mStartTime ? (dayPrice + nightPrice + holPrice)  : dayPrice + holPrice;
-      } else {
-    	  afterPrice  = nightTime <= mEndTime   ? (dayPrice + nightPrice)  : dayPrice;
-    	  beforePrice = nightTime <= mStartTime ? (dayPrice + nightPrice)  : dayPrice;
-      }
-    
-      var sumPrice = afterPrice + beforePrice;
-      
-      return sumPrice
-   }
+		
+		var mStartTime  = Number(moment(startTime, 'HH:mm').format("HH"));
+		 
+		var dayPrice    = Number(fixedDate.stadiumPrice.dayPrice);
+		var nightPrice  = Number(fixedDate.stadiumPrice.nightPrice);
+		var holPrice    = Number(fixedDate.stadiumPrice.holPrice);
+		
+		var afterPrice  = 0;
+		var beforePrice = 0;
+		var day = new Date(clickDay).getDay()
+		
+		console.log(mEndTime);
+		console.log(mStartTime);
+		  
+		 
+		if(day == 0 || day == 6) {
+			afterPrice  = nightTime <  mEndTime   ? (dayPrice + nightPrice + holPrice)  : dayPrice + holPrice;
+			beforePrice = nightTime <= mStartTime ? (dayPrice + nightPrice + holPrice)  : dayPrice + holPrice;
+		} else {
+			afterPrice  = nightTime <  mEndTime   ? (dayPrice + nightPrice)  : dayPrice;
+			beforePrice = nightTime <= mStartTime ? (dayPrice + nightPrice)  : dayPrice;
+		}
+		
+		var sumPrice = afterPrice + beforePrice;
+		
+		return sumPrice
+	}
 };

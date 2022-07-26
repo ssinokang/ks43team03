@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ks43team03.dto.Area;
 import ks43team03.dto.AreaCity;
 import ks43team03.dto.FacilityGoods;
 import ks43team03.service.CommonService;
@@ -32,11 +32,19 @@ public class ApiControllerTest {
 		return facilityGoods;
 	}
 	
+	@PostMapping("/api/area")
+	public List<Area> getAreaList() {
+		List<Area> area = commonService.getAreaList();
+		
+		log.info("area : {}", area);
+		
+		return area;
+	}
+	
 	@PostMapping("/api/areaCity")
-	public List<AreaCity> getAreaList(@RequestBody AreaCity areaCity) {
+	public List<AreaCity> getAreaCityList(@RequestBody AreaCity areaCity) {
 		List<AreaCity> area = commonService.getAreaCityList(areaCity.getAreaCd());
 		
-		System.out.println(areaCity);
 		log.info("area : {}", area);
 		
 		return area;

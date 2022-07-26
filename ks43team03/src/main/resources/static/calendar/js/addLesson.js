@@ -124,7 +124,7 @@ function addLesson(fixedDate) {
 									type: 'success',
 									title: '🎉 예약이 완료되었습니다.',
 								}).then(() => { 
-									//location.href = data.movePage;                      
+									location.reload();                
 								});
 							}
 							else if (result == "0"){
@@ -132,7 +132,7 @@ function addLesson(fixedDate) {
 									type: 'error',
 									title: '❌예약할 수 없는 시간입니다.❗',
 								}).then(()=>{
-									//location.href = data.movePage;
+									location.reload();
 								});
 							} 
 						});
@@ -144,7 +144,7 @@ function addLesson(fixedDate) {
 						type: 'error',
 						title: '❌시간을 입력해 주세요.❗',
 					}).then(()=>{
-						//location.href = data.movePage;
+						location.reload();
 					});
 				}
 			})

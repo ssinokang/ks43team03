@@ -125,24 +125,12 @@
 						</p>
 						<select class="col-4" name="areaCd" id="area">
 							<option value="">:: 전체 ::</option>
-							<th:block th:if="${not #lists.isEmpty(areaList)}" th:each="a : ${areaList}">
-								<option th:value="${a.areaCd}">[[${a.areaNm}]]</option>
-							</th:block>
-							<th:block th:unless="${not #lists.isEmpty(areaList)}">
-								<option>없음</option>
-							</th:block>
 						</select>
 						<p class="col-2">
 							시/군/구 :
 						</p>
 						<select class="col-4" name="cityCd" id="areaCity">
-							<option value="">:: 전체 ::</option>
-							<th:block th:if="${not #lists.isEmpty(areaCityList)}" th:each="acl : ${areaCityList}">
-								<option th:value="${acl.cityCd}">[[${acl.cityNm}]]</option>
-							</th:block>
-							<th:block th:unless="${not #lists.isEmpty(areaCityList)}">
-								
-							</th:block>
+							<option value=""> 시/도를 선택하세요 </option>
 						</select>
 					</div>
 				</div>

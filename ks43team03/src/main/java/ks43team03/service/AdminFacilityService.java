@@ -173,7 +173,6 @@ public class AdminFacilityService {
 						facility.setMainCtgCd("사설시설");
 					}
 				}
-
 			}
 		}
 

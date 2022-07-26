@@ -15,6 +15,32 @@
 	<link rel="stylesheet" th:href="@{/resource/css/star.css}" type="text/css">
 	
 	<script>
+		/*시간 연속 선택*/
+		$(function(){
+		    $('input[name="time"]').click(function(){
+		        var time = new Array();
+		        var i=0;
+		        $('input[name="time"]').each(function(e){
+		            if($(this).is(":checked")){
+		            	time[i]= e;
+		                i++;
+		            }
+		        });
+		        if(time.length != 1){
+		            var temp = time[0];
+		            for(var k=1; k<time.length; k++){
+		                if(temp+k != time[k]){
+		                    alert("연속으로 선택해주세요.");
+		                    if($(this).is(":checked"))
+		                        $(this).is(":checked",false);
+		                    else
+		                        $(this).is(":checked",true);
+		                    return false;
+		                }
+		            }
+		        }
+		    });    
+		});
 		/*시작 시간 종료 시간 값 가져오기*/
 		$(function(){
 			 $('input[name="time"]').click(function(){
@@ -29,7 +55,7 @@
 					var startTime = timeArry[0];
 					var endTime = timeArry[timeArry.length-1];
 						sum += endTime;
-						sum++;
+						sum ++;
 					var total =  (sum - startTime);
 					var price = $('.price').text();
 					$('.totalTime').text('(' + total +'시간)');				
@@ -155,7 +181,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a th:href="@{/user}"><i class="fa fa-home"></i> Home</a>
+                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
                         <a href="#">shop</a>
                         <span><a th:text="${l.facilityStadiumNm}"></a></span>
                     </div>
@@ -326,6 +352,12 @@
 																                                <label class="col-xs-4" for="edit-end">끝</label>
 																                                <!-- 30분 단위로 되게끔 수정 -->
 																                                <input class="inputModal lesson" type="text" name="reservationEndTime" id="edit-end" readonly="readonly"/>
+																                            </div>
+																                        </div>
+																                        <div class="row">
+																                            <div class="col-xs-12">
+																                                <label class="col-xs-4" for="price">가격</label>
+																                                <input class="inputModal lesson" type="text" name="goodsPrice" id="price" readonly="readonly"/>
 																                            </div>
 																                        </div>
 																                    </div>

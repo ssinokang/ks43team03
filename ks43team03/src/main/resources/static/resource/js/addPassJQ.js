@@ -27,9 +27,9 @@ $(function() {
 		save: function () {
 			const data = {
 				facilityCd: $('#facilityCd').val(),
-				userId: $('#user-id').val(),
 				goodsCtgCd: $('#goodsCtg').val(),
-				sportsCd: $('#sportCtg').val()
+				sportsCd: 	$('#sportCtg').val(),
+				userId: 	$('#user-id').val(),
 			};
 
 			if (data.facilityCd == null) {
@@ -177,12 +177,12 @@ $(function() {
     
     
 /* 
- *    $(document).ready(function() {        												// INPUT 박스에 들어간 ID값을 적어준다.
+ *    $(document).ready(function() {        			// INPUT 박스에 들어간 ID값을 적어준다.
         $("#START_TIME,#END_TIME").timepicker({            
-				'minTime': '09:00am', 												// 조회하고자 할 시작 시간 ( 09시 부터 선택 가능하다. )
-	            'maxTime': '20:00pm', 												// 조회하고자 할 종료 시간 ( 20시 까지 선택 가능하다. )
+				'minTime': '09:00am', 					// 조회하고자 할 시작 시간 ( 09시 부터 선택 가능하다. )
+	            'maxTime': '20:00pm', 					// 조회하고자 할 종료 시간 ( 20시 까지 선택 가능하다. )
 	            'timeFormat': 'H:i',
-	            'step': 30 															// 30분 단위로 지정. ( 10을 넣으면 10분 단위 )
+	            'step': 30 								// 30분 단위로 지정. ( 10을 넣으면 10분 단위 )
 	    });
         $(window).scroll(function(){
 	        $(".ui-timepicker-wrapper").hide();
@@ -214,10 +214,9 @@ $(function() {
     	var $lessonTotalMember 	= $('#lessonTotalMember')
     	var $lessonCount		= $('.lessonCount')
     	var $lessonPrice		= $('#lessonPrice')
+    	var index 				= $('#facilitySelect option').index($('#facilitySelect option:selected'))
     	
-    	
-    	console.log('작동');
-    	console.log(!$soloparty.is(':checked'));
+    	console.log(index);
     	
     	if($('input:radio[name="lessonDivision"]:checked').val() === '개인' && $('#lessonTotalMember').val() != 1 || $('input:radio[name="lessonDivision"]:checked').val() === '단체' && $('#lessonTotalMember').val() == 1) {
     		alert('개인/단체와 인원수가 맞지 않습니다.');

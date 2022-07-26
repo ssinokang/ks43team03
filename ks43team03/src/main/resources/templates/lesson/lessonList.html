@@ -41,27 +41,31 @@
 									<thead>
 										<!-- 테스트 데이터 -->
 										<tr>
-											<th>레슨 이름</th>
-											<th>종목</th>
-											<th>레슨 수강료</th>
-											<th>레슨 시작 일자</th>
-											<th>레슨 종료 일자</th>
-											<th>레슨 상태</th>
-											<th>레슨 등록 일자</th>
+											<th>시설 이름		</th>
+											<th>레슨 이름		</th>
+											<th>종목		  	</th>
+											<th>레슨 수강료  	</th>
+											<th>레슨 시작 일자	</th>
+											<th>레슨 종료 일자	</th>
+											<th>레슨 상태		</th>
+											<th>레슨 등록 일자	</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:if="${not #lists.isEmpty(lessonList)}" th:each="l : ${lessonList}">
-											<td><a th:href="@{/lesson/detailLesson(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></td>
-											<td th:text="${l.sports.sportsName}"></td>
-											<td th:text="${l.lessonPrice}"></td>
-											<td th:text="${l.lessonStartDate}"></td>
-											<td th:text="${l.lessonEndDate}"></td>
-											<td th:text="${l.lessonState}"></td>
-											<td th:text="${l.lessonRegDate}"></td>
-										</tr>
+										<th:block th:if="${not #lists.isEmpty(resultMap)}" th:each="rm : ${resultMap}">
+											<tr th:if="${not #lists.isEmpty(rm.get('lessonList'))}" th:each="l : ${rm.get('lessonList')}">
+												<td th:text="${rm.get('facility').facilityNm}"></td>
+												<td><a th:href="@{/lesson/detailLesson(lessonCd=${l.lessonCd})}" th:text="${l.lessonName}"></a></td>
+												<td th:text="${l.sports.sportsName}"></td>
+												<td th:text="${l.lessonPrice}"></td>
+												<td th:text="${l.lessonStartDate}"></td>
+												<td th:text="${l.lessonEndDate}"></td>
+												<td th:text="${l.lessonState}"></td>
+												<td th:text="${l.lessonRegDate}"></td>
+											</tr>
+										</th:block>
 										
-										<tr th:unless="${not #lists.isEmpty(lessonList)}">
+										<tr th:unless="${not #lists.isEmpty(resultMap)}">
 											<td colspan="6">레슨 내용이 없습니다.</td>
 										</tr>
 									</tbody>

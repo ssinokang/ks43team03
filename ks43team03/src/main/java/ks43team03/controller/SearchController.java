@@ -32,7 +32,7 @@ public class SearchController {
 	}
 	
 	@PostMapping("/search")
-	public String searchfsorUser(
+	public String searchforUser(
 			 @RequestParam(name = "mainCtgCd"	,required = false, defaultValue = "") String mainCtgCd
 			,@RequestParam(name = "areaCd"		,required = false, defaultValue = "") String areaCd
 			,@RequestParam(name = "cityCd"		,required = false, defaultValue = "") String cityCd
@@ -60,7 +60,6 @@ public class SearchController {
 		List<Sports> sportsList		  = commonService.getSportsList();
 		
 		model.addAttribute("sportsList"			, sportsList);
-		model.addAttribute("areaList"			, areaList);
 		model.addAttribute("searchList"			, resultMap.get("searchList"));
 		model.addAttribute("lastPage"			, resultMap.get("lastPage"));
 		model.addAttribute("startPageNum"		, resultMap.get("startPageNum"));

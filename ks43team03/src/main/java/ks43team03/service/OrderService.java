@@ -80,7 +80,7 @@ public class OrderService {
 				log.info("userName : {} , " , user.getUserName());
 				
 				//포인트 테이블 포인트 차감 하고 저장한다.
-				
+				// 미구현 ..
 				//
 			}
 		}catch(Exception e){
@@ -129,6 +129,7 @@ public class OrderService {
 	public Order getOrderDetailByOrderCd(String orderCd) {
 		Order order = orderMapper.getOrderDetailByOrderCd(orderCd)
 				.orElseThrow(()-> new CustomException(NOT_FOUND_ORDER));
+		
 		dayCheck(order);
 		
 		return order;
@@ -137,19 +138,13 @@ public class OrderService {
 	private void dayCheck(Order order) {
 		
 		LocalDate orderDate = LocalDate.parse(order.getOrderRegDate());
-		
 		LocalDate now = LocalDate.now();
-		log.info("now Date : {}", now);
 		long day = orderDate.until(now,ChronoUnit.DAYS);
-		log.info("day date : {}", day);
 		if(day > 7L) {
 			order.setCancelDay(true);
 		}else {
 			order.setCancelDay(false);
 		}
-		
-		
-		
 	}
 	
 	
@@ -170,18 +165,13 @@ public class OrderService {
 		String goodsCtgCd = order.getGoodsCtgCd();
 		switch (goodsCtgCd) {
 		case "lesson":
-			order = orderMapper.getOrderDetailWithLesson(orderCd);
-			break;
+			return orderMapper.getOrderDetailWithLesson(orderCd);
 		case "stadium":
-			order = orderMapper.getOrderDetailWithStadium(orderCd);
-			break;
+			return orderMapper.getOrderDetailWithStadium(orderCd);
 		case "pass":
-			order = orderMapper.getOrderDetailWithPass(orderCd);
-			break;
-		default: 
-			throw new CustomException(NOT_FOUND_ORDER);
+			return orderMapper.getOrderDetailWithPass(orderCd);
 		}
-		return order;
+		throw new CustomException(NOT_FOUND_ORDER);
 	}
 	
 	/**

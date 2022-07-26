@@ -77,7 +77,7 @@ public class PassController {
 	 * 관리자 이용권상세정보
 	 * 
 	 */
-	@GetMapping("/admin/passDetail")
+	@GetMapping("/passDetail")
 	public String amdinPassDetail(@RequestParam(name = "passCd")String passCd,
 							 @RequestParam(name = "facilityGoodsCd", required = false)String facilityGoodsCd,
 							 Model model) {
@@ -102,15 +102,6 @@ public class PassController {
 	 */
 	@GetMapping("/passList")
 	public String passList(Model model) {
-		
-		//시설 관리자 정보확인  
-		
-		
-		//시설에 있는 관리자가 아니라면
-		
-		
-		//시설에 있는 관리자 정보가 맞다면
-		
 		
 		//페이징 처리
 		String facilityCd = "ss_35011770_03";

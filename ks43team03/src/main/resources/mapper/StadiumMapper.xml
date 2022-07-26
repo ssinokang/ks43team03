@@ -288,7 +288,7 @@
 		   			and f.area_cd = #{areaCd}
 		   		</if>
 		   		<if test="cityCd != null and cityCd != ''">
-		   			 and f.city_cd = #{cityCd}
+		   			 and f.city_cd LIKE CONCAT(#{cityCd}, '%')
 		   		</if>
 		   		<if test="sportsCd != null and sportsCd != '' ">
 		   			and fs.sports_cd = #{sportsCd}

@@ -220,7 +220,7 @@
 			</if>
 	   		<if test="cityCd != null and cityCd != ''">
 			AND
-				f.city_cd = #{cityCd}
+				f.city_cd LIKE CONCAT(#{cityCd}, '%')
 			</if>
 	   		<if test="searchValue != null and searchValue != '' ">
 			AND

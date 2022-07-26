@@ -227,7 +227,7 @@
 		   			f.main_ctg_cd = #{mainCtgCd}
 		   		</if>
 		   		<if test="cityCd != null and cityCd != ''">
-		   			and f.city_cd = #{cityCd}
+		   			and f.city_cd LIKE CONCAT(#{cityCd}, '%')
 		   		</if>
 		   		<if test="areaCd != null and areaCd != ''">
 		   			and f.area_cd = #{areaCd}

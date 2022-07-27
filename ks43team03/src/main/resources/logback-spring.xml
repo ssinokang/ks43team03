@@ -45,7 +45,7 @@
     </appender> -->
 	
 	<!-- 프로젝트 패키지 안 클래스에 설정된 로그 출력 -->
-	<logger name="ks43team03" level="INFO" additivity="false">
+	<logger name="ks43team03" level="WARN" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>
 
@@ -84,7 +84,7 @@
 		<appender-ref ref="STDOUT" />
 	</logger>
 
-	<root level="INFO">
+	<root level="WARN">
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>

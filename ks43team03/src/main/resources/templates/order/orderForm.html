@@ -263,10 +263,10 @@
 					orderPayPrice : $('#sum-pay').val(),
 					payType : $('input[name=method]:checked').val()
 			};
-			
-			
-			console.log(data);
-			$.ajax({
+			if(checkPayAndOrder(data)){
+				alert('등록되지 않은 결제 정보가 있습니다.');
+			}else{
+				$.ajax({
 					type: 'POST',
 					url: '/order/addOrder',
 					dataType: 'JSON',
@@ -278,15 +278,15 @@
 					requestTossData(data);
 				}).fail(function (error) {
 					console.log(error);
-				});
-			
+				});	
+			}
 			
     	});
 			
 		const checkPayAndOrder = (data) => {
 			
-			for(value in data){
-				if(typeof 'undefinded' == value || value == '' || value == null){
+			for(let value in data){
+				if(typeof 'undefinded' == data[value] || data[value]== '' || data[value]== null || data[value].trim()===''){
 					return true;
 				}
 				return false;

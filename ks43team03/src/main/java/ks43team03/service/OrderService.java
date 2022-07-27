@@ -56,13 +56,17 @@ public class OrderService {
 		String paytype = req.getPayType().getName();
 		String userId = req.getUserId();
 		int orderPayPrice = req.getOrderPayPrice();
+		String goodsCategory = goods.getFacilityGoods().getGoodsCtgCd();
+		
 		
 		if(!paytype.equals("카드") && !paytype.equals("가상계좌")) {
 			throw new CustomException(NOT_EXITS_PAYMENT_TYPE_ERROR);
 		}
 		
-		if(orderPayPrice < 0 || orderPayPrice > goods.getPrice()) {
-			throw new CustomException(ORDER_ERROR_ORDER_PRICE);
+		if("lesson".equals(goodsCategory) || "pass".equals(goodsCategory)) {
+			if(orderPayPrice < 0 || orderPayPrice > goods.getPrice()) {
+				throw new CustomException(ORDER_ERROR_ORDER_PRICE);
+			}
 		}
 		
 		if(Strings.isEmpty(userId)) {
@@ -95,6 +99,12 @@ public class OrderService {
 		return order;
 	}
 
+	private boolean GoodsCheck() {
+		
+		
+		return false;
+	}
+	
 	/**
 	 * request데이터 order로 변환 메소드 
 	 */

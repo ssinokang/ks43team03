@@ -82,7 +82,9 @@ public class TrainerService {
 		Map<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("userId", userId);
 		
-		TrainerProfile trainerProfile = trainerMapper.getTrainerProfileInfoByMap(paramMap);
+		TrainerProfile trainerProfile =null;
+		
+		trainerProfile = trainerMapper.getTrainerProfileInfoByMap(paramMap);
 		
 		return trainerProfile;
 	}

@@ -31,10 +31,10 @@
 												<th class="column-title" style="display: table-cell;">상세보기</th>
 											</tr>
 										</thead>
-
 										<tbody>
-											<tr class="" th:if="${not #lists.isEmpty(passList)}" th:each="pass : ${passList}">
-												<td class=" " th:text="${pass.passNm}"></td>
+										<th:block th:if="${not #lists.isEmpty(result)}" th:each="p : ${result}">
+											<tr th:if="${not #lists.isEmpty(p.get('passList'))}" th:each="pass : ${p.get('passList')}">
+											<td class=" " th:text="${pass.passNm}"></td>
 												<td class=" " th:text="${pass.userId}">땡떙체육관</td>
 												<td class=" " th:text="${pass.passUnit}"> </td>
 												<td class=" " th:text="${pass.passPrice}"> <i class="success fa fa-long-arrow-up"></i></td>
@@ -42,11 +42,13 @@
 												<td class=" " th:text="${pass.passState}"></td>
 												<td><a class="btn btn-default" th:href="@{/pass/modifyPass(passCd=${pass.passCd},facilityGoodsCd=${pass.facilityGoodsCd},userId=${pass.userId})}">수정하기</a></td>
 												<td class="last"><a th:href="@{/pass/passDetail(passCd=${pass.passCd},facilityGoodsCd=${pass.facilityGoodsCd})}">상세보기</a>
-												
 											</tr>
-											<tr th:unless="${not #lists.isEmpty(passList)}">
-												<td colspan="8">이용권을 등록해주세요.<button class="btn btn-primary" id="add-pass-btn" type="button">이용권등록</button> </td>
+										</th:block>
+										<th:block th:unless="${not #lists.isEmpty(result)}">
+											<tr>
+												<td>등록된 시설이 없습니다.</td>
 											</tr>
+										</th:block>
 										</tbody>
 									</table>
 								</div>

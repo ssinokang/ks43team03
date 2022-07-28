@@ -175,7 +175,7 @@ public class PassController {
 	}
 	
 	
-	@PostMapping("facility")
+	@PostMapping("/facility")
 	@ResponseBody
 	public List<Facility> getFacility(@RequestParam("userId") String userId){
 		log.info("userId : data {}", userId);

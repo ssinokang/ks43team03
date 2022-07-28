@@ -9,7 +9,7 @@ function addLesson(fixedDate) {
 	$(document).off().on('click','.reservation.possible', reservationPossible);
 	
 	function reservationPossible() {
-
+		var yearMon = $(this).parent().attr("data-date");
 		const data = {
 			facilityGoodsCd 	 : $('#facilityGoodsCd').val()
 		}
@@ -27,9 +27,9 @@ function addLesson(fixedDate) {
 					reservationStartTime.val('');
 					reservationEndTime.val('');
 					
-					var yearMon = $(this).parent().attr("data-date");
-					clickDay = yearMon; //전역 변수에 클릭한 날짜 저장
 					
+					clickDay = yearMon; //전역 변수에 클릭한 날짜 저장
+					console.log(clickDay);
 					$('.lessonTime').each(function(){
 						mhours = moment($(this).val(), 'HH:mm');
 						if(moment(mhours).isSameOrAfter(lessonStartTime) && moment(mhours).isSameOrBefore(lessonEndTime)) {
@@ -93,6 +93,7 @@ function addLesson(fixedDate) {
 	//예약 하기
 	$('#updateEvent').on('click', function() {
 		if(orderCheck) {
+			console.log(clickDay);
 		    const data = {
 				reservationDate 	 : clickDay,
 				reservationStartTime : reservationStartTime.val(),

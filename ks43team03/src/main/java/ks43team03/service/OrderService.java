@@ -145,7 +145,7 @@ public class OrderService {
 			Pass pass = goods.getFacilityGoods().getPass();
 			int unit = pass.getPassUnit();
 			if(unit == 0) {
-				return false;
+				throw new CustomException("이용권 정원이 마감되었습니다.");
 			}
 			
 			pass.setPassUnit(unit - 1);

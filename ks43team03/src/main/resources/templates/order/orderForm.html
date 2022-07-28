@@ -98,7 +98,7 @@
 					</tr>
 					<tr>
 						<td>사용 가능 포인트</td>
-						<td><input type="text" name="userPoint" class="form-control col-sm-4" value="0" id="userPoint" disabled></td>
+						<td><input type="text" name="userPoint" class="form-control col-sm-4" value="5000" id="userPoint" disabled></td>
 					</tr>
 					<tr>
 						<td>남은 포인트</td>
@@ -120,8 +120,9 @@
 						<td><input type="text" class="form-control col-sm-4" id="sum-pay" th:value="${goods.price}" disabled></td>
 					</tr>
 				</table>
-
+				
 			</div>
+			<input type="hidden" name="usedPoint2" id="usedPoint2">
 			<!-- input tag hidden -->
 			<div class="card row">
 				<div class="card-header col-sm-12">
@@ -238,6 +239,7 @@
 				orderPrice.val(price - used);
 				sumPay.val(price - used);
 			}
+			$('#usedPoint2').val(used);
 			
 		}
 
@@ -259,7 +261,7 @@
 					orderPrice : $('input[name="price"]').val(),
 					goodsName : $('input[name="goodsName"]').val(),
 					userPoint : $('input[name="userPoint"]').val(),
-					usedPoint : $('input[name="usedPoint"]').val(),
+					usedPoint : $('input[name="usedPoint2"]').val(),
 					orderPayPrice : $('#sum-pay').val(),
 					payType : $('input[name=method]:checked').val()
 			};
@@ -278,7 +280,7 @@
 					requestTossData(data);
 				}).fail(function (error) {
 					console.log(error);
-					alert('주문을 하실 수 없습니다.');
+					alert(error.responseJSON.message);
 				});	
 			}
 			

@@ -1,6 +1,5 @@
 package ks43team03.service;
 
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,10 +128,6 @@ public class PaymentService {
 			pay.setAccountNumber(res.getAccountNumber());
 			pay.setPayDueDate(res.getDueDate());
 			result = payMapper.addPayVirtualAccount(pay);
-		}
-		
-		if(result == 0) {
-			
 		}
 	}
 

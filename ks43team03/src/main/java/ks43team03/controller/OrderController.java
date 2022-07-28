@@ -62,12 +62,13 @@ public class OrderController {
 	@GetMapping("/addOrder")
 	public String order(Model model,HttpSession session ,
 									 @RequestParam(name = "facilityGoodsCd" , required = false)String facilityGoodsCd,
-									 @RequestParam(name = "goodsCtgCd" , required = false)String goodsCtgCd) {
+									 @RequestParam(name = "goodsCtgCd" , required = false)String goodsCtgCd,
+									 @RequestParam(name = "price",required = false)String price) {
 		
 		
 		log.info("facilityGoodsCd : {}", facilityGoodsCd);
 		log.info("goodsCtgCd : {}", goodsCtgCd);
-		
+		log.info("price : {}", price);
 		String userId = (String)session.getAttribute("SID");
 		User user = userService.getUserInfoById(userId);
 		
@@ -75,6 +76,9 @@ public class OrderController {
 			throw new CustomException(ErrorMessage.IS_EMPTY_USER);
 		}
 		ResponseGoods facilityGoods = facilityGoodsService.getFacilityGoodsCd(facilityGoodsCd,goodsCtgCd);
+		if("stadium".equals(goodsCtgCd)) {
+			facilityGoods.setPrice(Integer.parseInt(price));
+		}
 		model.addAttribute("title", "결제 페이지");
 		model.addAttribute("user", user);
 		model.addAttribute("goods", facilityGoods);

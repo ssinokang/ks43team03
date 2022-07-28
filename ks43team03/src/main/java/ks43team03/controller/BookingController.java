@@ -27,6 +27,7 @@ public class BookingController {
 		
 		reAttr.addAttribute("facilityGoodsCd", booking.getFacilityGoodsCd());
 		reAttr.addAttribute("goodsCtgCd", booking.getGoodsCtgCd());
+		reAttr.addAttribute("price", booking.getBookingPrice());
 		return "redirect:/order/addOrder";
 	}
 	

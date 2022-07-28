@@ -73,7 +73,7 @@ public class OrderController {
 		User user = userService.getUserInfoById(userId);
 		
 		if(user == null) {
-			throw new CustomException(ErrorMessage.IS_EMPTY_USER);
+			return "redirect:/login";
 		}
 		ResponseGoods facilityGoods = facilityGoodsService.getFacilityGoodsCd(facilityGoodsCd,goodsCtgCd);
 		if("stadium".equals(goodsCtgCd)) {

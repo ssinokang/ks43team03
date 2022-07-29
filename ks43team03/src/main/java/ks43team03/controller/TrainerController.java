@@ -98,6 +98,8 @@ public class TrainerController {
 			
 			TrainerProfile trainerProfile = trainerService.getTrainerProfileByUserId(userId);
 			
+			log.info("trainerProfile : {}", trainerProfile);
+			
 			model.addAttribute("trainerProfile",	trainerProfile);
 		}
 		
